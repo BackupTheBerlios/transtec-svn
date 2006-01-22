@@ -100,14 +100,14 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 //**********************************************APPEL A LA BDD*****************************************
 //Pour un camion donné, il faut afficher tous les colis présents dans celui ci dans un premier tableau
 //Création des lignes objets
- 
-        Colis c = new Colis(new Integer(3),new Integer(22),new Integer(2),new Integer(13),new Integer(34),new Timestamp(2006,10,21,16,33,14,0),new Integer(1),new Integer(35));
+        Timestamp date=new Timestamp(10);
+        Colis c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
 		c.setId(new Integer(123));
 		Vector v = new Vector(c.toVector());
 		//v.add(0,c.getId());
 		donnees1.addElement(v);
 		
-		c = new Colis(new Integer(2),new Integer(22),new Integer(2),new Integer(13),new Integer(34),new Timestamp(2006,10,21,16,33,14,0),new Integer(1),new Integer(35));
+		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
 		c.setId(new Integer(127));
 		v = new Vector(c.toVector());
 		//v.add(0,c.getId());
@@ -140,12 +140,12 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 //On cherche dans la BDD tous les colis pour une destination qui ne possede pas de chargement		
 		 //Création des lignes objets
         
-		c = new Colis(new Integer(2),new Integer(42),new Integer(2),new Integer(14),new Integer(34),new Timestamp(2006,10,21,16,33,14,0),new Integer(1),new Integer(35));
+		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");;
 		c.setId(new Integer(124));
 		v = new Vector(c.toVector());
 		donnees2.addElement(v);
 		
-		c = new Colis(new Integer(2),new Integer(25),new Integer(1),new Integer(13),new Integer(34),new Timestamp(2006,10,21,16,33,14,0),new Integer(1),new Integer(35));
+		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");;
 		c.setId(new Integer(125));
 		v = new Vector(c.toVector());
 		donnees2.addElement(v);

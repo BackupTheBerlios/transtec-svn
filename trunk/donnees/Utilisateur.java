@@ -10,6 +10,11 @@ public class Utilisateur{
 	private Integer type;
 	private Integer id;
 	
+	// Constantes décrivant les droits de l'utilisateur
+	public final static int ENTREE = 0;
+	public final static int PREPARATIOIN = 1;
+	public final static int SUPERVISION = 2;
+	
 	// Constructeur recevant toutes les données en paramètres
 	public Utilisateur(String login, String motDePasse, Integer type, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone){
 		this.login=login;

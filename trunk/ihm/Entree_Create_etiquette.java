@@ -30,7 +30,7 @@ public class Entree_Create_etiquette extends JFrame implements ActionListener
 		String a = code_barre;	
 		int j=0;
 		for (int i=0; i<a.length() ;i++){
-			AffichageImage image1 = new AffichageImage("code_barre/"+a.charAt(i)+".JPG");
+			AffichageImage image1 = new AffichageImage("images/code_barre/"+a.charAt(i)+".JPG");
 			image1.setBounds(40+(j*7),30,7,49);
 			j++;
 			contenu.add(image1);  

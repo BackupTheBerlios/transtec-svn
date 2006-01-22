@@ -1,6 +1,6 @@
 package donnees;
 
-//import colis;
+
 
 import java.sql.Timestamp;
 import java.util.Vector;
@@ -10,6 +10,7 @@ import java.util.Vector;
 public class Colis {
 
 	private Integer id;
+	private Integer Entrepot;
 	private String code_barre;
 	private Integer idExpediteur;
 	private Integer idDestinataire;
@@ -36,11 +37,12 @@ public class Colis {
 	public Colis(){
 	}
 	
-	public Colis(Integer id,String code_barre,Integer modele,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
+	public Colis(Integer id,String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
 	{
 		this.id = id;
 		this.code_barre = code_barre;
 		this.modele=modele;
+		this.Entrepot=Entrepot;
 		this.poids=poids;
 		this.date_envoie=date_envoie;
 		this.valeur_declaree=valeur_declaree;
@@ -49,6 +51,7 @@ public class Colis {
 		
 		
 	}
+	
 	// Constructeur utilisant des paramètres pour chaque champ
 	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele,String hauteur,String largeur,String profondeur){
 		this.code_barre = code_barre;
@@ -198,6 +201,9 @@ public class Colis {
 	//----- Récupération de la fragilité du colis -----//
 	public Integer getFragilite(){
 		return fragilite;
+	}
+	public Integer getEntrepot(){
+		return Entrepot;
 	}
 	public Integer getModele(){
 		return modele;

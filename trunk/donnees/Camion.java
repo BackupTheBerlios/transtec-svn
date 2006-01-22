@@ -13,10 +13,10 @@ public class Camion {
 	private Integer idOrigine;
 	private Integer idDestination;
 	
+	// Constantes décrivant la disponibilité du camion
 	public final static int DISPONIBLE = 0;
 	public final static int REPARATION = 1;
 	public final static int LIVRAISON = 2;
-	
 	
 	// Constructeur avec tous les paramètres
 	public Camion(Integer id, String numero, Integer dispo,  Integer volume, Integer idChauffeur, Integer idOrigine, Integer idDestination){

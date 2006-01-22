@@ -53,13 +53,14 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 //Il faut afficher tous les colis présents dans le camion choisi        
         
         //Création des autres lignes
-        Colis c = new Colis(new Integer(3),new Integer(22),new Integer(2),new Integer(13),new Integer(34),new Timestamp(2006,10,21,16,33,14,0),new Integer(1),new Integer(35));
+        Timestamp date=new Timestamp(10);
+        Colis c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
 		c.setId(new Integer(123));
 		Vector v = new Vector(c.toVector());
 		//v.add(0,c.getId());
 		donnees.addElement(v);
 		
-		c = new Colis(new Integer(2),new Integer(22),new Integer(2),new Integer(13),new Integer(34),new Timestamp(2006,10,21,16,33,14,0),new Integer(1),new Integer(35));
+		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
 		c.setId(new Integer(127));
 		v = new Vector(c.toVector());
 		//v.add(0,c.getId());

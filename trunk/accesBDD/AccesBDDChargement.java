@@ -68,7 +68,7 @@ public class AccesBDDChargement {
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 			
 		while(resultat.next()){
-			Colis courant=new Colis(
+			/*Colis courant=new Colis(
 					new Integer(idPers.getExpediteur(resultat.getInt("idColis"), connecteur)),
 					new Integer(idPers.getDestinataire(resultat.getInt("idColis"), connecteur)),
 					new Integer(resultat.getInt("Users_idUsers")),
@@ -78,7 +78,20 @@ public class AccesBDDChargement {
 					new Integer(resultat.getInt("Valeur")),
 					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
 					new Integer(resultat.getInt("Entrepots_idEntrepots")),
+					resultat.getString("Lieu"));*/
+			Colis courant=new Colis(
+					new Integer(resultat.getInt("idColis ")),
+					resultat.getString("Code_barre"),
+					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
+					new Integer(resultat.getInt("Entrepots_idEntrepots")),
+					resultat.getString("Poids"),
+					resultat.getTimestamp("DateDepot"),
+					resultat.getString("Valeur"),
+					new Integer(resultat.getInt("Fragilite")),
 					resultat.getString("Lieu"));
+			
+
+			
 			liste.add(courant);
 		}
 

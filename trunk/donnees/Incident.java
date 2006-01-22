@@ -15,6 +15,11 @@ public class Incident {
 	private Integer idUtilisateur;
 	private Integer type;
 	
+	// Constantes décrivant l'état de l'incident
+	public final static int NON_TRAITE = 0;
+	public final static int EN_COURS = 1;
+	public final static int TRAITE = 2;
+	
 	public Incident(Integer id,Integer idColis, Timestamp date, Integer etat, String description, Integer idUtilisateur, Integer type){
 		this.id=id;
 		this.idColis=idColis;

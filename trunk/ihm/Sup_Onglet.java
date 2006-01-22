@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.util.Vector;
 import java.awt.*;
 
+import accesBDD.*;
+
 // Panneau de l'onglet
 public class Sup_Onglet extends JPanel{
 	protected JTable table;
@@ -15,6 +17,7 @@ public class Sup_Onglet extends JPanel{
 	protected Vector nomColonnes = new Vector();
 	protected Vector donnees = new Vector();
 	protected int ligneActive;
+	
 	
 	// Permet de définir une image de fond
 /*	public void paintComponent(Graphics g)	{

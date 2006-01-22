@@ -13,6 +13,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDPersonne;
 import accesBDD.ConnecteurSQL;
 import donnees.*;
 
@@ -336,7 +337,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		int j=0;
 		for (int i =1; i< 6;i++){
-			AffichageImage image = new AffichageImage("colis/face"+i+".JPG");
+			AffichageImage image = new AffichageImage("images/colis/face"+i+".JPG");
 			image.setBounds(20,27+(j*128),163,120);
 			j++;
 			contenu.add(image);
@@ -420,6 +421,71 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			voir_incident.setVisible(false);
 			create_incident.setVisible(false);
 			
+			label_dest.setBounds(pos_x+100,160,150,15);
+			label_exp.setBounds(pos_x+400,160,150,15);
+			donnees_dest.setVisible(false);
+			donnees_exp.setVisible(false);
+			
+			label_nom_dest = new JLabel("Nom :");
+			label_nom_dest.setBounds(pos_x,190,50,15);
+			contenu.add(label_nom_dest);
+			
+			nom_dest = new JTextField(15);
+			nom_dest.setBounds(pos_x + 40,187,100,20);
+			contenu.add(nom_dest);
+			
+			label_prenom_dest = new JLabel("Prénom :");
+			label_prenom_dest.setBounds(pos_x+150,190,60,15);
+			contenu.add(label_prenom_dest);
+			
+			prenom_dest = new JTextField(15);
+			prenom_dest.setBounds(pos_x + 210,187,100,20);
+			contenu.add(prenom_dest);
+			
+			label_adresse_dest= new JLabel("Adresse :");
+			label_adresse_dest.setBounds(pos_x,220,60,15);
+			contenu.add(label_adresse_dest);
+			
+			adresse_dest = new JTextField(15);
+			adresse_dest.setBounds(pos_x + 60,217,250,20);
+			contenu.add(adresse_dest);
+			
+			label_cp_dest= new JLabel("Code Postal :");
+			label_cp_dest.setBounds(pos_x,250,90,15);
+			contenu.add(label_cp_dest);
+			
+			cp_dest = new JTextField(15);
+			cp_dest.setBounds(pos_x + 80,247,60,20);
+			contenu.add(cp_dest);
+			
+			label_ville_dest= new JLabel(" Ville :");
+			label_ville_dest.setBounds(pos_x+150,250,60,15);
+			contenu.add(label_ville_dest);
+			
+			ville_dest = new JTextField(15);
+			ville_dest.setBounds(pos_x + 190,247,120,20);
+			contenu.add(ville_dest);
+			
+			label_email_dest= new JLabel("Email :");
+			label_email_dest.setBounds(pos_x,280,60,15);
+			contenu.add(label_email_dest);
+			
+			email_dest = new JTextField(15);
+			email_dest.setBounds(pos_x + 40,277,270,20);
+			contenu.add(email_dest);
+			
+			label_tel_dest= new JLabel("Telephone :");
+			label_tel_dest.setBounds(pos_x,310,80,15);
+			contenu.add(label_tel_dest);
+			
+			tel_dest = new JTextField(15);
+			tel_dest.setBounds(pos_x + 70,307,100,20);
+			contenu.add(tel_dest);
+			
+			valider_colis.setBounds(pos_x + 30,340,210,25);
+			create_etiquette.setBounds(pos_x + 140,370,100,25);
+			annuler.setBounds(pos_x + 30,370,100,25);
+			
 	
 		}
 		//Si on vérifie un colis
@@ -431,7 +497,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//col = new Colis("413513555",3,2,3,"18","18/05/05",new Integer(1),new Integer(1),new Integer(3),"120","60","20");
 			Timestamp date=new Timestamp(20);
 			
-			col = new Colis(new Integer(0),"69696969",new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
+			col = new Colis(new Integer(0),"69696969",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
 			
 			//récupérer les infos dans la Bdd et les afficher
 			code_barre.setEnabled(false);
@@ -531,10 +597,23 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				*/
 				//enregistrer infos dans la Bdd
 				
+				AccesBDDPersonne test1=new AccesBDDPersonne();
+				ConnecteurSQL connecteur1 = new ConnecteurSQL();
+				//Timestamp date=new Timestamp(10);
+				Personne pers = new Personne(nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
+				try{
+					test1.ajouter(pers,connecteur1);
+				}
+				catch(SQLException e2){
+					System.out.println(e2.getMessage());
+				}
+				
+				
 				AccesBDDColis test=new AccesBDDColis();
 				ConnecteurSQL connecteur = new ConnecteurSQL();
 				Timestamp date=new Timestamp(10);
-				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),new Integer(1),poids.getText(),date,"150",new Integer(fragilite_colis.getSelectedIndex()),"Villejuif");
+				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),new Integer(1),new Integer(1),poids.getText(),date,"150",new Integer(fragilite_colis.getSelectedIndex()),"Villejuif");
+			
 				try{
 					test.ajouter(aAjouter,connecteur);
 				}
@@ -589,8 +668,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JMenuBar barreMenus;
 	private JMenu fichier,etiquette;
 	private JMenuItem se_deloguer,creation;
-	private JLabel label_liste_incidents,label_profondeur_colis,label_hauteur_colis,label_largeur_colis,label_camion,label_cam,label_date,label_poids,label_dest,label_exp,numero_colis,label_forme_colis,label_modele_colis,label_fragile;
-	private JTextField hauteur,profondeur,largeur,date_envoie,poids,code_barre;
+	private JLabel label_email_dest,label_tel_dest,label_ville_dest,label_adresse_dest,label_cp_dest,label_nom_dest,label_prenom_dest,label_liste_incidents,label_profondeur_colis,label_hauteur_colis,label_largeur_colis,label_camion,label_cam,label_date,label_poids,label_dest,label_exp,numero_colis,label_forme_colis,label_modele_colis,label_fragile;
+	private JTextField tel_dest,email_dest,ville_dest,adresse_dest,cp_dest,nom_dest,prenom_dest,hauteur,profondeur,largeur,date_envoie,poids,code_barre;
 	private String[] formes={"cube","pavé","cylindre"}, modele={"modèle1","modèle2","modèle3","personalisé"},fragilite={"trés fragile","fragile","pas fragile"};
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
 	private JButton voir_incident,annuler,create_etiquette,create_incident,valider_colis;

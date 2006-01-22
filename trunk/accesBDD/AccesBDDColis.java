@@ -25,17 +25,18 @@ public class AccesBDDColis  implements AccesBDD {
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
 				"INSERT INTO colis"
-				+ " (idColis,Code_barre,ModelesColis_idModelesColis,Poids,DateDepot,Valeur,Fragilite,Lieu)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?)"); 
+				+ " (idColis,Code_barre,ModelesColis_idModelesColis,Entrepots_idEntrepots,Poids,DateDepot,Valeur,Fragilite,Lieu)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setString(2,aAjouter.getCode_barre());
 		ajout.setInt(3,aAjouter.getModele().intValue());
-		ajout.setString(4,aAjouter.getPoids());
-		ajout.setTimestamp(5,aAjouter.getDate());
-		ajout.setString(6,aAjouter.getValeurDeclaree());
-		ajout.setInt(7,aAjouter.getFragilite().intValue());
-		ajout.setString(8,aAjouter.getLieu());
+		ajout.setInt(4,aAjouter.getEntrepot().intValue());
+		ajout.setString(5,aAjouter.getPoids());
+		ajout.setTimestamp(6,aAjouter.getDate());
+		ajout.setString(7,aAjouter.getValeurDeclaree());
+		ajout.setInt(8,aAjouter.getFragilite().intValue());
+		ajout.setString(9,aAjouter.getLieu());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -130,8 +131,9 @@ public class AccesBDDColis  implements AccesBDD {
 		AccesBDDColis test=new AccesBDDColis();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Timestamp date=new Timestamp(10);
-		Colis aAjouter = new Colis(new Integer(0),"1236987458",new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
+		Colis aAjouter = new Colis(new Integer(0),"1236987458",new Integer(1),new Integer(2),"18",date,"150",new Integer(1),"Villejuif");
 		try{
+			System.out.println("ici");
 			test.ajouter(aAjouter,connecteur);
 		}
 		catch(SQLException e){
