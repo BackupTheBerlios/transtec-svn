@@ -25,10 +25,10 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 //	public boolean modif = false;
 	private Sup_OngletCamion parent;
 	
-	private AccesBDDCamion bdd;
+	private AccesBDDCamion tableCamions;
 	
 	//Constructeur
-	public Sup_AjoutModifCamion(Camion c, Sup_OngletCamion parent, AccesBDDCamion bdd){
+	public Sup_AjoutModifCamion(Camion c, Sup_OngletCamion parent, AccesBDDCamion tableCamions){
 		super("");
 		
 		//Comportement lors de la fermeture
@@ -51,7 +51,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			camion = new Camion();
 		}
 		
-		this.bdd = bdd;
+		this.tableCamions = tableCamions;
 		this.parent = parent;
 	
 		// Titres des informations à saisir
@@ -130,7 +130,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 					parent.ajouterLigne(this.getCamion().toVector());
 					
 					// Ecriture dans la base de données
-					bdd.ajouter(this.getCamion());
+					tableCamions.ajouter(this.getCamion());
 				}
 				// Cas d'une modification de camion existant
 				else{
@@ -138,7 +138,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 					parent.modifierLigne(this.getCamion().toVector());
 					
 					// Ecriture dans la base de données
-					bdd.modifier(this.getCamion());
+					tableCamions.modifier(this.getCamion());
 				}				
 				// On masque la fenetre
 				this.setVisible(false);

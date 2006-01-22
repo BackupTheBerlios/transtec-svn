@@ -31,7 +31,7 @@ import java.sql.Timestamp;
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
 
-	public Fenetre_create_incident(Colis col,String name)
+	public Fenetre_create_incident(Colis col,String name,boolean create)
 	{
 		//création graphique
 		DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
@@ -124,6 +124,14 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		annuler_incident.setBounds(120,270,100,25);
 		contenu.add(annuler_incident);
 		annuler_incident.addActionListener(this);
+		
+		if ( create == false){
+			donnees_description.setEnabled(false);
+			annuler_incident.setText("Ok");
+			valider_incident.setVisible(false);
+			annuler_incident.setBounds(120,240,100,25);
+			setBounds(292,200,360,310);
+		}
 		
 		
 	}

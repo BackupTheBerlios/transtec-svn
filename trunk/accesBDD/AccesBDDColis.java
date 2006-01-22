@@ -43,7 +43,7 @@ public class AccesBDDColis  extends AccesBDD {
 		
 		/*----- Ajout de la relation entre l'expéditeur/destinataire et le colis dans la 
 				table Personnes_has_Colis -----*/
-		AccesBDDPersonnes_has_Colis rel=new AccesBDDPersonnes_has_Colis();
+		//AccesBDDPersonnes_has_Colis rel=new AccesBDDPersonnes_has_Colis();
 		//rel.ajouter(aAjouter.getId(), aAjouter.getIdExpediteur(), aAjouter.getIdDestinataire(), connecteur);
 		
 		return aAjouter.getId().intValue();

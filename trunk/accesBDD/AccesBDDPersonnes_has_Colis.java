@@ -19,15 +19,15 @@ public class AccesBDDPersonnes_has_Colis {
 				+ " (Personnes_idPersonnes,Colis_idColis,Expediteur)" // Parametre de la table
 				+ " VALUES (?,?,?)"); 
 		
-		ajout.setInt(1,idDestinataire.intValue());
+		ajout.setInt(1,idExpediteur.intValue());
 		ajout.setInt(2,idColis.intValue());
-		ajout.setBoolean(3,DESTINATAIRE);
+		ajout.setInt(3,idDestinataire.intValue());
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
 		
 		//----- Insertion de la relation entre un expediteur et un colis dans la BDD -----//
-		ajout =
+		/*ajout =
 			connecteur.getConnexion().prepareStatement(
 				"INSERT INTO Personnes_has_Colis"
 				+ " (Personnes_idPersonnes,Colis_idColis,Expediteur)" // Parametre de la table
@@ -38,7 +38,7 @@ public class AccesBDDPersonnes_has_Colis {
 		ajout.setBoolean(3,EXPEDITEUR);
 				
 		ajout.executeUpdate();//execution de la requete SQL
-		ajout.close();//fermeture requete SQL
+		ajout.close();//fermeture requete SQL*/
 	}
 	
 	//----- Récupération du destinataire du colis -----//

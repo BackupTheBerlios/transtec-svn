@@ -6,11 +6,12 @@ import java.awt.event.*;
 import accesBDD.AccesBDDCamion;
 
 import donnees.Camion;
+import donnees.Utilisateur;
 
 // Panneau de l'onglet de gestion des camions
 public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 	
-	private AccesBDDCamion bdd = new AccesBDDCamion(); 
+	private AccesBDDCamion tableCamions = new AccesBDDCamion(); 
 
 	public Sup_OngletCamion(){
 		super("Gestion des camions");
@@ -28,16 +29,30 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Destination");
         nomColonnes.add("Appartenance");
 
+        // On récupère les utilisateurs de la base de données et on les affiche
+        Vector listeCamions = tableCamions.lister();
+        
+        for(int i=0;i<listeCamions.size();i++){
+        	donnees.addElement(((Camion)listeCamions.get(i)).toVector());
+        }
+
+        
+        
+        
+        
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************/
-        
-        
-		donnees.addElement(new Camion(new Integer(0),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),new Integer(0),new Integer(0),new Integer(2)).toVector());
+ 		donnees.addElement(new Camion(new Integer(0),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),new Integer(0),new Integer(0),new Integer(2)).toVector());
 		donnees.addElement(new Camion(new Integer(1),"1013TW78",new Integer(Camion.LIVRAISON),new Integer(12),new Integer(1),new Integer(1),new Integer(1)).toVector());
 		donnees.addElement(new Camion(new Integer(2),"356LJ45",new Integer(Camion.REPARATION),new Integer(45),new Integer(0),new Integer(1),new Integer(2)).toVector());
 		donnees.addElement(new Camion(new Integer(3),"654LLL1",new Integer(Camion.DISPONIBLE),new Integer(6),new Integer(2),new Integer(2),new Integer(4)).toVector());
 		donnees.addElement(new Camion(new Integer(4),"M-AR1265",new Integer(Camion.LIVRAISON),new Integer(18),new Integer(1),new Integer(4),new Integer(0)).toVector());
 		/*********************************/
+		
+		
+		
+		
+		
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
@@ -72,7 +87,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 				Camion c = new Camion(cVect);
 
 				// On affiche l'invite de modification
-				Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,bdd);
+				Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,tableCamions);
 				
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
@@ -80,7 +95,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 			// Suppression d'un camion
 			else if(source==boutSupprimer){
 				// Suppression de la base de données
-				bdd.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
+				tableCamions.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
 
 				// Mise à jour du tableau
 				supprimerLigne(ligneActive);
@@ -89,7 +104,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		// Ajout d'un camion
 		if(source==boutAjouter){
 			// On affiche l'invite de saisie d'information
-			Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,bdd);
+			Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,tableCamions);
 			
 			// On bloque l'utilisateur sur le pop-up
 			setFenetreActive(false);

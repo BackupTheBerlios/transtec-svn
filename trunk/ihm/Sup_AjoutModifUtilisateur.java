@@ -33,11 +33,11 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	private Localisation l;
 	public boolean modif = false;
 	private Sup_OngletUtilisateur parent;
-	private AccesBDDUtilisateur bdd = new AccesBDDUtilisateur(); 
-
+	
+	private AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur(); 
 	
 	//Constructeur
-	public Sup_AjoutModifUtilisateur(Utilisateur u, Sup_OngletUtilisateur parent){
+	public Sup_AjoutModifUtilisateur(Utilisateur u, Sup_OngletUtilisateur parent, AccesBDDUtilisateur tableUtilisateurs){
 		super("");
 		
 		//Comportement lors de la fermeture
@@ -64,6 +64,8 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 			this.l = new Localisation();
 		}
 		
+		// On récupère le contenu des paramètres
+		this.tableUtilisateurs = tableUtilisateurs;
 		this.parent = parent;
 	
 		// Titres des informations à saisir
@@ -154,7 +156,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 					parent.ajouterLigne(this.getUtilisateur().toVector());
 					
 					// Ecriture dans la base de données
-					bdd.ajouter(this.getUtilisateur());
+					tableUtilisateurs.ajouter(this.getUtilisateur());
 				}
 				// Cas d'une modification d'utilisateur
 				else{
@@ -162,7 +164,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 					parent.modifierLigne(this.getUtilisateur().toVector());
 					
 					// Ecriture dans la base de données
-					bdd.modifier(this.getUtilisateur());					
+					tableUtilisateurs.modifier(this.getUtilisateur());					
 				}				
 				// On masque la fenetre
 				parent.setFenetreActive(true);

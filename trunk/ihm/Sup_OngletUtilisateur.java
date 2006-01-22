@@ -10,7 +10,7 @@ import donnees.Utilisateur;
 // Panneau de l'onglet de gestion des utilisateurs
 public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 
-	private AccesBDDUtilisateur bdd = new AccesBDDUtilisateur(); 
+	private AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur(); 
 
 	public Sup_OngletUtilisateur(){
 		super("Gestion des utilisateurs");
@@ -32,15 +32,25 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
         nomColonnes.add("E-mail");
         nomColonnes.add("Téléphone");
         
-
+        // On récupère les utilisateurs de la base de données et on les affiche
+        Vector listeUtilisateurs = tableUtilisateurs.lister();
+        
+        for(int i=0;i<listeUtilisateurs.size();i++){
+        	donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
+        }
+        
+        
+        
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
-        /*********************************/
+        /*********************************
 		donnees.addElement(new Utilisateur("rochef","rgreg2fds",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639").toVector());
 		donnees.addElement(new Utilisateur("nicola","35sd11sdu",new Integer(0),"Sengler","Nikolaï","13 Place du Moustier","94800","Villejuif","sengler@efrei.fr","0146775640").toVector());
 		donnees.addElement(new Utilisateur("granger","515dpldnx",new Integer(1),"Granger","Hermione","8 Albion Road","35H12S","London","hermione@potter.uk","+4414563269").toVector());
 		donnees.addElement(new Utilisateur("potter","358poop853",new Integer(2),"Potter","Harry","45 Denver Strees","369HND","Irvine","harry@potter.com","+4423654878").toVector());
 		/*********************************/
 
+        
+        
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
 
@@ -74,7 +84,7 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 				Utilisateur u = new Utilisateur(cVect);
 
 				// On affiche l'invite de modification
-				Sup_AjoutModifUtilisateur modifUtilisateur = new Sup_AjoutModifUtilisateur(u,this);
+				Sup_AjoutModifUtilisateur modifUtilisateur = new Sup_AjoutModifUtilisateur(u,this,tableUtilisateurs);
 
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
@@ -82,7 +92,7 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 			// Suppression d'un utilisateur
 			else if(source==boutSupprimer){
 				// Suppression de la base de données
-				bdd.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
+				tableUtilisateurs.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
 
 				// Mise à jour du tableau
 				supprimerLigne(ligneActive);
@@ -91,7 +101,7 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 		// Ajout d'un utilisateur
 		if(source==boutAjouter){
 			// On affiche l'invite de saisie d'information
-			Sup_AjoutModifUtilisateur ajoutUtilisateur = new Sup_AjoutModifUtilisateur(null,this);
+			Sup_AjoutModifUtilisateur ajoutUtilisateur = new Sup_AjoutModifUtilisateur(null,this,tableUtilisateurs);
 
 			// On bloque l'utilisateur sur le pop-up
 			setFenetreActive(false);

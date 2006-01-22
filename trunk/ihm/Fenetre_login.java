@@ -2,8 +2,13 @@ package ihm;
 
 import java.awt.*;
 import java.awt.event.*; 
+import java.sql.SQLException;
+
 import javax.swing.*;
 
+import accesBDD.AccesBDDUtilisateur;
+import accesBDD.ConnecteurSQL;
+import donnees.*;
 
 //Cette classe correspond à la fenetre login qui permet aux utilisateurs d'accéder
 //au programme en fonction de leurs droits
@@ -12,6 +17,12 @@ public class Fenetre_login extends JFrame implements ActionListener{
 
 	public Fenetre_login()
 	{
+		WindowListener l = new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		};
+		addWindowListener(l);
 		//création graphique de la fenetre
 		setTitle("Ouverture de session");
 		setBounds(350,300,300,150);
@@ -48,28 +59,38 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
-		String log="julien";
-		String pass="julien";
+		//String log="julien";
+		//String pass="julien";
 		if (source == valider)
 		{
-			//le programme accède à la BDD pour vérifier le login et password
-			//il renvoit aussi les droits de l'utilisateur
 			
-			if (log.equals(login.getText()) && pass.equals(pwd1.toString()))
+			JFrame fen;
+			
+			// rechercher la personne avec la méthode de Nico.
+			Utilisateur u= new Utilisateur("rochef","pass",new Integer(2),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
+			
+			
+			switch(u.getType().intValue())
 			{
-				//si le password est correct, on ferme la fenetre login et on accède à
-				//l'un des 3 postes en fonction des droits.
-				dispose();
-				
-				JFrame fen = new Entree_Fenetre_colis(log);
-				fen.setVisible(true);
+			case 0 : 	dispose();
+						fen = new Sup_Interface(u);
+						fen.setVisible(true);
+						break;
+			case 1 : 	dispose();
+						fen = new Prep_Fenetre_princ(u);
+						fen.setVisible(true);
+						break;
+			case 2 : 	dispose();
+						fen = new Entree_Fenetre_colis(u);
+						fen.setVisible(true);
+						break;
+			case 3 : 	JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+						login.setText("");
+						pwd1.setText("");
+						break;
 			}
-			else
-			{
-				//Si le password est incorrecte, message d'erreur.
-				JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-				
-			}
+			
+			
 		}
 	}
 	
@@ -80,11 +101,11 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	private JButton valider;
 	
 	public static void main(String[] args) {
-		JFrame fen = new Entree_Fenetre_colis("julien");
-		fen.setVisible(true);
+		//JFrame fen = new Entree_Fenetre_colis("julien");
+		//fen.setVisible(true);
 	
-		//JFrame fen1 = new Fenetre_login();
-		//fen1.setVisible(true);
+		JFrame fen1 = new Fenetre_login();
+		fen1.setVisible(true);
 	
 	}
 	

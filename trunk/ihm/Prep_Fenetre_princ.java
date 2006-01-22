@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Camion;
+import donnees.*;
 
 public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 
@@ -27,7 +28,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	private TableSorter sorter;
 	
 	
-	public Prep_Fenetre_princ(){
+	public Prep_Fenetre_princ(Utilisateur u){
 		
 		//Constructeur de la fenetre
 		super("ALBERT MUDA - Preparateur");
@@ -223,7 +224,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Prep_Fenetre_princ p = new Prep_Fenetre_princ();
+		//Prep_Fenetre_princ p = new Prep_Fenetre_princ();
 		//JFrame p1 = new preparateur();
 
 	}

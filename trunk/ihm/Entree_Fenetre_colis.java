@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPersonne;
+import accesBDD.AccesBDDPersonnes_has_Colis;
 import accesBDD.ConnecteurSQL;
 import donnees.*;
 
@@ -21,7 +22,7 @@ import donnees.*;
 
 public class Entree_Fenetre_colis extends JFrame implements ActionListener, ItemListener{
 
-	public Entree_Fenetre_colis(String name)
+	public Entree_Fenetre_colis(Utilisateur u)
 	{
 		WindowListener l = new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
@@ -30,9 +31,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		};
 		addWindowListener(l);
 		
-		setTitle(name + " - Préparateur");
+		setTitle(u.getLogin() + " - Préparateur");
 		setBounds(72,24,900,720);
-		login = name;
+		login = u.getLogin();
 		//création de la barre de menus
 		barreMenus = new JMenuBar();
 		setJMenuBar(barreMenus);
@@ -215,15 +216,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
         nomColonnes.add("Poids");
         nomColonnes.add("Fragilité");
        
-        //donnees.addElement(new colis("0123456789123","1","1","1","1","19/05/2005","coucou","la").toVector());
-		//donnees.addElement(new colis("9876543210321","1","1","1","1","19/05/2005","cici","la").toVector());
-		
-		// donnees.addElement(new colis("4135135351",new Integer(2),new Integer(3),"120","60","20",new Integer(1),"18","18/05/05","Lacombe Julien \n46 rue de villacoublay \n78140 Vélizy Villacoublay","Sengler Nicolas \n28 rue de la bas \n94... Villejuif").toVector());
-		
-		/*donnees.addElement(new colis("5478954785412","5478954785412","HS",new Integer(45),"Joffre","Bordeaux","Lyon").toVector());
-		donnees.addElement(new colis("1258745968745","1258745968745","HS",new Integer(60),"Bergman","Lyon","Chartres").toVector());
-		donnees.addElement(new colis("8745986325471","8745986325471","OK",new Integer(12),"Dufour","Nancy","Nancy").toVector());
-        */
         donnees = new Vector();
 		modeleTabColis = new ModeleTable(nomColonnes,donnees);
 		
@@ -256,34 +248,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		// On ajoute le tableau au Panneau principal
 		contenu.add(scrollPane);
-		
-		//colis col = new colis("413513555",1,2,1,"18","18/05/05",new Integer(1),new Integer(2),new Integer(1),"120","60","20");
-		//colis col1 =new colis();
-		//colis col2 = col1.changement_colis(col);
-		//ajouterColis(col2);
-		
-		/*String[] nomColonnes1 = {
-				"Date",
-				"Heure",
-				"Description",
-		};
-
-		Object[][] data1 = {
-				{"18/05/05", "12:30","Probleme"},
-				{"24/02/05", "09:30","Probleme"},
-				{"15/03/05", "08:30","Probleme"},
-				{"06/08/05", "18:30","Probleme"},
-				{"17/09/05", "15:30","Probleme"}
-		};
-		
-		tabIncidents = new JTable(data1,nomColonnes1);
-		tabIncidents.setOpaque(false);
-		scrollPane1 = new JScrollPane(tabIncidents);
-		tabIncidents.setPreferredScrollableViewportSize(new Dimension(20,20));
-		scrollPane1.setBounds(550,185,300,150);
-		scrollPane1.setOpaque(false);
-		scrollPane1.getViewport().setOpaque(false);
-		contenu.add(scrollPane1);*/
 		
 		nomColonnes1 = new Vector();
 		nomColonnes1.add("id");
@@ -414,15 +378,15 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//String temp3= dfs1.toGMTString();
 			
 			//date_envoie.setText(temp3);
-			date_envoie.setText(dfs.format(new Date()) );
+			date_envoie.setText(new Timestamp(System.currentTimeMillis()).toString() );
 			date_envoie.setEnabled(false);
 			scrollPane1.setVisible(false);
 			label_liste_incidents.setVisible(false);
 			voir_incident.setVisible(false);
 			create_incident.setVisible(false);
 			
-			label_dest.setBounds(pos_x+100,160,150,15);
-			label_exp.setBounds(pos_x+400,160,150,15);
+			label_dest.setBounds(pos_x+120,160,150,15);
+			label_exp.setBounds(pos_x+470,160,150,15);
 			donnees_dest.setVisible(false);
 			donnees_exp.setVisible(false);
 			
@@ -482,9 +446,67 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			tel_dest.setBounds(pos_x + 70,307,100,20);
 			contenu.add(tel_dest);
 			
-			valider_colis.setBounds(pos_x + 30,340,210,25);
-			create_etiquette.setBounds(pos_x + 140,370,100,25);
-			annuler.setBounds(pos_x + 30,370,100,25);
+			//
+			label_nom_exp = new JLabel("Nom :");
+			label_nom_exp.setBounds(pos_x1 + pos_x,190,50,15);
+			contenu.add(label_nom_exp);
+			
+			nom_exp = new JTextField(15);
+			nom_exp.setBounds(pos_x1 + pos_x + 40,187,100,20);
+			contenu.add(nom_exp);
+			
+			label_prenom_exp = new JLabel("Prénom :");
+			label_prenom_exp.setBounds(pos_x1 + pos_x+150,190,60,15);
+			contenu.add(label_prenom_exp);
+			
+			prenom_exp = new JTextField(15);
+			prenom_exp.setBounds(pos_x1 + pos_x + 210,187,100,20);
+			contenu.add(prenom_exp);
+			
+			label_adresse_exp= new JLabel("Adresse :");
+			label_adresse_exp.setBounds(pos_x1 + pos_x,220,60,15);
+			contenu.add(label_adresse_exp);
+			
+			adresse_exp = new JTextField(15);
+			adresse_exp.setBounds(pos_x1 + pos_x + 60,217,250,20);
+			contenu.add(adresse_exp);
+			
+			label_cp_exp= new JLabel("Code Postal :");
+			label_cp_exp.setBounds(pos_x1 + pos_x,250,90,15);
+			contenu.add(label_cp_exp);
+			
+			cp_exp = new JTextField(15);
+			cp_exp.setBounds(pos_x1 + pos_x + 80,247,60,20);
+			contenu.add(cp_exp);
+			
+			label_ville_exp= new JLabel(" Ville :");
+			label_ville_exp.setBounds(pos_x1 + pos_x+150,250,60,15);
+			contenu.add(label_ville_exp);
+			
+			ville_exp = new JTextField(15);
+			ville_exp.setBounds(pos_x1 + pos_x + 190,247,120,20);
+			contenu.add(ville_exp);
+			
+			label_email_exp= new JLabel("Email :");
+			label_email_exp.setBounds(pos_x1 + pos_x,280,60,15);
+			contenu.add(label_email_exp);
+			
+			email_exp = new JTextField(15);
+			email_exp.setBounds(pos_x1 + pos_x + 40,277,270,20);
+			contenu.add(email_exp);
+			
+			label_tel_exp= new JLabel("Telephone :");
+			label_tel_exp.setBounds(pos_x1 + pos_x,310,80,15);
+			contenu.add(label_tel_exp);
+			
+			tel_exp= new JTextField(15);
+			tel_exp.setBounds(pos_x1 + pos_x + 70,307,100,20);
+			contenu.add(tel_exp);
+			//
+			
+			valider_colis.setBounds(pos_x + 220,340,210,25);
+			create_etiquette.setBounds(pos_x + 330,370,100,25);
+			annuler.setBounds(pos_x + 220,370,100,25);
 			
 	
 		}
@@ -503,6 +525,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			code_barre.setEnabled(false);
 			code_barre.setText(col.getCode_barre());
 			forme_colis.setEnabled(false);
+			modele_colis.setEnabled(false);
+			fragilite_colis.setEnabled(false);
+			
 			
 			/*
 			forme_colis.setSelectedIndex(col.getForme().intValue());
@@ -521,7 +546,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			poids.setEnabled(false);
 			poids.setText(col.getPoids());
 			
-			date_envoie.setEnabled(true);
+			date_envoie.setEnabled(false);
 			date_envoie.setText(col.getDate().toString());
 			
 			donnees_dest.setEnabled(false);
@@ -608,6 +633,17 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					System.out.println(e2.getMessage());
 				}
 				
+				AccesBDDPersonne test4=new AccesBDDPersonne();
+				ConnecteurSQL connecteur4 = new ConnecteurSQL();
+				//Timestamp date=new Timestamp(10);
+				Personne pers1 = new Personne(nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
+				try{
+					test4.ajouter(pers1,connecteur4);
+				}
+				catch(SQLException e4){
+					System.out.println(e4.getMessage());
+				}
+				
 				
 				AccesBDDColis test=new AccesBDDColis();
 				ConnecteurSQL connecteur = new ConnecteurSQL();
@@ -620,6 +656,20 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				catch(SQLException e2){
 					System.out.println(e2.getMessage());
 				}
+				
+				
+				
+				AccesBDDPersonnes_has_Colis test2=new AccesBDDPersonnes_has_Colis();
+				ConnecteurSQL connecteur2 = new ConnecteurSQL();
+				//Timestamp date=new Timestamp(10);
+				//Colis aAjouter = new Colis(-1,00,01,02,2,date,45,6);
+				try{
+					test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId(),connecteur);
+				}
+				catch(SQLException e4){
+					System.out.println(e4.getMessage());
+				}
+				
 			}
 			//cas d'un colis à vérifier
 			else
@@ -633,7 +683,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		if (source == create_incident)
 		{
-			JFrame fen3 = new Fenetre_create_incident(col,login);
+			create1 = true;
+			JFrame fen3 = new Fenetre_create_incident(col,login,create1);
 			fen3.setVisible(true);
 			
 		}
@@ -649,6 +700,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		}
 		if ( source == voir_incident)
 		{
+			create1 = false;
 			int ligneActive;
 			int ligneSelect = tabInc.getSelectedRow();
 			if(ligneSelect != -1){
@@ -656,7 +708,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				Vector cVect = (Vector) modeleTabInc.getRow(ligneActive);
 				Incident c = new Incident(cVect);
 				String temp = c.getId().toString();
-				JFrame fen3 = new Fenetre_create_incident(col,login);
+				JFrame fen3 = new Fenetre_create_incident(col,login,create1);
 				fen3.setVisible(true);
 				
 			}
@@ -668,22 +720,23 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JMenuBar barreMenus;
 	private JMenu fichier,etiquette;
 	private JMenuItem se_deloguer,creation;
-	private JLabel label_email_dest,label_tel_dest,label_ville_dest,label_adresse_dest,label_cp_dest,label_nom_dest,label_prenom_dest,label_liste_incidents,label_profondeur_colis,label_hauteur_colis,label_largeur_colis,label_camion,label_cam,label_date,label_poids,label_dest,label_exp,numero_colis,label_forme_colis,label_modele_colis,label_fragile;
-	private JTextField tel_dest,email_dest,ville_dest,adresse_dest,cp_dest,nom_dest,prenom_dest,hauteur,profondeur,largeur,date_envoie,poids,code_barre;
+	private JLabel label_email_dest,label_tel_exp,label_ville_exp,label_adresse_exp,label_cp_exp,label_nom_exp,label_prenom_exp,label_email_exp,label_tel_dest,label_ville_dest,label_adresse_dest,label_cp_dest,label_nom_dest,label_prenom_dest,label_liste_incidents,label_profondeur_colis,label_hauteur_colis,label_largeur_colis,label_camion,label_cam,label_date,label_poids,label_dest,label_exp,numero_colis,label_forme_colis,label_modele_colis,label_fragile;
+	private JTextField tel_exp,email_exp,ville_exp,adresse_exp,cp_exp,nom_exp,prenom_exp,tel_dest,email_dest,ville_dest,adresse_dest,cp_dest,nom_dest,prenom_dest,hauteur,profondeur,largeur,date_envoie,poids,code_barre;
 	private String[] formes={"cube","pavé","cylindre"}, modele={"modèle1","modèle2","modèle3","personalisé"},fragilite={"trés fragile","fragile","pas fragile"};
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
 	private JButton voir_incident,annuler,create_etiquette,create_incident,valider_colis;
 	private JTextArea donnees_dest,donnees_exp;
 	private Container contenu ;
-	private boolean create;
+	private boolean create,create1;
 	private String login;
-	private static final int pos_x = 230;
+	private static final int pos_x = 220 , pos_x1 = 350;
 	private Vector nomColonnes,nomColonnes1;
 	private Vector donnees,donnees1;
 	private JTable tabColis,tabInc;
 	private ModeleTable modeleTabColis,modeleTabInc;
 	private TableSorter sorter;
 	private JScrollPane scrollPane1;
+	
 	
 	private Colis col;
 	

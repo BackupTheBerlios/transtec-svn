@@ -14,7 +14,6 @@ public class ConnecteurSQL {
 	private String	chaineconnexion = "jdbc:mysql://db.berlios.de/transtec";
 	private	String 	login			= "transtec";
 	private String 	password		= "optilogbdd";
-	
 	private Connection connexion;
 	
 	//	 Ferme la connexion si elle est ouverte
@@ -56,8 +55,11 @@ public class ConnecteurSQL {
 				Class.forName(driver); // chargement de la classe driver
 				
 				if (login != null)
-					this.connexion = DriverManager.getConnection(
-							this.chaineconnexion, this.login, this.password); 
+					//this.connexion = DriverManager.getConnection(
+						//	this.chaineconnexion, this.login, this.password); 
+					//jdbc:mysql://localhost/mysql?user=root&password=
+						
+						this.connexion = DriverManager.getConnection("jdbc:mysql://localhost/mysql?user=root&password="); 
 					// ouverture de la connexion
 				else
 					this.connexion = DriverManager.getConnection(this.chaineconnexion);

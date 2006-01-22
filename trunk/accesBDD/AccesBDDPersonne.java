@@ -33,19 +33,22 @@ public class AccesBDDPersonne extends AccesBDD{
 		
 		
 		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		System.out.println(resultat.getInt(1)+1);
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'une personne dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO Colis"
+				"INSERT INTO personnes"
 				+ " (idPersonnes,Localisation_idLocalisation,Nom,Prenom,Telephone,Email)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout dans la table de localisation
+		//ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
 		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
+		
 		ajout.setString(3,aAjouter.getNom());
 		ajout.setString(4,aAjouter.getPrenom());
 		ajout.setString(5,aAjouter.getTelephone());
