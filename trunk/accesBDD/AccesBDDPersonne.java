@@ -1,11 +1,11 @@
-package pAccesBDD;
+package accesBDD;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import pDonnees.Localisation;
-import pDonnees.Personne;
+import donnees.Localisation;
+import donnees.Personne;
 
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -199,7 +199,7 @@ public static void main(String arg[]){
 		AccesBDDPersonne test=new AccesBDDPersonne();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		//Timestamp date=new Timestamp(10);
-		Personne aAjouter = new Personne("nom", "prenom", "adresse", new Integer(94800), "ville", "mail", "telephone");
+		Personne aAjouter = new Personne("nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
 		try{
 			test.ajouter(aAjouter,connecteur);
 		}

@@ -1,7 +1,8 @@
 package ihm;
 
 import java.util.Vector;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -30,7 +31,8 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
  
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************/
-		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Date(),new Integer(3),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
+        long time = new Time();
+		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Timestamp(),new Integer(3),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
 		/*********************************/
 
 		// Construction du tableau et des fonction qui lui sont associées

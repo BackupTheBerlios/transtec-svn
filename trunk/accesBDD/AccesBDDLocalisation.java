@@ -37,7 +37,7 @@ public class AccesBDDLocalisation {
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setString(2,aAjouter.getAdresse());
-		ajout.setInt(3,aAjouter.getCodePostal().intValue());
+		ajout.setString(3,aAjouter.getCodePostal());
 		ajout.setString(4,aAjouter.getVille());
 				
 		ajout.executeUpdate();//execution de la requete SQL
@@ -68,7 +68,7 @@ public class AccesBDDLocalisation {
 		recherche.setInt(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la localisation
-			trouvee=new Localisation(resultat.getString("Adresse"), new Integer(resultat.getInt("CodePostal")), resultat.getString("Ville"));
+			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getString("CodePostal"), resultat.getString("Ville"));
 			trouvee.setId(new Integer(resultat.getInt("idLocalisation")));
 		}
 				
@@ -101,7 +101,7 @@ public class AccesBDDLocalisation {
 		recherche.setString(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la localisation
-			trouvee=new Localisation(resultat.getString("Adresse"), new Integer(resultat.getInt("CodePostal")), resultat.getString("Ville"));
+			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getString("CodePostal"), resultat.getString("Ville"));
 			trouvee.setId(new Integer(resultat.getInt("idLocalisation")));
 		}
 				
@@ -120,7 +120,7 @@ public class AccesBDDLocalisation {
 				+"Adresse=?, CodePostal=?, Ville=?"
 				+"WHERE idLocalisation=?");
 		modifie.setString(1, aModifier.getAdresse());
-		modifie.setInt(2, aModifier.getCodePostal().intValue());
+		modifie.setString(2, aModifier.getCodePostal());
 		modifie.setString(3, aModifier.getVille());
 		modifie.setInt(4, aModifier.getId().intValue());		
 		
@@ -144,8 +144,8 @@ public static void main(String arg[]){
 		AccesBDDLocalisation test=new AccesBDDLocalisation();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		//Timestamp date=new Timestamp(10);
-		Localisation aAjouter = new Localisation("Adresse",new Integer(94800),"Villejuif");
-		Localisation aModifier = new Localisation("AdresseModif",new Integer(94800),"VillejuifModif");
+		Localisation aAjouter = new Localisation("Adresse","94800","Villejuif");
+		Localisation aModifier = new Localisation("AdresseModif","94800Modif","VillejuifModif");
 		aModifier.setId(new Integer(1));
 		try{
 			test.ajouter(aAjouter,connecteur);
