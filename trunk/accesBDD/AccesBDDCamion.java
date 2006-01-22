@@ -33,7 +33,7 @@ public class AccesBDDCamion implements AccesBDD{
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getIdChauffeur().intValue());
-		ajout.setInt(3,aAjouter.getEtat().intValue());
+		ajout.setInt(3,aAjouter.getDispo().intValue());
 		ajout.setFloat(4,aAjouter.getVolume().intValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
@@ -62,8 +62,7 @@ public class AccesBDDCamion implements AccesBDD{
 public static void main(String arg[]){
 		AccesBDDCamion test=new AccesBDDCamion();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
-		//Timestamp date=new Timestamp(10);
-		Camion aAjouter = new Camion(new Integer(0),new Integer(2),new Integer(2),new Integer(21),new Integer(1));
+		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),new Integer(2),new Integer(21),new Integer(1));
 		try{
 			test.ajouter(aAjouter,connecteur);
 		}

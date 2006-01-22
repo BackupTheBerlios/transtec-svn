@@ -100,12 +100,12 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		// Si on est dans le cas d'une modification
 		if(c!= null){
 			// On initialise les champs texte
-			textNumero.setText(c.numero);
-			comboDispo.setSelectedItem(c.dispo);
-			textVolume.setText(c.volume.toString());
-			textChauffeur.setText(c.chauffeur);
-			textDestination.setText(c.destination);
-			textAppartenance.setText(c.origine);
+			textNumero.setText(c.getNumero());
+			comboDispo.setSelectedItem(c.getDispo().toString());
+			textVolume.setText(c.getVolume().toString());
+			textChauffeur.setText(c.getIdChauffeur().toString());
+			textDestination.setText(c.getIdDestination().toString());
+			textAppartenance.setText(c.getIdOrigine().toString());
 		}
 
 		pack();
@@ -143,12 +143,12 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Camion getCamion(){
-		camion.numero = (String)this.textNumero.getText();
-		camion.dispo = (String)this.comboDispo.getSelectedItem();
-		camion.volume = new Integer(this.textVolume.getText().trim());
-		camion.chauffeur = (String)this.textChauffeur.getText();
-		camion.destination = (String)this.textDestination.getText();
-		camion.origine = (String)this.textAppartenance.getText();
+		camion.setNumero(textNumero.getText());
+		camion.setDispo(new Integer((String)comboDispo.getSelectedItem()));
+		camion.setVolume(new Integer(textVolume.getText().trim()));
+		camion.setIdChauffeur(new Integer(textChauffeur.getText().trim()));
+		camion.setIdDestination(new Integer(textDestination.getText().trim()));
+		camion.setIdOrigine(new Integer(textAppartenance.getText().trim()));
 
 		return camion;
 	}

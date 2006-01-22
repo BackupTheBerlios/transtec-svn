@@ -66,7 +66,7 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
  //**********************************************APPEL A LA BDD*******************************************
  //Chercher tous les incidents pour la destination affecté au préparateur
     	// Création et ajout de données
-        Incident i = new Incident(new Integer(3), new Timestamp(2006,10,21,16,33,14,0),new Integer(2),"Colis non trouvé lors du chargement",new Integer(2),new Integer(13));
+        Incident i = new Incident(new Integer(-1), new Integer(2),new Timestamp(System.currentTimeMillis()),new Integer(2),"Colis non trouvé lors du chargement",new Integer(2),new Integer(13));
 		i.setId(new Integer(123));
 		Vector v = new Vector(i.toVector());
 		donnees.addElement(v);

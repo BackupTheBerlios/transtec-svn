@@ -2,7 +2,7 @@ package ihm;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import javax.swing.*;
 
 import donnees.Incident;
@@ -166,12 +166,12 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 		if(incid != null){
 			// On initialise les champs texte
-			textColis.setText(incid.idColis.toString());
-			textDate.setText(incid.date.toString());
-			comboEtat.setSelectedItem(incid.etat);
-			textDescription.setText(incid.description);
-			textUtilisateur.setText(incid.idUtilisateur.toString());
-			textType.setText(incid.type.toString());
+			textColis.setText(incid.getIdColis().toString());
+			textDate.setText(incid.getDate().toString());
+			comboEtat.setSelectedItem(incid.getEtat());
+			textDescription.setText(incid.getDescription());
+			textUtilisateur.setText(incid.getIdUtilisateur().toString());
+			textType.setText(incid.getType().toString());
 		}
 
 		pack();
@@ -202,12 +202,12 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Incident getIncident(){
-		incid.idColis = new Integer(this.textColis.getText().trim());
-		incid.date = new Date(/*textDate.getText()*/);/////////////////////////////////////////////////
-		incid.etat = new Integer(this.comboEtat.getSelectedIndex());
-		incid.description = this.textDescription.getText();
-		incid.idUtilisateur = new Integer(this.textUtilisateur.getText().trim());
-		incid.type = new Integer(this.textType.getText());
+		incid.setIdColis(new Integer(this.textColis.getText().trim()));
+		incid.setDate(new Timestamp(System.currentTimeMillis()));
+		incid.setEtat(new Integer(this.comboEtat.getSelectedIndex()));
+		incid.setDescription(this.textDescription.getText());
+		incid.setIdUtilisateur(new Integer(this.textUtilisateur.getText().trim()));
+		incid.setType(new Integer(this.textType.getText()));
 
 		return incid;
 	}
@@ -224,7 +224,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 		try{
 			new Integer(this.textColis.getText().trim());
 			try{
-				new Date();
+				new Timestamp(System.currentTimeMillis());
 				try{
 					new Integer(this.textUtilisateur.getText().trim());
 					try{

@@ -7,13 +7,13 @@ import java.util.Vector;
 //----- Classe regroupant tous les attributs d'un Incident, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
 public class Incident {
-	public Integer id;
-	public Integer idColis;
-	public Timestamp date;
-	public Integer etat;
-	public String description;
-	public Integer idUtilisateur;
-	public Integer type;
+	private Integer id;
+	private Integer idColis;
+	private Timestamp date;
+	private Integer etat;
+	private String description;
+	private Integer idUtilisateur;
+	private Integer type;
 	
 	public Incident(Integer id,Integer idColis, Timestamp date, Integer etat, String description, Integer idUtilisateur, Integer type){
 		this.id=id;
@@ -58,11 +58,46 @@ public class Incident {
 		return v;
 	}
 	
+	/****** Méthodes d'écriture ******/
+	
 	//----- Insérer l'id de l'incident -----//
 	public void setId(Integer id){
 		this.id=id;
 	}
 	
+	//----- Insérer l'id du colis -----//
+	public void setIdColis(Integer idColis){
+		this.idColis=idColis;
+	}
+	
+	//----- Insérer l'id du créateur de la fiche -----//
+	public void setIdUtilisateur(Integer idUtilisateur){
+		this.idUtilisateur=idUtilisateur;
+	}
+	
+	//----- Insérer la description -----//
+	public void setDescription(String description){
+		this.description=description;
+	}
+	
+	//----- Insérer le type d'incident -----//
+	public void setType(Integer type){
+		this.type=type;
+	}
+	
+	//----- Insérer l'état de l'incident -----//
+	public void setEtat(Integer etat){
+		this.etat=etat;
+	}
+	
+	//----- Insérer la date de création de l'incident -----//
+	public void setDate(Timestamp date){
+		this.date=date;
+	}
+	
+	
+	/****** Méthodes de lecture ******/
+		
 	//----- Récupération de l'id -----//
 	public Integer getId(){
 		return this.id;
