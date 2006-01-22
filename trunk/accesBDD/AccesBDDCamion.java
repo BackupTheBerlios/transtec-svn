@@ -20,7 +20,7 @@ public class AccesBDDCamion implements AccesBDD{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -45,6 +45,18 @@ public class AccesBDDCamion implements AccesBDD{
 		rel.ajouter(aAjouter.getId(), aAjouter.getIdOrigine(), aAjouter.getIdDestination(), connecteur);
 		
 		return aAjouter.getId();
+	}
+	
+	//----- Supprimer un camion -----//
+	public void supprimer(Camion aSupprimer, ConnecteurSQL connecteur) throws SQLException{
+		PreparedStatement supprime=
+			connecteur.getConnexion().prepareStatement(
+				"DELETE FROM camions WHERE idCamions=?");
+		supprime.setInt(1, aSupprimer.getId());
+				
+		supprime.executeUpdate();	// Exécution de la requête SQL
+						
+		supprime.close();	// Fermeture requête SQL
 	}
 
 public static void main(String arg[]){

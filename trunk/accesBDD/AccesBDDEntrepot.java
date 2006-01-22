@@ -1,5 +1,9 @@
 package accesBDD;
 import donnees.Entrepot;
+import donnees.Personne;
+import donnees.Utilisateur;
+
+import java.util.Vector;
 import java.sql.*;
 
 //----- Classe permettant l'accès à la table Entrepot, elle permet de faire les différentes opérations nécessaire sur la table -----//
@@ -23,9 +27,9 @@ public class AccesBDDEntrepot {
 		//----- Insertion du colis dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO entrepots"
-				+ " (idEntrepots,Localisation_idLocalisation,Telephone)" // Parametre de la table
-				+ " VALUES (?,?,?)"); 
+				"INSERT INTO entrepots "
+				+ "(idEntrepots,Localisation_idLocalisation,Telephone) " // Parametre de la table
+				+ "VALUES (?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId());
 		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
@@ -44,6 +48,7 @@ public class AccesBDDEntrepot {
 			connecteur.getConnexion().prepareStatement(
 				"UPDATE entrepots SET Telephone=? WHERE idEntrepots=?");
 		modifie.setString(1, aModifier.getTelephone());
+		modifie.setInt(2, aModifier.getId());
 				
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -65,14 +70,69 @@ public class AccesBDDEntrepot {
 		
 		supprime.close();	// Fermeture requête SQL
 	}
+	
+	//----- Lister les entrepots -----//
+	public Vector lister(ConnecteurSQL connecteur) throws SQLException{
+		AccesBDDLocalisation loc=new AccesBDDLocalisation();
+		Vector liste=new Vector();
+		Entrepot courant=null;
+		
+		PreparedStatement rechercheMaxID=connecteur.getConnexion().prepareStatement(
+				"SELECT * FROM entrepots");
+		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			courant=new Entrepot(loc.rechercher(loc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
+					resultat.getString("telephone"));
+			courant.setId(resultat.getInt("idEntrepots"));
+			liste.add(courant);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		rechercheMaxID.close();	// Fermeture requête SQL
+		
+		return liste;
+	}
+	
+	//----- Rechercher un entrepot -----//
+	public Entrepot rechercher(int aChercher, ConnecteurSQL connecteur) throws SQLException{
+		Entrepot trouvee=null;
+		AccesBDDLocalisation loc=new AccesBDDLocalisation();
+				
+		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
+			"SELECT * FROM entrepots WHERE idEntrepots=?");
+		
+		recherche.setInt(1, aChercher);
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		resultat.next();
+		trouvee=new Entrepot(loc.rechercher(loc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
+				resultat.getString("telephone"));
+		trouvee.setId(resultat.getInt("idEntrepots"));
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		
+		return trouvee;
+	}
 
-public static void main(String arg[]){
+	//----- TEST OKAY -----//
+	public static void main(String arg[]){
 		AccesBDDEntrepot test=new AccesBDDEntrepot();
+		Entrepot rec=null;
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		//Timestamp date=new Timestamp(10);
-		Entrepot aAjouter = new Entrepot("adresse","94800","Villejuif","06-15-11-31-30");
+		Entrepot aAjouter = new Entrepot("adresse",94800,"Villejuif","06-15-11-31-30");
+		Entrepot aModifier = new Entrepot("adresse2",94800,"Villejuif","06-15-115225230");
 		try{
 			test.ajouter(aAjouter,connecteur);
+			aModifier.setId(aAjouter.getId());
+			aModifier.setIdLocalisation(aAjouter.getIdLocalisation());
+			test.modifier(aModifier, connecteur);
+			rec=test.rechercher(aModifier.getId(), connecteur);
+			test.ajouter(aAjouter, connecteur);
+			Vector liste=null;
+			liste=test.lister(connecteur);
+			test.supprimer(aModifier, connecteur);
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

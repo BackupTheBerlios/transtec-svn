@@ -30,18 +30,18 @@ public class AccesBDDPersonne implements AccesBDD{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'une personne dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO Colis"
+				"INSERT INTO Personnes"
 				+ " (idPersonnes,Localisation_idLocalisation,Nom,Prenom,Telephone,Email)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(1,aAjouter.getId());
 		// Ajout dans la table de localisation
 		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
 		ajout.setString(3,aAjouter.getNom());
@@ -51,7 +51,7 @@ public class AccesBDDPersonne implements AccesBDD{
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
-		return aAjouter.getId().intValue();
+		return aAjouter.getId();
 	}
 	
 	//----- Recherche d'une personne dans la BDD -----//
@@ -73,7 +73,7 @@ public class AccesBDDPersonne implements AccesBDD{
 			locAChercher=bddLoc.rechercher(bddLoc.CODEPOSTAL, aChercher, connecteur);
 			recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT * FROM personnes WHERE idPersonnes=?");
-			aChercher=locAChercher.getId().intValue();
+			aChercher=locAChercher.getId();
 			break;
 			
 		default:
@@ -87,7 +87,7 @@ public class AccesBDDPersonne implements AccesBDD{
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
 					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
 					resultat.getString("Email"), resultat.getString("Telephone"));
-			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
+			trouvee.setId(resultat.getInt("idPersonnes"));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -146,14 +146,14 @@ public class AccesBDDPersonne implements AccesBDD{
 		}
 		
 		if(type<4)	recherche.setString(1, aChercher);
-		else	recherche.setInt(1, locAChercher.getId().intValue());
+		else	recherche.setInt(1, locAChercher.getId());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
 			Localisation loc=bddLoc.rechercher(bddLoc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
 					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
 					resultat.getString("Email"), resultat.getString("Telephone"));
-			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
+			trouvee.setId(resultat.getInt("idPersonnes"));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -173,7 +173,8 @@ public class AccesBDDPersonne implements AccesBDD{
 		modifie.setString(1, aModifier.getNom());
 		modifie.setString(2, aModifier.getPrenom());
 		modifie.setString(3, aModifier.getTelephone());
-		modifie.setString(4, aModifier.getMail());		
+		modifie.setString(4, aModifier.getMail());
+		modifie.setInt(5, aModifier.getId());
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -188,20 +189,29 @@ public class AccesBDDPersonne implements AccesBDD{
 	public void supprimer(Personne aSupprimer, ConnecteurSQL connecteur) throws SQLException{
 		PreparedStatement supprime=connecteur.getConnexion().prepareStatement(
 				"DELETE FROM personnes WHERE idPersonnes=?");
-		supprime.setInt(1,aSupprimer.getId().intValue());
+		supprime.setInt(1,aSupprimer.getId());
 				
 		supprime.executeUpdate();//execution de la requete SQL
 		// La suppression de la localisation se fera automatiquement suite à la configuration de la BDD
 		supprime.close();//fermeture requete SQL
 	}
 
-public static void main(String arg[]){
+	//----- TEST OKAY SAUF RECHERCHER (ID OKAY) ENCORE SUPPRIMER LES SOUS TABLES-----//
+	public static void main(String arg[]){
 		AccesBDDPersonne test=new AccesBDDPersonne();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
+		Personne rec=null;
 		//Timestamp date=new Timestamp(10);
-		Personne aAjouter = new Personne("nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
+		Personne aAjouter = new Personne("nom", "prenom", "adresse", 94800, "ville", "mail", "telephone");
+		Personne aModifier = new Personne("Ton cul", "ffddsf", "fdsfdsfds", 94801, "ville", "mail", "telephone");
+		
 		try{
 			test.ajouter(aAjouter,connecteur);
+			aModifier.setId(1);
+			aModifier.setIdLocalisation(aAjouter.getIdLocalisation());
+			test.modifier(aModifier, connecteur);
+			rec=test.rechercher(test.ID, aModifier.getId(), connecteur);
+			test.supprimer(aModifier, connecteur);
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

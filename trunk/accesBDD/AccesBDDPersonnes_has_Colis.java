@@ -53,6 +53,7 @@ public class AccesBDDPersonnes_has_Colis {
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
+		resultat.next();
 		trouvee=resultat.getInt("Personnes_idPersonnes");
 		
 		resultat.close();	// Fermeture requête SQL
@@ -66,13 +67,14 @@ public class AccesBDDPersonnes_has_Colis {
 		int trouvee=0;
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=? AND Expediteur=?");
+			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=? AND Expediteur=? ");
 		
 		recherche.setInt(1, idColis);
 		recherche.setBoolean(2, EXPEDITEUR);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
+		resultat.next();
 		trouvee=resultat.getInt("Personnes_idPersonnes");
 		
 		resultat.close();	// Fermeture requête SQL

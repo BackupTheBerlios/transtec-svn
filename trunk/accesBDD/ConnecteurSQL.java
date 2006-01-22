@@ -11,7 +11,7 @@ import java.lang.Class;
 public class ConnecteurSQL {
 
 	private String	driver			= "com.mysql.jdbc.Driver";
-	private String	chaineconnexion = "jdbc:mysql://db.berlios.de/transtec";//jdbc:mysql://localhost/
+	private String	chaineconnexion = "jdbc:mysql://db.berlios.de/transtec";
 	private	String 	login			= "transtec";
 	private String 	password		= "optilogbdd";
 	
@@ -57,7 +57,7 @@ public class ConnecteurSQL {
 				
 				if (login != null)
 					this.connexion = DriverManager.getConnection(
-						"jdbc:mysql://localhost/mysql?user=root&password=");	//this.chaineconnexion, this.login, this.password); 
+							this.chaineconnexion, this.login, this.password); 
 					// ouverture de la connexion
 				else
 					this.connexion = DriverManager.getConnection(this.chaineconnexion);
@@ -67,7 +67,7 @@ public class ConnecteurSQL {
 		}
 		catch(ClassNotFoundException ex)
 		{
-			throw new SQLException("Classe introuvable " + ex.getMessage());
+			throw new SQLException("Connecteur SQL : Classe introuvable " + ex.getMessage());
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class AccesBDDLocalisation {
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -35,14 +35,14 @@ public class AccesBDDLocalisation {
 				+ " (idLocalisation,Adresse,CodePostal,Ville)" // Parametre de la table
 				+ " VALUES (?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(1,aAjouter.getId());
 		ajout.setString(2,aAjouter.getAdresse());
-		ajout.setString(3,aAjouter.getCodePostal());
+		ajout.setInt(3,aAjouter.getCodePostal());
 		ajout.setString(4,aAjouter.getVille());
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
-		return aAjouter.getId().intValue();
+		return aAjouter.getId();
 	}
 	
 	//----- Recherche d'une localisation dans la BDD -----//
@@ -68,8 +68,8 @@ public class AccesBDDLocalisation {
 		recherche.setInt(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la localisation
-			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getString("CodePostal"), resultat.getString("Ville"));
-			trouvee.setId(new Integer(resultat.getInt("idLocalisation")));
+			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getInt("CodePostal"), resultat.getString("Ville"));
+			trouvee.setId(resultat.getInt("idLocalisation"));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -101,8 +101,8 @@ public class AccesBDDLocalisation {
 		recherche.setString(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la localisation
-			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getString("CodePostal"), resultat.getString("Ville"));
-			trouvee.setId(new Integer(resultat.getInt("idLocalisation")));
+			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getInt("CodePostal"), resultat.getString("Ville"));
+			trouvee.setId(resultat.getInt("idLocalisation"));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -120,9 +120,9 @@ public class AccesBDDLocalisation {
 				+"Adresse=?, CodePostal=?, Ville=?"
 				+"WHERE idLocalisation=?");
 		modifie.setString(1, aModifier.getAdresse());
-		modifie.setString(2, aModifier.getCodePostal());
+		modifie.setInt(2, aModifier.getCodePostal());
 		modifie.setString(3, aModifier.getVille());
-		modifie.setInt(4, aModifier.getId().intValue());		
+		modifie.setInt(4, aModifier.getId());		
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 						
@@ -134,22 +134,32 @@ public class AccesBDDLocalisation {
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM localisation WHERE idLocalisation=?");
-		supprime.setInt(1, aSupprimer.getId().intValue());
+		supprime.setInt(1, aSupprimer.getId());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
 	}
-public static void main(String arg[]){
+	
+	//----- TESTS OKAY-----//
+	public static void main(String arg[]){
 		AccesBDDLocalisation test=new AccesBDDLocalisation();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
+		Localisation resultatRech=null;
 		//Timestamp date=new Timestamp(10);
-		Localisation aAjouter = new Localisation("Adresse","94800","Villejuif");
-		Localisation aModifier = new Localisation("AdresseModif","94800","VillejuifModif");
-		aModifier.setId(new Integer(1));
+		Localisation aAjouter = new Localisation("Adresse",94800,"Villejuif");
+		Localisation aModifier = new Localisation("AdresseModif",94800,"VillejuifModif");
+		aModifier.setId(1);
 		try{
 			test.ajouter(aAjouter,connecteur);
 			test.modifier(aModifier,connecteur);
+			resultatRech=test.rechercher(test.ID, aModifier.getId(), connecteur);
+			resultatRech=null;
+			resultatRech=test.rechercher(test.CODEPOSTAL,aModifier.getCodePostal(), connecteur);
+			resultatRech=null;
+			resultatRech=test.rechercher(test.ADRESSE, aModifier.getAdresse(), connecteur);
+			resultatRech=null;
+			resultatRech=test.rechercher(test.VILLE, aModifier.getVille(), connecteur);
 			test.supprimer(aModifier,connecteur);
 		}
 		catch(SQLException e){
