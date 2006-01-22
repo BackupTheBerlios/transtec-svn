@@ -1,5 +1,4 @@
 package donnees;
-
 import java.util.Vector;
 
 //----- Classe regroupant tous les attributs d'un camion, ainsi que les méthodes propres à la manipulation de cet objet -----//
