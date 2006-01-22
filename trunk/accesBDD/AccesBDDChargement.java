@@ -13,7 +13,7 @@ import donnees.Colis;
 
 public class AccesBDDChargement {
 	//	----- Ajouter un colis dans la BDD -----//
-	public long ajouter(Chargement aAjouter, ConnecteurSQL connecteur) throws SQLException{
+	public Integer ajouter(Chargement aAjouter, ConnecteurSQL connecteur) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
 			connecteur.getConnexion().prepareStatement(
@@ -22,7 +22,7 @@ public class AccesBDDChargement {
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -33,8 +33,8 @@ public class AccesBDDChargement {
 				+ " (idChargement,Camions_idCamions,Colis_idColis)" // Parametre de la table
 				+ " VALUES (?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId());
-		ajout.setInt(2,aAjouter.getIdCamion());
+		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(2,aAjouter.getIdCamion().intValue());
 		//------->PBajout.setInt(3,aAjouter.getidColis);
 				
 		ajout.executeUpdate();//execution de la requete SQL
@@ -48,7 +48,7 @@ public class AccesBDDChargement {
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM chargement WHERE idChargement=?");
-		supprime.setInt(1, aSupprimer.getId());
+		supprime.setInt(1, aSupprimer.getId().intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -68,14 +68,20 @@ public class AccesBDDChargement {
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 			
 		while(resultat.next()){
-			Colis courant=new Colis(idPers.getExpediteur(resultat.getInt("idColis"), connecteur),
-					idPers.getDestinataire(resultat.getInt("idColis"), connecteur),resultat.getInt("Users_idUsers"), 
-					resultat.getFloat("Poids"),resultat.getTimestamp("DateDepot"), resultat.getInt("Fragilite"), 
-					resultat.getInt("Valeur"), resultat.getInt("ModelesColis_idModelesColis"), 
-					resultat.getInt("Entrepots_idEntrepots"), resultat.getString("Lieu"));
+			Colis courant=new Colis(
+					new Integer(idPers.getExpediteur(resultat.getInt("idColis"), connecteur)),
+					new Integer(idPers.getDestinataire(resultat.getInt("idColis"), connecteur)),
+					new Integer(resultat.getInt("Users_idUsers")),
+					resultat.getFloat("Poids"),
+					resultat.getTimestamp("DateDepot"),
+					new Integer(resultat.getInt("Fragilite")),
+					new Integer(resultat.getInt("Valeur")),
+					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
+					new Integer(resultat.getInt("Entrepots_idEntrepots")),
+					resultat.getString("Lieu"));
 			liste.add(courant);
 		}
-	
+
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
 		
@@ -86,8 +92,8 @@ public class AccesBDDChargement {
 		AccesBDDChargement test=new AccesBDDChargement();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Timestamp date=new Timestamp(10);
-		Chargement aAjouter = new Chargement(0,1,1,1,date);
-		Chargement aAjouter2 = new Chargement(0,2,1,1,date);
+		Chargement aAjouter = new Chargement(new Integer(0),new Integer(1),1,new Integer(1),date);
+		Chargement aAjouter2 = new Chargement(new Integer(0),new Integer(2),1,new Integer(1),date);
 		try{
 			test.ajouter(aAjouter,connecteur);
 			test.ajouter(aAjouter2,connecteur);

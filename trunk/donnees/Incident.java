@@ -1,19 +1,21 @@
 package donnees;
 
+import java.sql.Timestamp;
+//import java.util.Date;
 import java.util.Vector;
-import java.util.Date;
+
+//----- Classe regroupant tous les attributs d'un Incident, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
 public class Incident {
 	public Integer id;
 	public Integer idColis;
-	public Date date;
+	public Timestamp date;
 	public Integer etat;
 	public String description;
 	public Integer idUtilisateur;
 	public Integer type;
 	
-	// Constructeur utilisant des paramètres pour chaque champ
-	public Incident(Integer id,Integer idColis, Date date, Integer etat, String description, Integer idUtilisateur, Integer type){
+	public Incident(Integer id,Integer idColis, Timestamp date, Integer etat, String description, Integer idUtilisateur, Integer type){
 		this.id=id;
 		this.idColis=idColis;
 		this.date=date;
@@ -23,7 +25,7 @@ public class Incident {
 		this.type=type;
 	}
 	
-	public Incident(Date date,String description,Integer id)
+	public Incident(Timestamp date,String description,Integer id)
 	{
 		this.description=description;
 		this.date=date;
@@ -34,7 +36,7 @@ public class Incident {
 		
 		this.id=(Integer)v.get(0);
 		this.idColis=(Integer)v.get(1);
-		this.date=(Date)v.get(2);
+		this.date=(Timestamp)v.get(2);
 		this.etat=(Integer)v.get(3);
 		this.description=(String)v.get(4);
 		this.idUtilisateur=(Integer)v.get(5);
@@ -55,8 +57,6 @@ public class Incident {
 	
 		return v;
 	}
-	
-	/****** Méthodes d'écriture ******/
 	
 	//----- Insérer l'id de l'incident -----//
 	public void setId(Integer id){
@@ -94,7 +94,7 @@ public class Incident {
 	}
 	
 	//----- Récupération de la date de création de l'incident -----//
-	public Date getDate(){
+	public Timestamp getDate(){
 		return this.date;
 	}
 }

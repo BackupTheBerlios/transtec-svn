@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class AccesBDDCamion_has_Localisation {
 	//----- Fonction permettant l'ajout d'une ligne dans la table Personnes_has_Colis -----//
-	public void ajouter(int idCamion, int idOrigine, int idDestination, ConnecteurSQL connecteur) throws SQLException{
+	public void ajouter(Integer idCamion, Integer idOrigine, Integer idDestination, ConnecteurSQL connecteur) throws SQLException{
 		//----- Insertion de la relation entre un camion et une origine dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
@@ -15,8 +15,8 @@ public class AccesBDDCamion_has_Localisation {
 				+ " (Camions_idCamions,Localisation_idLocalisation,Origine)" // Parametre de la table
 				+ " VALUES (?,?,?)"); 
 		
-		ajout.setInt(1,idCamion);
-		ajout.setInt(2,idOrigine);
+		ajout.setInt(1,idCamion.intValue());
+		ajout.setInt(2,idOrigine.intValue());
 		ajout.setBoolean(3,true);
 				
 		ajout.executeUpdate();//execution de la requete SQL
@@ -29,8 +29,8 @@ public class AccesBDDCamion_has_Localisation {
 				+ " (Camions_idCamions,Localisation_idLocalisation,Origine)" // Parametre de la table
 				+ " VALUES (?,?,?)"); 
 		
-		ajout.setInt(1,idCamion);
-		ajout.setInt(2,idDestination);
+		ajout.setInt(1,idCamion.intValue());
+		ajout.setInt(2,idDestination.intValue());
 		ajout.setBoolean(3,false);
 				
 		ajout.executeUpdate();//execution de la requete SQL

@@ -11,9 +11,9 @@ public class Colis {
 
 	private Integer id;
 	private String code_barre;
-	private int idExpediteur;
-	private int idDestinataire;
-	private int idUtilisateur;
+	private Integer idExpediteur;
+	private Integer idDestinataire;
+	private Integer idUtilisateur;
 	private String poids;
 	//private Timestamp dateDepot;
 	private Timestamp date_envoie;
@@ -50,7 +50,7 @@ public class Colis {
 		
 	}
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(String code_barre,int idExpediteur,int idDestinataire,int idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele,String hauteur,String largeur,String profondeur){
+	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele,String hauteur,String largeur,String profondeur){
 		this.code_barre = code_barre;
 		this.forme=forme;
 		this.modele=modele;
@@ -226,17 +226,17 @@ public class Colis {
 	//}
 	
 	//----- Récupération de l'id de l'expéditeur -----//
-	public int getIdExpediteur(){
+	public Integer getIdExpediteur(){
 		return this.idExpediteur;
 	}
 	
 	//----- Récupération de l'id du destinataire -----//
-	public int getIdDestinataire(){
+	public Integer getIdDestinataire(){
 		return this.idDestinataire;
 	}
 	
 	//----- Récupération de l'id de l'utilisateur -----//
-	public int getIdUtilisateur(){
+	public Integer getIdUtilisateur(){
 		return this.idUtilisateur;
 	}
 }

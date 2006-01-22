@@ -10,7 +10,7 @@ import donnees.Camion;
 
 public class AccesBDDCamion implements AccesBDD{
 	//----- Ajouter un camion dans la BDD -----//
-	public long ajouter(Camion aAjouter, ConnecteurSQL connecteur) throws SQLException{
+	public Integer ajouter(Camion aAjouter, ConnecteurSQL connecteur) throws SQLException{
 		
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
@@ -20,7 +20,7 @@ public class AccesBDDCamion implements AccesBDD{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -31,10 +31,10 @@ public class AccesBDDCamion implements AccesBDD{
 				+ " (idCamions,Personnes_idPersonnes,Etat,Volume)" // Paramètre de la table
 				+ " VALUES (?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId());
-		ajout.setInt(2,aAjouter.getIdChauffeur());
-		ajout.setInt(3,aAjouter.getEtat());
-		ajout.setFloat(4,aAjouter.getVolume());
+		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(2,aAjouter.getIdChauffeur().intValue());
+		ajout.setInt(3,aAjouter.getEtat().intValue());
+		ajout.setFloat(4,aAjouter.getVolume().intValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
@@ -52,7 +52,7 @@ public class AccesBDDCamion implements AccesBDD{
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM camions WHERE idCamions=?");
-		supprime.setInt(1, aSupprimer.getId());
+		supprime.setInt(1, aSupprimer.getId().intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -63,7 +63,7 @@ public static void main(String arg[]){
 		AccesBDDCamion test=new AccesBDDCamion();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		//Timestamp date=new Timestamp(10);
-		Camion aAjouter = new Camion(0,2,2,21,1);
+		Camion aAjouter = new Camion(new Integer(0),new Integer(2),new Integer(2),new Integer(21),new Integer(1));
 		try{
 			test.ajouter(aAjouter,connecteur);
 		}

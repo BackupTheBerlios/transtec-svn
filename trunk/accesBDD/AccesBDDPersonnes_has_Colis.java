@@ -11,7 +11,7 @@ public class AccesBDDPersonnes_has_Colis {
 	public final static boolean EXPEDITEUR=true;
 	
 	//----- Fonction permettant l'ajout d'une ligne dans la table Personnes_has_Colis -----//
-	public void ajouter(int idColis, int idExpediteur, int idDestinataire, ConnecteurSQL connecteur) throws SQLException{
+	public void ajouter(Integer idColis, Integer idExpediteur, Integer idDestinataire, ConnecteurSQL connecteur) throws SQLException{
 		//----- Insertion de la relation entre un destinataire et un colis dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
@@ -19,8 +19,8 @@ public class AccesBDDPersonnes_has_Colis {
 				+ " (Personnes_idPersonnes,Colis_idColis,Expediteur)" // Parametre de la table
 				+ " VALUES (?,?,?)"); 
 		
-		ajout.setInt(1,idDestinataire);
-		ajout.setInt(2,idColis);
+		ajout.setInt(1,idDestinataire.intValue());
+		ajout.setInt(2,idColis.intValue());
 		ajout.setBoolean(3,DESTINATAIRE);
 				
 		ajout.executeUpdate();//execution de la requete SQL
@@ -33,8 +33,8 @@ public class AccesBDDPersonnes_has_Colis {
 				+ " (Personnes_idPersonnes,Colis_idColis,Expediteur)" // Parametre de la table
 				+ " VALUES (?,?,?)"); 
 		
-		ajout.setInt(1,idExpediteur);
-		ajout.setInt(2,idColis);
+		ajout.setInt(1,idExpediteur.intValue());
+		ajout.setInt(2,idColis.intValue());
 		ajout.setBoolean(3,EXPEDITEUR);
 				
 		ajout.executeUpdate();//execution de la requete SQL
@@ -42,8 +42,8 @@ public class AccesBDDPersonnes_has_Colis {
 	}
 	
 	//----- Récupération du destinataire du colis -----//
-	public int getDestinataire(int idColis, ConnecteurSQL connecteur) throws SQLException{
-		int trouvee=0;
+	public Integer getDestinataire(int idColis, ConnecteurSQL connecteur) throws SQLException{
+		Integer trouvee = new Integer(0);
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=? AND Expediteur=?");
@@ -54,7 +54,7 @@ public class AccesBDDPersonnes_has_Colis {
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		resultat.next();
-		trouvee=resultat.getInt("Personnes_idPersonnes");
+		trouvee=new Integer(resultat.getInt("Personnes_idPersonnes"));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
@@ -63,8 +63,8 @@ public class AccesBDDPersonnes_has_Colis {
 	}
 	
 	//----- Récupération de l'expéditeur du colis -----//
-	public int getExpediteur(int idColis, ConnecteurSQL connecteur) throws SQLException{
-		int trouvee=0;
+	public Integer getExpediteur(int idColis, ConnecteurSQL connecteur) throws SQLException{
+		Integer trouvee = new Integer(0);
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=? AND Expediteur=? ");
@@ -75,7 +75,7 @@ public class AccesBDDPersonnes_has_Colis {
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		resultat.next();
-		trouvee=resultat.getInt("Personnes_idPersonnes");
+		trouvee=new Integer(resultat.getInt("Personnes_idPersonnes"));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
@@ -89,7 +89,7 @@ public class AccesBDDPersonnes_has_Colis {
 		//Timestamp date=new Timestamp(10);
 		//Colis aAjouter = new Colis(-1,00,01,02,2,date,45,6);
 		try{
-			test.ajouter(1,1,1,connecteur);
+			test.ajouter(new Integer(1),new Integer(1),new Integer(1),connecteur);
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

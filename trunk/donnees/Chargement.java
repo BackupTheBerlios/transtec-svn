@@ -5,14 +5,14 @@ import java.sql.Timestamp;
 //----- Classe regroupant tous les attributs d'un chargement, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
 public class Chargement {
-	private int id;
-	private int idCamion;
-	private int nbColis;
+	private Integer id;
+	private Integer idCamion;
+	private Integer nbColis;
 	private float volChargement;
-	private int idUtilisateur;
+	private Integer idUtilisateur;
 	private Timestamp date;
 	
-	public Chargement(int idCamion, int nbColis, float volChargement, int idUtilisateur, Timestamp date){
+	public Chargement(Integer idCamion, Integer nbColis, float volChargement, Integer idUtilisateur, Timestamp date){
 		this.idCamion=idCamion;
 		this.nbColis=nbColis;
 		this.volChargement=volChargement;
@@ -21,22 +21,22 @@ public class Chargement {
 	}
 	
 	//----- Insérer l'id du chargement -----//
-	public void setId(int id){
+	public void setId(Integer id){
 		this.id=id;
 	}
 	
 	//----- Récupération de l'id du chargement -----//
-	public int getId(){
+	public Integer getId(){
 		return this.id;
 	}
 	
 	//----- Récupération de l'id du camion -----//
-	public int getIdCamion(){
+	public Integer getIdCamion(){
 		return this.idCamion;
 	}
 	
 	//----- Récupération du nombre de colis -----//
-	public int getNbColis(){
+	public Integer getNbColis(){
 		return this.nbColis;
 	}
 	
@@ -46,7 +46,7 @@ public class Chargement {
 	}
 	
 	//----- Récupération de l'id du préparateur -----//
-	public int getIdUtilisateur(){
+	public Integer getIdUtilisateur(){
 		return this.idUtilisateur;
 	}
 	

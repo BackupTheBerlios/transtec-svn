@@ -27,7 +27,7 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 	//Constructeur
 	public Sup_AjoutModifRoutage(Camion c, Sup_OngletRoutage parent){
 		super("");
-		
+		/*
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
@@ -108,12 +108,12 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 
 		pack();
 		setAlwaysOnTop(true);
-		setVisible(true);
+		setVisible(true);*/
 	}
 
 	// Gestion des actions liées au boutons
 	public void actionPerformed(ActionEvent e){
-		Object source = e.getSource();
+/*		Object source = e.getSource();
 
 		// Validation
 		if(source==boutValider){
@@ -136,8 +136,8 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 			this.setVisible(false);
 			this.dispose();
 		}
-	}
-
+*/	}
+/*
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Camion getCamion(){
 		camion.numero = (String)this.textNumero.getText();
@@ -179,4 +179,6 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
 		textWarning.updateUI();
 	}
+	
+*/
 }

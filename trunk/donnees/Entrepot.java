@@ -3,22 +3,29 @@ package donnees;
 //----- Classe regroupant tous les attributs d'un entrepôt, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
 public class Entrepot {
-	private int id;
+	private Integer id;
 	private Localisation localisation;
 	private String telephone;
 	
+	// Constructeur avec tous les paramètres
 	public Entrepot(String adresse, String codePostal, String ville, String telephone){
 		localisation=new Localisation(adresse, codePostal, ville);
 		this.telephone=telephone;
 	}
+
+	// Constructeur utilisant une instance de Localisation et une chaine de caractères
+	public Entrepot(Localisation localisation, String telephone){
+		this.localisation=localisation;
+		this.telephone=telephone;
+	}
 	
 	//----- Insérer l'id de l'entrepôt -----//
-	public void setId(int id){
+	public void setId(Integer id){
 		this.id=id;
 	}
 	
 	//----- Récupération de l'id -----//
-	public int getId(){
+	public Integer getId(){
 		return this.id;
 	}
 	
