@@ -67,7 +67,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		Font font;
 		font = new Font("Verdana", Font.BOLD, 15);
 		
-//Insertion des boutons
+		//Insertion des boutons
 	
 		gerer_chargement.setBounds(520,10,250,100);
 		gerer_chargement.setFont(font);

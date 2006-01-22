@@ -6,7 +6,7 @@ import donnees.Colis;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDColis  implements AccesBDD {
+public class AccesBDDColis  extends AccesBDD {
 	//----- Ajouter un colis dans la BDD -----//
 	public int ajouter(Colis aAjouter, ConnecteurSQL connecteur) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//

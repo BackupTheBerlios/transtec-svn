@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.sql.Timestamp;
 import javax.swing.*;
 
+import accesBDD.AccesBDDIncident;
+
 import donnees.Incident;
 
 
@@ -28,6 +30,8 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	protected Incident incid;
 	public boolean modif = false;
 	protected Sup_OngletIncident parent;
+	
+	private AccesBDDIncident bdd = new AccesBDDIncident(); 
 	
 	//Constructeur avec paramètres
 	public Sup_AjoutModifIncident(Incident incid, Sup_OngletIncident parent){
@@ -168,7 +172,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 			// On initialise les champs texte
 			textColis.setText(incid.getIdColis().toString());
 			textDate.setText(incid.getDate().toString());
-			comboEtat.setSelectedItem(incid.getEtat());
+			comboEtat.setSelectedIndex(incid.getEtat().intValue());
 			textDescription.setText(incid.getDescription());
 			textUtilisateur.setText(incid.getIdUtilisateur().toString());
 			textType.setText(incid.getType().toString());
@@ -185,8 +189,13 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 		// Validation
 		if(source==boutModifier){
-			if(verifChamps()){
-					parent.modifierLigne(this.getIncident().toVector());			
+			if(verifChamps()){				
+				// Mise à jour du tableau
+				parent.modifierLigne(this.getIncident().toVector());			
+
+				// Ecriture dans la base de données
+				bdd.changerEtat(this.getIncident());
+
 				// On masque la fenetre
 				this.setVisible(false);
 				this.dispose();
@@ -234,7 +243,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 						 erreurType = true;
 					}					
 				}				
-				catch(Exception e){//// A CHANGER : EXCEPTION LIEE A LA DATE
+				catch(Exception e){
 					erreurUtilisateur = true;
 				}
 			}

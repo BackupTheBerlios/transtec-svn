@@ -3,10 +3,14 @@ package ihm;
 import java.util.Vector;
 import java.awt.event.*;
 
+import accesBDD.AccesBDDCamion;
+
 import donnees.Camion;
 
 // Panneau de l'onglet de gestion des camions
 public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
+	
+	private AccesBDDCamion bdd = new AccesBDDCamion(); 
 
 	public Sup_OngletCamion(){
 		super("Gestion des camions");
@@ -26,6 +30,8 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************/
+        
+        
 		donnees.addElement(new Camion(new Integer(0),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),new Integer(0),new Integer(0),new Integer(2)).toVector());
 		donnees.addElement(new Camion(new Integer(1),"1013TW78",new Integer(Camion.LIVRAISON),new Integer(12),new Integer(1),new Integer(1),new Integer(1)).toVector());
 		donnees.addElement(new Camion(new Integer(2),"356LJ45",new Integer(Camion.REPARATION),new Integer(45),new Integer(0),new Integer(1),new Integer(2)).toVector());
@@ -66,20 +72,24 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 				Camion c = new Camion(cVect);
 
 				// On affiche l'invite de modification
-				Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this);
+				Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,bdd);
 				
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
 			}
 			// Suppression d'un camion
 			else if(source==boutSupprimer){
+				// Suppression de la base de données
+				bdd.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
+
+				// Mise à jour du tableau
 				supprimerLigne(ligneActive);
 			}
 		}
 		// Ajout d'un camion
 		if(source==boutAjouter){
 			// On affiche l'invite de saisie d'information
-			Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this);
+			Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,bdd);
 			
 			// On bloque l'utilisateur sur le pop-up
 			setFenetreActive(false);

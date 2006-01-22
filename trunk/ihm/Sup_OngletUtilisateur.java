@@ -3,10 +3,14 @@ package ihm;
 import java.util.Vector;
 import java.awt.event.*;
 
+import accesBDD.AccesBDDUtilisateur;
+
 import donnees.Utilisateur;
 
 // Panneau de l'onglet de gestion des utilisateurs
 public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
+
+	private AccesBDDUtilisateur bdd = new AccesBDDUtilisateur(); 
 
 	public Sup_OngletUtilisateur(){
 		super("Gestion des utilisateurs");
@@ -77,6 +81,10 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 			}
 			// Suppression d'un utilisateur
 			else if(source==boutSupprimer){
+				// Suppression de la base de données
+				bdd.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
+
+				// Mise à jour du tableau
 				supprimerLigne(ligneActive);
 			}
 		}

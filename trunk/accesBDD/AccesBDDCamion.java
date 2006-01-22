@@ -8,7 +8,7 @@ import donnees.Camion;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDCamion implements AccesBDD{
+public class AccesBDDCamion extends AccesBDD{
 	//----- Ajouter un camion dans la BDD -----//
 	public Integer ajouter(Camion aAjouter, ConnecteurSQL connecteur) throws SQLException{
 		

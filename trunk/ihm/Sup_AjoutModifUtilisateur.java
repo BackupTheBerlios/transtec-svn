@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import accesBDD.AccesBDDUtilisateur;
 import donnees.Utilisateur;
 import donnees.Personne;
 import donnees.Localisation;
@@ -32,6 +33,8 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	private Localisation l;
 	public boolean modif = false;
 	private Sup_OngletUtilisateur parent;
+	private AccesBDDUtilisateur bdd = new AccesBDDUtilisateur(); 
+
 	
 	//Constructeur
 	public Sup_AjoutModifUtilisateur(Utilisateur u, Sup_OngletUtilisateur parent){
@@ -147,11 +150,19 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 			if(verifChamps()){
 				// Cas d'un ajout d'utilisateur
 				if(boutValider.getText().equals("Ajouter")){
+					// Mise à jour du tableau
 					parent.ajouterLigne(this.getUtilisateur().toVector());
+					
+					// Ecriture dans la base de données
+					bdd.ajouter(this.getUtilisateur());
 				}
 				// Cas d'une modification d'utilisateur
 				else{
+					// Mise à jour du tableau
 					parent.modifierLigne(this.getUtilisateur().toVector());
+					
+					// Ecriture dans la base de données
+					bdd.modifier(this.getUtilisateur());					
 				}				
 				// On masque la fenetre
 				parent.setFenetreActive(true);

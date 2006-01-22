@@ -20,6 +20,7 @@ public class Sup_AffichageIncident extends Sup_AjoutModifIncident{
 		// On est dans le cas d'un affichage : on rend les champs texte non éditables
 		textColis.setEditable(false);
 		comboEtat.setEditable(false);
+		comboEtat.setEnabled(false);
 		textDate.setEditable(false);
 		textDescription.setEditable(false);
 		textType.setEditable(false);

@@ -9,9 +9,11 @@ import donnees.Personne;
 
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDPersonne implements AccesBDD{
+public class AccesBDDPersonne extends AccesBDD{
 	public final static short ID=0;
+	
 	public final static short CODEPOSTAL=1;
+	
 	public final static short NOM=0;
 	public final static short PRENOM=1;
 	public final static short EMAIL=2;

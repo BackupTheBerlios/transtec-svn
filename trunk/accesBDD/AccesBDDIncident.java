@@ -6,7 +6,7 @@ import java.sql.*;
 
 //----- Classe permettant l'accès à la table Incident, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDIncident implements AccesBDD {
+public class AccesBDDIncident extends AccesBDD {
 	//----- Ajouter un incident dans la BDD -----//
 	public long ajouter(Incident aAjouter, ConnecteurSQL connecteur) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import donnees.Camion;
+import accesBDD.AccesBDDCamion;
 
 // Invite d'ajout/modification d'un camion
 public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
@@ -21,11 +22,13 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	private JButton boutValider = new JButton();
 	private JButton boutAnnuler = new JButton("Annuler");
 	private Camion camion;
-	public boolean modif = false;
+//	public boolean modif = false;
 	private Sup_OngletCamion parent;
 	
+	private AccesBDDCamion bdd;
+	
 	//Constructeur
-	public Sup_AjoutModifCamion(Camion c, Sup_OngletCamion parent){
+	public Sup_AjoutModifCamion(Camion c, Sup_OngletCamion parent, AccesBDDCamion bdd){
 		super("");
 		
 		//Comportement lors de la fermeture
@@ -48,6 +51,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			camion = new Camion();
 		}
 		
+		this.bdd = bdd;
 		this.parent = parent;
 	
 		// Titres des informations à saisir
@@ -122,11 +126,19 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			if(verifChamps()){
 				// Cas d'un ajout de camion
 				if(boutValider.getText().equals("Ajouter")){
+					// Mise à jour du tableau
 					parent.ajouterLigne(this.getCamion().toVector());
+					
+					// Ecriture dans la base de données
+					bdd.ajouter(this.getCamion());
 				}
 				// Cas d'une modification de camion existant
 				else{
+					// Mise à jour du tableau
 					parent.modifierLigne(this.getCamion().toVector());
+					
+					// Ecriture dans la base de données
+					bdd.modifier(this.getCamion());
 				}				
 				// On masque la fenetre
 				this.setVisible(false);
