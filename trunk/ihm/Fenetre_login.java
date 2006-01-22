@@ -67,27 +67,33 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			JFrame fen;
 			
 			// rechercher la personne avec la méthode de Nico.
-			Utilisateur u= new Utilisateur("rochef","pass",new Integer(2),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
+			Utilisateur u= new Utilisateur("rochef","pass",new Integer(1),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
 			
 			
 			switch(u.getType().intValue())
 			{
-			case 0 : 	dispose();
-						fen = new Sup_Interface(u);
+		
+			
+			case 0 : 	JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+						login.setText("");
+						pwd1.setText("");
+						break;
+			case Utilisateur.ENTREE : 	dispose();
+						fen = new Entree_Fenetre_colis(u);
 						fen.setVisible(true);
 						break;
 			case Utilisateur.PREPARATIOIN : 	dispose();
 						fen = new Prep_Fenetre_princ(u);
 						fen.setVisible(true);
 						break;
-			case Utilisateur.ENTREE : 	dispose();
-						fen = new Entree_Fenetre_colis(u);
+			case Utilisateur.SUPERVISION : 	dispose();
+						fen = new Sup_Interface(u);
 						fen.setVisible(true);
 						break;
-			case Utilisateur.SUPERVISION : 	JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-						login.setText("");
-						pwd1.setText("");
-						break;
+				
+				
+				
+				
 			}
 			
 			

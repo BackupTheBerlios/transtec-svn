@@ -9,9 +9,11 @@ import java.util.Vector;
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDUtilisateur extends AccesBDD {
-	public final static int SUPERVISEUR=0;
-	public final static int PREPARATEUR=1;
-	public final static int ENTREE=2;
+	public final static int SUPERVISEUR=3;
+	public final static int PREPARATEUR=2;
+	public final static int ENTREE=1;
+	
+	
 	
 	//----- Ajouter un utilisateur -----//
 	public int ajouter(Utilisateur aAjouter, ConnecteurSQL connecteur) throws SQLException{
