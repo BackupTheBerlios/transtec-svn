@@ -31,10 +31,10 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	public boolean modif = false;
 	protected Sup_OngletIncident parent;
 	
-	private AccesBDDIncident bdd = new AccesBDDIncident(); 
+	private AccesBDDIncident tableIncidents; 
 	
 	//Constructeur avec paramètres
-	public Sup_AjoutModifIncident(Incident incid, Sup_OngletIncident parent){
+	public Sup_AjoutModifIncident(Incident incid, Sup_OngletIncident parent, AccesBDDIncident tableIncidents){
 		super("");
 		
 		//Comportement lors de la fermeture
@@ -48,9 +48,10 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 		// On indique le titre de la fenêtre
 		setTitle("Modification d'un incident");
 		
-		// On récupère les valeurs saisies en paramètres
+		// On récupère les variables saisies en paramètres
 		this.incid = incid;
 		this.parent = parent;
+		this.tableIncidents = tableIncidents;
 		
 		// On définit la mise en forme
 		getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
@@ -194,7 +195,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 				parent.modifierLigne(this.getIncident().toVector());			
 
 				// Ecriture dans la base de données
-				bdd.changerEtat(this.getIncident());
+				tableIncidents.changerEtat(this.getIncident());
 
 				// On masque la fenetre
 				this.setVisible(false);

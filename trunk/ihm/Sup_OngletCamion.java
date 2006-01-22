@@ -29,29 +29,24 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Destination");
         nomColonnes.add("Appartenance");
 
-        // On récupère les utilisateurs de la base de données et on les affiche
+        // On récupère les camions de la base de données et on les affiche
         Vector listeCamions = tableCamions.lister();
         
         for(int i=0;i<listeCamions.size();i++){
         	donnees.addElement(((Camion)listeCamions.get(i)).toVector());
-        }
-
-        
+        }       
         
         
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
-        /*********************************/
+        /*********************************
  		donnees.addElement(new Camion(new Integer(0),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),new Integer(0),new Integer(0),new Integer(2)).toVector());
 		donnees.addElement(new Camion(new Integer(1),"1013TW78",new Integer(Camion.LIVRAISON),new Integer(12),new Integer(1),new Integer(1),new Integer(1)).toVector());
 		donnees.addElement(new Camion(new Integer(2),"356LJ45",new Integer(Camion.REPARATION),new Integer(45),new Integer(0),new Integer(1),new Integer(2)).toVector());
 		donnees.addElement(new Camion(new Integer(3),"654LLL1",new Integer(Camion.DISPONIBLE),new Integer(6),new Integer(2),new Integer(2),new Integer(4)).toVector());
 		donnees.addElement(new Camion(new Integer(4),"M-AR1265",new Integer(Camion.LIVRAISON),new Integer(18),new Integer(1),new Integer(4),new Integer(0)).toVector());
 		/*********************************/
-		
-		
-		
-		
+				
 		
 
 		// Construction du tableau et des fonction qui lui sont associées

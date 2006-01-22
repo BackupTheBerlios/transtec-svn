@@ -76,15 +76,15 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						fen = new Sup_Interface(u);
 						fen.setVisible(true);
 						break;
-			case 1 : 	dispose();
+			case Utilisateur.PREPARATIOIN : 	dispose();
 						fen = new Prep_Fenetre_princ(u);
 						fen.setVisible(true);
 						break;
-			case 2 : 	dispose();
+			case Utilisateur.ENTREE : 	dispose();
 						fen = new Entree_Fenetre_colis(u);
 						fen.setVisible(true);
 						break;
-			case 3 : 	JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+			case Utilisateur.SUPERVISION : 	JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 						login.setText("");
 						pwd1.setText("");
 						break;

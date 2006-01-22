@@ -3,6 +3,7 @@ package ihm;
 import javax.swing.*;
 
 import donnees.Incident;
+import accesBDD.AccesBDDIncident;
 
 public class Sup_AffichageIncident extends Sup_AjoutModifIncident{
 
@@ -10,7 +11,7 @@ public class Sup_AffichageIncident extends Sup_AjoutModifIncident{
 	
 	
 	//Constructeur
-	public Sup_AffichageIncident(Incident incid, Sup_OngletIncident parent){
+	public Sup_AffichageIncident(Incident incid, Sup_OngletIncident parent, AccesBDDIncident tableIncidents){
 		
 		// Appel du constructeur de Sup_AjoutModifIncident
 		super(incid,parent);

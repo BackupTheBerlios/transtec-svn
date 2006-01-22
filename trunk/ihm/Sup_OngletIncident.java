@@ -1,16 +1,18 @@
 package ihm;
 
 import java.util.Vector;
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 import java.awt.event.*;
 import javax.swing.*;
 
 import donnees.Incident;
+import accesBDD.AccesBDDIncident;
 
 // Panneau de l'onglet de gestion des incidents
 public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 	
 	JButton boutAfficher = boutAjouter;
+	AccesBDDIncident tableIncidents = new AccesBDDIncident();
 	
 	public Sup_OngletIncident(){
 		super("Gestion des incidents");
@@ -28,12 +30,25 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Créateur");
         nomColonnes.add("Type");
  
+        // On récupère les Incidents de la base de données et on les affiche
+        Vector listeIncidents = tableIncidents.lister();
+        
+        for(int i=0;i<listeIncidents.size();i++){
+        	donnees.addElement(((Incident)listeIncidents.get(i)).toVector());
+        }
+        
+        
+        
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
-        /*********************************/
+        /*********************************
 		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Timestamp(System.currentTimeMillis()),new Integer(0),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
 		donnees.addElement(new Incident(new Integer(-1),new Integer(1),new Timestamp(System.currentTimeMillis()),new Integer(1),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
 		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Timestamp(System.currentTimeMillis()),new Integer(2),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
 		/*********************************/
+        
+        
+        
+        
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
@@ -68,7 +83,7 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 			// Action liée au bouton de modification d'un incident
 			if(source==boutModifier){
 				// On affiche l'invite de modification
-				Sup_AjoutModifIncident modifIncident = new Sup_AjoutModifIncident(incid,this);
+				Sup_AjoutModifIncident modifIncident = new Sup_AjoutModifIncident(incid,this,tableIncidents);
 
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
@@ -78,7 +93,7 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 			else if(source==boutAfficher){
 				
 				// On affiche les détails de l'incident dans une boite de dialogue
-				Sup_AffichageIncident fenAffIncident = new Sup_AffichageIncident(incid,this);
+				Sup_AffichageIncident fenAffIncident = new Sup_AffichageIncident(incid,this,tableIncidents);
 
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);

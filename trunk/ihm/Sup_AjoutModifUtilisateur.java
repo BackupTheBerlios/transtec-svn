@@ -34,7 +34,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	public boolean modif = false;
 	private Sup_OngletUtilisateur parent;
 	
-	private AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur(); 
+	private AccesBDDUtilisateur tableUtilisateurs; 
 	
 	//Constructeur
 	public Sup_AjoutModifUtilisateur(Utilisateur u, Sup_OngletUtilisateur parent, AccesBDDUtilisateur tableUtilisateurs){
