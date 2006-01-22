@@ -57,7 +57,7 @@ public static void main(String arg[]){
 		AccesBDDIncident test=new AccesBDDIncident();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Timestamp date=new Timestamp(10);
-		Incident aAjouter = new Incident(new Integer(1),new Integer(46468468),new Timestamp(2005,05,05,03,03,03,03),new Integer(0),"problème sur le colis",new Integer(2),new Integer(0));
+		Incident aAjouter = new Incident(new Integer(1),new Integer(46468468),new Timestamp(System.currentTimeMillis()),new Integer(0),"problème sur le colis",new Integer(2),new Integer(0));
 		try{
 			test.ajouter(aAjouter,connecteur);
 			System.out.println("ici");

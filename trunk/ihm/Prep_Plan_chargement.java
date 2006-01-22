@@ -1,23 +1,12 @@
 package ihm;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-//import java.sql.Date;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.Timestamp;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 
-//import donnees.Camion;
 import donnees.Colis;
 
 public class Prep_Plan_chargement extends JFrame implements ActionListener{
@@ -39,7 +28,7 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFichier = new JMenu("Fichier");
 		
-		//taille de la fenêtre
+		// Taille de la fenêtre
 		setSize(800,600);
 		setBounds(0,0,1260,750);
 		
@@ -47,12 +36,12 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		ct.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
-		//Affichage du bouton "Quitter"
+		// Affichage du bouton "Quitter"
 		quitter.setBounds(350,400,100,50);
 	    ct.add(quitter);
 	    quitter.addActionListener(this);
 		
-//		Création de la première ligne
+	    // Création de la première ligne
 		nomColonnes.add("Ordre de chargement");
         nomColonnes.add("Numéro Colis");
         nomColonnes.add("Volume (m3)");
@@ -100,15 +89,6 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane);
 		
 		setVisible(true);
-		
-		
-		
-	}
-
-	public static void main(String[] args) {
-		
-		Prep_Plan_chargement p = new Prep_Plan_chargement();
-		
 	}
 
 	public void actionPerformed(ActionEvent ev) {
@@ -118,8 +98,10 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		//Sélection de "Quitter"
 		if(source == quitter){
 			dispose();
-		}
-		
+		}		
 	}
-
+	
+	public static void main(String[] args) {
+		Prep_Plan_chargement p = new Prep_Plan_chargement();
+	}
 }

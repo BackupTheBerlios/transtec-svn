@@ -1,13 +1,5 @@
 package ihm;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -16,26 +8,9 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-
-import java.awt.*;import java.awt.event.*; 
+import java.awt.*;
+import java.awt.event.*; 
 import javax.swing.*;
-
-import java.util.*;
-import java.text.DateFormat;
-import java.util.Vector;
 
 import accesBDD.AccesBDDColis;
 import accesBDD.ConnecteurSQL;
@@ -349,7 +324,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		voir_incident.addActionListener(this);
 		
 		
-		Incident inc = new Incident(new Integer(1),new Integer(46468468),new Timestamp(0105,05,05,03,03,03,03),new Integer(0),"problème sur le colis",new Integer(2),new Integer(0));
+		Incident inc = new Incident(new Integer(1),new Integer(46468468),new Timestamp(System.currentTimeMillis()),new Integer(0),"problème sur le colis",new Integer(2),new Integer(0));
 		ajouterInc(inc);
 		//inc = new Incident("02/04/05","Abimé",new Integer(1513513153));
 		//ajouterInc(inc);

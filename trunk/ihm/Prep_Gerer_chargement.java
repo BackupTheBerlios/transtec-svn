@@ -1,11 +1,7 @@
 package ihm;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-//import java.sql.Date;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.Timestamp;
 import java.util.Vector;
 
@@ -87,7 +83,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		txt1.setBounds(80,280,200,20);
 		ct.add(txt1);
 		
-//Création des deux tableaux
+		//Création des deux tableaux
 		/*v.add(idExpediteur);
 		v.add(idDestinataire);
 		v.add(idUtilisateur);
@@ -177,50 +173,50 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane2);
 	}
 	
-		public void actionPerformed(ActionEvent ev) {
+	public void actionPerformed(ActionEvent ev) {
+		
+		Object source = ev.getSource();
+		
+		// Action liée au bouton gauche_droite
+		if(source == gauche_droite){
+			// On récupère le numéro de la ligne sélectionnée
+			ligneActive = tab1.getSelectedRow();
 			
-			Object source = ev.getSource();
-			
-			// Action liée au bouton gauche_droite
-			if(source == gauche_droite){
-				// On récupère le numéro de la ligne sélectionnée
-				ligneActive = tab1.getSelectedRow();
-				
-				// Si une ligne est effectivement sélectionnée, on peut la modifier
-				if(ligneActive != -1){
-					// On récupère les données de la ligne du tableau
-					Vector vec = (Vector) modeleColis1.getRow(ligneActive);
-					//On ajoute au deuxième tableau
-					modeleColis2.addRow(vec);
-					modeleColis2.fireTableDataChanged();
-					//On supprime du premier
-					modeleColis1.removeRow(ligneActive);
-					modeleColis1.fireTableDataChanged();
-					//Mise à jour des tableaux
-					tab1.updateUI();
-					tab2.updateUI();
-				}
-			}
-			//Action liée au bouton droite_gauche
-			else if(source == droite_gauche){
-				// On récupère le numéro de la ligne sélectionnée
-				ligneActive = tab2.getSelectedRow();
-					
-				// Si une ligne est effectivement sélectionnée, on peut la modifier
-				if(ligneActive != -1){
-					//On récupère les données de la ligne du tableau
-					Vector vec = (Vector) modeleColis2.getRow(ligneActive);
-					//On ajoute au premier tableau
-					modeleColis1.addRow(vec);
-					modeleColis1.fireTableDataChanged();
-					//On supprime du deuxième
-					modeleColis2.removeRow(ligneActive);
-					modeleColis2.fireTableDataChanged();
-					//Mise à jour des tableaux
-					tab1.updateUI();
-					tab2.updateUI();
-					}
+			// Si une ligne est effectivement sélectionnée, on peut la modifier
+			if(ligneActive != -1){
+				// On récupère les données de la ligne du tableau
+				Vector vec = (Vector) modeleColis1.getRow(ligneActive);
+				//On ajoute au deuxième tableau
+				modeleColis2.addRow(vec);
+				modeleColis2.fireTableDataChanged();
+				//On supprime du premier
+				modeleColis1.removeRow(ligneActive);
+				modeleColis1.fireTableDataChanged();
+				//Mise à jour des tableaux
+				tab1.updateUI();
+				tab2.updateUI();
 			}
 		}
+		//Action liée au bouton droite_gauche
+		else if(source == droite_gauche){
+			// On récupère le numéro de la ligne sélectionnée
+			ligneActive = tab2.getSelectedRow();
+				
+			// Si une ligne est effectivement sélectionnée, on peut la modifier
+			if(ligneActive != -1){
+				//On récupère les données de la ligne du tableau
+				Vector vec = (Vector) modeleColis2.getRow(ligneActive);
+				//On ajoute au premier tableau
+				modeleColis1.addRow(vec);
+				modeleColis1.fireTableDataChanged();
+				//On supprime du deuxième
+				modeleColis2.removeRow(ligneActive);
+				modeleColis2.fireTableDataChanged();
+				//Mise à jour des tableaux
+				tab1.updateUI();
+				tab2.updateUI();
+			}
+		}
+	}
 }
 

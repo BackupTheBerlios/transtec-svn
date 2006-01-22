@@ -1,22 +1,8 @@
 package ihm;
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import java.awt.*;
 import java.awt.event.*; 
 import javax.swing.*;
-import java.util.*;
-import java.text.DateFormat;
 
 //Cette classe correspond à la fenetre de création de l'étiquette d'un colis.
 

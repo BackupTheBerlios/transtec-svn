@@ -2,7 +2,6 @@ package ihm;
 
 import java.util.Vector;
 import java.sql.Timestamp;
-import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 

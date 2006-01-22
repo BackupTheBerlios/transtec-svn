@@ -82,7 +82,7 @@ public class AccesBDDEntrepot {
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			courant=new Entrepot(loc.rechercher(loc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
+			courant=new Entrepot(loc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
 					resultat.getString("telephone"));
 			courant.setId(new Integer(resultat.getInt("idEntrepots")));
 			liste.add(courant);
@@ -105,7 +105,7 @@ public class AccesBDDEntrepot {
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		resultat.next();
-		trouvee=new Entrepot(loc.rechercher(loc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
+		trouvee=new Entrepot(loc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
 				resultat.getString("telephone"));
 		trouvee.setId(new Integer(resultat.getInt("idEntrepots")));
 		

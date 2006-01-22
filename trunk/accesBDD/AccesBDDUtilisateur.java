@@ -96,7 +96,7 @@ public class AccesBDDUtilisateur implements AccesBDD {
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			courantPers=pers.rechercher(pers.ID, resultat.getInt("Personnes_idPersonnes"), connecteur);
+			courantPers=pers.rechercher(AccesBDDPersonne.ID, resultat.getInt("Personnes_idPersonnes"), connecteur);
 			courantUtilisateur=new Utilisateur(resultat.getString("Login"), resultat.getString("Password"),new Integer(resultat.getString("Type_2")),
 					courantPers);
 			courantUtilisateur.setId(new Integer(resultat.getInt("idUsers")));
@@ -120,7 +120,7 @@ public class AccesBDDUtilisateur implements AccesBDD {
 		recherche.setInt(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
-		trouvee=new Utilisateur(resultat.getString("Login"), resultat.getString("Password"),new Integer(resultat.getString("Type_2")), pers.rechercher(pers.ID, resultat.getString("idUsers"), connecteur));
+		trouvee=new Utilisateur(resultat.getString("Login"), resultat.getString("Password"),new Integer(resultat.getString("Type_2")), pers.rechercher(AccesBDDPersonne.ID, resultat.getString("idUsers"), connecteur));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL

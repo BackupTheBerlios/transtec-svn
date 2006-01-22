@@ -1,22 +1,8 @@
 package ihm;
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import java.awt.*;import java.awt.event.*; 
+import java.awt.*;
+import java.awt.event.*; 
 import javax.swing.*;
-
-import java.util.*;
-import java.text.DateFormat;
 
 
 //Cette classe correspond à la fenetre login qui permet aux utilisateurs d'accéder
@@ -69,7 +55,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			//le programme accède à la BDD pour vérifier le login et password
 			//il renvoit aussi les droits de l'utilisateur
 			
-			if (log.compareTo(login.getText())==0 && pass.compareTo(pwd1.getText())==0)
+			if (log.equals(login.getText()) && pass.equals(pwd1.toString()))
 			{
 				//si le password est correct, on ferme la fenetre login et on accède à
 				//l'un des 3 postes en fonction des droits.

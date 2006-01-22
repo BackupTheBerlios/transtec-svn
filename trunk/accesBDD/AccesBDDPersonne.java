@@ -70,7 +70,7 @@ public class AccesBDDPersonne implements AccesBDD{
 			
 		// Rechercher un code postal
 		case 1:
-			locAChercher=bddLoc.rechercher(bddLoc.CODEPOSTAL, aChercher, connecteur);
+			locAChercher=bddLoc.rechercher(AccesBDDLocalisation.CODEPOSTAL, aChercher, connecteur);
 			recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT * FROM personnes WHERE idPersonnes=?");
 			aChercher=locAChercher.getId().intValue();
@@ -83,7 +83,7 @@ public class AccesBDDPersonne implements AccesBDD{
 		recherche.setInt(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
-			Localisation loc=bddLoc.rechercher(bddLoc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
+			Localisation loc=bddLoc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
 					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
 					resultat.getString("Email"), resultat.getString("Telephone"));
@@ -130,14 +130,14 @@ public class AccesBDDPersonne implements AccesBDD{
 					
 			// Recherche d'une adresse
 			case 4:	
-				locAChercher=bddLoc.rechercher(bddLoc.ADRESSE, aChercher, connecteur);
+				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.ADRESSE, aChercher, connecteur);
 				recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 				
 			// Recherche d'une ville
 			case 5:	
-				locAChercher=bddLoc.rechercher(bddLoc.VILLE, aChercher, connecteur);
+				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.VILLE, aChercher, connecteur);
 				recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
@@ -149,7 +149,7 @@ public class AccesBDDPersonne implements AccesBDD{
 		else	recherche.setInt(1, locAChercher.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
-			Localisation loc=bddLoc.rechercher(bddLoc.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
+			Localisation loc=bddLoc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
 					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
 					resultat.getString("Email"), resultat.getString("Telephone"));
