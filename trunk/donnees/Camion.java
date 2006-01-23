@@ -46,7 +46,7 @@ public class Camion {
 	
 	// Constructeur utilisant un Vector
 	public Camion(Vector v){
-		this.id = (Integer)v.get(0);
+		this.id =(Integer)v.get(0);
 		this.numero=(String)v.get(1);
 		this.dispo=(Integer)v.get(2);
 		this.volume=(Integer)v.get(3);

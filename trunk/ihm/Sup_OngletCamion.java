@@ -26,8 +26,8 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Etat");
         nomColonnes.add("Volume");
         nomColonnes.add("Chauffeur");
+        nomColonnes.add("Origine");
         nomColonnes.add("Destination");
-        nomColonnes.add("Appartenance");
 
         try{
 	        // On récupère les camions de la base de données et on les affiche
