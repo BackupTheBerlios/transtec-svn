@@ -59,7 +59,7 @@ public class ConnecteurSQL {
 						//	this.chaineconnexion, this.login, this.password); 
 					//jdbc:mysql://localhost/mysql?user=root&password=
 						
-						this.connexion = DriverManager.getConnection("jdbc:mysql://localhost/transtec?user=root&password="); 
+						this.connexion = DriverManager.getConnection("jdbc:mysql://localhost/mysql?user=root&password="); 
 					// ouverture de la connexion
 				else
 					this.connexion = DriverManager.getConnection(this.chaineconnexion);

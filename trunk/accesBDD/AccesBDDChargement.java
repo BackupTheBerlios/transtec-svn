@@ -79,7 +79,7 @@ public class AccesBDDChargement {
 					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
 					new Integer(resultat.getInt("Entrepots_idEntrepots")),
 					resultat.getString("Lieu"));*/
-			Colis courant=new Colis(
+			/*Colis courant=new Colis(
 					new Integer(resultat.getInt("idColis ")),
 					resultat.getString("Code_barre"),
 					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
@@ -92,7 +92,7 @@ public class AccesBDDChargement {
 			
 
 			
-			liste.add(courant);
+			liste.add(courant);*/
 		}
 
 		resultat.close();	// Fermeture requête SQL

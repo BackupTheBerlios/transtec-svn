@@ -314,10 +314,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		// OBTENIR UN NOUVEL ID APRES ACCES A LA BDD
 		
 		// Ajout de la ligne
-		modeleTabColis.addRow(c.toVector());
-		modeleTabColis.fireTableDataChanged();
+		//modeleTabColis.addRow(c.toVector());
+		//modeleTabColis.fireTableDataChanged();
 		// On redessine le tableau
-		tabColis.updateUI();
+		//tabColis.updateUI();
 	}
 	public void ajouterInc(Incident c){
 		
@@ -519,8 +519,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//col = new Colis("413513555",3,2,3,"18","18/05/05",new Integer(1),new Integer(1),new Integer(3),"120","60","20");
 			Timestamp date=new Timestamp(System.currentTimeMillis());
 			
-			col = new Colis(new Integer(0),"69696969",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
-			
+			col = new Colis(new Integer(0),"69696969",new Integer(1),new Integer(2),new Integer(1),"18",date,new Integer(1),new Integer(1),new Integer(1),"150");
+			 
 			//récupérer les infos dans la Bdd et les afficher
 			code_barre.setEnabled(false);
 			code_barre.setText(col.getCode_barre());
@@ -539,9 +539,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			largeur.setEnabled(false);
 			hauteur.setEnabled(false);
 			profondeur.setEnabled(false);
-			largeur.setText(col.getLargeur());
-			hauteur.setText(col.getHauteur());
-			profondeur.setText(col.getProfondeur());
+			//largeur.setText(col.getLargeur());
+			//hauteur.setText(col.getHauteur());
+			//profondeur.setText(col.getProfondeur());
 			
 			poids.setEnabled(false);
 			poids.setText(col.getPoids());
@@ -633,6 +633,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					System.out.println(e2.getMessage());
 				}
 				
+				
 				AccesBDDPersonne test4=new AccesBDDPersonne();
 
 				//Timestamp date=new Timestamp(10);
@@ -652,13 +653,13 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				private Integer diametre;	
 				private float volume;*/
 				
-				ModeleColis modele;
+				ModeleColis modele=null;
 				
 				int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
 				
 				if(selectionidcolis == 69)
 				{
-					float volume ;
+					float volume=0 ;
 					AccesBDDModelesColis test6=new AccesBDDModelesColis();
 					modele = new ModeleColis(new Integer(selectionidcolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),volume);
 					try{
@@ -676,10 +677,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				AccesBDDColis test=new AccesBDDColis();
 
 				Timestamp date=new Timestamp(10);
-				//Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),new Integer(1),new Integer(1),poids.getText(),date,"150",new Integer(fragilite_colis.getSelectedIndex()),"Villejuif");
-			
+				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),pers1.getId(),pers.getId(),new Integer(1),poids.getText(),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectionidcolis),new Integer(1),"20");
+				
 				try{
-					//test.ajouter(aAjouter);
+					test.ajouter(aAjouter);
 				}
 				catch(SQLException e2){
 					System.out.println(e2.getMessage());
@@ -692,7 +693,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				//Timestamp date=new Timestamp(10);
 				//Colis aAjouter = new Colis(-1,00,01,02,2,date,45,6);
 				try{
-					//test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId());
+					test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId());
 				}
 				catch(SQLException e4){
 					System.out.println(e4.getMessage());

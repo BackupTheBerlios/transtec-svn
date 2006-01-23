@@ -19,7 +19,7 @@ public class Colis {
 	private String poids;
 	private Timestamp date_envoie;
 	private Integer fragilite;
-	private Integer forme;
+	
 	private Integer modele;
 	/*private String hauteur;
 	private String largeur;
@@ -51,10 +51,10 @@ public class Colis {
 	
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(Integer id, String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.id=id;
 		this.code_barre = code_barre;
-		this.forme=forme;
+		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
@@ -69,9 +69,9 @@ public class Colis {
 		this.profondeur=profondeur;*/
 	}
 	
-	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.code_barre = code_barre;
-		this.forme=forme;
+		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
@@ -226,9 +226,7 @@ public class Colis {
 	public Integer getModele(){
 		return modele;
 	}
-	public Integer getForme(){
-		return forme;
-	}
+	
 	/*public String getHauteur(){
 		return hauteur;
 	}
