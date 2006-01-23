@@ -1,14 +1,16 @@
 package accesBDD;
 
 import java.sql.PreparedStatement;
+import java.util.Vector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import donnees.Camion;
+import donnees.Utilisateur;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDCamion extends AccesBDD{
+public class AccesBDDCamion extends ConnecteurSQL{
 	//----- Ajouter un camion dans la BDD -----//
 	public Integer ajouter(Camion aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
@@ -28,11 +30,11 @@ public class AccesBDDCamion extends AccesBDD{
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
 				"INSERT INTO camions"
-				+ " (idCamions,Personnes_idPersonnes,Etat,Volume, Immatriculation)" // Paramètre de la table
+				+ " (idCamions,NomChauffeur,Etat,Volume, Immatriculation)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setInt(2,aAjouter.getIdChauffeur().intValue());
+		ajout.setString(2,aAjouter.getNomChauffeur());
 		ajout.setInt(3,aAjouter.getDispo().intValue());
 		ajout.setInt(4,aAjouter.getVolume().intValue());
 		ajout.setString(5, aAjouter.getNumero());
@@ -43,7 +45,7 @@ public class AccesBDDCamion extends AccesBDD{
 		/*----- Ajout de la relation entre l'origine/destination et le camion dans la 
 				table camions_has_localisation -----*/
 		AccesBDDCamion_has_Localisation rel=new AccesBDDCamion_has_Localisation();
-		rel.ajouter(aAjouter.getId(), aAjouter.getIdOrigine(), aAjouter.getIdDestination(), connecteur);
+		rel.ajouter(aAjouter.getId().intValue(), aAjouter.getIdOrigine().intValue(), aAjouter.getIdDestination().intValue());
 		
 		return aAjouter.getId();
 	}
@@ -60,11 +62,56 @@ public class AccesBDDCamion extends AccesBDD{
 						
 		supprime.close();	// Fermeture requête SQL
 	}
+	
+	//----- Lister les camions -----//
+	public Vector lister() throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
+		Vector liste=new Vector();
+		AccesBDDCamion_has_Localisation bddLoc=new  AccesBDDCamion_has_Localisation();
+		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
+		"SELECT * FROM camions");
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			Camion courant=new Camion(new Integer(resultat.getInt("idCamions")),
+					resultat.getString("Immatriculation"), new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("Volume")), resultat.getString("nomChauffeur"),
+					bddLoc.recherche(AccesBDDCamion_has_Localisation.ORIGINE, resultat.getInt("idCamions")), 
+					bddLoc.recherche(AccesBDDCamion_has_Localisation.DESTINATION, resultat.getInt("idCamions")));
+			liste.add(courant);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		return liste;
+	}
+	
+	//----- Modification des attributs d'un camion dans la BDD -----//
+	public void modifier(Camion aModifier) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
+		//----- Modification d'une personne à partir de l'id -----//
+		PreparedStatement modifie=connecteur.getConnexion().prepareStatement(
+				"UPDATE camions SET NomChauffeur=?, Etat=?, Volume=?, Immatriculation=? "
+				+"WHERE idCamions=?");
+		modifie.setString(1, aModifier.getNomChauffeur());
+		modifie.setInt(2, aModifier.getDispo().intValue());
+		modifie.setInt(3, aModifier.getVolume().intValue());
+		modifie.setString(4, aModifier.getNumero());
+		modifie.setInt(5, aModifier.getId().intValue());
+		
+		modifie.executeUpdate();	// Exécution de la requête SQL
+		
+		//----- Modification de la localisation associée à la camion -----//
+		AccesBDDCamion_has_Localisation bddLoc=new AccesBDDCamion_has_Localisation();
+		bddLoc.modifier(aModifier.getId(), aModifier.getIdOrigine(), aModifier.getIdDestination());
+		
+		modifie.close();	// Fermeture requête SQL
+	}
 
-public static void main(String arg[]){
+	public static void main(String arg[]){
 		AccesBDDCamion test=new AccesBDDCamion();
-		ConnecteurSQL connecteur = new ConnecteurSQL();
-		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),new Integer(2),new Integer(21),new Integer(1));
+
+		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),"Leblanc",new Integer(21),new Integer(1));
 		try{
 			test.ajouter(aAjouter);
 		}

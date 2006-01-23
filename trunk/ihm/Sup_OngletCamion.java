@@ -2,6 +2,7 @@ package ihm;
 
 import java.util.Vector;
 import java.awt.event.*;
+import java.sql.*;
 
 import accesBDD.AccesBDDCamion;
 
@@ -29,13 +30,17 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Destination");
         nomColonnes.add("Appartenance");
 
-        // On récupère les camions de la base de données et on les affiche
-        Vector listeCamions = tableCamions.lister();
-        
-        for(int i=0;i<listeCamions.size();i++){
-        	donnees.addElement(((Camion)listeCamions.get(i)).toVector());
-        }       
-        
+        try{
+	        // On récupère les camions de la base de données et on les affiche
+	        Vector listeCamions = tableCamions.lister();
+	        
+	        for(int i=0;i<listeCamions.size();i++){
+	        	donnees.addElement(((Camion)listeCamions.get(i)).toVector());
+	        }       
+        }
+        catch(SQLException e){
+        	
+        }
         
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
@@ -65,44 +70,49 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 	public void actionPerformed(ActionEvent ev){
 		Object source = ev.getSource();
 
-		// On récupère le numéro de la ligne sélectionnée
-		int ligneSelect = table.getSelectedRow();
-
-		// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
-		if(ligneSelect != -1){
-
-			// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
-			ligneActive = sorter.modelIndex(ligneSelect);
-			
-			// Action liée au bouton de modification d'un camion
-			if(source==boutModifier){
-			
-				// On récupère les données de la ligne du tableau
-				Vector cVect = (Vector) modeleTab.getRow(ligneActive);
-				Camion c = new Camion(cVect);
-
-				// On affiche l'invite de modification
-				Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,tableCamions);
+		try{			
+			// On récupère le numéro de la ligne sélectionnée
+			int ligneSelect = table.getSelectedRow();
+	
+			// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
+			if(ligneSelect != -1){
+	
+				// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
+				ligneActive = sorter.modelIndex(ligneSelect);
+				
+				// Action liée au bouton de modification d'un camion
+				if(source==boutModifier){
+				
+					// On récupère les données de la ligne du tableau
+					Vector cVect = (Vector) modeleTab.getRow(ligneActive);
+					Camion c = new Camion(cVect);
+	
+					// On affiche l'invite de modification
+					Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,tableCamions);
+					
+					// On bloque l'utilisateur sur le pop-up
+					setFenetreActive(false);
+				}
+				// Suppression d'un camion
+				else if(source==boutSupprimer){
+					// Suppression de la base de données
+					tableCamions.supprimer((Integer)modeleTab.getValueAt(ligneActive,0));
+	
+					// Mise à jour du tableau
+					supprimerLigne(ligneActive);
+				}
+			}
+			// Ajout d'un camion
+			if(source==boutAjouter){
+				// On affiche l'invite de saisie d'information
+				Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,tableCamions);
 				
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
 			}
-			// Suppression d'un camion
-			else if(source==boutSupprimer){
-				// Suppression de la base de données
-				tableCamions.supprimer((Integer)modeleTab.getValueAt(ligneActive,0));
-
-				// Mise à jour du tableau
-				supprimerLigne(ligneActive);
-			}
 		}
-		// Ajout d'un camion
-		if(source==boutAjouter){
-			// On affiche l'invite de saisie d'information
-			Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,tableCamions);
+		catch(SQLException e){
 			
-			// On bloque l'utilisateur sur le pop-up
-			setFenetreActive(false);
 		}
 	}
 }

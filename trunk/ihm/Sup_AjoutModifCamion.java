@@ -1,6 +1,7 @@
 package ihm;
 
 import java.awt.*;
+import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -121,35 +122,40 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		Object source = e.getSource();
 
-		// Validation
-		if(source==boutValider){
-			if(verifChamps()){
-				// Cas d'un ajout de camion
-				if(boutValider.getText().equals("Ajouter")){
-					// Mise à jour du tableau
-					parent.ajouterLigne(this.getCamion().toVector());
-					
-					// Ecriture dans la base de données
-					tableCamions.ajouter(this.getCamion());
+		try{
+			// Validation
+			if(source==boutValider){
+				if(verifChamps()){
+					// Cas d'un ajout de camion
+					if(boutValider.getText().equals("Ajouter")){
+						// Mise à jour du tableau
+						parent.ajouterLigne(this.getCamion().toVector());
+						
+						// Ecriture dans la base de données
+						tableCamions.ajouter(this.getCamion());
+					}
+					// Cas d'une modification de camion existant
+					else{
+						// Mise à jour du tableau
+						parent.modifierLigne(this.getCamion().toVector());
+						
+						// Ecriture dans la base de données
+						tableCamions.modifier(this.getCamion());
+					}				
+					// On masque la fenetre
+					this.setVisible(false);
+					this.dispose();
 				}
-				// Cas d'une modification de camion existant
-				else{
-					// Mise à jour du tableau
-					parent.modifierLigne(this.getCamion().toVector());
-					
-					// Ecriture dans la base de données
-					tableCamions.modifier(this.getCamion());
-				}				
-				// On masque la fenetre
+			}
+			// Annulation, on masque simplement la fenêtre
+			else if(source==boutAnnuler){
+				parent.setFenetreActive(true);
 				this.setVisible(false);
 				this.dispose();
 			}
 		}
-		// Annulation, on masque simplement la fenêtre
-		else if(source==boutAnnuler){
-			parent.setFenetreActive(true);
-			this.setVisible(false);
-			this.dispose();
+		catch(SQLException eSQL){
+			
 		}
 	}
 
