@@ -25,7 +25,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -144,7 +144,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		Localisation resultatRech=null;
 		Localisation aAjouter = new Localisation("Adresse","94800","Villejuif");
 		Localisation aModifier = new Localisation("AdresseModif","94800","VillejuifModif");
-		aModifier.setId(1);
+		aModifier.setId(new Integer(1));
 		try{
 			test.ajouter(aAjouter);
 			test.modifier(aModifier);

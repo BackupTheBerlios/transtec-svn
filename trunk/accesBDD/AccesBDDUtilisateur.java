@@ -100,9 +100,13 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			courantPers=pers.rechercher(resultat.getInt("Personnes_idPersonnes"));
-			courantUtilisateur=new Utilisateur(resultat.getString("Login"), resultat.getString("Password_2"),
-					resultat.getInt("Type_2"), courantPers);
+			courantPers=pers.rechercher(new Integer(resultat.getInt("Personnes_idPersonnes")));
+			courantUtilisateur=new Utilisateur(
+					resultat.getString("Login"),
+					resultat.getString("Password_2"),
+					new Integer(resultat.getInt("Type_2")),
+					courantPers);
+			
 			courantUtilisateur.setId(new Integer(resultat.getInt("idUsers")));
 			liste.add(courantUtilisateur);
 		}
@@ -125,8 +129,12 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		resultat.next();
-		trouvee=new Utilisateur(resultat.getString("Login"), resultat.getString("Password_2"), resultat.getInt("Type_2"), 
-				pers.rechercher(resultat.getInt("Personnes_idPersonnes")));
+		trouvee=new Utilisateur(
+				resultat.getString("Login"),
+				resultat.getString("Password_2"),
+				new Integer(resultat.getInt("Type_2")), 
+				pers.rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+		
 		trouvee.setId(new Integer(resultat.getInt("idUsers")));
 		
 		resultat.close();	// Fermeture requête SQL
@@ -163,13 +171,13 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Utilisateur rec=null;
 		//Timestamp date=new Timestamp(10);
-		Utilisateur aAjouter = new Utilisateur("login", "motDePasse", 0, "nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
-		Utilisateur aModifier = new Utilisateur("Soph", "iach", 1, "nom2", "prenom2", "adresse2", "22222", "ville2", "mail2", "telephone2");
+		Utilisateur aAjouter = new Utilisateur("login", "motDePasse", new Integer(Utilisateur.ENTREE), "nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
+		Utilisateur aModifier = new Utilisateur("Soph", "ia", new Integer(Utilisateur.SUPERVISION), "nom2", "prenom2", "adresse2", "22222", "ville2", "mail2", "telephone2");
 		try{
 			test.ajouter(aAjouter);
 			aModifier.setId(aAjouter.getId());
-			aModifier.setIdPersonne(aAjouter.getIdPersonne());
-			aModifier.setIdLocalisation(aAjouter.getIdLocalisation());
+			aModifier.getPersonne().setId(aAjouter.getPersonne().getId());
+			aModifier.getPersonne().getLocalisation().setId(aAjouter.getPersonne().getLocalisation().getId());
 			test.modifier(aModifier);
 			rec=test.rechercher(aModifier.getId());
 			rec=null;

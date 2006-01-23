@@ -64,7 +64,7 @@ public class AccesBDDIncident extends ConnecteurSQL{
 				"UPDATE incidents SET Type_2=? WHERE idIncidents=?");
 		
 			modifie.setInt(1, etatAChanger.getType().intValue()+1);
-			modifie.setInt(2, etatAChanger.getId());
+			modifie.setInt(2, etatAChanger.getId().intValue());
 				
 			modifie.executeUpdate();	// Exécution de la requête SQL
 			modifie.close();
@@ -97,9 +97,9 @@ public class AccesBDDIncident extends ConnecteurSQL{
 	//----- TESTS OKAY -----//
 	public static void main(String arg[]){
 		AccesBDDIncident test=new AccesBDDIncident();
-		Timestamp date=new Timestamp(10);
-		Incident aAjouter = new Incident(1,date,1,"Description",1,1);
-		Incident aModifier=new Incident(1,date,1,"Description2",1,2);
+		Timestamp date=new Timestamp(System.currentTimeMillis());
+		Incident aAjouter = new Incident(new Integer(1),date,new Integer(1),"Description",new Integer(1),new Integer(1));
+		Incident aModifier=new Incident(new Integer(1),date,new Integer(1),"Description2",new Integer(1),new Integer(1));
 		try{
 			test.ajouter(aAjouter);
 			aModifier.setId(aAjouter.getId());

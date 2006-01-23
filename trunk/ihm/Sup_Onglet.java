@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.util.Vector;
 import java.awt.*;
 
-import accesBDD.*;
 
 // Panneau de l'onglet
 public class Sup_Onglet extends JPanel{

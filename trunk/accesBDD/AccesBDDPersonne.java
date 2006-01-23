@@ -67,9 +67,14 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		if(resultat.next()){	// S'il a trouvé la personne
-			Localisation loc=bddLoc.rechercher(resultat.getInt("Localisation_idLocalisation"));
-			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom"),
-					resultat.getString("Email"), resultat.getString("Telephone"), loc);
+			Localisation loc=bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
+			trouvee=new Personne(
+					resultat.getString("Nom"), 
+					resultat.getString("Prenom"),
+					resultat.getString("Email"), 
+					resultat.getString("Telephone"),
+					loc);
+			
 			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
 		}
 		
@@ -137,7 +142,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		}
 		
 		if(type<4)	recherche.setString(1, aChercher);
-		else	recherche.setInt(1, locAChercher.getId());
+		else	recherche.setInt(1, locAChercher.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
 			Localisation loc=bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
@@ -199,8 +204,8 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		
 		try{
 			test.ajouter(aAjouter);
-			aModifier.setId(1);
-			aModifier.setIdLocalisation(aAjouter.getIdLocalisation());
+			aModifier.setId(new Integer(1));
+			aModifier.getLocalisation().setId(aAjouter.getLocalisation().getId());
 			test.modifier(aModifier);
 			rec=test.rechercher(aModifier.getId());
 			test.supprimer(aModifier.getId());

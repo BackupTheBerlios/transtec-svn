@@ -3,7 +3,6 @@ package ihm;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Vector;
@@ -517,7 +516,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			create = false;
 			DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 			//col = new Colis("413513555",3,2,3,"18","18/05/05",new Integer(1),new Integer(1),new Integer(3),"120","60","20");
-			Timestamp date=new Timestamp(20);
+			Timestamp date=new Timestamp(System.currentTimeMillis());
 			
 			col = new Colis(new Integer(0),"69696969",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
 			
@@ -623,22 +622,22 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				//enregistrer infos dans la Bdd
 				
 				AccesBDDPersonne test1=new AccesBDDPersonne();
-				ConnecteurSQL connecteur1 = new ConnecteurSQL();
+
 				//Timestamp date=new Timestamp(10);
 				Personne pers = new Personne(nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
 				try{
-					test1.ajouter(pers,connecteur1);
+					test1.ajouter(pers);
 				}
 				catch(SQLException e2){
 					System.out.println(e2.getMessage());
 				}
 				
 				AccesBDDPersonne test4=new AccesBDDPersonne();
-				ConnecteurSQL connecteur4 = new ConnecteurSQL();
+
 				//Timestamp date=new Timestamp(10);
 				Personne pers1 = new Personne(nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
 				try{
-					test4.ajouter(pers1,connecteur4);
+					test4.ajouter(pers1);
 				}
 				catch(SQLException e4){
 					System.out.println(e4.getMessage());
@@ -646,12 +645,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 				
 				AccesBDDColis test=new AccesBDDColis();
-				ConnecteurSQL connecteur = new ConnecteurSQL();
+
 				Timestamp date=new Timestamp(10);
 				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),new Integer(1),new Integer(1),poids.getText(),date,"150",new Integer(fragilite_colis.getSelectedIndex()),"Villejuif");
 			
 				try{
-					test.ajouter(aAjouter,connecteur);
+					test.ajouter(aAjouter);
 				}
 				catch(SQLException e2){
 					System.out.println(e2.getMessage());
@@ -660,11 +659,11 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 				
 				AccesBDDPersonnes_has_Colis test2=new AccesBDDPersonnes_has_Colis();
-				ConnecteurSQL connecteur2 = new ConnecteurSQL();
+
 				//Timestamp date=new Timestamp(10);
 				//Colis aAjouter = new Colis(-1,00,01,02,2,date,45,6);
 				try{
-					test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId(),connecteur);
+					test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId());
 				}
 				catch(SQLException e4){
 					System.out.println(e4.getMessage());

@@ -73,11 +73,6 @@ public class Personne{
 	public void setTelephone(String telephone){
 		this.telephone=telephone;
 	}
-	
-	//----- Insérer l'id de localisation ------//
-	public void setIdLocalisation(Integer id){
-		this.localisation.setId(id);
-	}
 
 	/****** Méthodes de lecture ******/
 	
@@ -109,10 +104,5 @@ public class Personne{
 	//----- Récupération de la localisation -----//
 	public Localisation getLocalisation(){
 		return this.localisation;
-	}
-	
-	//----- Récupération de l'id de localisation -----//
-	public Integer getIdLocalisation(){
-		return this.localisation.getId();
 	}
 }

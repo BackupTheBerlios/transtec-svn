@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import donnees.Camion;
-import donnees.Utilisateur;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -45,7 +44,7 @@ public class AccesBDDCamion extends ConnecteurSQL{
 		/*----- Ajout de la relation entre l'origine/destination et le camion dans la 
 				table camions_has_localisation -----*/
 		AccesBDDCamion_has_Localisation rel=new AccesBDDCamion_has_Localisation();
-		rel.ajouter(aAjouter.getId().intValue(), aAjouter.getIdOrigine().intValue(), aAjouter.getIdDestination().intValue());
+		rel.ajouter(aAjouter.getId(), aAjouter.getIdOrigine(), aAjouter.getIdDestination());
 		
 		return aAjouter.getId();
 	}
@@ -76,8 +75,8 @@ public class AccesBDDCamion extends ConnecteurSQL{
 			Camion courant=new Camion(new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), new Integer(resultat.getInt("Etat")),
 					new Integer(resultat.getInt("Volume")), resultat.getString("nomChauffeur"),
-					bddLoc.recherche(AccesBDDCamion_has_Localisation.ORIGINE, resultat.getInt("idCamions")), 
-					bddLoc.recherche(AccesBDDCamion_has_Localisation.DESTINATION, resultat.getInt("idCamions")));
+					bddLoc.recherche(AccesBDDCamion_has_Localisation.ORIGINE, new Integer(resultat.getInt("idCamions"))), 
+					bddLoc.recherche(AccesBDDCamion_has_Localisation.DESTINATION, new Integer(resultat.getInt("idCamions"))));
 			liste.add(courant);
 		}
 		

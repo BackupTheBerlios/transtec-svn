@@ -85,15 +85,6 @@ public class Utilisateur{
 		this.personne=personne;
 	}
 	
-	//----- Insérer l'id d'une personne -----//
-	public void setIdPersonne(Integer id){
-		this.personne.setId(id);
-	}
-	
-	//----- Insérer l'id d'une localisation -----//
-	public void setIdLocalisation(Integer id){
-		this.personne.setIdLocalisation(id);
-	}
 
 	/****** Méthodes de lecture ******/
 	
@@ -120,16 +111,6 @@ public class Utilisateur{
 	//----- Récupération d'un type Personne -----//
 	public Personne getPersonne(){
 		return this.personne;
-	}
-	
-	//----- Récupértaion de l'id d'une personne -----//
-	public Integer getIdPersonne(){
-		return this.personne.getId();
-	}
-	
-	//----- Récupértaion de l'id d'une localisation -----//
-	public Integer getIdLocalisation(){
-		return this.personne.getIdLocalisation();
 	}
 	
 	// Transforme l'objet en un Vector

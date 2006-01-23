@@ -33,7 +33,7 @@ public class AccesBDDEntrepot extends ConnecteurSQL{
 				+ "VALUES (?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()));
+		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()).intValue());
 		ajout.setString(3,aAjouter.getTelephone());
 		
 		ajout.executeUpdate();//execution de la requete SQL
@@ -86,7 +86,7 @@ public class AccesBDDEntrepot extends ConnecteurSQL{
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			courant=new Entrepot(loc.rechercher(resultat.getInt("Localisation_idLocalisation")), 
+			courant=new Entrepot(loc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation"))), 
 					resultat.getString("telephone"));
 			courant.setId(new Integer(resultat.getInt("idEntrepots")));
 			liste.add(courant);
@@ -110,8 +110,10 @@ public class AccesBDDEntrepot extends ConnecteurSQL{
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		resultat.next();
-		trouvee=new Entrepot(loc.rechercher(resultat.getInt("Localisation_idLocalisation")), 
+		trouvee=new Entrepot(loc.rechercher(new Integer(
+				resultat.getInt("Localisation_idLocalisation"))), 
 				resultat.getString("telephone"));
+		
 		trouvee.setId(new Integer(resultat.getInt("idEntrepots")));
 		
 		resultat.close();	// Fermeture requête SQL

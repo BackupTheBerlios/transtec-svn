@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 import accesBDD.AccesBDDUtilisateur;
-import accesBDD.ConnecteurSQL;
 import donnees.*;
 
 //Cette classe correspond à la fenetre login qui permet aux utilisateurs d'accéder

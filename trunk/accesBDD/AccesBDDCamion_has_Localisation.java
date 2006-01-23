@@ -49,7 +49,7 @@ public class AccesBDDCamion_has_Localisation extends ConnecteurSQL{
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT Localisation_idLocalisation WHERE Camions_idCamions=? AND Origine=? ");
-		recherche.setInt(1, idCamion);
+		recherche.setInt(1, idCamion.intValue());
 		recherche.setBoolean(2, type);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL

@@ -134,12 +134,12 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//On devra exporter les objets Camion associés au préparateur 
         //Création des autres lignes
-		donnees_cam.addElement(new Camion(new Integer(0),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),new Integer(0),new Integer(0),new Integer(2)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(1),"1013TW78",new Integer(Camion.LIVRAISON),new Integer(12),new Integer(1),new Integer(1),new Integer(1)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(2),"356LJ45",new Integer(Camion.REPARATION),new Integer(45),new Integer(0),new Integer(1),new Integer(2)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(3),"654LLL1",new Integer(Camion.DISPONIBLE),new Integer(6),new Integer(2),new Integer(2),new Integer(4)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(4),"M-AR1265",new Integer(Camion.LIVRAISON),new Integer(18),new Integer(1),new Integer(4),new Integer(0)).toVector());
-    
+		donnees_cam.addElement(new Camion(new Integer(0),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),"Jean Bartigues",new Integer(0),new Integer(2)).toVector());
+		donnees_cam.addElement(new Camion(new Integer(1),"1013TW78",new Integer(Camion.LIVRAISON),new Integer(12),"Robert Bair",new Integer(1),new Integer(1)).toVector());
+		donnees_cam.addElement(new Camion(new Integer(2),"356LJ45",new Integer(Camion.REPARATION),new Integer(45),"Alain Truss",new Integer(1),new Integer(2)).toVector());
+		donnees_cam.addElement(new Camion(new Integer(3),"654LLL1",new Integer(Camion.DISPONIBLE),new Integer(6),"René Vralgique",new Integer(2),new Integer(4)).toVector());
+		donnees_cam.addElement(new Camion(new Integer(4),"M-AR1265",new Integer(Camion.LIVRAISON),new Integer(18),"Thomas Kott",new Integer(4),new Integer(0)).toVector());
+   
 //*******************************************************************************
 		
 //Création du tableau

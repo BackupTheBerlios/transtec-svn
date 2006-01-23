@@ -7,7 +7,6 @@ import java.sql.*;
 import accesBDD.AccesBDDCamion;
 
 import donnees.Camion;
-import donnees.Utilisateur;
 
 // Panneau de l'onglet de gestion des camions
 public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
