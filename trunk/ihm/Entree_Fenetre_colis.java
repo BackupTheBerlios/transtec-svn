@@ -561,6 +561,60 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		}
 		contenu.validate();
 	}
+	public int SelectionId(int forme,int modele)
+	{
+		int temp=0;
+		
+		switch (forme)
+		{
+			case 0:
+				switch(modele)
+				{
+					case 0: temp = 1;
+					break;
+					case 1: temp = 2;
+					break;
+					case 2: temp = 3;
+					break;
+					case 3: temp = 69;
+					break;	
+				}
+				
+			break;
+			
+			case 1:
+				switch(modele)
+				{
+					case 0: temp = 4;
+					break;
+					case 1: temp = 5;
+					break;
+					case 2: temp = 6;
+					break;
+					case 3: temp = 69;
+					break;	
+				}
+			break;
+				
+			case 2:
+				switch(modele)
+				{
+					case 0: temp = 7;
+					break;
+					case 1: temp = 8;
+					break;
+					case 2: temp = 9;
+					break;
+					case 3: temp = 69;
+					break;	
+				}
+			break;
+		
+		}
+		
+		
+		return temp;
+	}
 	
 
 	public void itemStateChanged (ItemEvent e)
@@ -655,15 +709,17 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 				ModeleColis modele=null;
 				
-				int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
+				//int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
 				
-				if(selectionidcolis == 69)
+				int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
+				
+				if(selectmodelecolis == 69)
 				{
 					float volume=0 ;
 					AccesBDDModelesColis test6=new AccesBDDModelesColis();
-					modele = new ModeleColis(new Integer(selectionidcolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),volume);
+					modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),volume);
 					try{
-						selectionidcolis = test6.ajouter(modele);
+						selectmodelecolis = test6.ajouter(modele);
 					}
 					catch(SQLException e6){
 						System.out.println(e6.getMessage());
@@ -677,7 +733,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				AccesBDDColis test=new AccesBDDColis();
 
 				Timestamp date=new Timestamp(10);
-				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),pers1.getId(),pers.getId(),new Integer(1),poids.getText(),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectionidcolis),new Integer(1),"20");
+				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),pers1.getId(),pers.getId(),new Integer(1),poids.getText(),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),new Integer(1),"20");
 				
 				try{
 					test.ajouter(aAjouter);

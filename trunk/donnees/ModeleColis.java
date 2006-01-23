@@ -24,60 +24,7 @@ public class ModeleColis {
 		this.diametre=diametre;
 	}
 	
-	public int SelectionId(int forme,int modele)
-	{
-		int temp=0;
-		
-		switch (forme)
-		{
-			case 0:
-				switch(modele)
-				{
-					case 0: temp = 1;
-					break;
-					case 1: temp = 2;
-					break;
-					case 2: temp = 3;
-					break;
-					case 3: temp = 69;
-					break;	
-				}
-				
-			break;
-			
-			case 1:
-				switch(modele)
-				{
-					case 0: temp = 4;
-					break;
-					case 1: temp = 5;
-					break;
-					case 2: temp = 6;
-					break;
-					case 3: temp = 69;
-					break;	
-				}
-			break;
-				
-			case 2:
-				switch(modele)
-				{
-					case 0: temp = 7;
-					break;
-					case 1: temp = 8;
-					break;
-					case 2: temp = 9;
-					break;
-					case 3: temp = 69;
-					break;	
-				}
-			break;
-		
-		}
-		
-		
-		return temp;
-	}
+
 	
 	public void setId(Integer id){
 		this.id=id;
