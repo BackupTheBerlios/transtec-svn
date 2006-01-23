@@ -111,7 +111,7 @@ public class AccesBDDColis extends ConnecteurSQL{
 		modifie.setInt(4, aModifier.getFragilite().intValue());
 		modifie.setString(5, aModifier.getLieu());
 		modifie.setInt(6, aModifier.getId().intValue());
-		modifie.setInt(7, aModifier.getForme().intValue());
+		modifie.setInt(7, aModifier.getModele().intValue());
 		modifie.setString(8, aModifier.getCode_barre());
 		modifie.setInt(9, aModifier.getIdUtilisateur().intValue());
 		modifie.setInt(10, aModifier.getIdDestination());
@@ -140,18 +140,18 @@ public class AccesBDDColis extends ConnecteurSQL{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			Colis courant=new Colis(new Integer(resultat.getInt("idColis")),
-					idPers.getExpediteur(new Integer(resultat.getInt("idColis")))
-					, idPers.getDestinataire(new Integer(resultat.getInt("idColis")))
-					,new Integer(resultat.getInt("Users_idUsers")), 
-					resultat.getFloat("Poids"),
-					resultat.getTimestamp("DateDepot"),
-					new Integer(resultat.getInt("Fragilite")), 
-					new Integer(resultat.getInt("Valeur")), 
+			Colis courant=new Colis(new Integer(resultat.getInt("idColis")), 
+					resultat.getString("Code_barre"), 
+					new Integer(idPers.getExpediteur(new Integer(resultat.getInt("idColis")))), 
+					new Integer(idPers.getDestinataire(new Integer(resultat.getInt("idColis")))),
+					new Integer(resultat.getInt("Users_idUsers")),
+					resultat.getString("Poids"), 
+					resultat.getTimestamp("DateDepot"), 
+					new Integer(resultat.getInt("Fragilite")),
 					new Integer(resultat.getInt("ModelesColis_idModelesColis")), 
-					new Integer(resultat.getInt("Entrepots_idEntrepots")), 
-					resultat.getString("Lieu"));
-			liste.add(courant);
+					new Integer(resultat.getInt("Entrepots_idEntrepots")),
+					resultat.getString("Valeur"));
+					liste.add(courant);
 		}
 				
 		resultat.close();	// Fermeture requête SQL
