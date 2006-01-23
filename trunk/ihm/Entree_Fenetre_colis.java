@@ -642,6 +642,26 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				catch(SQLException e4){
 					System.out.println(e4.getMessage());
 				}
+			/*	private Integer id;
+				private Integer forme;
+				private Integer modele;
+				private Integer hauteur;
+				private Integer largeur;
+				private Integer profondeur;
+				private Integer diametre;	
+				private float volume;*/
+				
+				ModeleColis modele;
+				
+				int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
+				
+				if(selectionidcolis == 69)
+				{
+					float volume ;
+					
+					modele = new ModeleColis(new Integer(selectionidcolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),volume);
+				}
+				
 				
 				
 				AccesBDDColis test=new AccesBDDColis();
