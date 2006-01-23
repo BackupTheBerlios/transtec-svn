@@ -8,9 +8,10 @@ import java.sql.*;
 
 //----- Classe permettant l'accès à la table Entrepot, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDEntrepot {
+public class AccesBDDEntrepot extends ConnecteurSQL{
 	//----- Ajouter un entrepot dans BDD -----//
-	public Integer ajouter(Entrepot aAjouter, ConnecteurSQL connecteur) throws SQLException{
+	public Integer ajouter(Entrepot aAjouter) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
@@ -32,7 +33,7 @@ public class AccesBDDEntrepot {
 				+ "VALUES (?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
+		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()));
 		ajout.setString(3,aAjouter.getTelephone());
 		
 		ajout.executeUpdate();//execution de la requete SQL
@@ -42,7 +43,8 @@ public class AccesBDDEntrepot {
 	}
 	
 	//----- Modifier les informations d'une entrepôt -----//
-	public void modifier(Entrepot aModifier, ConnecteurSQL connecteur) throws SQLException{
+	public void modifier(Entrepot aModifier) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Modification d'une personne à partir de l'id -----//
 		PreparedStatement modifie=
 			connecteur.getConnexion().prepareStatement(
@@ -54,17 +56,18 @@ public class AccesBDDEntrepot {
 		
 		//----- Modification de la localisation associée à la personne -----//
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
-		bddLoc.modifier(aModifier.getLocalisation(), connecteur);
+		bddLoc.modifier(aModifier.getLocalisation());
 		
 		modifie.close();	// Fermeture requête SQL
 	}
 	
 	//----- Supprimer un entrepôt de la BDD -----//
-	public void supprimer(Entrepot aSupprimer, ConnecteurSQL connecteur) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM entrepots WHERE idEntrepots=?");
-		supprime.setInt(1, aSupprimer.getId().intValue());
+		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 		
@@ -72,7 +75,8 @@ public class AccesBDDEntrepot {
 	}
 	
 	//----- Lister les entrepots -----//
-	public Vector lister(ConnecteurSQL connecteur) throws SQLException{
+	public Vector lister() throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
 		Vector liste=new Vector();
 		Entrepot courant=null;
@@ -82,7 +86,7 @@ public class AccesBDDEntrepot {
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			courant=new Entrepot(loc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
+			courant=new Entrepot(loc.rechercher(resultat.getInt("Localisation_idLocalisation")), 
 					resultat.getString("telephone"));
 			courant.setId(new Integer(resultat.getInt("idEntrepots")));
 			liste.add(courant);
@@ -95,7 +99,8 @@ public class AccesBDDEntrepot {
 	}
 	
 	//----- Rechercher un entrepot -----//
-	public Entrepot rechercher(Integer aChercher, ConnecteurSQL connecteur) throws SQLException{
+	public Entrepot rechercher(Integer aChercher) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Entrepot trouvee=null;
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
 				
@@ -105,7 +110,7 @@ public class AccesBDDEntrepot {
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		resultat.next();
-		trouvee=new Entrepot(loc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur), 
+		trouvee=new Entrepot(loc.rechercher(resultat.getInt("Localisation_idLocalisation")), 
 				resultat.getString("telephone"));
 		trouvee.setId(new Integer(resultat.getInt("idEntrepots")));
 		
@@ -119,20 +124,18 @@ public class AccesBDDEntrepot {
 	public static void main(String arg[]){
 		AccesBDDEntrepot test=new AccesBDDEntrepot();
 		Entrepot rec=null;
-		ConnecteurSQL connecteur = new ConnecteurSQL();
-		//Timestamp date=new Timestamp(10);
 		Entrepot aAjouter = new Entrepot("adresse","94800","Villejuif","06-15-11-31-30");
 		Entrepot aModifier = new Entrepot("adresse2","94800","Villejuif","06-15-115225230");
 		try{
-			test.ajouter(aAjouter,connecteur);
+			test.ajouter(aAjouter);
 			aModifier.setId(aAjouter.getId());
 			aModifier.getLocalisation().setId(aAjouter.getLocalisation().getId());
-			test.modifier(aModifier, connecteur);
-			rec=test.rechercher(aModifier.getId(), connecteur);
-			test.ajouter(aAjouter, connecteur);
+			test.modifier(aModifier);
+			rec=test.rechercher(aModifier.getId());
+			test.ajouter(aAjouter);
 			Vector liste=null;
-			liste=test.lister(connecteur);
-			test.supprimer(aModifier, connecteur);
+			liste=test.lister();
+			test.supprimer(aModifier.getId());
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
