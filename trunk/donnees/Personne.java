@@ -75,7 +75,7 @@ public class Personne{
 	}
 	
 	//----- Insérer l'id de localisation ------//
-	public void setIdLocalisation(int id){
+	public void setIdLocalisation(Integer id){
 		this.localisation.setId(id);
 	}
 
@@ -112,7 +112,7 @@ public class Personne{
 	}
 	
 	//----- Récupération de l'id de localisation -----//
-	public int getIdLocalisation(){
+	public Integer getIdLocalisation(){
 		return this.localisation.getId();
 	}
 }

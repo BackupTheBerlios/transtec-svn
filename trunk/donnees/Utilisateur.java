@@ -86,12 +86,12 @@ public class Utilisateur{
 	}
 	
 	//----- Insérer l'id d'une personne -----//
-	public void setIdPersonne(int id){
+	public void setIdPersonne(Integer id){
 		this.personne.setId(id);
 	}
 	
 	//----- Insérer l'id d'une localisation -----//
-	public void setIdLocalisation(int id){
+	public void setIdLocalisation(Integer id){
 		this.personne.setIdLocalisation(id);
 	}
 
@@ -123,12 +123,12 @@ public class Utilisateur{
 	}
 	
 	//----- Récupértaion de l'id d'une personne -----//
-	public int getIdPersonne(){
+	public Integer getIdPersonne(){
 		return this.personne.getId();
 	}
 	
 	//----- Récupértaion de l'id d'une localisation -----//
-	public int getIdLocalisation(){
+	public Integer getIdLocalisation(){
 		return this.personne.getIdLocalisation();
 	}
 	
