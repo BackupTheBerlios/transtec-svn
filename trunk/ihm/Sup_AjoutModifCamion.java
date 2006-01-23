@@ -162,7 +162,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Camion getCamion(){
 		camion.setNumero(textNumero.getText());
-		camion.setDispo(new Integer((String)comboDispo.getSelectedItem()));
+		camion.setDispo(new Integer(comboDispo.getSelectedIndex()));
 		camion.setVolume(new Integer(textVolume.getText().trim()));
 		camion.setNomChauffeur(textChauffeur.getText());
 		camion.setIdDestination(new Integer(textDestination.getText().trim()));
