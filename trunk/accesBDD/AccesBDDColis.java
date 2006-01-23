@@ -141,15 +141,15 @@ public class AccesBDDColis extends ConnecteurSQL{
 		
 		while(resultat.next()){
 			Colis courant=new Colis(new Integer(resultat.getInt("idColis")),
-					idPers.getExpediteur(new Integer(resultat.getInt("idColis"))
+					idPers.getExpediteur(new Integer(resultat.getInt("idColis")))
 					, idPers.getDestinataire(new Integer(resultat.getInt("idColis")))
-					,resultat.getInt("Users_idUsers"), 
+					,new Integer(resultat.getInt("Users_idUsers")), 
 					resultat.getFloat("Poids"),
 					resultat.getTimestamp("DateDepot"),
-					resultat.getInt("Fragilite"), 
-					resultat.getInt("Valeur"), 
-					resultat.getInt("ModelesColis_idModelesColis"), 
-					resultat.getInt("Entrepots_idEntrepots"), 
+					new Integer(resultat.getInt("Fragilite")), 
+					new Integer(resultat.getInt("Valeur")), 
+					new Integer(resultat.getInt("ModelesColis_idModelesColis")), 
+					new Integer(resultat.getInt("Entrepots_idEntrepots")), 
 					resultat.getString("Lieu"));
 			liste.add(courant);
 		}
