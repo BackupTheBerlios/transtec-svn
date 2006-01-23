@@ -127,7 +127,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 			
-				// Recherhce d'un code postal
+			// Recherhce d'un code postal
 			case 6:
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.CODEPOSTAL, aChercher);
 				recherche=connecteur.getConnexion().prepareStatement(
