@@ -16,7 +16,7 @@ public class AccesBDDCamion extends ConnecteurSQL{
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
 			connecteur.getConnexion().prepareStatement(
-				"SELECT MAX(idCamions) FROM camions");
+				"SELECT MAX(idCamions) FROM Camions ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -28,7 +28,7 @@ public class AccesBDDCamion extends ConnecteurSQL{
 		//----- Insertion d'un camion dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO camions"
+				"INSERT INTO camions "
 				+ " (idCamions,NomChauffeur,Etat,Volume, Immatriculation)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?)"); 
 		
@@ -110,7 +110,7 @@ public class AccesBDDCamion extends ConnecteurSQL{
 	public static void main(String arg[]){
 		AccesBDDCamion test=new AccesBDDCamion();
 
-		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),"Leblanc",new Integer(21),new Integer(1));
+		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),"Leblanc",new Integer(1),new Integer(2));
 		try{
 			test.ajouter(aAjouter);
 		}
