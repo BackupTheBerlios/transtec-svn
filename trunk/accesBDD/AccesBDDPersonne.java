@@ -9,20 +9,19 @@ import donnees.Personne;
 
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDPersonne extends AccesBDD{
+public class AccesBDDPersonne extends ConnecteurSQL{
 	public final static short ID=0;
-	
-	public final static short CODEPOSTAL=1;
-	
 	public final static short NOM=0;
 	public final static short PRENOM=1;
 	public final static short EMAIL=2;
 	public final static short TELEPHONE=3;
 	public final static short ADRESSE=4;
 	public final static short VILLLE=5;
+	public final static short CODEPOSTAL=6;
 	
 	//	----- Ajouter une personne dans la BDD -----//
-	public int ajouter(Personne aAjouter, ConnecteurSQL connecteur) throws SQLException{
+	public int ajouter(Personne aAjouter) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
@@ -32,23 +31,20 @@ public class AccesBDDPersonne extends AccesBDD{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
-		System.out.println(resultat.getInt(1)+1);
+		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'une personne dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO personnes"
+				"INSERT INTO Personnes"
 				+ " (idPersonnes,Localisation_idLocalisation,Nom,Prenom,Telephone,Email)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(1,aAjouter.getId());
 		// Ajout dans la table de localisation
-		//ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
-		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation(), connecteur));
-		
+		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()));
 		ajout.setString(3,aAjouter.getNom());
 		ajout.setString(4,aAjouter.getPrenom());
 		ajout.setString(5,aAjouter.getTelephone());
@@ -56,43 +52,26 @@ public class AccesBDDPersonne extends AccesBDD{
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
-		return aAjouter.getId().intValue();
+		return aAjouter.getId();
 	}
 	
 	//----- Recherche d'une personne dans la BDD -----//
-	public Personne rechercher(short type, int aChercher, ConnecteurSQL connecteur) throws SQLException{
+	public Personne rechercher(int aChercher) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Personne trouvee=null;
-		PreparedStatement recherche;
-		Localisation locAChercher;
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
 		
-		switch(type){
-		// Rechercher un Id
-		case 0:
-			recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT * FROM personnes WHERE idPersonnes=?");
-			break;
-			
-		// Rechercher un code postal
-		case 1:
-			locAChercher=bddLoc.rechercher(AccesBDDLocalisation.CODEPOSTAL, aChercher, connecteur);
-			recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT * FROM personnes WHERE idPersonnes=?");
-			aChercher=locAChercher.getId().intValue();
-			break;
-			
-		default:
-			recherche=null;	
-		}
+		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
+				"SELECT * FROM personnes WHERE idPersonnes=?");
 		
 		recherche.setInt(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
 		if(resultat.next()){	// S'il a trouvé la personne
-			Localisation loc=bddLoc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
-			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
-					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
-					resultat.getString("Email"), resultat.getString("Telephone"));
-			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
+			Localisation loc=bddLoc.rechercher(resultat.getInt("Localisation_idLocalisation"));
+			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom"),
+					resultat.getString("Email"), resultat.getString("Telephone"), loc);
+			trouvee.setId(resultat.getInt("idPersonnes"));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -101,7 +80,8 @@ public class AccesBDDPersonne extends AccesBDD{
 		return trouvee;
 	}
 	
-	public Personne rechercher(short type, String aChercher, ConnecteurSQL connecteur) throws SQLException{
+	public Personne rechercher(short type, String aChercher) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Personne trouvee=null;
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
 		Localisation locAChercher=null;
@@ -135,14 +115,21 @@ public class AccesBDDPersonne extends AccesBDD{
 					
 			// Recherche d'une adresse
 			case 4:	
-				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.ADRESSE, aChercher, connecteur);
+				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.ADRESSE, aChercher);
 				recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 				
 			// Recherche d'une ville
 			case 5:	
-				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.VILLE, aChercher, connecteur);
+				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.VILLE, aChercher);
+				recherche=connecteur.getConnexion().prepareStatement(
+				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
+				break;
+			
+				// Recherhce d'un code postal
+			case 6:
+				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.CODEPOSTAL, aChercher);
 				recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
@@ -151,14 +138,14 @@ public class AccesBDDPersonne extends AccesBDD{
 		}
 		
 		if(type<4)	recherche.setString(1, aChercher);
-		else	recherche.setInt(1, locAChercher.getId().intValue());
+		else	recherche.setInt(1, locAChercher.getId());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
-			Localisation loc=bddLoc.rechercher(AccesBDDLocalisation.ID, resultat.getInt("Localisation_idLocalisation"), connecteur);
+			Localisation loc=bddLoc.rechercher(resultat.getInt("Localisation_idLocalisation"));
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
 					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
 					resultat.getString("Email"), resultat.getString("Telephone"));
-			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
+			trouvee.setId(resultat.getInt("idPersonnes"));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -168,7 +155,8 @@ public class AccesBDDPersonne extends AccesBDD{
 	}
 	
 	//----- Modification d'une personne dans la BDD -----//
-	public void modifier(Personne aModifier, ConnecteurSQL connecteur) throws SQLException{
+	public void modifier(Personne aModifier) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Modification d'une personne à partir de l'id -----//
 		PreparedStatement modifie=
 			connecteur.getConnexion().prepareStatement(
@@ -178,35 +166,45 @@ public class AccesBDDPersonne extends AccesBDD{
 		modifie.setString(1, aModifier.getNom());
 		modifie.setString(2, aModifier.getPrenom());
 		modifie.setString(3, aModifier.getTelephone());
-		modifie.setString(4, aModifier.getMail());		
+		modifie.setString(4, aModifier.getMail());
+		modifie.setInt(5, aModifier.getId());
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//----- Modification de la localisation associée à la personne -----//
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
-		bddLoc.modifier(aModifier.getLocalisation(), connecteur);
+		bddLoc.modifier(aModifier.getLocalisation());
 		
 		modifie.close();	// Fermeture requête SQL
 	}
 	
 	//----- Supprimer une personne dans la BDD -----//
-	public void supprimer(Personne aSupprimer, ConnecteurSQL connecteur) throws SQLException{
+	public void supprimer(Personne aSupprimer) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=connecteur.getConnexion().prepareStatement(
 				"DELETE FROM personnes WHERE idPersonnes=?");
-		supprime.setInt(1,aSupprimer.getId().intValue());
+		supprime.setInt(1,aSupprimer.getId());
 				
 		supprime.executeUpdate();//execution de la requete SQL
 		// La suppression de la localisation se fera automatiquement suite à la configuration de la BDD
 		supprime.close();//fermeture requete SQL
 	}
 
-public static void main(String arg[]){
+	//----- TEST OKAY SAUF RECHERCHER (ID OKAY) ENCORE SUPPRIMER LES SOUS TABLES-----//
+	public static void main(String arg[]){
 		AccesBDDPersonne test=new AccesBDDPersonne();
-		ConnecteurSQL connecteur = new ConnecteurSQL();
+		Personne rec=null;
 		//Timestamp date=new Timestamp(10);
 		Personne aAjouter = new Personne("nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
+		Personne aModifier = new Personne("Ton cul", "ffddsf", "fdsfdsfds", "94801", "ville", "mail", "telephone");
+		
 		try{
-			test.ajouter(aAjouter,connecteur);
+			test.ajouter(aAjouter);
+			aModifier.setId(1);
+			aModifier.setIdLocalisation(aAjouter.getIdLocalisation());
+			test.modifier(aModifier);
+			rec=test.rechercher(aModifier.getId());
+			test.supprimer(aModifier);
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
