@@ -162,7 +162,7 @@ public class AccesBDDColis extends ConnecteurSQL{
 	
 	//----- TESTES OKAY -----//
 	public static void main(String arg[]){
-		AccesBDDColis test=new AccesBDDColis();
+		/*AccesBDDColis test=new AccesBDDColis();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Colis rec=null;
 		Vector liste=new Vector();
@@ -179,6 +179,6 @@ public class AccesBDDColis extends ConnecteurSQL{
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
-		}
+		}*/
 	}
 }
