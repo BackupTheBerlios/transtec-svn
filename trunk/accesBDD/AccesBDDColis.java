@@ -103,16 +103,18 @@ public class AccesBDDColis extends ConnecteurSQL{
 		PreparedStatement modifie=
 			connecteur.getConnexion().prepareStatement(
 				"UPDATE colis SET "
-				+"Poids=?, DateDepot=?, Valeur=?, Fragilite=?, Lieu=?, ModelesColis_idModelesColis=?, Entrepots_idEntrepots=? "
+				+"Poids=?, DateDepot=?, Valeur=?, Fragilite=?, Lieu=?, ModelesColis_idModelesColis=?, Entrepots_idEntrepots=?, Code_barre=?, Users_idUsers=?"
 				+"WHERE idColis=?");
 		modifie.setString(1, aModifier.getPoids());
 		modifie.setTimestamp(2, aModifier.getDate());
 		modifie.setString(3, aModifier.getValeurDeclaree());
-		modifie.setInt(4, aModifier.getFragilite());
+		modifie.setInt(4, aModifier.getFragilite().intValue());
 		modifie.setString(5, aModifier.getLieu());
-		modifie.setInt(6, aModifier.getId());
-		modifie.setInt(7, aModifier.getForme());
-		modifie.setInt(8, aModifier.getIdDestination());
+		modifie.setInt(6, aModifier.getId().intValue());
+		modifie.setInt(7, aModifier.getForme().intValue());
+		modifie.setString(8, aModifier.getCode_barre());
+		modifie.setInt(9, aModifier.getIdUtilisateur().intValue());
+		modifie.setInt(10, aModifier.getIdDestination());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -138,12 +140,17 @@ public class AccesBDDColis extends ConnecteurSQL{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			Colis courant=new Colis(idPers.getExpediteur(resultat.getInt("idColis")),
-					idPers.getDestinataire(resultat.getInt("idColis"), connecteur),resultat.getInt("Users_idUsers"), 
-					resultat.getFloat("Poids"),resultat.getTimestamp("DateDepot"), resultat.getInt("Fragilite"), 
-					resultat.getInt("Valeur"), resultat.getInt("ModelesColis_idModelesColis"), 
-					resultat.getInt("Entrepots_idEntrepots"), resultat.getString("Lieu"));
-			courant.setId(resultat.getInt("idColis"));
+			Colis courant=new Colis(new Integer(resultat.getInt("idColis")),
+					idPers.getExpediteur(new Integer(resultat.getInt("idColis"))
+					, idPers.getDestinataire(new Integer(resultat.getInt("idColis")))
+					,resultat.getInt("Users_idUsers"), 
+					resultat.getFloat("Poids"),
+					resultat.getTimestamp("DateDepot"),
+					resultat.getInt("Fragilite"), 
+					resultat.getInt("Valeur"), 
+					resultat.getInt("ModelesColis_idModelesColis"), 
+					resultat.getInt("Entrepots_idEntrepots"), 
+					resultat.getString("Lieu"));
 			liste.add(courant);
 		}
 				
