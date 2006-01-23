@@ -74,11 +74,11 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		modifie.close();	// Fermeture requête SQL
 	}
 	
-	public void supprimer(Utilisateur aSupprimer) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=connecteur.getConnexion().prepareStatement(
 			"DELETE FROM users WHERE idUsers=?");
-		supprime.setInt(1,aSupprimer.getId());
+		supprime.setInt(1,aSupprimer.intValue());
 				
 		supprime.executeUpdate();//execution de la requete SQL
 		// La suppression de la personne se fera automatiquement suite à la configuration de la BDD
@@ -183,7 +183,7 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 			test.ajouter(aAjouter);
 			Vector list=null;
 			list=test.lister();
-			test.supprimer(aModifier);			
+			test.supprimer(aModifier.getId());			
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

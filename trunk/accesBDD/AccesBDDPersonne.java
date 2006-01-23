@@ -179,11 +179,11 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 	}
 	
 	//----- Supprimer une personne dans la BDD -----//
-	public void supprimer(Personne aSupprimer) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=connecteur.getConnexion().prepareStatement(
 				"DELETE FROM personnes WHERE idPersonnes=?");
-		supprime.setInt(1,aSupprimer.getId());
+		supprime.setInt(1,aSupprimer.intValue());
 				
 		supprime.executeUpdate();//execution de la requete SQL
 		// La suppression de la localisation se fera automatiquement suite à la configuration de la BDD
@@ -204,7 +204,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 			aModifier.setIdLocalisation(aAjouter.getIdLocalisation());
 			test.modifier(aModifier);
 			rec=test.rechercher(aModifier.getId());
-			test.supprimer(aModifier);
+			test.supprimer(aModifier.getId());
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

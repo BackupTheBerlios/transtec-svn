@@ -126,12 +126,12 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 	}
 	
 	//----- Supprimer une localisation dans la BDD -----//
-	public void supprimer(Localisation aSupprimer) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM localisation WHERE idLocalisation=?");
-		supprime.setInt(1, aSupprimer.getId());
+		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -155,7 +155,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 			resultatRech=test.rechercher(AccesBDDLocalisation.ADRESSE, aModifier.getAdresse());
 			resultatRech=null;
 			resultatRech=test.rechercher(AccesBDDLocalisation.VILLE, aModifier.getVille());
-			test.supprimer(aModifier);
+			test.supprimer(aModifier.getId());
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
