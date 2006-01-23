@@ -36,7 +36,7 @@ public class AccesBDDPersonnes_has_Colis extends ConnecteurSQL{
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=?");
 		
-		recherche.setInt(1, idColis);
+		recherche.setInt(1, idColis.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
@@ -56,7 +56,7 @@ public class AccesBDDPersonnes_has_Colis extends ConnecteurSQL{
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT Expediteur FROM Personnes_has_Colis WHERE Colis_idColis=? ");
 		
-		recherche.setInt(1, idColis);
+		recherche.setInt(1,idColis.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
