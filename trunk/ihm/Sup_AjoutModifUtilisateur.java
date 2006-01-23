@@ -147,18 +147,18 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	// Gestion des actions liées au boutons
 	public void actionPerformed(ActionEvent e){
 		Object source = e.getSource();
-		
-		try{
-			//Validation
-			if(source==boutValider){
-				if(verifChamps()){
+	
+		//Validation
+		if(source==boutValider){
+			if(verifChamps()){
+				try{
 					// Cas d'un ajout d'utilisateur
 					if(boutValider.getText().equals("Ajouter")){
+						// Ecriture dans la base de données
+						u.setId(tableUtilisateurs.ajouter(this.getUtilisateur()));
+	
 						// Mise à jour du tableau
 						parent.ajouterLigne(this.getUtilisateur().toVector());
-						
-						// Ecriture dans la base de données
-						tableUtilisateurs.ajouter(this.getUtilisateur());
 					}
 					// Cas d'une modification d'utilisateur
 					else{
@@ -168,23 +168,24 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 						// Ecriture dans la base de données
 						tableUtilisateurs.modifier(this.getUtilisateur());					
 					}				
+				}
+				catch(SQLException eSQL){
+					
+				}
+				finally{
 					// On masque la fenetre
 					parent.setFenetreActive(true);
 					this.setVisible(false);
 					this.dispose();
 				}
 			}
-			// Annulation, on masque simplement la fenêtre
-			else if(source==boutAnnuler){
-				parent.setFenetreActive(true);
-				this.setVisible(false);
-				this.dispose();
-			}
 		}
-		catch(SQLException eSQL){
-			
-		}
-		
+		// Annulation, on masque simplement la fenêtre
+		else if(source==boutAnnuler){
+			parent.setFenetreActive(true);
+			this.setVisible(false);
+			this.dispose();
+		}		
 	}
 
 	//Méthodes permettant d'obtenir le contenu des champs

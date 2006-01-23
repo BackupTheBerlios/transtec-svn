@@ -50,7 +50,8 @@ public class Utilisateur{
 		this.login=(String)v.get(1);
 		this.motDePasse=(String)v.get(2);
 		this.type=(Integer)v.get(3);
-		this.personne=new Personne((String)v.get(4),(String)v.get(5),(String)v.get(6),(String)v.get(7),(String)v.get(8),(String)v.get(9),(String)v.get(10));
+		Localisation l=new Localisation((Integer)v.get(4),(String)v.get(5),(String)v.get(6),(String)v.get(7));
+		this.personne=new Personne((Integer)v.get(8),(String)v.get(9),(String)v.get(10),(String)v.get(11),(String)v.get(12),l);
 	}
 	
 	// Constructeur vide
@@ -124,15 +125,16 @@ public class Utilisateur{
 		v.add(login);
 		v.add(motDePasse);
 		v.add(type);
-		v.add(personne.getNom());
-		v.add(personne.getPrenom());
+		v.add(personne.getLocalisation().getId());
 		v.add(personne.getLocalisation().getAdresse());
 		v.add(personne.getLocalisation().getCodePostal());
 		v.add(personne.getLocalisation().getVille());
+		v.add(personne.getId());
+		v.add(personne.getNom());
+		v.add(personne.getPrenom());
 		v.add(personne.getMail());
 		v.add(personne.getTelephone());
 		
 		return v;
 	}
-
 }

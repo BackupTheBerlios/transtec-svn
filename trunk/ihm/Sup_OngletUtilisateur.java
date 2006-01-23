@@ -25,11 +25,13 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Login");
         nomColonnes.add("Mot de passe");
         nomColonnes.add("Type");
-        nomColonnes.add("Nom");
-        nomColonnes.add("Prénom");
+        nomColonnes.add("ID");
         nomColonnes.add("Adresse");
         nomColonnes.add("Code Postal");
         nomColonnes.add("Ville");
+        nomColonnes.add("ID");
+        nomColonnes.add("Nom");
+        nomColonnes.add("Prénom");
         nomColonnes.add("E-mail");
         nomColonnes.add("Téléphone");
         
@@ -60,6 +62,10 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
         
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
+		
+		// On cache les colonnes contenant les ID
+		table.removeColumn(table.getColumnModel().getColumn(3));
+		table.removeColumn(table.getColumnModel().getColumn(6));
 
 		// Bouton Ajouter
 		boutAjouter.addActionListener(this);
@@ -120,6 +126,4 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 			setFenetreActive(false);
 		}
 	}
-
-
 }

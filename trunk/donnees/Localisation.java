@@ -13,6 +13,15 @@ public class Localisation{
 		this.ville=ville;
 	}
 	
+	// Constructeur avec tous les paramètres
+	public Localisation(Integer id, String adresse, String codePostal, String ville){
+		this.id=id;
+		this.adresse=adresse;
+		this.codePostal=codePostal;
+		this.ville=ville;
+	}
+	
+	
 	// Constructeur vide
 	public Localisation(){
 		

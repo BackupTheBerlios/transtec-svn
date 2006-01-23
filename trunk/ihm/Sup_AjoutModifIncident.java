@@ -189,30 +189,31 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		Object source = e.getSource();
 
-		try{
-			// Validation
-			if(source==boutModifier){
-				if(verifChamps()){				
+		// Validation
+		if(source==boutModifier){
+			if(verifChamps()){				
+				try{
 					// Mise à jour du tableau
 					parent.modifierLigne(this.getIncident().toVector());			
 	
 					// Ecriture dans la base de données
 					tableIncidents.changerEtat(this.getIncident());
-	
+				}
+				catch(SQLException eSQL){
+					
+				}
+				finally{
 					// On masque la fenetre
 					this.setVisible(false);
 					this.dispose();
 				}
 			}
-			// Annulation, on masque simplement la fenêtre
-			else if(source==boutAnnuler){
-				parent.setFenetreActive(true);
-				this.setVisible(false);
-				this.dispose();
-			}
 		}
-		catch(SQLException eSQL){
-			
+		// Annulation, on masque simplement la fenêtre
+		else if(source==boutAnnuler){
+			parent.setFenetreActive(true);
+			this.setVisible(false);
+			this.dispose();
 		}
 	}
 
