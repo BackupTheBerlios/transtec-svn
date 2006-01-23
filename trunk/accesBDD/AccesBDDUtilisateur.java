@@ -9,14 +9,11 @@ import java.util.Vector;
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDUtilisateur extends ConnecteurSQL{
-	public final static int SUPERVISEUR=0;
-	public final static int PREPARATEUR=1;
-	public final static int ENTREE=2;
 	public final static int INCONNU=-1;
 	public final static int MAUVAIS_PASS=-2;
 	
 	//----- Ajouter un utilisateur -----//
-	public int ajouter(Utilisateur aAjouter) throws SQLException{
+	public Integer ajouter(Utilisateur aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDPersonne pers=new AccesBDDPersonne();
 		//----- Recherche de l'identifiant le plus grand -----//
@@ -27,7 +24,7 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer (resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -38,11 +35,11 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 				+ " (idUsers,Personnes_idPersonnes,Login,Password_2,Type_2)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId());
-		ajout.setFloat(2,pers.ajouter(aAjouter.getPersonne()));
+		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(2,pers.ajouter(aAjouter.getPersonne()).intValue());
 		ajout.setString(3,aAjouter.getLogin());
 		ajout.setString(4,aAjouter.getMotDePasse());
-		ajout.setInt(5,aAjouter.getType());
+		ajout.setInt(5,aAjouter.getType().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -62,8 +59,8 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		
 		modifie.setString(1, aModifier.getLogin());
 		modifie.setString(2, aModifier.getMotDePasse());
-		modifie.setInt(3, aModifier.getType());
-		modifie.setInt(4, aModifier.getId());
+		modifie.setInt(3, aModifier.getType().intValue());
+		modifie.setInt(4, aModifier.getId().intValue());
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -98,26 +95,26 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		Utilisateur courantUtilisateur=null;
 		Personne courantPers=null;
 		
-		PreparedStatement rechercheMaxID=connecteur.getConnexion().prepareStatement(
+		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM users");
-		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
 			courantPers=pers.rechercher(resultat.getInt("Personnes_idPersonnes"));
 			courantUtilisateur=new Utilisateur(resultat.getString("Login"), resultat.getString("Password_2"),
 					resultat.getInt("Type_2"), courantPers);
-			courantUtilisateur.setId(resultat.getInt("idUsers"));
+			courantUtilisateur.setId(new Integer(resultat.getInt("idUsers")));
 			liste.add(courantUtilisateur);
 		}
 		
 		resultat.close();	// Fermeture requête SQL
-		rechercheMaxID.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
 		
 		return liste;
 	}
 	
 	//----- Recherche d'un utilisateur dans la BDD -----//
-	public Utilisateur rechercher(int aChercher) throws SQLException{
+	public Utilisateur rechercher(Integer aChercher) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Utilisateur trouvee=null;
 		AccesBDDPersonne pers=new AccesBDDPersonne();
@@ -125,12 +122,12 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 			"SELECT * FROM users WHERE idUsers=?");
 		
-		recherche.setInt(1, aChercher);
+		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		resultat.next();
 		trouvee=new Utilisateur(resultat.getString("Login"), resultat.getString("Password_2"), resultat.getInt("Type_2"), 
 				pers.rechercher(resultat.getInt("Personnes_idPersonnes")));
-		trouvee.setId(resultat.getInt("idUsers"));
+		trouvee.setId(new Integer(resultat.getInt("idUsers")));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL

@@ -33,6 +33,17 @@ public class Utilisateur{
 		this.personne=personne;
 	}
 	
+	//Constructeur recevant toutes les données en paramètres
+	public Utilisateur(Integer id, String login, String motDePasse, Integer type, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone){
+		this.id=id;
+		this.login=login;
+		this.motDePasse=motDePasse;
+		this.type=type;
+		
+		// Creation d'une instance de Personne
+		this.personne=new Personne(nom, prenom, adresse, codePostal, ville, mail, telephone);
+	}
+	
 	// Construction utilisant un Vector
 	public Utilisateur(Vector v){
 		this.id=(Integer)v.get(0);		

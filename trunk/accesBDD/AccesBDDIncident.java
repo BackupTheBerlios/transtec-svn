@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class AccesBDDIncident extends ConnecteurSQL{
 	//----- Ajouter un incident dans la BDD -----//
-	public long ajouter(Incident aAjouter) throws SQLException{
+	public Integer ajouter(Incident aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
@@ -18,7 +18,7 @@ public class AccesBDDIncident extends ConnecteurSQL{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -29,13 +29,13 @@ public class AccesBDDIncident extends ConnecteurSQL{
 				+ "(idIncidents, Colis_idColis, Users_idUsers, Description, DateCreation, Type_2, Etat) " // Parametre de la table
 				+ "VALUES (?,?,?,?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId());
-		ajout.setInt(2,aAjouter.getIdColis()); // Renvoi l'ID du Colis
-		ajout.setInt(3,aAjouter.getIdUtilisateur()); // Renvoi l'ID de l'utilisateur
+		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(2,aAjouter.getIdColis().intValue()); // Renvoi l'ID du Colis
+		ajout.setInt(3,aAjouter.getIdUtilisateur().intValue()); // Renvoi l'ID de l'utilisateur
 		ajout.setString(4,aAjouter.getDescription());
 		ajout.setTimestamp(5,aAjouter.getDate());
-		ajout.setInt(6,aAjouter.getType());
-		ajout.setInt(7,aAjouter.getEtat());
+		ajout.setInt(6,aAjouter.getType().intValue());
+		ajout.setInt(7,aAjouter.getEtat().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -58,16 +58,17 @@ public class AccesBDDIncident extends ConnecteurSQL{
 	
 	//----- Changer état incident vers état supérieur -----//
 	public void changerEtat(Incident etatAChanger) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		PreparedStatement modifie=connecteur.getConnexion().prepareStatement(
-			"UPDATE incidents SET Type_2=? WHERE idIncidents=?");
-	
-		modifie.setInt(1, etatAChanger.getType().intValue()+1);
-		modifie.setInt(2, etatAChanger.getId());
-			
-		modifie.executeUpdate();	// Exécution de la requête SQL
-		modifie.close();
-		// Attention cas dernière état!!!!
+		if(etatAChanger.getType().intValue()<Incident.TRAITE){
+			ConnecteurSQL connecteur=new ConnecteurSQL();
+			PreparedStatement modifie=connecteur.getConnexion().prepareStatement(
+				"UPDATE incidents SET Type_2=? WHERE idIncidents=?");
+		
+			modifie.setInt(1, etatAChanger.getType().intValue()+1);
+			modifie.setInt(2, etatAChanger.getId());
+				
+			modifie.executeUpdate();	// Exécution de la requête SQL
+			modifie.close();
+		}		
 	}
 	
 	//----- Lister les incidents -----//
@@ -81,10 +82,10 @@ public class AccesBDDIncident extends ConnecteurSQL{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			Incident courant=new Incident(resultat.getInt("Colis_idColis"),resultat.getTimestamp("DateCreation"),
-					resultat.getInt("Etat"),resultat.getString("Description"), 
-					resultat.getInt("Users_idUsers"), resultat.getInt("Type_2"));
-			courant.setId(resultat.getInt("idIncidents"));
+			Incident courant=new Incident(new Integer(resultat.getInt("Colis_idColis")),resultat.getTimestamp("DateCreation"),
+					new Integer(resultat.getInt("Etat")),resultat.getString("Description"), 
+					new Integer(resultat.getInt("Users_idUsers")), new Integer(resultat.getInt("Type_2")));
+			courant.setId(new Integer(resultat.getInt("idIncidents")));
 			liste.add(courant);
 		}
 				

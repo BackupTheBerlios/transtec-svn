@@ -1,6 +1,7 @@
 package ihm;
 
 import java.awt.*;
+import java.sql.*;
 import java.awt.event.*;
 import java.sql.Timestamp;
 import javax.swing.*;
@@ -188,25 +189,30 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		Object source = e.getSource();
 
-		// Validation
-		if(source==boutModifier){
-			if(verifChamps()){				
-				// Mise à jour du tableau
-				parent.modifierLigne(this.getIncident().toVector());			
-
-				// Ecriture dans la base de données
-				tableIncidents.changerEtat(this.getIncident());
-
-				// On masque la fenetre
+		try{
+			// Validation
+			if(source==boutModifier){
+				if(verifChamps()){				
+					// Mise à jour du tableau
+					parent.modifierLigne(this.getIncident().toVector());			
+	
+					// Ecriture dans la base de données
+					tableIncidents.changerEtat(this.getIncident());
+	
+					// On masque la fenetre
+					this.setVisible(false);
+					this.dispose();
+				}
+			}
+			// Annulation, on masque simplement la fenêtre
+			else if(source==boutAnnuler){
+				parent.setFenetreActive(true);
 				this.setVisible(false);
 				this.dispose();
 			}
 		}
-		// Annulation, on masque simplement la fenêtre
-		else if(source==boutAnnuler){
-			parent.setFenetreActive(true);
-			this.setVisible(false);
-			this.dispose();
+		catch(SQLException eSQL){
+			
 		}
 	}
 

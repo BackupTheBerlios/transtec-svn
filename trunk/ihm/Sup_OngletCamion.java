@@ -90,7 +90,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 			// Suppression d'un camion
 			else if(source==boutSupprimer){
 				// Suppression de la base de données
-				tableCamions.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
+				tableCamions.supprimer((Integer)modeleTab.getValueAt(ligneActive,0));
 
 				// Mise à jour du tableau
 				supprimerLigne(ligneActive);

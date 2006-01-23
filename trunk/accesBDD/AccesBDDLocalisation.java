@@ -15,7 +15,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 	public final static short CODEPOSTAL=2;
 	
 	//----- Permet l'ajout d'une localisation dans la BDD -----//
-	public int ajouter(Localisation aAjouter) throws SQLException{
+	public Integer ajouter(Localisation aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
@@ -36,7 +36,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 				+ " (idLocalisation,Adresse,CodePostal,Ville)" // Parametre de la table
 				+ " VALUES (?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId());
+		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setString(2,aAjouter.getAdresse());
 		ajout.setString(3,aAjouter.getCodePostal());
 		ajout.setString(4,aAjouter.getVille());
@@ -47,18 +47,18 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 	}
 	
 	//----- Recherche d'une localisation dans la BDD -----//
-	public Localisation rechercher(int aChercher) throws SQLException{
+	public Localisation rechercher(Integer aChercher) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Localisation trouvee=null;
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM localisation WHERE idLocalisation=?");
 		
-		recherche.setInt(1, aChercher);
+		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la localisation
 			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getString("CodePostal"), resultat.getString("Ville"));
-			trouvee.setId(resultat.getInt("idLocalisation"));
+			trouvee.setId(new Integer(resultat.getInt("idLocalisation")));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -97,7 +97,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la localisation
 			trouvee=new Localisation(resultat.getString("Adresse"), resultat.getString("CodePostal"), resultat.getString("Ville"));
-			trouvee.setId(resultat.getInt("idLocalisation"));
+			trouvee.setId(new Integer(resultat.getInt("idLocalisation")));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -118,7 +118,7 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		modifie.setString(1, aModifier.getAdresse());
 		modifie.setString(2, aModifier.getCodePostal());
 		modifie.setString(3, aModifier.getVille());
-		modifie.setInt(4, aModifier.getId());		
+		modifie.setInt(4, aModifier.getId().intValue());		
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 						

@@ -9,7 +9,7 @@ public class Camion {
 	private String numero;
 	private Integer dispo;
 	private Integer volume;
-	private Integer idChauffeur;
+	private String nomChauffeur;
 	private Integer idOrigine;
 	private Integer idDestination;
 	
@@ -19,22 +19,22 @@ public class Camion {
 	public final static int LIVRAISON = 2;
 	
 	// Constructeur avec tous les paramètres
-	public Camion(Integer id, String numero, Integer dispo,  Integer volume, Integer idChauffeur, Integer idOrigine, Integer idDestination){
+	public Camion(Integer id, String numero, Integer dispo,  Integer volume, String nomChauffeur, Integer idOrigine, Integer idDestination){
 		this.id = id;
 		this.numero=numero;
 		this.dispo=dispo;
 		this.volume=volume;
-		this.idChauffeur=idChauffeur;
+		this.nomChauffeur=nomChauffeur;
 		this.idOrigine=idOrigine;
 		this.idDestination=idDestination;
 	}
 	
 	// Constructeur n'utilisant pas l'ID
-	public Camion(String numero, Integer dispo,  Integer volume, Integer idChauffeur, Integer idOrigine, Integer idDestination){
+	public Camion(String numero, Integer dispo,  Integer volume, String nomChauffeur, Integer idOrigine, Integer idDestination){
 		this.numero=numero;
 		this.dispo=dispo;
 		this.volume=volume;
-		this.idChauffeur=idChauffeur;
+		this.nomChauffeur=nomChauffeur;
 		this.idOrigine=idOrigine;
 		this.idDestination=idDestination;
 	}
@@ -50,7 +50,7 @@ public class Camion {
 		this.numero=(String)v.get(1);
 		this.dispo=(Integer)v.get(2);
 		this.volume=(Integer)v.get(3);
-		this.idChauffeur=(Integer)v.get(4);
+		this.nomChauffeur=(String)v.get(4);
 		this.idOrigine=(Integer)v.get(5);
 		this.idDestination=(Integer)v.get(6);
 	}
@@ -66,7 +66,7 @@ public class Camion {
 		v.add(numero);
 		v.add(dispo);
 		v.add(volume);
-		v.add(idChauffeur);
+		v.add(nomChauffeur);
 		v.add(idOrigine);
 		v.add(idDestination);
 
@@ -96,13 +96,13 @@ public class Camion {
 	}
 	
 	//----- Insérer l'id du cahuffeur -----//
-	public void setIdChauffeur(Integer idChauffeur){
-		this.idChauffeur=idChauffeur;
+	public void setNomChauffeur(String nomChauffeur){
+		this.nomChauffeur=nomChauffeur;
 	}
 	
 	//----- Insérer l'id de l'entrepôt de destination -----//
-	public void setIdDestination(Integer idDestination){
-		this.idDestination=idDestination;
+	public void setIdDestination(Integer nomDestination){
+		this.idDestination=nomDestination;
 	}
 	
 	//----- Insérer l'id de l'entrepôt d'origine -----//
@@ -133,8 +133,8 @@ public class Camion {
 	}
 	
 	//----- Récupération de l'id du cahuffeur -----//
-	public Integer getIdChauffeur(){
-		return this.idChauffeur;
+	public String getNomChauffeur(){
+		return this.nomChauffeur;
 	}
 	
 	//----- Récupération de l'id de l'entrepôt de destination -----//

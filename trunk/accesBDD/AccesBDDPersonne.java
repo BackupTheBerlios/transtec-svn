@@ -10,7 +10,6 @@ import donnees.Personne;
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDPersonne extends ConnecteurSQL{
-	public final static short ID=0;
 	public final static short NOM=0;
 	public final static short PRENOM=1;
 	public final static short EMAIL=2;
@@ -20,7 +19,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 	public final static short CODEPOSTAL=6;
 	
 	//	----- Ajouter une personne dans la BDD -----//
-	public int ajouter(Personne aAjouter) throws SQLException{
+	public Integer ajouter(Personne aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
 		//----- Recherche de l'identifiant le plus grand -----//
@@ -31,7 +30,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -42,9 +41,9 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 				+ " (idPersonnes,Localisation_idLocalisation,Nom,Prenom,Telephone,Email)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?)"); 
 		
-		ajout.setInt(1,aAjouter.getId());
+		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout dans la table de localisation
-		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()));
+		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()).intValue());
 		ajout.setString(3,aAjouter.getNom());
 		ajout.setString(4,aAjouter.getPrenom());
 		ajout.setString(5,aAjouter.getTelephone());
@@ -56,7 +55,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 	}
 	
 	//----- Recherche d'une personne dans la BDD -----//
-	public Personne rechercher(int aChercher) throws SQLException{
+	public Personne rechercher(Integer aChercher) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Personne trouvee=null;
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
@@ -64,14 +63,14 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
 				"SELECT * FROM personnes WHERE idPersonnes=?");
 		
-		recherche.setInt(1, aChercher);
+		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		if(resultat.next()){	// S'il a trouvé la personne
 			Localisation loc=bddLoc.rechercher(resultat.getInt("Localisation_idLocalisation"));
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom"),
 					resultat.getString("Email"), resultat.getString("Telephone"), loc);
-			trouvee.setId(resultat.getInt("idPersonnes"));
+			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -141,11 +140,11 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		else	recherche.setInt(1, locAChercher.getId());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
-			Localisation loc=bddLoc.rechercher(resultat.getInt("Localisation_idLocalisation"));
+			Localisation loc=bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
 			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
 					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
 					resultat.getString("Email"), resultat.getString("Telephone"));
-			trouvee.setId(resultat.getInt("idPersonnes"));
+			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -167,7 +166,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		modifie.setString(2, aModifier.getPrenom());
 		modifie.setString(3, aModifier.getTelephone());
 		modifie.setString(4, aModifier.getMail());
-		modifie.setInt(5, aModifier.getId());
+		modifie.setInt(5, aModifier.getId().intValue());
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		

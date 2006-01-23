@@ -10,8 +10,8 @@ import donnees.Camion;
 
 public class AccesBDDCamion extends AccesBDD{
 	//----- Ajouter un camion dans la BDD -----//
-	public Integer ajouter(Camion aAjouter, ConnecteurSQL connecteur) throws SQLException{
-		
+	public Integer ajouter(Camion aAjouter) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
 			connecteur.getConnexion().prepareStatement(
@@ -28,13 +28,14 @@ public class AccesBDDCamion extends AccesBDD{
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
 				"INSERT INTO camions"
-				+ " (idCamions,Personnes_idPersonnes,Etat,Volume)" // Paramètre de la table
-				+ " VALUES (?,?,?,?)"); 
+				+ " (idCamions,Personnes_idPersonnes,Etat,Volume, Immatriculation)" // Paramètre de la table
+				+ " VALUES (?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getIdChauffeur().intValue());
 		ajout.setInt(3,aAjouter.getDispo().intValue());
-		ajout.setFloat(4,aAjouter.getVolume().intValue());
+		ajout.setInt(4,aAjouter.getVolume().intValue());
+		ajout.setString(5, aAjouter.getNumero());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
@@ -48,11 +49,12 @@ public class AccesBDDCamion extends AccesBDD{
 	}
 	
 	//----- Supprimer un camion -----//
-	public void supprimer(Camion aSupprimer, ConnecteurSQL connecteur) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM camions WHERE idCamions=?");
-		supprime.setInt(1, aSupprimer.getId().intValue());
+		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -64,7 +66,7 @@ public static void main(String arg[]){
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),new Integer(2),new Integer(21),new Integer(1));
 		try{
-			test.ajouter(aAjouter,connecteur);
+			test.ajouter(aAjouter);
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

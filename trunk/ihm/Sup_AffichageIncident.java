@@ -14,7 +14,7 @@ public class Sup_AffichageIncident extends Sup_AjoutModifIncident{
 	public Sup_AffichageIncident(Incident incid, Sup_OngletIncident parent, AccesBDDIncident tableIncidents){
 		
 		// Appel du constructeur de Sup_AjoutModifIncident
-		super(incid,parent);
+		super(incid,parent,tableIncidents);
 		
 		this.setTitle("Affichage d'un incident");
 		

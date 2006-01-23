@@ -1,7 +1,7 @@
 package ihm;
 
 import java.util.Vector;
-//import java.sql.Timestamp;
+import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -30,13 +30,17 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Créateur");
         nomColonnes.add("Type");
  
-        // On récupère les Incidents de la base de données et on les affiche
-        Vector listeIncidents = tableIncidents.lister();
-        
-        for(int i=0;i<listeIncidents.size();i++){
-        	donnees.addElement(((Incident)listeIncidents.get(i)).toVector());
+        try{
+	        // On récupère les Incidents de la base de données et on les affiche
+	        Vector listeIncidents = tableIncidents.lister();
+	        
+	        for(int i=0;i<listeIncidents.size();i++){
+	        	donnees.addElement(((Incident)listeIncidents.get(i)).toVector());
+	        }
         }
-        
+        catch(SQLException e){
+        	
+        }
         
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)

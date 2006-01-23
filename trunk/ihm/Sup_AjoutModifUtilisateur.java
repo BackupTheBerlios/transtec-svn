@@ -1,6 +1,7 @@
 package ihm;
 
 import java.awt.*;
+import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -146,38 +147,44 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	// Gestion des actions liées au boutons
 	public void actionPerformed(ActionEvent e){
 		Object source = e.getSource();
-
-		// Validation
-		if(source==boutValider){
-			if(verifChamps()){
-				// Cas d'un ajout d'utilisateur
-				if(boutValider.getText().equals("Ajouter")){
-					// Mise à jour du tableau
-					parent.ajouterLigne(this.getUtilisateur().toVector());
-					
-					// Ecriture dans la base de données
-					tableUtilisateurs.ajouter(this.getUtilisateur());
+		
+		try{
+			//Validation
+			if(source==boutValider){
+				if(verifChamps()){
+					// Cas d'un ajout d'utilisateur
+					if(boutValider.getText().equals("Ajouter")){
+						// Mise à jour du tableau
+						parent.ajouterLigne(this.getUtilisateur().toVector());
+						
+						// Ecriture dans la base de données
+						tableUtilisateurs.ajouter(this.getUtilisateur());
+					}
+					// Cas d'une modification d'utilisateur
+					else{
+						// Mise à jour du tableau
+						parent.modifierLigne(this.getUtilisateur().toVector());
+						
+						// Ecriture dans la base de données
+						tableUtilisateurs.modifier(this.getUtilisateur());					
+					}				
+					// On masque la fenetre
+					parent.setFenetreActive(true);
+					this.setVisible(false);
+					this.dispose();
 				}
-				// Cas d'une modification d'utilisateur
-				else{
-					// Mise à jour du tableau
-					parent.modifierLigne(this.getUtilisateur().toVector());
-					
-					// Ecriture dans la base de données
-					tableUtilisateurs.modifier(this.getUtilisateur());					
-				}				
-				// On masque la fenetre
+			}
+			// Annulation, on masque simplement la fenêtre
+			else if(source==boutAnnuler){
 				parent.setFenetreActive(true);
 				this.setVisible(false);
 				this.dispose();
 			}
 		}
-		// Annulation, on masque simplement la fenêtre
-		else if(source==boutAnnuler){
-			parent.setFenetreActive(true);
-			this.setVisible(false);
-			this.dispose();
+		catch(SQLException eSQL){
+			
 		}
+		
 	}
 
 	//Méthodes permettant d'obtenir le contenu des champs

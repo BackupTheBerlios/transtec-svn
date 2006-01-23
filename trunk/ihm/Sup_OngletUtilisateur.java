@@ -2,6 +2,7 @@ package ihm;
 
 import java.util.Vector;
 import java.awt.event.*;
+import java.sql.*;
 
 import accesBDD.AccesBDDUtilisateur;
 
@@ -32,12 +33,18 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
         nomColonnes.add("E-mail");
         nomColonnes.add("Téléphone");
         
-        // On récupère les utilisateurs de la base de données et on les affiche
-        Vector listeUtilisateurs = tableUtilisateurs.lister();
-        
-        for(int i=0;i<listeUtilisateurs.size();i++){
-        	donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
+        try{
+        	//On récupère les utilisateurs de la base de données et on les affiche
+            Vector listeUtilisateurs = tableUtilisateurs.lister();
+            
+            for(int i=0;i<listeUtilisateurs.size();i++){
+            	donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
+            }
         }
+        catch(SQLException e){
+        	
+        }
+        
         
         
         
@@ -73,30 +80,36 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 		// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
 		if(ligneSelect != -1){
 
-			// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
-			ligneActive = sorter.modelIndex(ligneSelect);
-			
-			// Action liée au bouton de modification d'un utilisateur
-			if(source==boutModifier){
-			
-				// On récupère les données de la ligne du tableau
-				Vector cVect = (Vector) modeleTab.getRow(ligneActive);
-				Utilisateur u = new Utilisateur(cVect);
+			try{
+				//On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
+				ligneActive = sorter.modelIndex(ligneSelect);
+				
+				// Action liée au bouton de modification d'un utilisateur
+				if(source==boutModifier){
+				
+					// On récupère les données de la ligne du tableau
+					Vector cVect = (Vector) modeleTab.getRow(ligneActive);
+					Utilisateur u = new Utilisateur(cVect);
 
-				// On affiche l'invite de modification
-				Sup_AjoutModifUtilisateur modifUtilisateur = new Sup_AjoutModifUtilisateur(u,this,tableUtilisateurs);
+					// On affiche l'invite de modification
+					Sup_AjoutModifUtilisateur modifUtilisateur = new Sup_AjoutModifUtilisateur(u,this,tableUtilisateurs);
 
-				// On bloque l'utilisateur sur le pop-up
-				setFenetreActive(false);
+					// On bloque l'utilisateur sur le pop-up
+					setFenetreActive(false);
+				}
+				// Suppression d'un utilisateur
+				else if(source==boutSupprimer){
+					// Suppression de la base de données
+					tableUtilisateurs.supprimer((Integer)modeleTab.getValueAt(ligneActive,0));
+
+					// Mise à jour du tableau
+					supprimerLigne(ligneActive);
+				}
 			}
-			// Suppression d'un utilisateur
-			else if(source==boutSupprimer){
-				// Suppression de la base de données
-				tableUtilisateurs.supprimer(((Integer)modeleTab.getValueAt(ligneActive,0)).intValue());
-
-				// Mise à jour du tableau
-				supprimerLigne(ligneActive);
+			catch(SQLException e){
+				
 			}
+			
 		}
 		// Ajout d'un utilisateur
 		if(source==boutAjouter){
