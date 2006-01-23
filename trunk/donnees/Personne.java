@@ -69,7 +69,7 @@ public class Personne{
 	public void setIdLocalisation(int id){
 		this.localisation.setId(id);
 	}
-	
+
 	/****** Méthodes de lecture ******/
 	
 	//----- Récupérer l'id -----//
