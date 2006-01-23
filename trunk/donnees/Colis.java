@@ -14,6 +14,7 @@ public class Colis {
 	private String code_barre;
 	private Integer idExpediteur;
 	private Integer idDestinataire;
+	private Integer idDestination;
 	private Integer idUtilisateur;
 	private String poids;
 	private Timestamp date_envoie;
@@ -31,11 +32,12 @@ public class Colis {
 	private String valeur_declaree;
 
 	// Constructeur vide
-	/*public Colis(){
-	}*/
+	public Colis(){
+	}
 	
-	public Colis(String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
+	/*public Colis(Integer id, String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
 	{
+		this.id=id;
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.Entrepot=Entrepot;
@@ -44,12 +46,13 @@ public class Colis {
 		this.valeur_declaree=valeur_declaree;
 		this.fragilite=fragilite;
 		this.lieu=lieu;
-		
-		
-	}
+	}*/
+	
+	
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	/*public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele,String hauteur,String largeur,String profondeur){
+	public Colis(Integer id, String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+		this.id=id;
 		this.code_barre = code_barre;
 		this.forme=forme;
 		this.modele=modele;
@@ -59,10 +62,29 @@ public class Colis {
 		this.idExpediteur=idExpediteur;
 		this.idDestinataire=idDestinataire;
 		this.idUtilisateur=idUtilisateur;
-		this.largeur=largeur;
+		this.idDestination=idDestination;
+		this.valeur_declaree=valeur_declaree;
+		/*this.largeur=largeur;
 		this.hauteur=hauteur;
-		this.profondeur=profondeur;
-	}*/
+		this.profondeur=profondeur;*/
+	}
+	
+	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+		this.code_barre = code_barre;
+		this.forme=forme;
+		this.modele=modele;
+		this.fragilite=fragilite;
+		this.poids=poids;
+		this.date_envoie=date_envoie;
+		this.idExpediteur=idExpediteur;
+		this.idDestinataire=idDestinataire;
+		this.idUtilisateur=idUtilisateur;
+		this.idDestination=idDestination;
+		this.valeur_declaree=valeur_declaree;
+		/*this.largeur=largeur;
+		this.hauteur=hauteur;
+		this.profondeur=profondeur;*/
+	}
 	
 	/*public Colis(String code_barre1, String forme1, String modele1, String poids,String fragilite1){
 		this.code_barre1 = code_barre1;
@@ -87,7 +109,7 @@ public class Colis {
 		this.profondeur = (String)v.get(10);
 		
 	}*/
-	public Colis(Vector v){
+	/*public Colis(Vector v){
 		this.code_barre1=(String)v.get(0);
 		this.forme1=(String)v.get(1);
 		this.modele1=(String)v.get(2);
@@ -95,7 +117,7 @@ public class Colis {
 		this.poids=(String)v.get(4);
 		
 		
-	}
+	}*/
 	
 
 	// Transforme l'objet en un Vector
@@ -118,7 +140,7 @@ public class Colis {
 
 		return v;
 	}*/
-	public Vector toVector(){
+	/*public Vector toVector(){
 		Vector v = new Vector();
 
 		// ATTENTION l'ordre est très important !!
@@ -130,9 +152,9 @@ public class Colis {
 		v.add(fragilite1);
 		
 		return v;
-	}
+	}*/
 	
-	public Colis changement_colis(Colis col){
+	/*public Colis changement_colis(Colis col){
 		String temp,temp1,temp2="",temp3="",temp4="";
 		temp = col.code_barre;
 		temp1 = col.poids;
@@ -160,7 +182,7 @@ public class Colis {
 		
 		Colis col1 = new Colis(temp,temp2,temp3,temp1,temp4);
 		return col1;
-	}
+	}*/
 	
 	public void setId(Integer id){
 		this.id=id;
@@ -207,7 +229,7 @@ public class Colis {
 	public Integer getForme(){
 		return forme;
 	}
-	public String getHauteur(){
+	/*public String getHauteur(){
 		return hauteur;
 	}
 	public String getLargeur(){
@@ -215,7 +237,7 @@ public class Colis {
 	}
 	public String getProfondeur(){
 		return profondeur;
-	}
+	}*/
 	
 	//----- Récupération de la valeur déclarée du colis -----//
 	//public float getValeurDeclaree(){
@@ -240,5 +262,9 @@ public class Colis {
 	//----- Récupération de l'id de l'utilisateur -----//
 	public Integer getIdUtilisateur(){
 		return this.idUtilisateur;
+	}
+	
+	public Integer getIdDestination(){
+		return this.idDestination;
 	}
 }

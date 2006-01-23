@@ -1,56 +1,59 @@
 package accesBDD;
 
 import java.sql.*;
+import java.util.Vector;
 
 import donnees.Colis;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDColis  extends AccesBDD {
+public class AccesBDDColis extends ConnecteurSQL{
 	//----- Ajouter un colis dans la BDD -----//
-	public int ajouter(Colis aAjouter, ConnecteurSQL connecteur) throws SQLException{
+	public long ajouter(Colis aAjouter) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
 			connecteur.getConnexion().prepareStatement(
-				"SELECT MAX(idColis) FROM colis");
+				"SELECT MAX(idColis) FROM colis ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
-		
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion du colis dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO colis"
-				+ " (idColis,Code_barre,ModelesColis_idModelesColis,Entrepots_idEntrepots,Poids,DateDepot,Valeur,Fragilite,Lieu)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?,?)"); 
+				"INSERT INTO colis "
+				+ " (idColis,Poids,DateDepot,Valeur,Fragilite,Lieu,ModelesColis_idModelesColis,Entrepots_idEntrepots, Code_barre, Users_idUsers )" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setString(2,aAjouter.getCode_barre());
-		ajout.setInt(3,aAjouter.getModele().intValue());
-		ajout.setInt(4,aAjouter.getEntrepot().intValue());
-		ajout.setString(5,aAjouter.getPoids());
-		ajout.setTimestamp(6,aAjouter.getDate());
-		ajout.setString(7,aAjouter.getValeurDeclaree());
-		ajout.setInt(8,aAjouter.getFragilite().intValue());
-		ajout.setString(9,aAjouter.getLieu());
+		ajout.setString(2,aAjouter.getPoids());
+		ajout.setTimestamp(3,aAjouter.getDate());
+		ajout.setString(4,aAjouter.getValeurDeclaree());
+		ajout.setInt(5,aAjouter.getFragilite().intValue());
+		ajout.setString(6,aAjouter.getLieu());
+		ajout.setInt(7,aAjouter.getModele().intValue());
+		ajout.setInt(8,aAjouter.getIdDestination().intValue());
+		ajout.setString(9, aAjouter.getCode_barre());
+		ajout.setInt(10, aAjouter.getIdUtilisateur().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
 		
 		/*----- Ajout de la relation entre l'expéditeur/destinataire et le colis dans la 
 				table Personnes_has_Colis -----*/
-		//AccesBDDPersonnes_has_Colis rel=new AccesBDDPersonnes_has_Colis();
-		//rel.ajouter(aAjouter.getId(), aAjouter.getIdExpediteur(), aAjouter.getIdDestinataire(), connecteur);
+		AccesBDDPersonnes_has_Colis rel=new AccesBDDPersonnes_has_Colis();
+		rel.ajouter(aAjouter.getId(), aAjouter.getIdExpediteur(), aAjouter.getIdDestinataire(), connecteur);
 		
-		return aAjouter.getId().intValue();
+		return aAjouter.getId();
 	}
 	
 	//----- Rechercher un colis dans la BDD -----//
-	public int rechercher(int idColis, ConnecteurSQL connecteur, int typeRecherche){
+	public int rechercher(int idColis, int typeRecherche){
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Insertion du colis dans la BDD -----//
 		/*String RequetteSQL = "SELECT * FROM Colis";
 		
@@ -81,11 +84,12 @@ public class AccesBDDColis  extends AccesBDD {
 	}
 	
 	//----- Supprimer un colis de la BDD -----//
-	public void supprimer(Colis aSupprimer, ConnecteurSQL connecteur) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
-				"DELETE FROM colis WHERE idLColis=?");
-		supprime.setInt(1, aSupprimer.getId().intValue());
+				"DELETE FROM colis WHERE idColis=?");
+		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -93,33 +97,28 @@ public class AccesBDDColis  extends AccesBDD {
 	}
 	
 	//----- Modifier les informations d'un colis -----//
-	public void modifier(Colis aModifier, ConnecteurSQL connecteur) throws SQLException{
-		/*//----- Modification de la localisation à partir de l'id -----//
+	public void modifier(Colis aModifier) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
+		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=
 			connecteur.getConnexion().prepareStatement(
 				"UPDATE colis SET "
-				+"Poids=?, DateDepot=?, Valeur=?, Fragilite=?, Lieu=?"
+				+"Poids=?, DateDepot=?, Valeur=?, Fragilite=?, Lieu=?, ModelesColis_idModelesColis=?, Entrepots_idEntrepots=? "
 				+"WHERE idColis=?");
-		modifie.setFloat(1, aModifier.getPoids());
+		modifie.setString(1, aModifier.getPoids());
 		modifie.setTimestamp(2, aModifier.getDate());
-		modifie.setFloat(3, aModifier.getValeurDeclaree());
+		modifie.setString(3, aModifier.getValeurDeclaree());
 		modifie.setInt(4, aModifier.getFragilite());
-		modifie.setInt(5, aModifier.getLieu());
+		modifie.setString(5, aModifier.getLieu());
 		modifie.setInt(6, aModifier.getId());
-		
-		
-		modifie.setInt(3,aModifier.getModele().intValue());
-		modifie.setString(4,aModifier.getPoids());
-		modifie.Timestamp(5,aModifier.getDate());
-		modifie.setString(6,aModifier.getValeurDeclaree());
-		modifie.setInt(7,aModifier.getFragilite().intValue());
-		modifie.setString(8,aModifier.getLieu());
+		modifie.setInt(7, aModifier.getForme());
+		modifie.setInt(8, aModifier.getIdDestination());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//Recherche dans personne has_colis, mais est-ce nécéssaire
 						
-		modifie.close();	// Fermeture requête SQL*/
+		modifie.close();	// Fermeture requête SQL
 	}
 	
 	//----- Changer le "lieu" du colis -----//
@@ -127,14 +126,49 @@ public class AccesBDDColis  extends AccesBDD {
 		return true;
 	}
 	
+	//----- Lister les colis par destination -----//
+	public Vector listerDest(int idEntrepot) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
+		Vector liste=new Vector();
+		AccesBDDPersonnes_has_Colis idPers=new AccesBDDPersonnes_has_Colis();
+		
+		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
+				"SELECT * FROM colis WHERE Entrepots_idEntrepots=? ");
+		recherche.setInt(1, idEntrepot);
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			Colis courant=new Colis(idPers.getExpediteur(resultat.getInt("idColis")),
+					idPers.getDestinataire(resultat.getInt("idColis"), connecteur),resultat.getInt("Users_idUsers"), 
+					resultat.getFloat("Poids"),resultat.getTimestamp("DateDepot"), resultat.getInt("Fragilite"), 
+					resultat.getInt("Valeur"), resultat.getInt("ModelesColis_idModelesColis"), 
+					resultat.getInt("Entrepots_idEntrepots"), resultat.getString("Lieu"));
+			courant.setId(resultat.getInt("idColis"));
+			liste.add(courant);
+		}
+				
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		
+		return liste;
+	}
+	
+	//----- TESTES OKAY -----//
 	public static void main(String arg[]){
 		AccesBDDColis test=new AccesBDDColis();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
+		Colis rec=null;
+		Vector liste=new Vector();
 		Timestamp date=new Timestamp(10);
-		Colis aAjouter = new Colis(new Integer(0),"1236987458",new Integer(1),new Integer(2),"18",date,"150",new Integer(1),"Villejuif");
+		Colis aAjouter = new Colis(3,4,1,2,date,2,400,1,1,"E-1");
+		Colis aModifier=new Colis(3,4,2,25,date,8,6,2,1,"E-1");
 		try{
-			System.out.println("ici");
-			test.ajouter(aAjouter,connecteur);
+			test.ajouter(aAjouter);
+			aModifier.setId(aAjouter.getId());
+			test.modifier(aModifier);
+			test.ajouter(aAjouter);
+			liste=test.listerDest(aModifier.getIdDestination());
+			test.supprimer(aModifier.getId());
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
