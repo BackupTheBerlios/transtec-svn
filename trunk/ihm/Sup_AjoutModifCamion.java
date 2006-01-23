@@ -107,7 +107,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			textNumero.setText(c.getNumero());
 			comboDispo.setSelectedItem(c.getDispo().toString());
 			textVolume.setText(c.getVolume().toString());
-			textChauffeur.setText(c.getIdChauffeur().toString());
+			textChauffeur.setText(c.getNomChauffeur());
 			textDestination.setText(c.getIdDestination().toString());
 			textAppartenance.setText(c.getIdOrigine().toString());
 		}
@@ -158,7 +158,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		camion.setNumero(textNumero.getText());
 		camion.setDispo(new Integer((String)comboDispo.getSelectedItem()));
 		camion.setVolume(new Integer(textVolume.getText().trim()));
-		camion.setIdChauffeur(new Integer(textChauffeur.getText().trim()));
+		camion.setNomChauffeur(textChauffeur.getText());
 		camion.setIdDestination(new Integer(textDestination.getText().trim()));
 		camion.setIdOrigine(new Integer(textAppartenance.getText().trim()));
 
