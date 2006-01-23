@@ -151,7 +151,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			
 			AccesBDDIncident test=new AccesBDDIncident();
 			Incident aAjouter =new Incident(new Integer(0),new Integer(code_barre.getText()),new Timestamp(System.currentTimeMillis()),new Integer(0),donnees_description.getText(),new Integer(2),new Integer(Incident.EN_COURS));
-		
+			
 				try {
 					test.ajouter(aAjouter);
 				} catch (SQLException e1) {
