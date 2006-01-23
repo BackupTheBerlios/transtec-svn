@@ -16,30 +16,26 @@ public class Colis {
 	private Integer idDestinataire;
 	private Integer idUtilisateur;
 	private String poids;
-	//private Timestamp dateDepot;
 	private Timestamp date_envoie;
 	private Integer fragilite;
 	private Integer forme;
 	private Integer modele;
-	//private float valeurDeclaree;
-	//private int lieu;
-	private String hauteur;
+	/*private String hauteur;
 	private String largeur;
 	private String profondeur;
 	private String forme1;
 	private String modele1;
 	private String fragilite1;
-	private String code_barre1;
+	private String code_barre1;*/
 	private String lieu;
 	private String valeur_declaree;
 
 	// Constructeur vide
-	public Colis(){
-	}
+	/*public Colis(){
+	}*/
 	
-	public Colis(Integer id,String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
+	public Colis(String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
 	{
-		this.id = id;
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.Entrepot=Entrepot;
@@ -53,7 +49,7 @@ public class Colis {
 	}
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele,String hauteur,String largeur,String profondeur){
+	/*public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite, Integer forme, Integer modele,String hauteur,String largeur,String profondeur){
 		this.code_barre = code_barre;
 		this.forme=forme;
 		this.modele=modele;
@@ -66,15 +62,15 @@ public class Colis {
 		this.largeur=largeur;
 		this.hauteur=hauteur;
 		this.profondeur=profondeur;
-	}
+	}*/
 	
-	public Colis(String code_barre1, String forme1, String modele1, String poids,String fragilite1){
+	/*public Colis(String code_barre1, String forme1, String modele1, String poids,String fragilite1){
 		this.code_barre1 = code_barre1;
 		this.forme1=forme1;
 		this.modele1=modele1;
 		this.fragilite1=fragilite1;
 		this.poids=poids;
-	}
+	}*/
 
 	// Constructeur utilisant un Vector
 	/*public colis(Vector v){
