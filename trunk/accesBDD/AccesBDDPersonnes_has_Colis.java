@@ -6,12 +6,13 @@ import java.sql.SQLException;
 
 //----- Classe permettant l'accès à la table Personnes_has_Colis, liant un colis à un expéditeur et un destinataire -----//
 
-public class AccesBDDPersonnes_has_Colis {
+public class AccesBDDPersonnes_has_Colis extends ConnecteurSQL{
 	public final static boolean DESTINATAIRE=false;
 	public final static boolean EXPEDITEUR=true;
 	
 	//----- Fonction permettant l'ajout d'une ligne dans la table Personnes_has_Colis -----//
-	public void ajouter(Integer idColis, Integer idExpediteur, Integer idDestinataire, ConnecteurSQL connecteur) throws SQLException{
+	public void ajouter(Integer idColis, Integer idExpediteur, Integer idDestinataire) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Insertion de la relation entre un destinataire et un colis dans la BDD -----//
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
@@ -28,19 +29,18 @@ public class AccesBDDPersonnes_has_Colis {
 	}
 	
 	//----- Récupération du destinataire du colis -----//
-	public Integer getDestinataire(int idColis, ConnecteurSQL connecteur) throws SQLException{
+	public Integer getDestinataire(Integer idColis) throws SQLException{
 		Integer trouvee = new Integer(0);
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=? AND Expediteur=?");
+			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=?");
 		
 		recherche.setInt(1, idColis);
-		recherche.setBoolean(2, DESTINATAIRE);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
-		resultat.next();
-		trouvee=new Integer(resultat.getInt("Personnes_idPersonnes"));
+		if(resultat.next())	trouvee=new Integer(resultat.getInt("Personnes_idPersonnes"));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
@@ -49,19 +49,18 @@ public class AccesBDDPersonnes_has_Colis {
 	}
 	
 	//----- Récupération de l'expéditeur du colis -----//
-	public Integer getExpediteur(int idColis, ConnecteurSQL connecteur) throws SQLException{
+	public Integer getExpediteur(Integer idColis) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Integer trouvee = new Integer(0);
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT Personnes_idPersonnes FROM Personnes_has_Colis WHERE Colis_idColis=? AND Expediteur=? ");
+			"SELECT Expediteur FROM Personnes_has_Colis WHERE Colis_idColis=? ");
 		
 		recherche.setInt(1, idColis);
-		recherche.setBoolean(2, EXPEDITEUR);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
-		resultat.next();
-		trouvee=new Integer(resultat.getInt("Personnes_idPersonnes"));
+		if(resultat.next())	trouvee=new Integer(resultat.getInt("Expediteur"));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
@@ -75,7 +74,7 @@ public class AccesBDDPersonnes_has_Colis {
 		//Timestamp date=new Timestamp(10);
 		//Colis aAjouter = new Colis(-1,00,01,02,2,date,45,6);
 		try{
-			test.ajouter(new Integer(1),new Integer(1),new Integer(1),connecteur);
+			test.ajouter(new Integer(1),new Integer(1),new Integer(1));
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
