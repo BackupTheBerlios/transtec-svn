@@ -96,4 +96,9 @@ public class Personne{
 	public Localisation getLocalisation(){
 		return this.localisation;
 	}
+	
+	//----- Récupération de l'id de localisation -----//
+	public int getIdLocalisation(){
+		return this.localisation.getId();
+	}
 }
