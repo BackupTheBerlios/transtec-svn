@@ -16,6 +16,7 @@ import accesBDD.AccesBDDPersonne;
 import accesBDD.AccesBDDPersonnes_has_Colis;
 import accesBDD.ConnecteurSQL;
 import donnees.*;
+import accesBDD.AccesBDDModelesColis;
 
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
 
@@ -658,8 +659,16 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				if(selectionidcolis == 69)
 				{
 					float volume ;
-					
+					AccesBDDModelesColis test6=new AccesBDDModelesColis();
 					modele = new ModeleColis(new Integer(selectionidcolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),volume);
+					try{
+						selectionidcolis = test6.ajouter(modele);
+					}
+					catch(SQLException e6){
+						System.out.println(e6.getMessage());
+					}
+					
+					
 				}
 				
 				
@@ -667,10 +676,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				AccesBDDColis test=new AccesBDDColis();
 
 				Timestamp date=new Timestamp(10);
-				Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),new Integer(1),new Integer(1),poids.getText(),date,"150",new Integer(fragilite_colis.getSelectedIndex()),"Villejuif");
+				//Colis aAjouter = new Colis(new Integer(0),code_barre.getText(),new Integer(1),new Integer(1),poids.getText(),date,"150",new Integer(fragilite_colis.getSelectedIndex()),"Villejuif");
 			
 				try{
-					test.ajouter(aAjouter);
+					//test.ajouter(aAjouter);
 				}
 				catch(SQLException e2){
 					System.out.println(e2.getMessage());
@@ -683,7 +692,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				//Timestamp date=new Timestamp(10);
 				//Colis aAjouter = new Colis(-1,00,01,02,2,date,45,6);
 				try{
-					test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId());
+					//test2.ajouter(aAjouter.getId(),pers1.getId(),pers.getId());
 				}
 				catch(SQLException e4){
 					System.out.println(e4.getMessage());
