@@ -65,6 +65,11 @@ public class Personne{
 		this.telephone=telephone;
 	}
 	
+	//----- Insérer l'id de localisation ------//
+	public void setIdLocalisation(int id){
+		this.localisation.setId(id);
+	}
+	
 	/****** Méthodes de lecture ******/
 	
 	//----- Récupérer l'id -----//
