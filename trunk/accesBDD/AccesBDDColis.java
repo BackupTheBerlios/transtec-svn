@@ -8,8 +8,8 @@ import donnees.Colis;
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDColis extends ConnecteurSQL{
-	//----- Ajouter un colis dans la BDD -----//
-	public long ajouter(Colis aAjouter) throws SQLException{
+//	----- Ajouter un colis dans la BDD -----//
+	public int ajouter(Colis aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
@@ -18,7 +18,7 @@ public class AccesBDDColis extends ConnecteurSQL{
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
-		aAjouter.setId(resultat.getInt(1)+1); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
@@ -26,29 +26,29 @@ public class AccesBDDColis extends ConnecteurSQL{
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
 				"INSERT INTO colis "
-				+ " (idColis,Poids,DateDepot,Valeur,Fragilite,Lieu,ModelesColis_idModelesColis,Entrepots_idEntrepots, Code_barre, Users_idUsers )" // Parametre de la table
+				+ " (idColis,ModelesColis_idModelesColis,Entrepots_idEntrepots,Users_idUsers,Code_barre,Poids,DateDepot,Valeur,Fragilite,Lieu)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setString(2,aAjouter.getPoids());
-		ajout.setTimestamp(3,aAjouter.getDate());
-		ajout.setString(4,aAjouter.getValeurDeclaree());
-		ajout.setInt(5,aAjouter.getFragilite().intValue());
-		ajout.setString(6,aAjouter.getLieu());
-		ajout.setInt(7,aAjouter.getModele().intValue());
-		ajout.setInt(8,aAjouter.getIdDestination().intValue());
-		ajout.setString(9, aAjouter.getCode_barre());
-		ajout.setInt(10, aAjouter.getIdUtilisateur().intValue());
+		ajout.setInt(2,aAjouter.getModele().intValue());
+		ajout.setInt(3,aAjouter.getIdDestination().intValue());
+		ajout.setInt(4,aAjouter.getIdUtilisateur().intValue());
+		ajout.setString(5,aAjouter.getCode_barre());
+		ajout.setString(6,aAjouter.getPoids());
+		ajout.setTimestamp(7,aAjouter.getDate());
+		ajout.setString(8,aAjouter.getValeurDeclaree());
+		ajout.setInt(9, aAjouter.getFragilite().intValue());
+		ajout.setString(10, "ici");
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
 		
 		/*----- Ajout de la relation entre l'expéditeur/destinataire et le colis dans la 
 				table Personnes_has_Colis -----*/
-		AccesBDDPersonnes_has_Colis rel=new AccesBDDPersonnes_has_Colis();
-		rel.ajouter(aAjouter.getId(), aAjouter.getIdExpediteur(), aAjouter.getIdDestinataire(), connecteur);
+		//AccesBDDPersonnes_has_Colis rel=new AccesBDDPersonnes_has_Colis();
+		//rel.ajouter(aAjouter.getId(), aAjouter.getIdExpediteur(), aAjouter.getIdDestinataire(), connecteur);
 		
-		return aAjouter.getId();
+		return aAjouter.getId().intValue();
 	}
 	
 	//----- Rechercher un colis dans la BDD -----//
