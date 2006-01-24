@@ -1,4 +1,4 @@
-package ihm;
+package ihm.supervision;
 
 import javax.swing.*;
 

@@ -1,13 +1,15 @@
-package ihm;
+package ihm.supervision;
 
 import java.awt.*;
+import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 import donnees.Camion;
+import accesBDD.AccesBDDCamion;
 
 // Invite d'ajout/modification d'un camion
-public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
+public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	
 	private final static String [] TITRES = {"Disponible" , "En livraison" , "En réparation"};
 	
@@ -21,18 +23,19 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 	private JButton boutValider = new JButton();
 	private JButton boutAnnuler = new JButton("Annuler");
 	private Camion camion;
-	public boolean modif = false;
-	private Sup_OngletRoutage parent;
+//	public boolean modif = false;
+	private Sup_OngletCamion parent;
+	
+	private AccesBDDCamion tableCamions;
 	
 	//Constructeur
-	public Sup_AjoutModifRoutage(Camion c, Sup_OngletRoutage parent){
+	public Sup_AjoutModifCamion(Camion c, Sup_OngletCamion parent, AccesBDDCamion tableCamions){
 		super("");
-		/*
+		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
-				setVisible(false);
-				modif = false;
+				boutAnnuler.doClick();
 			}
 		};
 		addWindowListener(l);
@@ -49,6 +52,7 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 			camion = new Camion();
 		}
 		
+		this.tableCamions = tableCamions;
 		this.parent = parent;
 	
 		// Titres des informations à saisir
@@ -57,8 +61,8 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		panneauLabels.add(new JLabel("Disponibilité :"));
 		panneauLabels.add(new JLabel("Volume :"));
 		panneauLabels.add(new JLabel("Chauffeur :"));
+		panneauLabels.add(new JLabel("Origine :"));
 		panneauLabels.add(new JLabel("Destination :"));
-		panneauLabels.add(new JLabel("Appartenance :"));
 		
 		// Champs de saisie des informations
 		JPanel panneauSaisie = new JPanel(new GridLayout(6,1,5,5));
@@ -66,8 +70,8 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		panneauSaisie.add(comboDispo);
 		panneauSaisie.add(textVolume);
 		panneauSaisie.add(textChauffeur);
-		panneauSaisie.add(textDestination);
 		panneauSaisie.add(textAppartenance);
+		panneauSaisie.add(textDestination);
 		
 		// Boutons d'actions : Valider/Modifier et Annuler
 		JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
@@ -94,58 +98,77 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		getContentPane().add(panneauHaut,BorderLayout.NORTH);
 		getContentPane().add(panneauBoutons,BorderLayout.CENTER);
 		getContentPane().add(panneauWarning,BorderLayout.SOUTH);
+		
+		// On rajoute un peu d'espace autour des panneaux
+		((JComponent)getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Si on est dans le cas d'une modification
 		if(c!= null){
 			// On initialise les champs texte
-			textNumero.setText(c.numero);
-			comboDispo.setSelectedItem(c.dispo);
-			textVolume.setText(c.volume.toString());
-			textChauffeur.setText(c.chauffeur);
-			textDestination.setText(c.destination);
-			textAppartenance.setText(c.origine);
+			textNumero.setText(c.getNumero());
+			comboDispo.setSelectedIndex(c.getDispo().intValue());
+			textVolume.setText(c.getVolume().toString());
+			textChauffeur.setText(c.getNomChauffeur());
+			textDestination.setText(c.getIdDestination().toString());
+			textAppartenance.setText(c.getIdOrigine().toString());
 		}
 
 		pack();
 		setAlwaysOnTop(true);
-		setVisible(true);*/
+		setVisible(true);
 	}
 
-	// Gestion des actions liées au boutons
+	// Gestion des actions liées aux boutons
 	public void actionPerformed(ActionEvent e){
-/*		Object source = e.getSource();
+		Object source = e.getSource();
 
 		// Validation
 		if(source==boutValider){
 			if(verifChamps()){
-				// Cas d'un ajout de camion
-				if(boutValider.getText().equals("Ajouter")){
-					parent.ajouterLigne(this.getCamion().toVector());
+				try{
+					// Cas d'un ajout de camion
+					if(boutValider.getText().equals("Ajouter")){
+						// Ecriture dans la base de données
+						camion.setId(tableCamions.ajouter(this.getCamion()));
+	
+						// Mise à jour du tableau
+						parent.ajouterLigne(this.getCamion().toVector());						
+					}
+					// Cas d'une modification de camion existant
+					else{
+						// Mise à jour du tableau
+						parent.modifierLigne(this.getCamion().toVector());
+						
+						// Ecriture dans la base de données
+						tableCamions.modifier(this.getCamion());
+					}
 				}
-				// Cas d'une modification de camion existant
-				else{
-					parent.modifierLigne(this.getCamion().toVector());
-				}				
-				// On masque la fenetre
-				this.setVisible(false);
-				this.dispose();
-			}
+				catch(SQLException eSQL){
+					
+				}
+				finally{
+					// On masque la fenetre
+					this.setVisible(false);
+					this.dispose();						
+				}
+			}	
 		}
 		// Annulation, on masque simplement la fenêtre
 		else if(source==boutAnnuler){
+			parent.setFenetreActive(true);
 			this.setVisible(false);
 			this.dispose();
 		}
-*/	}
-/*
+	}
+
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Camion getCamion(){
-		camion.numero = (String)this.textNumero.getText();
-		camion.dispo = (String)this.comboDispo.getSelectedItem();
-		camion.volume = new Integer(this.textVolume.getText().trim());
-		camion.chauffeur = (String)this.textChauffeur.getText();
-		camion.destination = (String)this.textDestination.getText();
-		camion.origine = (String)this.textAppartenance.getText();
+		camion.setNumero(textNumero.getText());
+		camion.setDispo(new Integer(comboDispo.getSelectedIndex()));
+		camion.setVolume(new Integer(textVolume.getText().trim()));
+		camion.setNomChauffeur(textChauffeur.getText());
+		camion.setIdDestination(new Integer(textDestination.getText().trim()));
+		camion.setIdOrigine(new Integer(textAppartenance.getText().trim()));
 
 		return camion;
 	}
@@ -179,6 +202,4 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
 		textWarning.updateUI();
 	}
-	
-*/
 }

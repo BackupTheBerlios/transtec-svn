@@ -1,4 +1,7 @@
-package ihm;
+package ihm.preparation;
+
+import ihm.ModeleTable;
+import ihm.TableSorter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

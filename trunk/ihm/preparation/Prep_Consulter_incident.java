@@ -1,4 +1,7 @@
-package ihm;
+package ihm.preparation;
+
+import ihm.ModeleTable;
+import ihm.TableSorter;
 
 import java.awt.Container;
 import java.awt.Dimension;

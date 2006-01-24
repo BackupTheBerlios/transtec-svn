@@ -1,4 +1,4 @@
-package ihm;
+package ihm.supervision;
 
 import java.util.Vector;
 import java.awt.event.*;

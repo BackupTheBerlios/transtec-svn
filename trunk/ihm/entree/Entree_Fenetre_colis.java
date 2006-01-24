@@ -1,4 +1,8 @@
-package ihm;
+package ihm.entree;
+
+import ihm.Fenetre_login;
+import ihm.ModeleTable;
+import ihm.TableSorter;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;

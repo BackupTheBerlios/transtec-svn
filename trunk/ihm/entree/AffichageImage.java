@@ -1,4 +1,4 @@
-package ihm;
+package ihm.entree;
 
 import java.awt.Canvas;
 import java.awt.Dimension;

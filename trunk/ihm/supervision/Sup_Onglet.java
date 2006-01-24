@@ -1,4 +1,7 @@
-package ihm;
+package ihm.supervision;
+
+import ihm.ModeleTable;
+import ihm.TableSorter;
 
 import javax.swing.*;
 import java.util.Vector;
