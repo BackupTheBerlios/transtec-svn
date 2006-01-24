@@ -9,10 +9,10 @@ import donnees.Localisation;
 //----- Classe permettant l'accès à la table Localisation, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDLocalisation extends AccesBDD{
-	public final static short ID=0;
+	/*public final static short ID=0;
 	public final static short ADRESSE=0;
 	public final static short VILLE=1;
-	public final static short CODEPOSTAL=2;
+	public final static short CODEPOSTAL=2;*/
 	
 	public AccesBDDLocalisation(){
 		super();

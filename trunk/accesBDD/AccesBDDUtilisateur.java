@@ -8,9 +8,6 @@ import java.util.Vector;
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDUtilisateur extends AccesBDD{
-	public final static int INCONNU=-1;
-	public final static int MAUVAIS_PASS=-2;
-	
 	public AccesBDDUtilisateur(){
 		super();
 	}

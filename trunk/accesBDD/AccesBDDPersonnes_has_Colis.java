@@ -7,8 +7,8 @@ import java.sql.SQLException;
 //----- Classe permettant l'accès à la table Personnes_has_Colis, liant un colis à un expéditeur et un destinataire -----//
 
 public class AccesBDDPersonnes_has_Colis extends ConnecteurSQL{
-	public final static boolean DESTINATAIRE=false;
-	public final static boolean EXPEDITEUR=true;
+	/*public final static boolean DESTINATAIRE=false;
+	public final static boolean EXPEDITEUR=true;*/
 	
 	//----- Fonction permettant l'ajout d'une ligne dans la table Personnes_has_Colis -----//
 	public void ajouter(Integer idColis, Integer idExpediteur, Integer idDestinataire) throws SQLException{
@@ -68,7 +68,7 @@ public class AccesBDDPersonnes_has_Colis extends ConnecteurSQL{
 		return trouvee;
 	}
 	
-	public static void main(String arg[]){
+	/*public static void main(String arg[]){
 		AccesBDDPersonnes_has_Colis test=new AccesBDDPersonnes_has_Colis();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		//Timestamp date=new Timestamp(10);
@@ -79,5 +79,5 @@ public class AccesBDDPersonnes_has_Colis extends ConnecteurSQL{
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
-	}
+	}*/
 }
