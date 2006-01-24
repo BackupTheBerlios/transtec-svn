@@ -1,6 +1,5 @@
 package donnees;
 
-import java.sql.Timestamp;
 
 public class ModeleColis {
 

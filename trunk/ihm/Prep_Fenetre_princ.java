@@ -10,7 +10,6 @@ import javax.swing.*;
 import donnees.Camion;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDCamion;
-import donnees.*;
 
 public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 

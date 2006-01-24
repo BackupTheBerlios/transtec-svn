@@ -169,11 +169,11 @@ public class AccesBDDColis extends ConnecteurSQL{
 		Colis rec=null;
 		Vector liste=new Vector();
 		Timestamp date=new Timestamp(10);
-		Colis aAjouter = new Colis("24154654",1, 2,new Integer(2),"52", date, new Integer(1),
+		Colis aAjouter = new Colis("24154654",new Integer(1), new Integer(2),new Integer(2),"52", date, new Integer(1),
 				new Integer(2), new Integer(2),"5245");
-		Colis aAjouter1 = new Colis("24fdsfds4654",1, 2,new Integer(2),"52", date, new Integer(1),
+		Colis aAjouter1 = new Colis("24fdsfds4654",new Integer(1), new Integer(2),new Integer(2),"52", date, new Integer(1),
 				new Integer(2), new Integer(2),"5245");
-		Colis aAjouter2 = new Colis("24tyuy654",1, 2,new Integer(2),"52", date, new Integer(1),
+		Colis aAjouter2 = new Colis("24tyuy654",new Integer(1), new Integer(2),new Integer(2),"52", date, new Integer(1),
 				new Integer(2), new Integer(2),"5245");
 		//Colis aModifier=new Colis(3,4,2,25,date,8,6,2,1,"E-1");
 		try{

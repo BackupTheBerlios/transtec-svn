@@ -8,8 +8,6 @@ import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Colis;
-import accesBDD.AccesBDDChargement;
-import java.sql.SQLException;
 
 public class Prep_Plan_chargement extends JFrame implements ActionListener{
 
@@ -54,7 +52,7 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 //********************************************APPEL A LA BDD*************************************
 //Il faut afficher tous les colis présents dans le camion choisi    
        Timestamp date=new Timestamp(12-12-1842);
-       Colis c = new Colis(new Integer(5),"24thghyuy654",1, 2,new Integer(2),"52", date, new Integer(1),
+       Colis c = new Colis(new Integer(5),"24thghyuy654",new Integer(1), new Integer(2),new Integer(2),"52", date, new Integer(1),
 				new Integer(2), new Integer(2),"52445");
 		c.setId(new Integer(127));
 		//Vector v = new Vector(c.toVector());

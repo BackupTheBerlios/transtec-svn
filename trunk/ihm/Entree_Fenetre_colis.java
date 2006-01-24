@@ -14,7 +14,6 @@ import javax.swing.*;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPersonne;
 import accesBDD.AccesBDDPersonnes_has_Colis;
-import accesBDD.ConnecteurSQL;
 import donnees.*;
 import accesBDD.AccesBDDModelesColis;
 
