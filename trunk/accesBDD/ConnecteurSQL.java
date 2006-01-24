@@ -47,7 +47,7 @@ public class ConnecteurSQL {
 		this.password = password;
 		fermerConnexion();
 	}
-	
+
 	// Renvoie une connexion a la base de donnees
 	public Connection getConnexion() throws SQLException{
 		try{

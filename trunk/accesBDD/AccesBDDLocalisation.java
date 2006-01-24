@@ -8,51 +8,52 @@ import donnees.Localisation;
 
 //----- Classe permettant l'accès à la table Localisation, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDLocalisation extends ConnecteurSQL{
+public class AccesBDDLocalisation extends AccesBDD{
 	public final static short ID=0;
 	public final static short ADRESSE=0;
 	public final static short VILLE=1;
 	public final static short CODEPOSTAL=2;
 	
+	public AccesBDDLocalisation(){
+		super();
+	}
+	
 	//----- Permet l'ajout d'une localisation dans la BDD -----//
 	public Integer ajouter(Localisation aAjouter) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=
-			connecteur.getConnexion().prepareStatement(
+		//----- Recherche du maximum de l'id dans la BDD -----//
+		PreparedStatement rechercheMaxID=connecter().prepareStatement(
 				"SELECT MAX(idLocalisation) FROM localisation");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
 		
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrémentation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'une localisation dans la BDD -----//
-		PreparedStatement ajout =
-			connecteur.getConnexion().prepareStatement(
-				"INSERT INTO localisation"
-				+ " (idLocalisation,Adresse,CodePostal,Ville)" // Parametre de la table
-				+ " VALUES (?,?,?,?)"); 
+		PreparedStatement ajout =connecter().prepareStatement(
+				"INSERT INTO localisation "
+				+ "(idLocalisation,Adresse,CodePostal,Ville) " // Parametre de la table
+				+ "VALUES (?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setString(2,aAjouter.getAdresse());
 		ajout.setString(3,aAjouter.getCodePostal());
 		ajout.setString(4,aAjouter.getVille());
 				
-		ajout.executeUpdate();//execution de la requete SQL
-		ajout.close();//fermeture requete SQL
+		ajout.executeUpdate(); // Exécution de la requete SQL
+		ajout.close(); // Fermeture de la requete SQL
+		deconnecter();
+		
 		return aAjouter.getId();
 	}
 	
 	//----- Recherche d'une localisation dans la BDD -----//
 	public Localisation rechercher(Integer aChercher) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Localisation trouvee=null;
 		
-		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM localisation WHERE idLocalisation=?");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM localisation WHERE idLocalisation=?");
 		
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -63,12 +64,13 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 				
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
+		deconnecter();
 		
 		return trouvee;
 	}
 	
-	//	----- Recherche d'une localisation dans la BDD -----//
-	public Localisation rechercher(short type, String aChercher) throws SQLException{
+	//----- Recherche d'une localisation dans la BDD -----//
+	/*public Localisation rechercher(short type, String aChercher) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Localisation trouvee=null;
 		PreparedStatement recherche;
@@ -104,16 +106,14 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		recherche.close();	// Fermeture requête SQL
 		
 		return trouvee;
-	}
+	}*/
 	
 	//----- Modifier une localisation dans la BDD -----//
 	public void modifier(Localisation aModifier) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Modification de la localisation à partir de l'id -----//
-		PreparedStatement modifie=
-			connecteur.getConnexion().prepareStatement(
+		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE localisation SET "
-				+"Adresse=?, CodePostal=?, Ville=?"
+				+"Adresse=?, CodePostal=?, Ville=? "
 				+"WHERE idLocalisation=?");
 		modifie.setString(1, aModifier.getAdresse());
 		modifie.setString(2, aModifier.getCodePostal());
@@ -123,23 +123,22 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 						
 		modifie.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 	
 	//----- Supprimer une localisation dans la BDD -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		PreparedStatement supprime=
-			connecteur.getConnexion().prepareStatement(
-				"DELETE FROM localisation WHERE idLocalisation=?");
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM localisation WHERE idLocalisation=?");
 		supprime.setInt(1, aSupprimer.intValue());
-				
+			
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 	
 	//----- TESTS OKAY-----//
-	public static void main(String arg[]){
+	/*public static void main(String arg[]){
 		AccesBDDLocalisation test=new AccesBDDLocalisation();
 		Localisation resultatRech=null;
 		Localisation aAjouter = new Localisation("Adresse","94800","Villejuif");
@@ -160,5 +159,5 @@ public class AccesBDDLocalisation extends ConnecteurSQL{
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
-	}
+	}*/
 }
