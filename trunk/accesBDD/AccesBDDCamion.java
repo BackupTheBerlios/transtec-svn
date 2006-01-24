@@ -73,11 +73,13 @@ public class AccesBDDCamion extends ConnecteurSQL{
 		
 		while(resultat.next()){
 			Camion courant=new Camion(new Integer(resultat.getInt("idCamions")),
-					resultat.getString("Immatriculation"), new Integer(resultat.getInt("Etat")),
-					new Integer(resultat.getInt("Volume")), resultat.getString("nomChauffeur"),
+					resultat.getString("Immatriculation"), 
+					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("Volume")), 
+					resultat.getString("nomChauffeur"),
 					bddLoc.recherche(AccesBDDCamion_has_Localisation.ORIGINE, new Integer(resultat.getInt("idCamions"))), 
 					bddLoc.recherche(AccesBDDCamion_has_Localisation.DESTINATION, new Integer(resultat.getInt("idCamions"))));
-			liste.add(courant);
+			liste.add(courant.toVector());
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -110,9 +112,15 @@ public class AccesBDDCamion extends ConnecteurSQL{
 	public static void main(String arg[]){
 		AccesBDDCamion test=new AccesBDDCamion();
 
-		Camion aAjouter = new Camion("1013TW78",new Integer(0),new Integer(2),"Leblanc",new Integer(1),new Integer(2));
+		Camion aAjouter = new Camion("1013Tfdgf",new Integer(0),new Integer(2),"Legfg",new Integer(1),new Integer(2));
+		Camion aAjouter1 = new Camion("101gfgf",new Integer(0),new Integer(2),"Lgfgfc",new Integer(1),new Integer(2));
+		Camion aAjouter2 = new Camion("1013fddf",new Integer(0),new Integer(2),"Lgfdfgfanc",new Integer(1),new Integer(2));
 		try{
 			test.ajouter(aAjouter);
+			test.ajouter(aAjouter1);
+			test.ajouter(aAjouter2);
+			Vector v=null;
+			v=test.lister();
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

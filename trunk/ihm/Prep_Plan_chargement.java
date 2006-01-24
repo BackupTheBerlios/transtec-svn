@@ -52,14 +52,13 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
         nomColonnes.add("Date d'entrée");
 
 //********************************************APPEL A LA BDD*************************************
-//Il faut afficher tous les colis présents dans le camion choisi        
-       try{
-    	   AccesBDDChargement bddChargement=new AccesBDDChargement();
-    	   Vector v=bddChargement.listerColis(bddChargement.getCamion(new Integer(1)));
-       }
-       catch(SQLException e){
-    	   
-       }
+//Il faut afficher tous les colis présents dans le camion choisi    
+       Timestamp date=new Timestamp(12-12-1842);
+       Colis c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
+		c.setId(new Integer(127));
+		Vector v = new Vector(c.toVector());
+		//v.add(0,c.getId());
+		donnees.addElement(v);
 
 //***********************************************************************************************		
 		
