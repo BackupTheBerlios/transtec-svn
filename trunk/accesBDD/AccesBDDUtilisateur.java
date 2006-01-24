@@ -171,11 +171,15 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Utilisateur rec=null;
 		//Timestamp date=new Timestamp(10);
-		Utilisateur aAjouter = new Utilisateur("login", "motDePasse", new Integer(Utilisateur.ENTREE), "nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
+		Utilisateur aAjouter = new Utilisateur("login1", "motDePasse1", new Integer(Utilisateur.ENTREE), "fdfdfd", "fddfssdf", "fdssdffdsfdsfdsfsdfd", "94804", "ville1", "mail1", "6767866969");
+		Utilisateur aAjouter1 = new Utilisateur("login2", "motDePasse2", new Integer(Utilisateur.PREPARATIOIN), "dfsfdfds", "fsdsfddfs", "fsdfdsfdsfdss", "9481", "vill2e", "mail2", "69686696");
+		Utilisateur aAjouter2 = new Utilisateur("login3", "motDePasse3", new Integer(Utilisateur.SUPERVISION), "fdfsdsdf", "fdsfdsfds", "dfssdffdsdfs", "94802", "ville3", "mail3", "6886669");
 		Utilisateur aModifier = new Utilisateur("Soph", "ia", new Integer(Utilisateur.SUPERVISION), "nom2", "prenom2", "adresse2", "22222", "ville2", "mail2", "telephone2");
 		try{
 			test.ajouter(aAjouter);
-			aModifier.setId(aAjouter.getId());
+			test.ajouter(aAjouter1);
+			test.ajouter(aAjouter2);
+			/*aModifier.setId(aAjouter.getId());
 			aModifier.getPersonne().setId(aAjouter.getPersonne().getId());
 			aModifier.getPersonne().getLocalisation().setId(aAjouter.getPersonne().getLocalisation().getId());
 			test.modifier(aModifier);
@@ -188,7 +192,7 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 			test.ajouter(aAjouter);
 			Vector list=null;
 			list=test.lister();
-			test.supprimer(aModifier.getId());			
+			test.supprimer(aModifier.getId());*/			
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

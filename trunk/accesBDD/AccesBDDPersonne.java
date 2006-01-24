@@ -18,7 +18,7 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 	public final static short VILLLE=5;
 	public final static short CODEPOSTAL=6;
 	
-	//	----- Ajouter une personne dans la BDD -----//
+	//----- Ajouter une personne dans la BDD -----//
 	public Integer ajouter(Personne aAjouter) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
@@ -200,15 +200,25 @@ public class AccesBDDPersonne extends ConnecteurSQL{
 		Personne rec=null;
 		//Timestamp date=new Timestamp(10);
 		Personne aAjouter = new Personne("nom", "prenom", "adresse", "94800", "ville", "mail", "telephone");
-		Personne aModifier = new Personne("Ton cul", "ffddsf", "fdsfdsfds", "94801", "ville", "mail", "telephone");
+		Personne aAjouter1 = new Personne("nom1", "prenom1", "adresse1", "95576", "ville1", "mail1", "8787858558857");
+		Personne aAjouter2 = new Personne("nom2", "prenom2", "adresse2", "94333", "ville2", "mail2", "8785855287");
+		Personne aAjouter3 = new Personne("nom3", "prenom3", "adresse3", "94804", "ville3", "mail3", "2252575752725");
+		Personne aAjouter4 = new Personne("nom4", "prenom4", "adresse4", "94840", "ville4", "mail4", "8785857557");
+		Personne aAjouter5 = new Personne("nom5", "prenom5", "adresse5", "94807", "ville5", "mail5", "87878585858");
+		Personne aModifier = new Personne("dgdf", "ffddsf", "fdsfdsfds", "94801", "ville", "mail", "telephone");
 		
 		try{
 			test.ajouter(aAjouter);
-			aModifier.setId(new Integer(1));
-			aModifier.getLocalisation().setId(aAjouter.getLocalisation().getId());
-			test.modifier(aModifier);
-			rec=test.rechercher(aModifier.getId());
-			test.supprimer(aModifier.getId());
+			test.ajouter(aAjouter1);
+			test.ajouter(aAjouter2);
+			test.ajouter(aAjouter3);
+			test.ajouter(aAjouter4);
+			test.ajouter(aAjouter5);
+			//aModifier.setId(new Integer(1));
+			//aModifier.getLocalisation().setId(aAjouter.getLocalisation().getId());
+			//test.modifier(aModifier);
+			//rec=test.rechercher(aModifier.getId());
+			//test.supprimer(aModifier.getId());
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

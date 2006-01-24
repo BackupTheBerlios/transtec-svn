@@ -127,6 +127,9 @@ public class AccesBDDEntrepot extends ConnecteurSQL{
 		AccesBDDEntrepot test=new AccesBDDEntrepot();
 		Entrepot rec=null;
 		Entrepot aAjouter = new Entrepot("adresse","94800","Villejuif","06-15-11-31-30");
+		Entrepot aAjouter1 = new Entrepot("adresse","94800","Villejuif","06-15-11-31-30");
+		Entrepot aAjouter2 = new Entrepot("adresse","94800","Villejuif","06-15-11-31-30");
+		Entrepot aAjouter3 = new Entrepot("adresse","94800","Villejuif","06-15-11-31-30");
 		Entrepot aModifier = new Entrepot("adresse2","94800","Villejuif","06-15-115225230");
 		try{
 			test.ajouter(aAjouter);
