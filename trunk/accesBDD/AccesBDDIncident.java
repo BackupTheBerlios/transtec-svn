@@ -98,17 +98,16 @@ public class AccesBDDIncident extends ConnecteurSQL{
 	public static void main(String arg[]){
 		AccesBDDIncident test=new AccesBDDIncident();
 		Timestamp date=new Timestamp(System.currentTimeMillis());
-		Incident aAjouter = new Incident(new Integer(1),date,new Integer(1),"Description",new Integer(1),new Integer(1));
+		Incident aAjouter = new Incident(new Integer(3),date,new Integer(1),"Description",new Integer(1),new Integer(1));
 		Incident aModifier=new Incident(new Integer(1),date,new Integer(1),"Description2",new Integer(1),new Integer(1));
 		try{
 			test.ajouter(aAjouter);
-			aModifier.setId(aAjouter.getId());
+			/*9aModifier.setId(aAjouter.getId());
 			test.supprimer(aAjouter.getId());
 			test.ajouter(aAjouter);
 			test.ajouter(aModifier);
 			Vector liste=null;
-			liste=test.lister();
-			int i=0;
+			liste=test.lister();*/
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());

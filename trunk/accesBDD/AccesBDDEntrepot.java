@@ -133,14 +133,17 @@ public class AccesBDDEntrepot extends ConnecteurSQL{
 		Entrepot aModifier = new Entrepot("adresse2","94800","Villejuif","06-15-115225230");
 		try{
 			test.ajouter(aAjouter);
-			aModifier.setId(aAjouter.getId());
+			test.ajouter(aAjouter1);
+			test.ajouter(aAjouter2);
+			test.ajouter(aAjouter3);
+			/*aModifier.setId(aAjouter.getId());
 			aModifier.getLocalisation().setId(aAjouter.getLocalisation().getId());
 			test.modifier(aModifier);
 			rec=test.rechercher(aModifier.getId());
 			test.ajouter(aAjouter);
 			Vector liste=null;
 			liste=test.lister();
-			test.supprimer(aModifier.getId());
+			test.supprimer(aModifier.getId());*/
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
