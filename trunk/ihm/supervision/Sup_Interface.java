@@ -73,7 +73,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 	}
 
 	public static void main(String [] args){
-		Utilisateur uTest = new Utilisateur("rochef","pass",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
+		Utilisateur uTest = new Utilisateur(new Integer(-1),"rochef","pass",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
 		JFrame frame = new Sup_Interface(uTest);		
 	}
 }

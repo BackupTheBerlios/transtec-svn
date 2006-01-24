@@ -20,7 +20,7 @@ public class Colis {
 	private Timestamp date_envoi;
 	private Integer fragilite;
 	private Integer modele;/////////// A VOIR
-	private Localisation lieu;
+	private String lieu;
 	private String valeur_declaree;
 
 	// Constructeur vide
@@ -43,25 +43,24 @@ public class Colis {
 	
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Integer expediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.id=id;
-		this.code_barre = code_barre;
-		
+		this.code_barre = code_barre;		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
 		this.date_envoi=date_envoi;
 		this.expediteur=expediteur;
-		this.idDestinataire=idDestinataire;
-		this.idUtilisateur=idUtilisateur;
-		this.idDestination=idDestination;
+		this.destinataire=destinataire;
+		this.utilisateur=utilisateur;
+		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
 		/*this.largeur=largeur;
 		this.hauteur=hauteur;
 		this.profondeur=profondeur;*/
 	}
 	
-	public Colis(String code_barre,Integer expediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis( String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.code_barre = code_barre;
 		
 		this.modele=modele;
@@ -69,9 +68,9 @@ public class Colis {
 		this.poids=poids;
 		this.date_envoi=date_envoi;
 		this.expediteur=expediteur;
-		this.idDestinataire=idDestinataire;
-		this.idUtilisateur=idUtilisateur;
-		this.idDestination=idDestination;
+		this.destinataire=destinataire;
+		this.utilisateur=utilisateur;
+		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
 		/*this.largeur=largeur;
 		this.hauteur=hauteur;
@@ -89,13 +88,13 @@ public class Colis {
 	// Constructeur utilisant un Vector
 	public Colis(Vector v){
 		this.id=(Integer)v.get(0);
-		this.Entrepot=(Integer)v.get(1);
+		this.entrepot=(Entrepot)v.get(1);
 		this.code_barre=(String)v.get(2);
-		this.expediteur=(Integer)v.get(3);
-		this.idDestinataire=(Integer)v.get(4);
-		this.idDestination=(Integer)v.get(5);
-		this.idUtilisateur=(Integer)v.get(6);
-		this.poids=(String)v.get(7);
+		this.expediteur=(Personne)v.get(3);
+		this.destinataire=(Personne)v.get(4);
+		this.destination=(Entrepot)v.get(5);
+		this.utilisateur=(Utilisateur)v.get(6);
+		this.poids=(Integer)v.get(7);
 		this.date_envoi=(Timestamp)v.get(8);
 		this.fragilite=(Integer)v.get(9);
 		this.modele=(Integer)v.get(10);
@@ -137,14 +136,14 @@ public class Colis {
 		Vector v = new Vector();
 
 		// ATTENTION l'ordre est très important !!
-		// ordre : numero, etat, volume, chauffeur, destination, origine, ID
+		// ordre : 
 		v.add(id);
 		v.add(entrepot);
 		v.add(code_barre);
 		v.add(expediteur);
-		v.add(idDestinataire);
-		v.add(idDestination);
-		v.add(idUtilisateur);
+		v.add(destinataire);
+		v.add(destination);
+		v.add(utilisateur);
 		v.add(poids);
 		v.add(date_envoi);
 		v.add(fragilite);
@@ -199,7 +198,7 @@ public class Colis {
 	}
 	
 	//----- Récupération du poids du colis -----//
-	public String getPoids(){
+	public Integer getPoids(){
 		return this.poids;
 	}
 	public String getCode_barre(){

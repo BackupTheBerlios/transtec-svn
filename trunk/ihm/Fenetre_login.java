@@ -6,7 +6,6 @@ import ihm.supervision.Sup_Interface;
 
 import java.awt.*;
 import java.awt.event.*; 
-import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -74,26 +73,9 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			AccesBDDUtilisateur bdd=new AccesBDDUtilisateur();
 			
 			try {
-				type = bdd.isRegistered(login.getText(), new String(pwd1.getPassword()));
-				System.out.println(type);
+				u = bdd.isRegistered(login.getText(), new String(pwd1.getPassword()));
 				
-				switch(type)
-				{
-				case AccesBDDUtilisateur.INCONNU : 
-					JOptionPane.showMessageDialog(this,"L'utilisateur est inconnu. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-					login.setText("");
-					pwd1.setText("");
-
-					break;
-				case AccesBDDUtilisateur.MAUVAIS_PASS :
-					JOptionPane.showMessageDialog(this,"Le password est erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-					//login.setText("");
-					pwd1.setText("");
-					
-					break;
-				default :
-					u = bdd.rechercher(login.getText());
-					
+				if(u!=null){
 					dispose();
 					
 					switch(u.getType().intValue())
@@ -111,13 +93,13 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						fen.setVisible(true);
 						break;
 					}		
-					
-				break;			
 				}
-			
-			} catch (SQLException e1) {
-				
-				e1.printStackTrace();
+				else{
+					JOptionPane.showMessageDialog(this,"Le couple login/mot de passe est incorrect.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);					
+				}		
+			}
+			catch(Exception m){				
+				System.out.println(m.getMessage());
 			}				
 		}
 	}

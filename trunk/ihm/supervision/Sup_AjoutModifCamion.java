@@ -16,7 +16,6 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	private JTextField textNumero = new JTextField(15);
 	private JComboBox comboDispo = new JComboBox(TITRES);
 	private JTextField textVolume = new JTextField(15);
-	private JTextField textChauffeur = new JTextField(15);
 	private JTextField textDestination = new JTextField(15);
 	private JTextField textAppartenance = new JTextField(15);
 	private JTextField textWarning = new JTextField(15);
@@ -60,7 +59,6 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		panneauLabels.add(new JLabel("Numéro :"));
 		panneauLabels.add(new JLabel("Disponibilité :"));
 		panneauLabels.add(new JLabel("Volume :"));
-		panneauLabels.add(new JLabel("Chauffeur :"));
 		panneauLabels.add(new JLabel("Origine :"));
 		panneauLabels.add(new JLabel("Destination :"));
 		
@@ -69,7 +67,6 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		panneauSaisie.add(textNumero);
 		panneauSaisie.add(comboDispo);
 		panneauSaisie.add(textVolume);
-		panneauSaisie.add(textChauffeur);
 		panneauSaisie.add(textAppartenance);
 		panneauSaisie.add(textDestination);
 		
@@ -106,11 +103,10 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		if(c!= null){
 			// On initialise les champs texte
 			textNumero.setText(c.getNumero());
-			comboDispo.setSelectedIndex(c.getDispo().intValue());
+			comboDispo.setSelectedIndex(c.getDisponibilite().intValue());
 			textVolume.setText(c.getVolume().toString());
-			textChauffeur.setText(c.getNomChauffeur());
-			textDestination.setText(c.getIdDestination().toString());
-			textAppartenance.setText(c.getIdOrigine().toString());
+			textDestination.setText(c.getDestination().getVille().toString());
+			textAppartenance.setText(c.getOrigine().getVille().toString());
 		}
 
 		pack();
@@ -164,11 +160,10 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Camion getCamion(){
 		camion.setNumero(textNumero.getText());
-		camion.setDispo(new Integer(comboDispo.getSelectedIndex()));
+		camion.setDisponibilite(new Integer(comboDispo.getSelectedIndex()));
 		camion.setVolume(new Integer(textVolume.getText().trim()));
-		camion.setNomChauffeur(textChauffeur.getText());
-		camion.setIdDestination(new Integer(textDestination.getText().trim()));
-		camion.setIdOrigine(new Integer(textAppartenance.getText().trim()));
+		camion.setDestination(new Entrepot());
+		camion.setOrigine(new Entrepot());
 
 		return camion;
 	}
@@ -189,7 +184,6 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		// On vérifie que tous les champs sont remplis
 		if(textNumero.getText().equals("")) setWarning("Numéro");
 		else if(textVolume.getText().equals("") || erreurVolume) setWarning("Volume");
-		else if(textChauffeur.getText().equals("")) setWarning("Chauffeur");
 		else if(textDestination.getText().equals("")) setWarning("Destination");
 		else if(textAppartenance.getText().equals("")) setWarning("Appartenance");
 		else ret = true;

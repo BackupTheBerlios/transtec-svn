@@ -172,11 +172,11 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 		if(incid != null){
 			// On initialise les champs texte
-			textColis.setText(incid.getIdColis().toString());
+			textColis.setText(incid.getColis().getCode_barre().toString());
 			textDate.setText(incid.getDate().toString());
 			comboEtat.setSelectedIndex(incid.getEtat().intValue());
 			textDescription.setText(incid.getDescription());
-			textUtilisateur.setText(incid.getIdUtilisateur().toString());
+			textUtilisateur.setText(incid.getUtilisateur().getPersonne().getNom().toString());
 			textType.setText(incid.getType().toString());
 		}
 
@@ -219,11 +219,11 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Incident getIncident(){
-		incid.setIdColis(new Integer(this.textColis.getText().trim()));
+		incid.setColis(new Integer(this.textColis.getText().trim()));
 		incid.setDate(new Timestamp(System.currentTimeMillis()));
 		incid.setEtat(new Integer(this.comboEtat.getSelectedIndex()));
 		incid.setDescription(this.textDescription.getText());
-		incid.setIdUtilisateur(new Integer(this.textUtilisateur.getText().trim()));
+		incid.setUtilisateur(new Integer(this.textUtilisateur.getText().trim()));
 		incid.setType(new Integer(this.textType.getText()));
 
 		return incid;
