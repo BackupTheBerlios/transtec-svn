@@ -77,8 +77,8 @@ public class AccesBDDChargement extends ConnecteurSQL{
 		while(resultat.next()){
 			Colis courant=new Colis(new Integer(resultat.getInt("idColis")), 
 					resultat.getString("Code_barre"), 
-					new Integer(idPers.getExpediteur(new Integer(resultat.getInt("idColis")))), 
-					new Integer(idPers.getDestinataire(new Integer(resultat.getInt("idColis")))),
+					idPers.getExpediteur(new Integer(resultat.getInt("idColis"))), 
+					idPers.getDestinataire(new Integer(resultat.getInt("idColis"))),
 					new Integer(resultat.getInt("Users_idUsers")),
 					resultat.getString("Poids"), 
 					resultat.getTimestamp("DateDepot"), 
@@ -106,7 +106,7 @@ public class AccesBDDChargement extends ConnecteurSQL{
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
-		if(resultat.next())	trouvee=new Integer(resultat.getInt(idChargement));
+		if(resultat.next())	trouvee=new Integer(resultat.getInt(idChargement.intValue()));
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL

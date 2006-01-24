@@ -118,15 +118,15 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 	}
 	
 	//----- Recherche d'un utilisateur dans la BDD -----//
-	public Utilisateur rechercher(Integer aChercher) throws SQLException{
+	public Utilisateur rechercher(String aChercher) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Utilisateur trouvee=null;
 		AccesBDDPersonne pers=new AccesBDDPersonne();
 				
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT * FROM users WHERE idUsers=?");
+			"SELECT * FROM users WHERE Login=?");
 		
-		recherche.setInt(1, aChercher.intValue());
+		recherche.setString(1, aChercher);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		resultat.next();
 		trouvee=new Utilisateur(
@@ -179,7 +179,7 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 			aModifier.getPersonne().setId(aAjouter.getPersonne().getId());
 			aModifier.getPersonne().getLocalisation().setId(aAjouter.getPersonne().getLocalisation().getId());
 			test.modifier(aModifier);
-			rec=test.rechercher(aModifier.getId());
+			rec=test.rechercher("julien");
 			rec=null;
 			int rec2=0;
 			rec2=test.isRegistered(aModifier.getLogin(), aModifier.getMotDePasse());

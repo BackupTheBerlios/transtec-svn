@@ -55,7 +55,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		etiquette.add(creation);
 		creation.addActionListener(this);
 		
-		
+	
 		create_graphique(); //appel la fonction de la création graphique
 	
 		
@@ -769,7 +769,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		if (source == create_incident)
 		{
 			create1 = true;
-			JFrame fen3 = new Fenetre_create_incident(col,login,create1);
+			JFrame fen3 = new Fenetre_create_incident(col,login,create1,this);
 			fen3.setVisible(true);
 			
 		}
@@ -793,7 +793,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				Vector cVect = (Vector) modeleTabInc.getRow(ligneActive);
 				Incident c = new Incident(cVect);
 				String temp = c.getId().toString();
-				JFrame fen3 = new Fenetre_create_incident(col,login,create1);
+				JFrame fen3 = new Fenetre_create_incident(col,login,create1,this);
 				fen3.setVisible(true);
 				
 			}

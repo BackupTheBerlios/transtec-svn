@@ -58,38 +58,65 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
-		//String log="julien";
-		//String pass="julien";
+		
 		if (source == valider)
 		{
-			
+			int type;
 			JFrame fen;
 			
 			// rechercher la personne avec la méthode de Nico.
-			Utilisateur u= new Utilisateur("rochef","pass",new Integer(1),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
+			//Utilisateur u= new Utilisateur("rochef","pass",new Integer(1),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
+			Utilisateur u = null;
+			AccesBDDUtilisateur test=new AccesBDDUtilisateur();
+			
+			try {
+				type = test.isRegistered(login.getText(), pwd1.getText());
+				System.out.println(type);
+				
+				switch(type)
+				{
+				case -1 : JOptionPane.showMessageDialog(this,"L'utilisateur est inconnu. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				login.setText("");
+				pwd1.setText("");
+					
+					break;
+				case -2 :JOptionPane.showMessageDialog(this,"Le password est erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				//login.setText("");
+				pwd1.setText("");
+					
+					break;
+				default :
+					u = test.rechercher(login.getText());
+					
+					switch(u.getType().intValue())
+					{
+					case Utilisateur.ENTREE : 	dispose();
+								fen = new Entree_Fenetre_colis(u);
+								fen.setVisible(true);
+								break;
+					case Utilisateur.PREPARATIOIN : 	dispose();
+								fen = new Prep_Fenetre_princ(u);
+								fen.setVisible(true);
+								break;
+					case Utilisateur.SUPERVISION : 	dispose();
+								fen = new Sup_Interface(u);
+								fen.setVisible(true);
+								break;
+					}		
+					
+					break;
+				
+				
+				}
+			
+			} catch (SQLException e1) {
+				
+				e1.printStackTrace();
+			}
 			
 			
-			switch(u.getType().intValue())
-			{
-		
 			
-			case 0 : 	JOptionPane.showMessageDialog(this,"Login ou password erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-						login.setText("");
-						pwd1.setText("");
-						break;
-			case Utilisateur.ENTREE : 	dispose();
-						fen = new Entree_Fenetre_colis(u);
-						fen.setVisible(true);
-						break;
-			case Utilisateur.PREPARATIOIN : 	dispose();
-						fen = new Prep_Fenetre_princ(u);
-						fen.setVisible(true);
-						break;
-			case Utilisateur.SUPERVISION : 	dispose();
-						fen = new Sup_Interface(u);
-						fen.setVisible(true);
-						break;
-			}			
+				
 		}
 	}
 	

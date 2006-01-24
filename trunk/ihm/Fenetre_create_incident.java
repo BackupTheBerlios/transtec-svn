@@ -31,11 +31,11 @@ import java.sql.Timestamp;
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
 
-	public Fenetre_create_incident(Colis col,String name,boolean create)
+	public Fenetre_create_incident(Colis col,String name,boolean create,Entree_Fenetre_colis fenetre)
 	{
 		//création graphique
 		DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
-		
+		fenetre1 = fenetre;
 		
 		setTitle("Création d'un incident");
 		setBounds(292,200,360,340);
@@ -162,7 +162,9 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			
 			
 			//System.out.println(inc);
-			dispose();	
+				dispose();
+				fenetre1.informations_colis();
+				
 		}
 	
 	}
@@ -172,5 +174,5 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	private JButton valider_incident,annuler_incident;
 	private JTextField date,incident,code_barre,utilisateur;
 	private JTextArea donnees_description;
-	
+	private Entree_Fenetre_colis fenetre1;
 }

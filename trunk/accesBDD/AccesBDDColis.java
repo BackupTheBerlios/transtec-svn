@@ -114,7 +114,7 @@ public class AccesBDDColis extends ConnecteurSQL{
 		modifie.setInt(7, aModifier.getModele().intValue());
 		modifie.setString(8, aModifier.getCode_barre());
 		modifie.setInt(9, aModifier.getIdUtilisateur().intValue());
-		modifie.setInt(10, aModifier.getIdDestination());
+		modifie.setInt(10, aModifier.getIdDestination().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -142,8 +142,10 @@ public class AccesBDDColis extends ConnecteurSQL{
 		while(resultat.next()){
 			Colis courant=new Colis(new Integer(resultat.getInt("idColis")), 
 					resultat.getString("Code_barre"), 
-					new Integer(idPers.getExpediteur(new Integer(resultat.getInt("idColis")))), 
-					new Integer(idPers.getDestinataire(new Integer(resultat.getInt("idColis")))),
+					//new Integer(
+					idPers.getExpediteur(new Integer(resultat.getInt("idColis"))), 
+					//new Integer(
+					idPers.getDestinataire(new Integer(resultat.getInt("idColis"))),
 					new Integer(resultat.getInt("Users_idUsers")),
 					resultat.getString("Poids"), 
 					resultat.getTimestamp("DateDepot"), 
