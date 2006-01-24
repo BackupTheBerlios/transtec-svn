@@ -1,8 +1,6 @@
 package accesBDD;
-import donnees.Entrepot;
-//import donnees.Personne;
-//import donnees.Utilisateur;
 
+import donnees.Entrepot;
 import java.util.Vector;
 import java.sql.*;
 

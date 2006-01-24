@@ -2,7 +2,6 @@ package accesBDD;
 
 import donnees.Personne;
 import donnees.Utilisateur;
-
 import java.sql.*;
 import java.util.Vector;
 
