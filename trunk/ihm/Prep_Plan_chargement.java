@@ -8,6 +8,8 @@ import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Colis;
+import accesBDD.AccesBDDChargement;
+import java.sql.SQLException;
 
 public class Prep_Plan_chargement extends JFrame implements ActionListener{
 
@@ -51,20 +53,13 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 
 //********************************************APPEL A LA BDD*************************************
 //Il faut afficher tous les colis présents dans le camion choisi        
-        
-        //Création des autres lignes
-        Timestamp date=new Timestamp(10);
-        Colis c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
-		c.setId(new Integer(123));
-		Vector v = new Vector(c.toVector());
-		//v.add(0,c.getId());
-		donnees.addElement(v);
-		
-		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
-		c.setId(new Integer(127));
-		v = new Vector(c.toVector());
-		//v.add(0,c.getId());
-		donnees.addElement(v);
+       try{
+    	   AccesBDDChargement bddChargement=new AccesBDDChargement();
+    	   Vector v=bddChargement.listerColis(bddChargement.getCamion(new Integer(1)));
+       }
+       catch(SQLException e){
+    	   
+       }
 
 //***********************************************************************************************		
 		

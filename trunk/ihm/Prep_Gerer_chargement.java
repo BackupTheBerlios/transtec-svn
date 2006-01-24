@@ -9,6 +9,8 @@ import javax.swing.*;
 
 import donnees.Camion;
 import donnees.Colis;
+import accesBDD.AccesBDDColis;
+import java.sql.SQLException;
 
 
 public class Prep_Gerer_chargement extends JFrame implements ActionListener{
@@ -100,8 +102,17 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 //**********************************************APPEL A LA BDD*****************************************
 //Pour un camion donné, il faut afficher tous les colis présents dans celui ci dans un premier tableau
 //Création des lignes objets
-        Timestamp date=new Timestamp(10);
-        Colis c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
+        /*Timestamp date=new Timestamp(10);
+        Colis c=new Colis("454646416", 
+				new Integer(0), 
+				new Integer(1),
+				new Integer(1),
+				"52.6", 
+				new Timestamp(12-12-1978), 
+				new Integer(2),
+				new Integer(1), 
+				new Integer(1),
+				"100");
 		c.setId(new Integer(123));
 		Vector v = new Vector(c.toVector());
 		//v.add(0,c.getId());
@@ -111,7 +122,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		c.setId(new Integer(127));
 		v = new Vector(c.toVector());
 		//v.add(0,c.getId());
-		donnees1.addElement(v);
+		donnees1.addElement(v);*///------>>>PQ
 //*********************************************************************************************
 		
 		//Création du premier tableau (colis dans le camion)
@@ -139,16 +150,14 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 //**********************************************APPEL A LA BDD*****************************************
 //On cherche dans la BDD tous les colis pour une destination qui ne possede pas de chargement		
 		 //Création des lignes objets
-        
-		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");;
-		c.setId(new Integer(124));
-		v = new Vector(c.toVector());
-		donnees2.addElement(v);
+		try{
+			AccesBDDColis bddColis=new AccesBDDColis();
+			Vector v=bddColis.listerDest(1);
+		}
+		catch(SQLException e){
+			
+		}
 		
-		c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");;
-		c.setId(new Integer(125));
-		v = new Vector(c.toVector());
-		donnees2.addElement(v);
 //********************************************************************************************************	
 		//Création du deuxième tableau (colis libres)
 		 modeleColis2 = new ModeleTable(nomColonnes,donnees2);

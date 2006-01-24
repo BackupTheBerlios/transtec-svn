@@ -11,9 +11,10 @@ import donnees.Colis;
 
 //----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDChargement {
+public class AccesBDDChargement extends ConnecteurSQL{
 	//	----- Ajouter un colis dans la BDD -----//
-	public Integer ajouter(Chargement aAjouter, ConnecteurSQL connecteur) throws SQLException{
+	public Integer ajouter(Chargement aAjouter) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=
 			connecteur.getConnexion().prepareStatement(
@@ -30,12 +31,16 @@ public class AccesBDDChargement {
 		PreparedStatement ajout =
 			connecteur.getConnexion().prepareStatement(
 				"INSERT INTO chargement"
-				+ " (idChargement,Camions_idCamions,Colis_idColis)" // Parametre de la table
-				+ " VALUES (?,?,?)"); 
+				+ " (idChargement,Camions_idCamions, NbColis, VolChargement, DateCreation, Users_idUsers)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?)"); 
+		
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getIdCamion().intValue());
-		//------->PBajout.setInt(3,aAjouter.getidColis);
+		ajout.setInt(3, aAjouter.getNbColis().intValue());
+		ajout.setFloat(4, aAjouter.getVolChargement());
+		ajout.setTimestamp(5, aAjouter.getDate());
+		ajout.setInt(6, aAjouter.getIdUtilisateur().intValue());
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -44,11 +49,12 @@ public class AccesBDDChargement {
 	}
 	
 	//----- Supprimer un chargement -----//
-	public void supprimer(Chargement aSupprimer, ConnecteurSQL connecteur) throws SQLException{
+	public void supprimer(Integer aSupprimer) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		PreparedStatement supprime=
 			connecteur.getConnexion().prepareStatement(
 				"DELETE FROM chargement WHERE idChargement=?");
-		supprime.setInt(1, aSupprimer.getId().intValue());
+		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -56,9 +62,10 @@ public class AccesBDDChargement {
 	}
 	
 	//----- Lister le colis appartenant à un chargement -----//
-	public Vector listerColis(Chargement chargement, ConnecteurSQL connecteur) throws SQLException{
+	public Vector listerColis(Integer chargement) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Vector liste=new Vector();
-		String idChargement="C-"+chargement.getId();
+		String idChargement="C-"+chargement.intValue();
 		AccesBDDPersonnes_has_Colis idPers=new AccesBDDPersonnes_has_Colis();
 		
 		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
@@ -68,31 +75,18 @@ public class AccesBDDChargement {
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 			
 		while(resultat.next()){
-			/*Colis courant=new Colis(
-					new Integer(idPers.getExpediteur(resultat.getInt("idColis"), connecteur)),
-					new Integer(idPers.getDestinataire(resultat.getInt("idColis"), connecteur)),
+			Colis courant=new Colis(new Integer(resultat.getInt("idColis")), 
+					resultat.getString("Code_barre"), 
+					new Integer(idPers.getExpediteur(new Integer(resultat.getInt("idColis")))), 
+					new Integer(idPers.getDestinataire(new Integer(resultat.getInt("idColis")))),
 					new Integer(resultat.getInt("Users_idUsers")),
-					resultat.getFloat("Poids"),
-					resultat.getTimestamp("DateDepot"),
+					resultat.getString("Poids"), 
+					resultat.getTimestamp("DateDepot"), 
 					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("Valeur")),
-					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
+					new Integer(resultat.getInt("ModelesColis_idModelesColis")), 
 					new Integer(resultat.getInt("Entrepots_idEntrepots")),
-					resultat.getString("Lieu"));*/
-			/*Colis courant=new Colis(
-					new Integer(resultat.getInt("idColis ")),
-					resultat.getString("Code_barre"),
-					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
-					new Integer(resultat.getInt("Entrepots_idEntrepots")),
-					resultat.getString("Poids"),
-					resultat.getTimestamp("DateDepot"),
-					resultat.getString("Valeur"),
-					new Integer(resultat.getInt("Fragilite")),
-					resultat.getString("Lieu"));
-			
-
-			
-			liste.add(courant);*/
+					resultat.getString("Valeur"));			
+			liste.add(courant);
 		}
 
 		resultat.close();	// Fermeture requête SQL
@@ -100,9 +94,29 @@ public class AccesBDDChargement {
 		
 		return liste;
 	}
+	
+	public Integer getCamion(Integer idChargement) throws SQLException{
+		ConnecteurSQL connecteur=new ConnecteurSQL();
+		Integer trouvee=null;
+		
+		//----- Recherche de l'identifiant le plus grand -----//
+		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
+				"SELECT idChargement FROM chargement WHERE Camions_idCamions=?");
+		recherche.setInt(1, idChargement.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next())	trouvee=new Integer(resultat.getInt(idChargement));
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		
+		return trouvee;
+	}
+
 
 	public static void main(String arg[]){
-		AccesBDDChargement test=new AccesBDDChargement();
+		/*AccesBDDChargement test=new AccesBDDChargement();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Timestamp date=new Timestamp(10);
 		Chargement aAjouter = new Chargement(new Integer(0),new Integer(1),1,new Integer(1),date);
@@ -115,6 +129,6 @@ public class AccesBDDChargement {
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
-		}
+		}*/
 	}
 }
