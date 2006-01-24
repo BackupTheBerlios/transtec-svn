@@ -2,7 +2,7 @@ package ihm;
 
 import java.util.Vector;
 import java.awt.event.*;
-import java.sql.*;
+import java.sql.SQLException;
 
 import accesBDD.AccesBDDUtilisateur;
 

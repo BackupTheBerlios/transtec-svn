@@ -1,7 +1,7 @@
 package ihm;
 
 import java.util.Vector;
-import java.sql.*;
+import java.sql.SQLException;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -87,10 +87,29 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 			// Action liée au bouton de modification d'un incident
 			if(source==boutModifier){
 				// On affiche l'invite de modification
-				Sup_AjoutModifIncident modifIncident = new Sup_AjoutModifIncident(incid,this,tableIncidents);
-
+				//Sup_AjoutModifIncident modifIncident = new Sup_AjoutModifIncident(incid,this,tableIncidents);
+				
 				// On bloque l'utilisateur sur le pop-up
-				setFenetreActive(false);
+				//setFenetreActive(false);
+
+				// On autorise la modification de l'état si l'incident
+				// n'est pas déjà réglé
+				if(incid.getEtat().intValue()<Incident.TRAITE){
+					try{
+						// On met à jour la base de données
+						tableIncidents.changerEtat(incid);
+					}
+					catch(SQLException e){
+					
+					}
+					finally{
+						// On met à jour l'objet
+						incid.changerEtat();
+						
+						// On met à jour le tableau
+						modifierLigne(incid.toVector());
+					}				
+				}
 			}
 			
 			// Action liée au bouton d'affichage des détails de l'incident
@@ -105,3 +124,4 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 		}
 	}
 }
+ 

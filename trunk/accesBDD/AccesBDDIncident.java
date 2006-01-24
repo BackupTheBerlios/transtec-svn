@@ -58,12 +58,12 @@ public class AccesBDDIncident extends ConnecteurSQL{
 	
 	//----- Changer état incident vers état supérieur -----//
 	public void changerEtat(Incident etatAChanger) throws SQLException{
-		if(etatAChanger.getType().intValue()<Incident.TRAITE){
+		if(etatAChanger.getEtat().intValue()<Incident.TRAITE){
 			ConnecteurSQL connecteur=new ConnecteurSQL();
 			PreparedStatement modifie=connecteur.getConnexion().prepareStatement(
-				"UPDATE incidents SET Type_2=? WHERE idIncidents=?");
+				"UPDATE incidents SET Etat=? WHERE idIncidents=?");
 		
-			modifie.setInt(1, etatAChanger.getType().intValue()+1);
+			modifie.setInt(1, etatAChanger.getEtat().intValue()+1);
 			modifie.setInt(2, etatAChanger.getId().intValue());
 				
 			modifie.executeUpdate();	// Exécution de la requête SQL

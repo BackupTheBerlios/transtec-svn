@@ -146,4 +146,9 @@ public class Incident {
 	public Timestamp getDate(){
 		return this.date;
 	}
+	
+	/****** Méthodes diverses ******/
+	public void changerEtat(){
+		etat=new Integer(etat.intValue()+1);
+	}
 }
