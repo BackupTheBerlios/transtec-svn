@@ -12,8 +12,8 @@ public class Camion {
 	private String numero;
 	private Integer disponibilite;
 	private Integer volume;
-	private Localisation origine;
-	private Localisation destination;
+	private Entrepot origine;
+	private Entrepot destination;
 	
 	// Constantes décrivant la disponibilité du camion
 	public final static int DISPONIBLE = 0;
@@ -21,7 +21,7 @@ public class Camion {
 	public final static int LIVRAISON = 2;
 	
 	// Constructeur avec tous les paramètres
-	public Camion(Integer id, String numero, Integer disponibilite,  Integer volume, Localisation origine, Localisation destination){
+	public Camion(Integer id, String numero, Integer disponibilite,  Integer volume, Entrepot origine, Entrepot destination){
 		this.id = id;
 		this.numero=numero;
 		this.disponibilite=disponibilite;
@@ -31,7 +31,7 @@ public class Camion {
 	}
 	
 	// Constructeur n'utilisant pas l'ID
-	public Camion(String numero, Integer disponibilite,  Integer volume, Localisation origine, Localisation destination){
+	public Camion(String numero, Integer disponibilite,  Integer volume, Entrepot origine, Entrepot destination){
 		this.numero=numero;
 		this.disponibilite=disponibilite;
 		this.volume=volume;
@@ -50,8 +50,8 @@ public class Camion {
 		this.numero=(String)v.get(1);
 		this.disponibilite=(Integer)v.get(2);
 		this.volume=(Integer)v.get(3);
-		this.origine=(Localisation)v.get(4);
-		this.destination=(Localisation)v.get(5);
+		this.origine=(Entrepot)v.get(4);
+		this.destination=(Entrepot)v.get(5);
 	}
 
 	// Transforme l'objet en un Vector
@@ -95,12 +95,12 @@ public class Camion {
 	}
 	
 	//----- Insérer l'entrepôt de destination -----//
-	public void setIdDestination(Localisation destination){
+	public void setIdDestination(Entrepot destination){
 		this.destination=destination;
 	}
 	
 	//----- Insérer l'id de l'entrepôt d'origine -----//
-	public void setOrigine(Localisation origine){
+	public void setOrigine(Entrepot origine){
 		this.origine=origine;
 	}
 	
@@ -128,12 +128,12 @@ public class Camion {
 	}
 	
 	//----- Récupération de l'entrepôt de destination -----//
-	public Localisation getDestination(){
+	public Entrepot getDestination(){
 		return this.destination;
 	}
 	
 	//----- Récupération de l'entrepôt d'origine -----//
-	public Localisation getOrigine(){
+	public Entrepot getOrigine(){
 		return this.origine;
 	}
 }

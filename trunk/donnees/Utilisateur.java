@@ -23,7 +23,7 @@ public class Utilisateur{
 		this.type=type;
 		
 		// Creation d'une instance de Personne
-		this.personne=new Personne(nom, prenom, adresse, codePostal, ville, mail, telephone);
+		this.personne=new Personne(new Integer(-1), nom, prenom, adresse, codePostal, ville, mail, telephone);
 	}
 	
 	//Constructeur recevant toutes les données en paramètres

@@ -43,7 +43,7 @@ public class Colis {
 	
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(Integer id, String code_barre,Integer expediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.id=id;
 		this.code_barre = code_barre;
 		
@@ -51,7 +51,7 @@ public class Colis {
 		this.fragilite=fragilite;
 		this.poids=poids;
 		this.date_envoi=date_envoi;
-		this.idExpediteur=idExpediteur;
+		this.expediteur=expediteur;
 		this.idDestinataire=idDestinataire;
 		this.idUtilisateur=idUtilisateur;
 		this.idDestination=idDestination;
@@ -61,14 +61,14 @@ public class Colis {
 		this.profondeur=profondeur;*/
 	}
 	
-	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(String code_barre,Integer expediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.code_barre = code_barre;
 		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
 		this.date_envoi=date_envoi;
-		this.idExpediteur=idExpediteur;
+		this.expediteur=expediteur;
 		this.idDestinataire=idDestinataire;
 		this.idUtilisateur=idUtilisateur;
 		this.idDestination=idDestination;
@@ -91,7 +91,7 @@ public class Colis {
 		this.id=(Integer)v.get(0);
 		this.Entrepot=(Integer)v.get(1);
 		this.code_barre=(String)v.get(2);
-		this.idExpediteur=(Integer)v.get(3);
+		this.expediteur=(Integer)v.get(3);
 		this.idDestinataire=(Integer)v.get(4);
 		this.idDestination=(Integer)v.get(5);
 		this.idUtilisateur=(Integer)v.get(6);
@@ -139,9 +139,9 @@ public class Colis {
 		// ATTENTION l'ordre est très important !!
 		// ordre : numero, etat, volume, chauffeur, destination, origine, ID
 		v.add(id);
-		v.add(Entrepot);
+		v.add(entrepot);
 		v.add(code_barre);
-		v.add(idExpediteur);
+		v.add(expediteur);
 		v.add(idDestinataire);
 		v.add(idDestination);
 		v.add(idUtilisateur);
@@ -195,40 +195,40 @@ public class Colis {
 	
 	//----- Récupération de l'id du colis -----//
 	public Integer getId(){
-		return id;
+		return this.id;
 	}
 	
 	//----- Récupération du poids du colis -----//
 	public String getPoids(){
-		return poids;
+		return this.poids;
 	}
 	public String getCode_barre(){
-		return code_barre;
+		return this.code_barre;
 	}
 	
 	
 	public String getValeurDeclaree(){
-		return valeur_declaree;
+		return this.valeur_declaree;
 	}
 	
 	public String getLieu(){
-		return lieu;
+		return this.lieu;
 	}
 	
 	//----- Récupération de la date de création du colis -----//
 	public Timestamp getDate(){
-		return date_envoi;
+		return this.date_envoi;
 	}
 	
 	//----- Récupération de la fragilité du colis -----//
 	public Integer getFragilite(){
-		return fragilite;
+		return this.fragilite;
 	}
-	public Integer getEntrepot(){
-		return Entrepot;
+	public Entrepot getEntrepot(){
+		return this.entrepot;
 	}
 	public Integer getModele(){
-		return modele;
+		return this.modele;
 	}
 	
 	/*public String getHauteur(){
@@ -252,21 +252,21 @@ public class Colis {
 	//}
 	
 	//----- Récupération de l'id de l'expéditeur -----//
-	public Integer getIdExpediteur(){
-		return this.idExpediteur;
+	public Personne getExpediteur(){
+		return this.expediteur;
 	}
 	
 	//----- Récupération de l'id du destinataire -----//
-	public Integer getIdDestinataire(){
-		return this.idDestinataire;
+	public Personne getDestinataire(){
+		return this.destinataire;
 	}
 	
 	//----- Récupération de l'id de l'utilisateur -----//
-	public Integer getIdUtilisateur(){
-		return this.idUtilisateur;
+	public Utilisateur getUtilisateur(){
+		return this.utilisateur;
 	}
 	
-	public Integer getIdDestination(){
-		return this.idDestination;
+	public Entrepot getDestination(){
+		return this.destination;
 	}
 }

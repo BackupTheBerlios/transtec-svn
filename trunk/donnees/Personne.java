@@ -8,16 +8,6 @@ public class Personne{
 	private String mail;
 	private String telephone;
 	
-	// Constructeur utilisant tous les paramètres sauf l'id
-	public Personne(String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone){
-		this.id=new Integer(-1);
-		this.nom=nom;
-		this.prenom=prenom;
-		this.localisation=new Localisation(adresse, codePostal, ville);
-		this.mail=mail;
-		this.telephone=telephone;
-	}
-	
 	// Constructeur utilisant tous les paramètres
 	public Personne(Integer id, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone){
 		this.id=id;
