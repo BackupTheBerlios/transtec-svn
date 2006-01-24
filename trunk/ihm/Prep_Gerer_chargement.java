@@ -9,7 +9,9 @@ import javax.swing.*;
 
 import donnees.Camion;
 import donnees.Colis;
+import donnees.Chargement;
 import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDChargement;
 import java.sql.SQLException;
 
 
@@ -25,9 +27,10 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	private int ligneActive;
 	private JButton gauche_droite = new JButton();
 	private JButton droite_gauche = new JButton();
-	private Camion c;
+	private Camion cam;
 	private TableSorter sorter1;
 	private TableSorter sorter2;
+	private JButton valider = new JButton("Valider");
 	
 	public Prep_Gerer_chargement(Vector cVect){
 		
@@ -37,7 +40,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		
 		//Déclaration d'un nouvel objet Camion permettant d'utiliser le vecteur entré en parametre
 		
-		Camion cam = new Camion(cVect);
+		cam = new Camion(cVect);
 	
 		////System.out.println("le camion " + cam.)
 		
@@ -71,6 +74,10 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		 droite_gauche.setBounds(405,240,33,29);
 	     ct.add(droite_gauche);
 	     droite_gauche.addActionListener(this);
+	     
+	     valider.setBounds(520,450,100,68);
+		 ct.add(valider);
+		 valider.addActionListener(this);
 		
 		//Ajout des zones de texte
 		JLabel info_volume1= new JLabel("Volume disponible :");
@@ -123,6 +130,9 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		v = new Vector(c.toVector());
 		//v.add(0,c.getId());
 		donnees1.addElement(v);*///------>>>PQ
+        AccesBDDColis lister=new AccesBDDColis();
+        
+       
 //*********************************************************************************************
 		
 		//Création du premier tableau (colis dans le camion)
@@ -150,13 +160,24 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 //**********************************************APPEL A LA BDD*****************************************
 //On cherche dans la BDD tous les colis pour une destination qui ne possede pas de chargement		
 		 //Création des lignes objets
-		try{
+		/*try{
 			AccesBDDColis bddColis=new AccesBDDColis();
 			Vector v=bddColis.listerDest(1);
 		}
 		catch(SQLException e){
 			
-		}
+		}*/
+		
+		 try{
+			    Vector listeObj=lister.listerDest(new Integer(cam.getIdDestination()));
+			    for(int i=0;i<listeObj.size();i++){
+			    	donnees2.addElement(((Colis)listeObj.get(i)).toVector());
+	            }
+	        }
+	        catch(SQLException e){
+	        	
+	        }
+	        
 		
 //********************************************************************************************************	
 		//Création du deuxième tableau (colis libres)
@@ -225,6 +246,28 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				tab1.updateUI();
 				tab2.updateUI();
 			}
+		}
+		else if(source == valider){
+			// Ecriture dans la BDD des colis, on les associent à un chargement //
+			Timestamp date=new Timestamp(12-12-06);
+			Chargement nouvCharg=new Chargement(cam.getId(), new Integer(donnees1.size()), 12, new Integer(2), date);
+			 AccesBDDChargement bddCharg=new AccesBDDChargement();
+			 
+			try{
+					bddCharg.ajouter(nouvCharg);
+				    for(int i=0;i<modeleColis1.getRowCount();i++){
+				    	AccesBDDColis mod=new AccesBDDColis();
+				    	Vector v=(Vector)modeleColis1.getRow(i);
+				    	Colis c=new Colis(v);
+				    	c.setLieu("C-"+nouvCharg.getId());
+				    	mod.modifier(c);
+				    	//donnees2.addElement(((Colis)listeObj.get(i)).toVector());
+		            }
+		        }
+		        catch(SQLException e){
+		        	
+		        }
+		        dispose();
 		}
 	}
 }

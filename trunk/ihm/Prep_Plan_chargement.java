@@ -54,11 +54,12 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 //********************************************APPEL A LA BDD*************************************
 //Il faut afficher tous les colis présents dans le camion choisi    
        Timestamp date=new Timestamp(12-12-1842);
-       Colis c = new Colis(new Integer(0),"5345343",new Integer(1),new Integer(1),"18",date,"150",new Integer(1),"Villejuif");
+       Colis c = new Colis(new Integer(5),"24thghyuy654",1, 2,new Integer(2),"52", date, new Integer(1),
+				new Integer(2), new Integer(2),"52445");
 		c.setId(new Integer(127));
-		Vector v = new Vector(c.toVector());
+		//Vector v = new Vector(c.toVector());
 		//v.add(0,c.getId());
-		donnees.addElement(v);
+		//donnees.addElement(v);
 
 //***********************************************************************************************		
 		

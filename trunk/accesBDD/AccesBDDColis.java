@@ -164,23 +164,30 @@ public class AccesBDDColis extends ConnecteurSQL{
 	
 	//----- TESTES OKAY -----//
 	public static void main(String arg[]){
-		/*AccesBDDColis test=new AccesBDDColis();
+		AccesBDDColis test=new AccesBDDColis();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Colis rec=null;
 		Vector liste=new Vector();
 		Timestamp date=new Timestamp(10);
-		Colis aAjouter = new Colis(3,4,1,2,date,2,400,1,1,"E-1");
-		Colis aModifier=new Colis(3,4,2,25,date,8,6,2,1,"E-1");
+		Colis aAjouter = new Colis("24154654",1, 2,new Integer(2),"52", date, new Integer(1),
+				new Integer(2), new Integer(2),"5245");
+		Colis aAjouter1 = new Colis("24fdsfds4654",1, 2,new Integer(2),"52", date, new Integer(1),
+				new Integer(2), new Integer(2),"5245");
+		Colis aAjouter2 = new Colis("24tyuy654",1, 2,new Integer(2),"52", date, new Integer(1),
+				new Integer(2), new Integer(2),"5245");
+		//Colis aModifier=new Colis(3,4,2,25,date,8,6,2,1,"E-1");
 		try{
 			test.ajouter(aAjouter);
-			aModifier.setId(aAjouter.getId());
-			test.modifier(aModifier);
-			test.ajouter(aAjouter);
-			liste=test.listerDest(aModifier.getIdDestination());
-			test.supprimer(aModifier.getId());
+			test.ajouter(aAjouter1);
+			test.ajouter(aAjouter2);
+			//aModifier.setId(aAjouter.getId());
+			//test.modifier(aModifier);
+			//test.ajouter(aAjouter);
+			//liste=test.listerDest(aModifier.getIdDestination());
+			//test.supprimer(aModifier.getId());
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
-		}*/
+		}
 	}
 }

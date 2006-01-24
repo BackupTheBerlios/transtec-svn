@@ -79,7 +79,7 @@ public class AccesBDDCamion extends ConnecteurSQL{
 					resultat.getString("nomChauffeur"),
 					bddLoc.recherche(AccesBDDCamion_has_Localisation.ORIGINE, new Integer(resultat.getInt("idCamions"))), 
 					bddLoc.recherche(AccesBDDCamion_has_Localisation.DESTINATION, new Integer(resultat.getInt("idCamions"))));
-			liste.add(courant.toVector());
+			liste.add(courant);
 		}
 		
 		resultat.close();	// Fermeture requête SQL

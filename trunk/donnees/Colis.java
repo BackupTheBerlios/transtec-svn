@@ -19,15 +19,7 @@ public class Colis {
 	private String poids;
 	private Timestamp date_envoie;
 	private Integer fragilite;
-	
 	private Integer modele;
-	/*private String hauteur;
-	private String largeur;
-	private String profondeur;
-	private String forme1;
-	private String modele1;
-	private String fragilite1;
-	private String code_barre1;*/
 	private String lieu;
 	private String valeur_declaree;
 
@@ -95,20 +87,21 @@ public class Colis {
 	}*/
 
 	// Constructeur utilisant un Vector
-	/*public colis(Vector v){
-		this.code_barre=(String)v.get(0);
-		this.forme=(Integer)v.get(1);
-		this.modele=(Integer)v.get(2);
-		this.fragilite=(Integer)v.get(3);
-		this.poids=(String)v.get(4);
-		this.date_envoie=(String)v.get(5);
-		this.expéditeur = (String)v.get(6);
-		this.destinataire = (String)v.get(7);
-		this.largeur = (String)v.get(8);
-		this.hauteur = (String)v.get(9);
-		this.profondeur = (String)v.get(10);
-		
-	}*/
+	public Colis(Vector v){
+		this.id=(Integer)v.get(0);
+		this.Entrepot=(Integer)v.get(1);
+		this.code_barre=(String)v.get(2);
+		this.idExpediteur=(Integer)v.get(3);
+		this.idDestinataire=(Integer)v.get(4);
+		this.idDestination=(Integer)v.get(5);
+		this.idUtilisateur=(Integer)v.get(6);
+		this.poids=(String)v.get(7);
+		this.date_envoie=(Timestamp)v.get(8);
+		this.fragilite=(Integer)v.get(9);
+		this.modele=(Integer)v.get(10);
+		this.lieu=(String)v.get(11);
+		this.valeur_declaree=(String)v.get(12);	
+	}
 	/*public Colis(Vector v){
 		this.code_barre1=(String)v.get(0);
 		this.forme1=(String)v.get(1);
@@ -140,19 +133,26 @@ public class Colis {
 
 		return v;
 	}*/
-	/*public Vector toVector(){
+	public Vector toVector(){
 		Vector v = new Vector();
 
 		// ATTENTION l'ordre est très important !!
 		// ordre : numero, etat, volume, chauffeur, destination, origine, ID
-		v.add(code_barre1);
-		v.add(forme1);
-		v.add(modele1);
+		v.add(id);
+		v.add(Entrepot);
+		v.add(code_barre);
+		v.add(idExpediteur);
+		v.add(idDestinataire);
+		v.add(idDestination);
+		v.add(idUtilisateur);
 		v.add(poids);
-		v.add(fragilite1);
-		
+		v.add(date_envoie);
+		v.add(fragilite);
+		v.add(modele);
+		v.add(lieu);
+		v.add(valeur_declaree);
 		return v;
-	}*/
+	}
 	
 	/*public Colis changement_colis(Colis col){
 		String temp,temp1,temp2="",temp3="",temp4="";
@@ -186,6 +186,10 @@ public class Colis {
 	
 	public void setId(Integer id){
 		this.id=id;
+	}
+	
+	public void setLieu(String lieu){
+		this.lieu=lieu;
 	}
 	
 	

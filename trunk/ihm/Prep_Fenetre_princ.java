@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Camion;
+import donnees.Utilisateur;
 import accesBDD.AccesBDDCamion;
 import donnees.*;
 
@@ -143,7 +144,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
   */
 		try{
 			AccesBDDCamion bddCam=new AccesBDDCamion();
-			donnees_cam=bddCam.lister();
+			Vector listeObj=bddCam.lister();
+			 for(int i=0;i<listeObj.size();i++){
+	            	donnees_cam.addElement(((Camion)listeObj.get(i)).toVector());
+	            }
 		}
 		catch(SQLException e){
 			
