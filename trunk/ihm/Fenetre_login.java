@@ -89,13 +89,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						fen = new Sup_Interface(u);
 						fen.setVisible(true);
 						break;
-				
-				
-				
-				
-			}
-			
-			
+			}			
 		}
 	}
 	
