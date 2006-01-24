@@ -31,8 +31,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout dans la table personne
-		AccesBDDPersonne pers=new AccesBDDPersonne();
-		ajout.setInt(2,pers.ajouter(aAjouter.getPersonne()).intValue());
+		ajout.setInt(2,new AccesBDDPersonne().ajouter(aAjouter.getPersonne()).intValue());
 		ajout.setString(3,aAjouter.getLogin());
 		ajout.setString(4,aAjouter.getMotDePasse());
 		ajout.setInt(5,aAjouter.getType().intValue());
@@ -60,8 +59,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//----- Modification de la personne associée à l'utilisateur -----//
-		AccesBDDPersonne bddPers=new AccesBDDPersonne();
-		bddPers.modifier(aModifier.getPersonne());
+		new AccesBDDPersonne().modifier(aModifier.getPersonne());
 		
 		modifie.close();	// Fermeture requête SQL
 		deconnecter();
@@ -142,12 +140,11 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		if(resultat.next()){
-			AccesBDDPersonne pers=new AccesBDDPersonne();
 			trouvee=new Utilisateur(new Integer(resultat.getInt("idUsers")),
 					resultat.getString("Login"),
 					resultat.getString("Password_2"),
 					new Integer(resultat.getInt("Type_2")),
-					pers.rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+					new AccesBDDPersonne().rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
 		}
 		
 		resultat.close();	// Fermeture requête SQL

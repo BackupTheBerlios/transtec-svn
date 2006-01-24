@@ -30,8 +30,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout de la localisation
-		AccesBDDLocalisation loc=new AccesBDDLocalisation();
-		ajout.setInt(2,loc.ajouter(aAjouter.getLocalisation()).intValue());
+		ajout.setInt(2,new AccesBDDLocalisation().ajouter(aAjouter.getLocalisation()).intValue());
 		ajout.setString(3,aAjouter.getTelephone());
 		
 		ajout.executeUpdate();//execution de la requete SQL
@@ -50,8 +49,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//----- Modification de la localisation associée à la personne -----//
-		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
-		bddLoc.modifier(aModifier.getLocalisation());
+		new AccesBDDLocalisation().modifier(aModifier.getLocalisation());
 		
 		modifie.close();	// Fermeture requête SQL
 		deconnecter();
@@ -94,13 +92,12 @@ public class AccesBDDEntrepot extends AccesBDD{
 	//----- Rechercher un entrepot -----//
 	public Entrepot rechercher(Integer aChercher) throws SQLException{
 		Entrepot trouvee=null;
-		AccesBDDLocalisation loc=new AccesBDDLocalisation();
 				
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM entrepots WHERE idEntrepots=?");
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){
-			trouvee=new Entrepot(loc.rechercher(new Integer(
+			trouvee=new Entrepot(new AccesBDDLocalisation().rechercher(new Integer(
 					resultat.getInt("Localisation_idLocalisation"))), 
 					resultat.getString("telephone"));
 			trouvee.setId(new Integer(resultat.getInt("idEntrepots")));

@@ -40,8 +40,7 @@ public class AccesBDDPersonne extends AccesBDD{
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout dans la table de localisation
-		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
-		ajout.setInt(2,bddLoc.ajouter(aAjouter.getLocalisation()).intValue());
+		ajout.setInt(2,new AccesBDDLocalisation().ajouter(aAjouter.getLocalisation()).intValue());
 		ajout.setString(3,aAjouter.getNom());
 		ajout.setString(4,aAjouter.getPrenom());
 		ajout.setString(5,aAjouter.getTelephone());
@@ -172,8 +171,7 @@ public class AccesBDDPersonne extends AccesBDD{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//----- Modification de la localisation associée à la personne -----//
-		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
-		bddLoc.modifier(aModifier.getLocalisation());
+		new AccesBDDLocalisation().modifier(aModifier.getLocalisation());
 		
 		modifie.close();	// Fermeture requête SQL
 		deconnecter();

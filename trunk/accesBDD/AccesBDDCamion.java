@@ -61,7 +61,6 @@ public class AccesBDDCamion extends AccesBDD{
 	//----- Lister les camions -----//
 	public Vector lister() throws SQLException{
 		Vector liste=new Vector();
-		AccesBDDEntrepot bddEnt=new AccesBDDEntrepot();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions");
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -72,21 +71,21 @@ public class AccesBDDCamion extends AccesBDD{
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
 					new Integer(resultat.getInt("Volume")), 
-					bddEnt.rechercher(new Integer(resultat.getInt("Origine"))), 
-					bddEnt.rechercher(new Integer(resultat.getInt("Destination"))));
+					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
+					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))));
 			liste.add(courant);
 		}
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
 		deconnecter();
+		
 		return liste;
 	}
 	
 	//----- Modification des attributs d'un camion dans la BDD -----//
 	public void modifier(Camion aModifier) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Modification d'une personne à partir de l'id -----//
-		PreparedStatement modifie=connecteur.getConnexion().prepareStatement(
+		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE camions SET NomChauffeur=?, Etat=?, Volume=?, Immatriculation=? "
 				+"WHERE idCamions=?");
 		modifie.setString(1, aModifier.getNomChauffeur());
