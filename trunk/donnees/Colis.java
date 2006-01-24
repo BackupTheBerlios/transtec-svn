@@ -10,31 +10,31 @@ import java.util.Vector;
 public class Colis {
 
 	private Integer id;
-	private Integer Entrepot;
+	private Entrepot entrepot;
 	private String code_barre;
-	private Integer idExpediteur;
-	private Integer idDestinataire;
-	private Integer idDestination;
-	private Integer idUtilisateur;
-	private String poids;
-	private Timestamp date_envoie;
+	private Personne expediteur;
+	private Personne destinataire;
+	private Entrepot destination;
+	private Utilisateur utilisateur;
+	private Integer poids;// en grammes
+	private Timestamp date_envoi;
 	private Integer fragilite;
-	private Integer modele;
-	private String lieu;
+	private Integer modele;/////////// A VOIR
+	private Localisation lieu;
 	private String valeur_declaree;
 
 	// Constructeur vide
 	public Colis(){
 	}
 	
-	/*public Colis(Integer id, String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoie,String valeur_declaree,Integer fragilite,String lieu)
+	/*public Colis(Integer id, String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoi,String valeur_declaree,Integer fragilite,String lieu)
 	{
 		this.id=id;
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.Entrepot=Entrepot;
 		this.poids=poids;
-		this.date_envoie=date_envoie;
+		this.date_envoi=date_envoi;
 		this.valeur_declaree=valeur_declaree;
 		this.fragilite=fragilite;
 		this.lieu=lieu;
@@ -43,14 +43,14 @@ public class Colis {
 	
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(Integer id, String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.id=id;
 		this.code_barre = code_barre;
 		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
-		this.date_envoie=date_envoie;
+		this.date_envoi=date_envoi;
 		this.idExpediteur=idExpediteur;
 		this.idDestinataire=idDestinataire;
 		this.idUtilisateur=idUtilisateur;
@@ -61,13 +61,13 @@ public class Colis {
 		this.profondeur=profondeur;*/
 	}
 	
-	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoie, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(String code_barre,Integer idExpediteur,Integer idDestinataire,Integer idUtilisateur,String poids , Timestamp date_envoi, Integer fragilite,Integer modele, Integer idDestination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.code_barre = code_barre;
 		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
-		this.date_envoie=date_envoie;
+		this.date_envoi=date_envoi;
 		this.idExpediteur=idExpediteur;
 		this.idDestinataire=idDestinataire;
 		this.idUtilisateur=idUtilisateur;
@@ -96,7 +96,7 @@ public class Colis {
 		this.idDestination=(Integer)v.get(5);
 		this.idUtilisateur=(Integer)v.get(6);
 		this.poids=(String)v.get(7);
-		this.date_envoie=(Timestamp)v.get(8);
+		this.date_envoi=(Timestamp)v.get(8);
 		this.fragilite=(Integer)v.get(9);
 		this.modele=(Integer)v.get(10);
 		this.lieu=(String)v.get(11);
@@ -124,7 +124,7 @@ public class Colis {
 		v.add(modele);
 		v.add(poids);
 		v.add(fragilite);
-		v.add(date_envoie);
+		v.add(date_envoi);
 		v.add(expéditeur);
 		v.add(destinataire);
 		v.add(largeur);
@@ -146,7 +146,7 @@ public class Colis {
 		v.add(idDestination);
 		v.add(idUtilisateur);
 		v.add(poids);
-		v.add(date_envoie);
+		v.add(date_envoi);
 		v.add(fragilite);
 		v.add(modele);
 		v.add(lieu);
@@ -217,7 +217,7 @@ public class Colis {
 	
 	//----- Récupération de la date de création du colis -----//
 	public Timestamp getDate(){
-		return date_envoie;
+		return date_envoi;
 	}
 	
 	//----- Récupération de la fragilité du colis -----//

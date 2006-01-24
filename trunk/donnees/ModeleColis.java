@@ -10,9 +10,10 @@ public class ModeleColis {
 	private Integer largeur;
 	private Integer profondeur;
 	private Integer diametre;	
-	private float volume;
+	private Integer volume;// en cm3
 	
-	public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre,float volume){
+	// Constructeur avec tous les paramètres
+	public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre,Integer volume){
 		this.id=id;
 		this.forme=forme;
 		this.modele=modele;
@@ -20,10 +21,8 @@ public class ModeleColis {
 		this.largeur=largeur;
 		this.profondeur=profondeur;
 		this.diametre=diametre;
-		this.diametre=diametre;
+		this.volume=volume;
 	}
-	
-
 	
 	public void setId(Integer id){
 		this.id=id;
@@ -50,14 +49,7 @@ public class ModeleColis {
 	public Integer getDiametre(){
 		return this.diametre;
 	}
-	public float getVolume(){
+	public Integer getVolume(){
 		return this.volume;
 	}
-	
-	
-	
-	
-	
-	
-
 }

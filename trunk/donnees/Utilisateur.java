@@ -15,24 +15,6 @@ public class Utilisateur{
 	public final static int PREPARATIOIN = 2;
 	public final static int SUPERVISION = 3;
 	
-	// Constructeur recevant toutes les données en paramètres
-	public Utilisateur(String login, String motDePasse, Integer type, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone){
-		this.login=login;
-		this.motDePasse=motDePasse;
-		this.type=type;
-		
-		// Creation d'une instance de Personne
-		this.personne=new Personne(nom, prenom, adresse, codePostal, ville, mail, telephone);
-	}
-	
-	// Constructeur recevant en paramètres : login, mot de passe, type et instance de Personne
-	public Utilisateur(String login, String motDePasse, Integer type, Personne personne){
-		this.login=login;
-		this.motDePasse=motDePasse;
-		this.type=type;
-		this.personne=personne;
-	}
-	
 	//Constructeur recevant toutes les données en paramètres
 	public Utilisateur(Integer id, String login, String motDePasse, Integer type, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone){
 		this.id=id;

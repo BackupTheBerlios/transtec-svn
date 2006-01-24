@@ -8,11 +8,11 @@ import java.util.Vector;
 
 public class Incident {
 	private Integer id;
-	private Integer idColis;
+	private Colis colis;
 	private Timestamp date;
 	private Integer etat;
 	private String description;
-	private Integer idUtilisateur;
+	private Utilisateur utilisateur;
 	private Integer type;
 	
 	// Constantes décrivant l'état de l'incident
@@ -20,25 +20,32 @@ public class Incident {
 	public final static int EN_COURS = 1;
 	public final static int TRAITE = 2;
 	
-	public Incident(Integer id, Integer idColis, Timestamp date, Integer etat, String description, Integer idUtilisateur, Integer type){
+	// Constantes décrivant le type d'incident (endroit où il a été saisi)
+	public final static int ENTREE = 0;
+	public final static int CHARGEMENT = 1;
+	
+	// Constructeur avec tous les paramètres
+	public Incident(Integer id, Colis colis, Timestamp date, Integer etat, String description, Utilisateur utilisateur, Integer type){
 		this.id=id;
-		this.idColis=idColis;
+		this.colis=colis;
 		this.date=date;
 		this.etat=etat;
 		this.description=description;
-		this.idUtilisateur=idUtilisateur;
+		this.utilisateur=utilisateur;
 		this.type=type;
 	}
 	
-	public Incident(Integer idColis, Timestamp date, Integer etat, String description, Integer idUtilisateur, Integer type){
-		this.idColis=idColis;
+	// Constructeur sans id
+	public Incident(Colis colis, Timestamp date, Integer etat, String description, Utilisateur utilisateur, Integer type){
+		this.colis=colis;
 		this.date=date;
 		this.etat=etat;
 		this.description=description;
-		this.idUtilisateur=idUtilisateur;
+		this.utilisateur=utilisateur;
 		this.type=type;
 	}
 	
+	// Constructeur simplifié
 	public Incident(Timestamp date,String description,Integer id)
 	{
 		this.description=description;
@@ -46,27 +53,30 @@ public class Incident {
 		this.id = id;
 	}
 	
+	// Constructeur basé sur un Vector
 	public Incident(Vector v){
 		
 		this.id=(Integer)v.get(0);
-		this.idColis=(Integer)v.get(1);
+		this.colis=(Colis)v.get(1);
 		this.date=(Timestamp)v.get(2);
 		this.etat=(Integer)v.get(3);
 		this.description=(String)v.get(4);
-		this.idUtilisateur=(Integer)v.get(5);
+		this.utilisateur=(Utilisateur)v.get(5);
 		this.type=(Integer)v.get(6);		
 	}
+	
+	// Création du Vector à partir des données
 	public Vector toVector(){
 		Vector v = new Vector();
 
 		// ATTENTION l'ordre est très important !!
-		// id, idColis, date, etat, description, idUtilisateur, type	
+		// id, colis, date, etat, description, utilisateur, type	
 		v.add(id);
-		v.add(idColis);
+		v.add(colis);
 		v.add(date);
 		v.add(etat);
 		v.add(description);
-		v.add(idUtilisateur);
+		v.add(utilisateur);
 		v.add(type);
 	
 		return v;
@@ -80,13 +90,13 @@ public class Incident {
 	}
 	
 	//----- Insérer l'id du colis -----//
-	public void setIdColis(Integer idColis){
-		this.idColis=idColis;
+	public void setColis(Colis colis){
+		this.colis=colis;
 	}
 	
 	//----- Insérer l'id du créateur de la fiche -----//
-	public void setIdUtilisateur(Integer idUtilisateur){
-		this.idUtilisateur=idUtilisateur;
+	public void setUtilisateur(Utilisateur utilisateur){
+		this.utilisateur=utilisateur;
 	}
 	
 	//----- Insérer la description -----//
@@ -118,13 +128,13 @@ public class Incident {
 	}
 	
 	//----- Récupération de l'id du colis -----//
-	public Integer getIdColis(){
-		return this.idColis;
+	public Colis getColis(){
+		return this.colis;
 	}
 	
 	//----- Récupération de l'id du créateur de la fiche -----//
-	public Integer getIdUtilisateur(){
-		return this.idUtilisateur;
+	public Utilisateur getUtilisateur(){
+		return this.utilisateur;
 	}
 	
 	//----- Récupération de la description -----//
@@ -148,6 +158,8 @@ public class Incident {
 	}
 	
 	/****** Méthodes diverses ******/
+	
+	// Changer l'état de traitement de l'incident
 	public void changerEtat(){
 		etat=new Integer(etat.intValue()+1);
 	}

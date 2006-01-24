@@ -6,7 +6,7 @@ public class Localisation{
 	private String codePostal;
 	private String ville;
 	
-	// Constructeur avec tous les paramètres
+	// Constructeur avec tous les paramètres excepté l'id
 	public Localisation(String adresse, String codePostal, String ville){
 		this.adresse=adresse;
 		this.codePostal=codePostal;
@@ -19,8 +19,7 @@ public class Localisation{
 		this.adresse=adresse;
 		this.codePostal=codePostal;
 		this.ville=ville;
-	}
-	
+	}	
 	
 	// Constructeur vide
 	public Localisation(){
@@ -50,6 +49,7 @@ public class Localisation{
 		this.ville=ville;
 	}
 
+	
 	/****** Méthodes de lecture ******/
 	
 	//----- Récupération de l'id -----//

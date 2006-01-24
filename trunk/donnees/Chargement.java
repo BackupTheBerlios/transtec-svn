@@ -6,17 +6,17 @@ import java.sql.Timestamp;
 
 public class Chargement {
 	private Integer id;
-	private Integer idCamion;
+	private Camion camion;
 	private Integer nbColis;
-	private float volChargement;
-	private Integer idUtilisateur;
+	private Integer volChargement; //en cm3
+	private Utilisateur utilisateur;
 	private Timestamp date;
 	
-	public Chargement(Integer idCamion, Integer nbColis, float volChargement, Integer idUtilisateur, Timestamp date){
-		this.idCamion=idCamion;
+	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date){
+		this.camion=camion;
 		this.nbColis=nbColis;
 		this.volChargement=volChargement;
-		this.idUtilisateur=idUtilisateur;
+		this.utilisateur=utilisateur;
 		this.date=date;
 	}
 	
@@ -31,8 +31,8 @@ public class Chargement {
 	}
 	
 	//----- Récupération de l'id du camion -----//
-	public Integer getIdCamion(){
-		return this.idCamion;
+	public Camion getCamion(){
+		return this.camion;
 	}
 	
 	//----- Récupération du nombre de colis -----//
@@ -40,14 +40,14 @@ public class Chargement {
 		return this.nbColis;
 	}
 	
-	//----- Récupération du volume du chargement -----//
-	public float getVolChargement(){
+	//----- Récupération du volume du chargement (en cm3) -----//
+	public Integer getVolChargement(){
 		return this.volChargement;
 	}
 	
 	//----- Récupération de l'id du préparateur -----//
-	public Integer getIdUtilisateur(){
-		return this.idUtilisateur;
+	public Utilisateur getUtilisateur(){
+		return this.utilisateur;
 	}
 	
 	//----- Récupération de la date de création du chargement -----//

@@ -19,10 +19,16 @@ public class Entrepot {
 		this.telephone=telephone;
 	}
 	
+	
+	/****** Méthodes d'écriture ******/
+
 	//----- Insérer l'id de l'entrepôt -----//
 	public void setId(Integer id){
 		this.id=id;
 	}
+	
+
+	/****** Méthodes de lecture ******/
 	
 	//----- Récupération de l'id -----//
 	public Integer getId(){
