@@ -6,84 +6,79 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import donnees.Camion;
+import donnees.Entrepot;
+import donnees.Localisation;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDCamion extends ConnecteurSQL{
+public class AccesBDDCamion extends AccesBDD{
+	public AccesBDDCamion(){
+		super();
+	}
+	
 	//----- Ajouter un camion dans la BDD -----//
 	public Integer ajouter(Camion aAjouter) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=
-			connecteur.getConnexion().prepareStatement(
-				"SELECT MAX(idCamions) FROM Camions ");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
-		
 		
 		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'un camion dans la BDD -----//
-		PreparedStatement ajout =
-			connecteur.getConnexion().prepareStatement(
+		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO camions "
-				+ " (idCamions,NomChauffeur,Etat,Volume, Immatriculation)" // Paramètre de la table
+				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setString(2,aAjouter.getNomChauffeur());
-		ajout.setInt(3,aAjouter.getDispo().intValue());
-		ajout.setInt(4,aAjouter.getVolume().intValue());
-		ajout.setString(5, aAjouter.getNumero());
+		ajout.setInt(2,aAjouter.getDisponibilite().intValue());
+		ajout.setInt(3,aAjouter.getVolume().intValue());
+		ajout.setString(4, aAjouter.getNumero());
+		ajout.setInt(5, aAjouter.getOrigine().getId().intValue());
+		ajout.setInt(6, aAjouter.getDestination().getId().intValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
-		
-		/*----- Ajout de la relation entre l'origine/destination et le camion dans la 
-				table camions_has_localisation -----*/
-		AccesBDDCamion_has_Localisation rel=new AccesBDDCamion_has_Localisation();
-		rel.ajouter(aAjouter.getId(), aAjouter.getIdOrigine(), aAjouter.getIdDestination());
+		deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	//----- Supprimer un camion -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		PreparedStatement supprime=
-			connecteur.getConnexion().prepareStatement(
-				"DELETE FROM camions WHERE idCamions=?");
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM camions WHERE idCamions=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 	
 	//----- Lister les camions -----//
 	public Vector lister() throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Vector liste=new Vector();
-		AccesBDDCamion_has_Localisation bddLoc=new  AccesBDDCamion_has_Localisation();
-		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-		"SELECT * FROM camions");
+		AccesBDDEntrepot bddEnt=new AccesBDDEntrepot();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions");
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			Camion courant=new Camion(new Integer(resultat.getInt("idCamions")),
+			Camion courant=new Camion(
+					new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
 					new Integer(resultat.getInt("Volume")), 
-					resultat.getString("nomChauffeur"),
-					bddLoc.recherche(AccesBDDCamion_has_Localisation.ORIGINE, new Integer(resultat.getInt("idCamions"))), 
-					bddLoc.recherche(AccesBDDCamion_has_Localisation.DESTINATION, new Integer(resultat.getInt("idCamions"))));
+					bddEnt.rechercher(new Integer(resultat.getInt("Origine"))), 
+					bddEnt.rechercher(new Integer(resultat.getInt("Destination"))));
 			liste.add(courant);
 		}
-		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
+		deconnecter();
 		return liste;
 	}
 	
