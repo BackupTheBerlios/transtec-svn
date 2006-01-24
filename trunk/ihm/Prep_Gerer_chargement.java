@@ -251,12 +251,11 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 			// Ecriture dans la BDD des colis, on les associent à un chargement //
 			Timestamp date=new Timestamp(12-12-06);
 			Chargement nouvCharg=new Chargement(cam.getId(), new Integer(donnees1.size()), 12, new Integer(2), date);
-			 AccesBDDChargement bddCharg=new AccesBDDChargement();
-			 
 			try{
+				 AccesBDDChargement bddCharg=new AccesBDDChargement();
+				 AccesBDDColis mod=new AccesBDDColis();
 					bddCharg.ajouter(nouvCharg);
 				    for(int i=0;i<modeleColis1.getRowCount();i++){
-				    	AccesBDDColis mod=new AccesBDDColis();
 				    	Vector v=(Vector)modeleColis1.getRow(i);
 				    	Colis c=new Colis(v);
 				    	c.setLieu("C-"+nouvCharg.getId());
@@ -264,8 +263,8 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				    	//donnees2.addElement(((Colis)listeObj.get(i)).toVector());
 		            }
 		        }
-		        catch(SQLException e){
-		        	
+		        catch(Exception e){
+		        	System.out.println(e.getMessage());
 		        }
 		        dispose();
 		}

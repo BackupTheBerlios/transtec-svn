@@ -104,17 +104,17 @@ public class AccesBDDColis extends ConnecteurSQL{
 			connecteur.getConnexion().prepareStatement(
 				"UPDATE colis SET "
 				+"Poids=?, DateDepot=?, Valeur=?, Fragilite=?, Lieu=?, ModelesColis_idModelesColis=?, Entrepots_idEntrepots=?, Code_barre=?, Users_idUsers=?"
-				+"WHERE idColis=?");
+				+" WHERE idColis=?");
 		modifie.setString(1, aModifier.getPoids());
 		modifie.setTimestamp(2, aModifier.getDate());
 		modifie.setString(3, aModifier.getValeurDeclaree());
 		modifie.setInt(4, aModifier.getFragilite().intValue());
-		modifie.setString(5, aModifier.getLieu());
-		modifie.setInt(6, aModifier.getId().intValue());
-		modifie.setInt(7, aModifier.getModele().intValue());
+		modifie.setString(5, aModifier.getLieu());	
+		modifie.setInt(6, aModifier.getModele().intValue());
+		modifie.setInt(7, aModifier.getIdDestination().intValue());
 		modifie.setString(8, aModifier.getCode_barre());
 		modifie.setInt(9, aModifier.getIdUtilisateur().intValue());
-		modifie.setInt(10, aModifier.getIdDestination().intValue());
+		modifie.setInt(10, aModifier.getId().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
