@@ -136,29 +136,33 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	}*/
 	
 	//----- Vérifie si l'utilisateur a été créé auparavant, retourn 0 si utilisateur inconnu, 1 si password inexact, 2 si Ok -----//
-	public int isRegistered(String login, String password)throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		int retour;
+	public Utilisateur isRegistered(String login, String password)throws SQLException{
+		Utilisateur trouvee=null;
 		
-		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-		"SELECT * FROM users WHERE Login=?");
-	
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users WHERE Login=? AND Password_2=?");
 		recherche.setString(1, login);
+		recherche.setString(1, password);
+		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
 		if(resultat.next()){
-			retour=MAUVAIS_PASS;
-			if(resultat.getString("Password_2").equals(password))	return resultat.getInt("Type_2");
+			AccesBDDPersonne pers=new AccesBDDPersonne();
+			trouvee=new Utilisateur(new Integer(resultat.getInt("idUsers")),
+					resultat.getString("Login"),
+					resultat.getString("Password_2"),
+					new Integer(resultat.getInt("Type_2")),
+					pers.rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
 		}
-		else retour=INCONNU;
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
+		deconnecter();
 		
-		return retour;
+		return trouvee;
 	}
 
 	//----- TEST OKAY -----//
-	public static void main(String arg[]){
+	/*public static void main(String arg[]){
 		AccesBDDUtilisateur test=new AccesBDDUtilisateur();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
 		Utilisateur rec=null;
@@ -171,7 +175,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 			test.ajouter(aAjouter);
 			test.ajouter(aAjouter1);
 			test.ajouter(aAjouter2);
-			/*aModifier.setId(aAjouter.getId());
+			aModifier.setId(aAjouter.getId());
 			aModifier.getPersonne().setId(aAjouter.getPersonne().getId());
 			aModifier.getPersonne().getLocalisation().setId(aAjouter.getPersonne().getLocalisation().getId());
 			test.modifier(aModifier);
@@ -184,10 +188,10 @@ public class AccesBDDUtilisateur extends AccesBDD{
 			test.ajouter(aAjouter);
 			Vector list=null;
 			list=test.lister();
-			test.supprimer(aModifier.getId());*/			
+			test.supprimer(aModifier.getId());			
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
-	}
+	}*/
 }
