@@ -38,6 +38,9 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		super("ALBERT MUDA - Preparateur");
 		Container ct = this.getContentPane();
 		
+
+
+		
 		//Déclaration d'un nouvel objet Camion permettant d'utiliser le vecteur entré en parametre
 		
 		cam = new Camion(cVect);

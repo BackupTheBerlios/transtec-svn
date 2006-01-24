@@ -3,6 +3,9 @@ package ihm;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
@@ -34,6 +37,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		//Constructeur de la fenetre
 		super("ALBERT MUDA - Preparateur");
 		Container ct = this.getContentPane();
+		
+		
+		//Comportement lors de la fermeture
+		WindowListener l = new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		};
+		addWindowListener(l);		
 		
 		//Création du menu
 		JMenuBar menuBar = new JMenuBar();
