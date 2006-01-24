@@ -38,7 +38,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 	        }       
         }
         catch(SQLException e){
-        	
+        	System.out.println(e.getMessage());
         }
         
         

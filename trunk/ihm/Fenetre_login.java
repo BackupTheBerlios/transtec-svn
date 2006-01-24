@@ -67,56 +67,54 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			// rechercher la personne avec la méthode de Nico.
 			//Utilisateur u= new Utilisateur("rochef","pass",new Integer(1),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
 			Utilisateur u = null;
-			AccesBDDUtilisateur test=new AccesBDDUtilisateur();
+			AccesBDDUtilisateur bdd=new AccesBDDUtilisateur();
 			
 			try {
-				type = test.isRegistered(login.getText(), pwd1.getText());
+				type = bdd.isRegistered(login.getText(), new String(pwd1.getPassword()));
 				System.out.println(type);
 				
 				switch(type)
 				{
-				case -1 : JOptionPane.showMessageDialog(this,"L'utilisateur est inconnu. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-				login.setText("");
-				pwd1.setText("");
-					
+				case AccesBDDUtilisateur.INCONNU : 
+					JOptionPane.showMessageDialog(this,"L'utilisateur est inconnu. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+					login.setText("");
+					pwd1.setText("");
+
 					break;
-				case -2 :JOptionPane.showMessageDialog(this,"Le password est erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-				//login.setText("");
-				pwd1.setText("");
+				case AccesBDDUtilisateur.MAUVAIS_PASS :
+					JOptionPane.showMessageDialog(this,"Le password est erroné. Veuillez contacter votre administrateur système","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+					//login.setText("");
+					pwd1.setText("");
 					
 					break;
 				default :
-					u = test.rechercher(login.getText());
+					u = bdd.rechercher(login.getText());
+					
+					dispose();
 					
 					switch(u.getType().intValue())
 					{
-					case Utilisateur.ENTREE : 	dispose();
-								fen = new Entree_Fenetre_colis(u);
-								fen.setVisible(true);
-								break;
-					case Utilisateur.PREPARATIOIN : 	dispose();
-								fen = new Prep_Fenetre_princ(u);
-								fen.setVisible(true);
-								break;
-					case Utilisateur.SUPERVISION : 	dispose();
-								fen = new Sup_Interface(u);
-								fen.setVisible(true);
-								break;
+					case Utilisateur.ENTREE :
+						fen = new Entree_Fenetre_colis(u);
+						fen.setVisible(true);
+						break;
+					case Utilisateur.PREPARATIOIN :
+						fen = new Prep_Fenetre_princ(u);
+						fen.setVisible(true);
+						break;
+					case Utilisateur.SUPERVISION :
+						fen = new Sup_Interface(u);
+						fen.setVisible(true);
+						break;
 					}		
 					
-					break;
-				
-				
+				break;			
 				}
 			
 			} catch (SQLException e1) {
 				
 				e1.printStackTrace();
-			}
-			
-			
-			
-				
+			}				
 		}
 	}
 	
@@ -131,8 +129,6 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		//fen.setVisible(true);
 	
 		JFrame fen1 = new Fenetre_login();
-		fen1.setVisible(true);
-	
-	}
-	
+		fen1.setVisible(true);	
+	}	
 }
