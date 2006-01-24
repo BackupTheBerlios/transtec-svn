@@ -8,55 +8,54 @@ import java.util.Vector;
 
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDUtilisateur extends ConnecteurSQL{
+public class AccesBDDUtilisateur extends AccesBDD{
 	public final static int INCONNU=-1;
 	public final static int MAUVAIS_PASS=-2;
 	
+	public AccesBDDUtilisateur(){
+		super();
+	}
+	
 	//----- Ajouter un utilisateur -----//
 	public Integer ajouter(Utilisateur aAjouter) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		AccesBDDPersonne pers=new AccesBDDPersonne();
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=
-			connecteur.getConnexion().prepareStatement(
-				"SELECT MAX(idUsers) FROM users");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idUsers) FROM users");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
-		
-		
-		aAjouter.setId(new Integer (resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+				
+		aAjouter.setId(new Integer (resultat.getInt(1)+1)); // Incrémentation du dernier ID et mettre dans l'objet
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion du colis dans la BDD -----//
-		PreparedStatement ajout =
-			connecteur.getConnexion().prepareStatement(
+		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO users"
-				+ " (idUsers,Personnes_idPersonnes,Login,Password_2,Type_2)" // Parametre de la table
+				+ " (idUsers,Personnes_idPersonnes,Login,Password_2,Type_2)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
+		// Ajout dans la table personne
+		AccesBDDPersonne pers=new AccesBDDPersonne();
 		ajout.setInt(2,pers.ajouter(aAjouter.getPersonne()).intValue());
 		ajout.setString(3,aAjouter.getLogin());
 		ajout.setString(4,aAjouter.getMotDePasse());
 		ajout.setInt(5,aAjouter.getType().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
+		
 		ajout.close();//fermeture requete SQL
+		deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	//----- Mettre à jour un utilisateur sur la BDD -----//
 	public void modifier(Utilisateur aModifier) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Modification d'une personne à partir de l'id -----//
-		PreparedStatement modifie=
-			connecteur.getConnexion().prepareStatement(
+		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE users SET "
 				+"Login=?, Password_2=?, Type_2=? "
 				+"WHERE idUsers=?");
-		
 		modifie.setString(1, aModifier.getLogin());
 		modifie.setString(2, aModifier.getMotDePasse());
 		modifie.setInt(3, aModifier.getType().intValue());
@@ -64,61 +63,54 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
-		//----- Modification de la localisation associée à la personne -----//
-		AccesBDDPersonne bddLoc=new AccesBDDPersonne();
-		bddLoc.modifier(aModifier.getPersonne());
+		//----- Modification de la personne associée à l'utilisateur -----//
+		AccesBDDPersonne bddPers=new AccesBDDPersonne();
+		bddPers.modifier(aModifier.getPersonne());
 		
 		modifie.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 	
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		PreparedStatement supprime=connecteur.getConnexion().prepareStatement(
-			"DELETE FROM users WHERE idUsers=?");
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM users WHERE idUsers=?");
 		supprime.setInt(1,aSupprimer.intValue());
 				
 		supprime.executeUpdate();//execution de la requete SQL
 		// La suppression de la personne se fera automatiquement suite à la configuration de la BDD
 		supprime.close();//fermeture requete SQL
-	}
-	
-	//----- Changer les droit d'un utilisateur -----//
-	public boolean changerDroit(int nouveauDroit, Utilisateur aChanger){
-		return true;
+		deconnecter();
 	}
 	
 	//----- Lister tous les users -----//
 	public Vector lister() throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		AccesBDDPersonne pers=new AccesBDDPersonne();
 		Vector liste=new Vector();
 		Utilisateur courantUtilisateur=null;
 		Personne courantPers=null;
 		
-		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM users");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users");
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
 			courantPers=pers.rechercher(new Integer(resultat.getInt("Personnes_idPersonnes")));
-			courantUtilisateur=new Utilisateur(
+			courantUtilisateur=new Utilisateur(new Integer(resultat.getInt("idUsers")),
 					resultat.getString("Login"),
 					resultat.getString("Password_2"),
 					new Integer(resultat.getInt("Type_2")),
 					courantPers);
-			
-			courantUtilisateur.setId(new Integer(resultat.getInt("idUsers")));
+
 			liste.add(courantUtilisateur);
 		}
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
+		deconnecter();
 		
 		return liste;
 	}
 	
 	//----- Recherche d'un utilisateur dans la BDD -----//
-	public Utilisateur rechercher(String aChercher) throws SQLException{
+	/*public Utilisateur rechercher(String aChercher) throws SQLException{
 		ConnecteurSQL connecteur=new ConnecteurSQL();
 		Utilisateur trouvee=null;
 		AccesBDDPersonne pers=new AccesBDDPersonne();
@@ -141,7 +133,7 @@ public class AccesBDDUtilisateur extends ConnecteurSQL{
 		recherche.close();	// Fermeture requête SQL
 		
 		return trouvee;
-	}
+	}*/
 	
 	//----- Vérifie si l'utilisateur a été créé auparavant, retourn 0 si utilisateur inconnu, 1 si password inexact, 2 si Ok -----//
 	public int isRegistered(String login, String password)throws SQLException{
