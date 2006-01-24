@@ -86,24 +86,22 @@ public class AccesBDDCamion extends AccesBDD{
 	public void modifier(Camion aModifier) throws SQLException{
 		//----- Modification d'une personne à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
-				"UPDATE camions SET NomChauffeur=?, Etat=?, Volume=?, Immatriculation=? "
+				"UPDATE camions SET Immatriculation=?, Etat=?, Volume=?, Origine=?, Destination=? "
 				+"WHERE idCamions=?");
-		modifie.setString(1, aModifier.getNomChauffeur());
-		modifie.setInt(2, aModifier.getDispo().intValue());
+		modifie.setString(1, aModifier.getNumero());
+		modifie.setInt(2, aModifier.getDisponibilite().intValue());
 		modifie.setInt(3, aModifier.getVolume().intValue());
-		modifie.setString(4, aModifier.getNumero());
-		modifie.setInt(5, aModifier.getId().intValue());
+		modifie.setInt(4, aModifier.getOrigine().getId().intValue());
+		modifie.setInt(5, aModifier.getDestination().getId().intValue());
+		modifie.setInt(6, aModifier.getId().intValue());
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
-		//----- Modification de la localisation associée à la camion -----//
-		AccesBDDCamion_has_Localisation bddLoc=new AccesBDDCamion_has_Localisation();
-		bddLoc.modifier(aModifier.getId(), aModifier.getIdOrigine(), aModifier.getIdDestination());
-		
 		modifie.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 
-	public static void main(String arg[]){
+	/*public static void main(String arg[]){
 		AccesBDDCamion test=new AccesBDDCamion();
 
 		Camion aAjouter = new Camion("1013Tfdgf",new Integer(0),new Integer(2),"Legfg",new Integer(1),new Integer(2));
@@ -119,5 +117,5 @@ public class AccesBDDCamion extends AccesBDD{
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
-	}
+	}*/
 }
