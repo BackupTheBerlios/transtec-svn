@@ -37,7 +37,7 @@ public class AccesBDDModelesColis {
 		ajout.setInt(5,aAjouter.getLargeur().intValue());
 		ajout.setInt(6,aAjouter.getProfondeur().intValue());
 		ajout.setInt(7,aAjouter.getDiametre().intValue());
-		ajout.setFloat(8,aAjouter.getVolume());
+		ajout.setInt(8,aAjouter.getVolume().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
