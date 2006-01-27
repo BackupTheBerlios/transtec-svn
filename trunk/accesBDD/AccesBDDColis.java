@@ -2,11 +2,7 @@ package accesBDD;
 
 import java.sql.*;
 import java.util.Vector;
-
 import donnees.Colis;
-import donnees.Entrepot;
-import donnees.Personne;
-import donnees.Utilisateur;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -90,7 +86,7 @@ public class AccesBDDColis extends AccesBDD{
 		
 	//----- Lister les colis par destination -----//
 	public Vector listerDest(int idEntrepot) throws SQLException{
-		Vector liste=new Vector();
+		Vector<Colis> liste=new Vector<Colis>();
 				
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Entrepots_idEntrepots=? ");
 		recherche.setInt(1, idEntrepot);

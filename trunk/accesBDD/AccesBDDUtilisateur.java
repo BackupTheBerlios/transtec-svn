@@ -1,6 +1,5 @@
 package accesBDD;
 
-import donnees.Camion;
 import donnees.Personne;
 import donnees.Utilisateur;
 import java.sql.*;
@@ -79,7 +78,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	//----- Lister tous les users -----//
 	public Vector lister() throws SQLException{
 		AccesBDDPersonne pers=new AccesBDDPersonne();
-		Vector liste=new Vector();
+		Vector<Utilisateur> liste=new Vector<Utilisateur>();
 		Utilisateur courantUtilisateur=null;
 		Personne courantPers=null;
 		

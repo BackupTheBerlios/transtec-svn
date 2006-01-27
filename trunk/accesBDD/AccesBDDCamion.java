@@ -4,11 +4,7 @@ import java.sql.PreparedStatement;
 import java.util.Vector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import donnees.Camion;
-import donnees.Entrepot;
-import donnees.Localisation;
-import donnees.Personne;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -61,7 +57,7 @@ public class AccesBDDCamion extends AccesBDD{
 	
 	//----- Lister les camions -----//
 	public Vector lister() throws SQLException{
-		Vector liste=new Vector();
+		Vector<Camion> liste=new Vector<Camion>();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions");
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL

@@ -5,16 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AccesBDDModelesColis {
+public class AccesBDDModelesColis extends AccesBDD{
+	public AccesBDDModelesColis(){
+		super();
+	}
 	
 	//----- Ajouter une nouvelle forme (cube) -----//
 	public int ajouter(ModeleColis aAjouter)throws SQLException{
-		
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=
-			connecteur.getConnexion().prepareStatement(
-				"SELECT MAX(idModelesColis ) FROM modelescolis");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idModelesColis ) FROM modelescolis");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -24,8 +23,7 @@ public class AccesBDDModelesColis {
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'une personne dans la BDD -----//
-		PreparedStatement ajout =
-			connecteur.getConnexion().prepareStatement(
+		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO modelescolis"
 				+ " (idModelesColis,Forme,Modele,hauteur,largeur,Profondeur,Diametre,Volume)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?,?,?)"); 
@@ -41,6 +39,7 @@ public class AccesBDDModelesColis {
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
+		deconnecter();
 		return aAjouter.getId().intValue();
 	}
 	

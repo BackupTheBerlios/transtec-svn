@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Chargement;
+import donnees.Colis;
 
 
 //----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes opérations nécessaire sur la table -----//
@@ -59,7 +60,7 @@ public class AccesBDDChargement extends AccesBDD{
 	
 	//----- Lister le colis appartenant à un chargement -----//
 	public Vector lister() throws SQLException{
-		Vector liste=new Vector();
+		Vector<Chargement> liste=new Vector<Chargement>();
 		AccesBDDCamion bddCamion=new AccesBDDCamion();
 		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		
@@ -86,7 +87,7 @@ public class AccesBDDChargement extends AccesBDD{
 	
 	//----- Lister les colis présents dans un chargement -----//
 	public Vector listerColis(Integer idChargement) throws SQLException{
-		Vector liste=new Vector();
+		Vector<Colis> liste=new Vector<Colis>();
 	
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());
