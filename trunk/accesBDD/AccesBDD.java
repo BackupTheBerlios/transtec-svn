@@ -61,4 +61,20 @@ public class AccesBDD {
 		if (this.connexion != null && !this.connexion.isClosed())
 			this.connexion.close();
 	}
+	
+	// Change les informations de la BDD
+	
+	public void changerInfoBDD(String driver, String chaineConnexion, String login, String password){
+		try{
+        	FileWriter fw = new FileWriter("D:\\EFREI\\JAVA_Workspace\\infoBDD.ini", false);
+        	BufferedWriter output = new BufferedWriter(fw);
+        	output.write("driver='"+driver+"'\n"+
+        		"chaineconnexion='"+chaineConnexion+"'\n"+
+        		"password='"+password+"'\n"+
+        		"login='"+login+"'\n");
+            output.flush();
+            output.close();
+		}
+		catch(IOException ioe){System.out.println("erreur : " + ioe );}
+	}
 }
