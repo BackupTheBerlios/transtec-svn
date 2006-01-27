@@ -16,29 +16,25 @@ public class AccesBDD {
 	
 	//----- Constructeur mettant les caractéristique de la BDD -----//
 	public AccesBDD(){
-		this.driver="com.mysql.jdbc.Driver";
-		this.chaineconnexion="jdbc:mysql:///transtec";
-		this.login="root";
-		this.password="";
-		
-		/*try{
-             FileReader fr = new FileReader("\\infoBDD.ini");
-             BufferedReader br = new BufferedReader(fr);
+		try{
+            FileReader fr = new FileReader("D:\\EFREI\\JAVA_Workspace\\infoBDD.ini");
+            BufferedReader br = new BufferedReader(fr);
              
-             String texte = "";
-             int a = 0;
-                 while(a<2)
-                 {
-                     texte = texte + br.readLine() + "\n";
-                     a++;        
-                 }
-             br.close();
-             //readLine pour lire une ligne
-             //note: si il n y a rien, la fonction retournera la valeur null
-             System.out.println(texte);
-             //on affiche le texte
+            String contenu="";
+            String s=br.readLine();
+            while(s!=null)
+            {
+                contenu+=s;  
+                s=br.readLine();
+            }
+            String[] aDecomposer=contenu.split("'");
+            this.driver=aDecomposer[1];
+     		this.chaineconnexion=aDecomposer[3];
+     		this.login=aDecomposer[7];
+     		this.password=aDecomposer[5];
+            br.close();
 		}
-		catch(IOException ioe){System.out.println("erreur : " + ioe);}*/
+		catch(IOException ioe){System.out.println("erreur : " + ioe);}
 	}
 
 	// Se connecte à la BDD
@@ -47,7 +43,7 @@ public class AccesBDD {
 			if (this.connexion == null || this.connexion.isClosed()){
 				Class.forName(driver); // chargement de la classe driver
 				if (login != null)			
-						this.connexion = DriverManager.getConnection("jdbc:mysql://localhost/transtec?user=root&password="); 
+						this.connexion = DriverManager.getConnection("jdbc:mysql://localhost/transtec?user="+login+"&password="+password); 
 					
 				else	// ouverture de la connexion
 					this.connexion = DriverManager.getConnection(this.chaineconnexion);

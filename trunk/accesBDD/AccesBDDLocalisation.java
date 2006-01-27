@@ -9,10 +9,10 @@ import donnees.Localisation;
 //----- Classe permettant l'accès à la table Localisation, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDLocalisation extends AccesBDD{
-	/*public final static short ID=0;
+	public final static short ID=0;
 	public final static short ADRESSE=0;
 	public final static short VILLE=1;
-	public final static short CODEPOSTAL=2;*/
+	public final static short CODEPOSTAL=2;
 	
 	public AccesBDDLocalisation(){
 		super();
@@ -70,25 +70,21 @@ public class AccesBDDLocalisation extends AccesBDD{
 	}
 	
 	//----- Recherche d'une localisation dans la BDD -----//
-	/*public Localisation rechercher(short type, String aChercher) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
+	public Localisation rechercher(short type, String aChercher) throws SQLException{
 		Localisation trouvee=null;
 		PreparedStatement recherche;
 		
 		switch(type){
 		case 0:	// Recherche d'une adresse
-			recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT * FROM localisation WHERE Adresse=?");
+			recherche=connecter().prepareStatement("SELECT * FROM localisation WHERE Adresse=?");
 			break;
 			
 		case 1:	// Recherche d'une ville
-			recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT * FROM localisation WHERE Ville=?");
+			recherche=connecter().prepareStatement("SELECT * FROM localisation WHERE Ville=?");
 			break;
 			
 		case 2: // Recherche d'un code postal
-			recherche=connecteur.getConnexion().prepareStatement(
-			"SELECT * FROM localisation WHERE CodePostal=?");
+			recherche=connecter().prepareStatement("SELECT * FROM localisation WHERE CodePostal=?");
 			break;
 			
 		default:
@@ -106,7 +102,7 @@ public class AccesBDDLocalisation extends AccesBDD{
 		recherche.close();	// Fermeture requête SQL
 		
 		return trouvee;
-	}*/
+	}
 	
 	//----- Modifier une localisation dans la BDD -----//
 	public void modifier(Localisation aModifier) throws SQLException{

@@ -10,13 +10,13 @@ import donnees.Personne;
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDPersonne extends AccesBDD{
-	/*public final static short NOM=0;
+	public final static short NOM=0;
 	public final static short PRENOM=1;
 	public final static short EMAIL=2;
 	public final static short TELEPHONE=3;
 	public final static short ADRESSE=4;
 	public final static short VILLLE=5;
-	public final static short CODEPOSTAL=6;*/
+	public final static short CODEPOSTAL=6;
 	
 	public AccesBDDPersonne(){
 		super();
@@ -81,8 +81,7 @@ public class AccesBDDPersonne extends AccesBDD{
 		return trouvee;
 	}
 	
-	/*public Personne rechercher(short type, String aChercher) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
+	public Personne rechercher(short type, String aChercher) throws SQLException{
 		Personne trouvee=null;
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
 		Localisation locAChercher=null;
@@ -92,47 +91,40 @@ public class AccesBDDPersonne extends AccesBDD{
 		switch(type){
 			// Recherche d'un Nom
 			case 0:
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Nom=?");
+				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Nom=?");
 				break;
 					
 			// Recherche d'un Prenom
 			case 1:
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Prenom=?");
+				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Prenom=?");
 				break;
 					
 			// Recherche d'un Email
 			case 2:
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Email=?");
+				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Email=?");
 				break;
 					
 			// Recherhce d'un numéro de téléphone
 			case 3:
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Telephone=?");
+				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Telephone=?");
 				break;
 					
 			// Recherche d'une adresse
 			case 4:	
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.ADRESSE, aChercher);
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
+				recherche=connecter().prepareStatement(	"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 				
 			// Recherche d'une ville
 			case 5:	
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.VILLE, aChercher);
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
+				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 			
 			// Recherhce d'un code postal
 			case 6:
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.CODEPOSTAL, aChercher);
-				recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
+				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 				
 			default: recherche=null;	// A tester!!!!!!
@@ -143,17 +135,22 @@ public class AccesBDDPersonne extends AccesBDD{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){	// S'il a trouvé la personne
 			Localisation loc=bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
-			trouvee=new Personne(resultat.getString("Nom"), resultat.getString("Prenom")
-					, loc.getAdresse(), loc.getCodePostal(), loc.getVille(),
-					resultat.getString("Email"), resultat.getString("Telephone"));
-			trouvee.setId(new Integer(resultat.getInt("idPersonnes")));
+			trouvee=new Personne(
+					new Integer(resultat.getInt("idPersonnes")),
+					resultat.getString("Nom"), 
+					resultat.getString("Prenom"), 
+					loc.getAdresse(), 
+					loc.getCodePostal(), 
+					loc.getVille(),
+					resultat.getString("Email"), 
+					resultat.getString("Telephone"));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
 		
 		return trouvee;
-	}*/
+	}
 	
 	//----- Modification d'une personne dans la BDD -----//
 	public void modifier(Personne aModifier) throws SQLException{
