@@ -3,7 +3,7 @@ package accesBDD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.Vector;
 import donnees.Localisation;
 import donnees.Personne;
 
@@ -81,8 +81,8 @@ public class AccesBDDPersonne extends AccesBDD{
 		return trouvee;
 	}
 	
-	public Personne rechercher(short type, String aChercher) throws SQLException{
-		Personne trouvee=null;
+	public Vector rechercher(short type, String aChercher) throws SQLException{
+		Vector<Personne> liste =new Vector<Personne>();
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
 		Localisation locAChercher=null;
 		
@@ -133,9 +133,9 @@ public class AccesBDDPersonne extends AccesBDD{
 		if(type<4)	recherche.setString(1, aChercher);
 		else	recherche.setInt(1, locAChercher.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
-		if(resultat.next()){	// S'il a trouvé la personne
+		while(resultat.next()){	// S'il a trouvé la personne
 			Localisation loc=bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
-			trouvee=new Personne(
+			liste.add(new Personne(
 					new Integer(resultat.getInt("idPersonnes")),
 					resultat.getString("Nom"), 
 					resultat.getString("Prenom"), 
@@ -143,13 +143,13 @@ public class AccesBDDPersonne extends AccesBDD{
 					loc.getCodePostal(), 
 					loc.getVille(),
 					resultat.getString("Email"), 
-					resultat.getString("Telephone"));
+					resultat.getString("Telephone")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
 		
-		return trouvee;
+		return liste;
 	}
 	
 	//----- Modification d'une personne dans la BDD -----//

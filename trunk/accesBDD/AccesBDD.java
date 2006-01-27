@@ -16,7 +16,11 @@ public class AccesBDD {
 	
 	//----- Constructeur mettant les caractéristique de la BDD -----//
 	public AccesBDD(){
-		try{
+		this.driver="com.mysql.jdbc.Driver";
+        this.chaineconnexion="jdbc:mysql:///transtec";
+        this.login="root";
+        this.password="";		
+		/*try{
             FileReader fr = new FileReader("D:\\EFREI\\JAVA_Workspace\\infoBDD.ini");
             BufferedReader br = new BufferedReader(fr);
              
@@ -34,7 +38,7 @@ public class AccesBDD {
      		this.password=aDecomposer[5];
             br.close();
 		}
-		catch(IOException ioe){System.out.println("erreur : " + ioe);}
+		catch(IOException ioe){System.out.println("erreur : " + ioe);}*/
 	}
 
 	// Se connecte à la BDD
