@@ -58,7 +58,7 @@ public class AccesBDDChargement extends AccesBDD{
 		deconnecter();
 	}
 	
-	//----- Lister le colis appartenant à un chargement -----//
+	//----- Lister les chargements -----//
 	public Vector lister() throws SQLException{
 		Vector<Chargement> liste=new Vector<Chargement>();
 		AccesBDDCamion bddCamion=new AccesBDDCamion();

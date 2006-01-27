@@ -138,6 +138,24 @@ public class AccesBDDColis extends AccesBDD{
 		return trouvee;
 	}
 	
+	//----- Recherche de l'id du chargement du colis -----//
+	public Integer rechercherIdChargement(Integer idColis) throws SQLException{
+		Integer trouvee=null;
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idColis=?");
+		recherche.setInt(1, idColis.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next())	trouvee=new Integer(resultat.getInt("idChargement"));
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
+		
+		return trouvee;
+	}
+	
 	//----- TESTES OKAY -----//
 	/*public static void main(String arg[]){
 		AccesBDDColis test=new AccesBDDColis();
