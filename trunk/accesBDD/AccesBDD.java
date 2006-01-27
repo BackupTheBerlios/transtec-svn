@@ -45,9 +45,4 @@ public class AccesBDD {
 		if (this.connexion != null && !this.connexion.isClosed())
 			this.connexion.close();
 	}
-	
-	// Exécute une instruction de consultation de la BDD
-	public ResultSet Consultater(String Instruction){
-		
-	}
 }
