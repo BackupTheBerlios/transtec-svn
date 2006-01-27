@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.Vector;
 
 import donnees.Colis;
+import donnees.Entrepot;
+import donnees.Personne;
+import donnees.Utilisateur;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -104,6 +107,39 @@ public class AccesBDDColis extends AccesBDD{
 		deconnecter();
 		
 		return liste;
+	}
+	
+	//----- Rechercher un colis dans la BDD -----//
+	public Colis rechercher(Integer aChercher) throws SQLException{
+		Colis trouvee=null;
+		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE idColis=?");
+		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé le colis
+			trouvee=new Colis(
+					new Integer(resultat.getInt("idColis")),
+					resultat.getString("Code_barre"),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Code_barre"))),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Destinataire"))),
+					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("Createur"))),
+					new Integer(resultat.getInt("Poids")),
+					resultat.getTimestamp("DateDepot"),
+					new Integer(resultat.getInt("Fragilite")),
+					new Integer(resultat.getInt("Fragilite")),
+					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
+					resultat.getString("Valeur")
+					);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
 	}
 	
 	//----- TESTES OKAY -----//

@@ -20,27 +20,11 @@ public class Colis {
 	private Timestamp date_envoi;
 	private Integer fragilite;
 	private Integer modele;/////////// A VOIR
-	private String lieu;
 	private String valeur_declaree;
 
 	// Constructeur vide
 	public Colis(){
 	}
-	
-	/*public Colis(Integer id, String code_barre,Integer modele,Integer Entrepot,String poids,Timestamp date_envoi,String valeur_declaree,Integer fragilite,String lieu)
-	{
-		this.id=id;
-		this.code_barre = code_barre;
-		this.modele=modele;
-		this.Entrepot=Entrepot;
-		this.poids=poids;
-		this.date_envoi=date_envoi;
-		this.valeur_declaree=valeur_declaree;
-		this.fragilite=fragilite;
-		this.lieu=lieu;
-	}*/
-	
-	
 	
 	// Constructeur utilisant des paramètres pour chaque champ
 	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
@@ -55,14 +39,10 @@ public class Colis {
 		this.utilisateur=utilisateur;
 		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
-		/*this.largeur=largeur;
-		this.hauteur=hauteur;
-		this.profondeur=profondeur;*/
 	}
 	
-	public Colis( String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
 		this.code_barre = code_barre;
-		
 		this.modele=modele;
 		this.fragilite=fragilite;
 		this.poids=poids;
@@ -72,19 +52,8 @@ public class Colis {
 		this.utilisateur=utilisateur;
 		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
-		/*this.largeur=largeur;
-		this.hauteur=hauteur;
-		this.profondeur=profondeur;*/
 	}
 	
-	/*public Colis(String code_barre1, String forme1, String modele1, String poids,String fragilite1){
-		this.code_barre1 = code_barre1;
-		this.forme1=forme1;
-		this.modele1=modele1;
-		this.fragilite1=fragilite1;
-		this.poids=poids;
-	}*/
-
 	// Constructeur utilisant un Vector
 	public Colis(Vector v){
 		this.id=(Integer)v.get(0);
@@ -98,7 +67,6 @@ public class Colis {
 		this.date_envoi=(Timestamp)v.get(8);
 		this.fragilite=(Integer)v.get(9);
 		this.modele=(Integer)v.get(10);
-		this.lieu=(String)v.get(11);
 		this.valeur_declaree=(String)v.get(12);	
 	}
 	/*public Colis(Vector v){
@@ -148,7 +116,6 @@ public class Colis {
 		v.add(date_envoi);
 		v.add(fragilite);
 		v.add(modele);
-		v.add(lieu);
 		v.add(valeur_declaree);
 		return v;
 	}
@@ -187,11 +154,6 @@ public class Colis {
 		this.id=id;
 	}
 	
-	public void setLieu(String lieu){
-		this.lieu=lieu;
-	}
-	
-	
 	//----- Récupération de l'id du colis -----//
 	public Integer getId(){
 		return this.id;
@@ -208,10 +170,6 @@ public class Colis {
 	
 	public String getValeurDeclaree(){
 		return this.valeur_declaree;
-	}
-	
-	public String getLieu(){
-		return this.lieu;
 	}
 	
 	//----- Récupération de la date de création du colis -----//

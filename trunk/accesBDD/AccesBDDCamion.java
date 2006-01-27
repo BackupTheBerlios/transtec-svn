@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import donnees.Camion;
 import donnees.Entrepot;
 import donnees.Localisation;
+import donnees.Personne;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -99,6 +100,32 @@ public class AccesBDDCamion extends AccesBDD{
 		
 		modifie.close();	// Fermeture requête SQL
 		deconnecter();
+	}
+	
+	//----- Rechercher un camion dans la BDD -----//
+	public Camion rechercher(Integer aChercher) throws SQLException{
+		Camion trouvee=null;
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE idCamions=?");
+		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé la personne
+			AccesBDDEntrepot bddLoc=new AccesBDDEntrepot();
+			trouvee=new Camion(new Integer(resultat.getInt("idCamions")),
+					resultat.getString("Immatriculation"), 
+					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getString("Volume")), 
+					bddLoc.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddLoc.rechercher(new Integer(resultat.getInt("Destination"))));
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
 	}
 
 	/*public static void main(String arg[]){

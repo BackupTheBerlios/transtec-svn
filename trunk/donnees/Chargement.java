@@ -20,6 +20,15 @@ public class Chargement {
 		this.date=date;
 	}
 	
+	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date){
+		this.id=id;
+		this.camion=camion;
+		this.nbColis=nbColis;
+		this.volChargement=volChargement;
+		this.utilisateur=utilisateur;
+		this.date=date;
+	}
+	
 	//----- Insérer l'id du chargement -----//
 	public void setId(Integer id){
 		this.id=id;

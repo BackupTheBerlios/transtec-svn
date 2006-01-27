@@ -1,5 +1,6 @@
 package accesBDD;
 
+import donnees.Camion;
 import donnees.Personne;
 import donnees.Utilisateur;
 import java.sql.*;
@@ -141,6 +142,31 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		if(resultat.next()){
 			trouvee=new Utilisateur(new Integer(resultat.getInt("idUsers")),
+					resultat.getString("Login"),
+					resultat.getString("Password_2"),
+					new Integer(resultat.getInt("Type_2")),
+					new AccesBDDPersonne().rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
+	}
+	
+	//----- Rechercher un utilisateur dans la BDD -----//
+	public Utilisateur rechercher(Integer aChercher) throws SQLException{
+		Utilisateur trouvee=null;
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Users WHERE idUsers=?");
+		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé l'utilisateur
+			trouvee=new Utilisateur(
+					new Integer(resultat.getInt("idUsers")),
 					resultat.getString("Login"),
 					resultat.getString("Password_2"),
 					new Integer(resultat.getInt("Type_2")),

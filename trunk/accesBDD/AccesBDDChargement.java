@@ -4,20 +4,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-
 import donnees.Chargement;
-import donnees.Colis;
+
 
 //----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDChargement extends ConnecteurSQL{
+public class AccesBDDChargement extends AccesBDD{
+	public AccesBDDChargement(){
+		super();
+	}
+	
 	//	----- Ajouter un colis dans la BDD -----//
 	public Integer ajouter(Chargement aAjouter) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=
-			connecteur.getConnexion().prepareStatement(
-				"SELECT MAX(idChargement) FROM chargement");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idChargement) FROM chargement");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -27,93 +27,83 @@ public class AccesBDDChargement extends ConnecteurSQL{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion du colis dans la BDD -----//
-		PreparedStatement ajout =
-			connecteur.getConnexion().prepareStatement(
+		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO chargement"
 				+ " (idChargement,Camions_idCamions, NbColis, VolChargement, DateCreation, Users_idUsers)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?)"); 
 		
-		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setInt(2,aAjouter.getIdCamion().intValue());
+		ajout.setInt(2,aAjouter.getCamion().getId().intValue());
 		ajout.setInt(3, aAjouter.getNbColis().intValue());
-		ajout.setFloat(4, aAjouter.getVolChargement());
+		ajout.setFloat(4, aAjouter.getVolChargement().intValue());
 		ajout.setTimestamp(5, aAjouter.getDate());
-		ajout.setInt(6, aAjouter.getIdUtilisateur().intValue());
+		ajout.setInt(6, aAjouter.getUtilisateur().getId().intValue());
 				
 		ajout.executeUpdate();//execution de la requete SQL
-		ajout.close();//fermeture requete SQL
+		ajout.close(); //fermeture requete SQL
+		deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	//----- Supprimer un chargement -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		PreparedStatement supprime=
-			connecteur.getConnexion().prepareStatement(
-				"DELETE FROM chargement WHERE idChargement=?");
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement WHERE idChargement=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 	
 	//----- Lister le colis appartenant à un chargement -----//
-	public Vector listerColis(Integer chargement) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
+	public Vector lister() throws SQLException{
 		Vector liste=new Vector();
-		String idChargement="C-"+chargement.intValue();
-		AccesBDDPersonnes_has_Colis idPers=new AccesBDDPersonnes_has_Colis();
+		AccesBDDCamion bddCamion=new AccesBDDCamion();
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		
-		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-		"SELECT * FROM colis WHERE Lieu=?");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement");
 		
-		recherche.setString(1, idChargement);
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
-			
+		
 		while(resultat.next()){
-			Colis courant=new Colis(new Integer(resultat.getInt("idColis")), 
-					resultat.getString("Code_barre"), 
-					idPers.getExpediteur(new Integer(resultat.getInt("idColis"))), 
-					idPers.getDestinataire(new Integer(resultat.getInt("idColis"))),
-					new Integer(resultat.getInt("Users_idUsers")),
-					resultat.getString("Poids"), 
-					resultat.getTimestamp("DateDepot"), 
-					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("ModelesColis_idModelesColis")), 
-					new Integer(resultat.getInt("Entrepots_idEntrepots")),
-					resultat.getString("Valeur"));			
-			liste.add(courant);
+			liste.add(new Chargement(
+					new Integer(resultat.getInt("idChargement")),
+					bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
+					new Integer(resultat.getInt("NbColis")),
+					new Integer("VolChargement"),
+					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
+					resultat.getTimestamp("DateCreation")));
 		}
-
-		resultat.close();	// Fermeture requête SQL
-		recherche.close();	// Fermeture requête SQL
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
 		
 		return liste;
 	}
 	
-	public Integer getCamion(Integer idChargement) throws SQLException{
-		ConnecteurSQL connecteur=new ConnecteurSQL();
-		Integer trouvee=null;
-		
-		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement recherche=connecteur.getConnexion().prepareStatement(
-				"SELECT idChargement FROM chargement WHERE Camions_idCamions=?");
+	//----- Lister les colis présents dans un chargement -----//
+	public Vector listerColis(Integer idChargement) throws SQLException{
+		Vector liste=new Vector();
+	
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
-		if(resultat.next())	trouvee=new Integer(resultat.getInt(idChargement.intValue()));
+		while(resultat.next()){
+			liste.add(new AccesBDDColis().rechercher(new Integer(resultat.getInt("idColis"))));
+		}
 		
-		resultat.close();	// Fermeture requête SQL
-		recherche.close();	// Fermeture requête SQL
+		recherche.close();
+		resultat.close();
+		deconnecter();
 		
-		return trouvee;
+		return liste;
 	}
-
-
+	
 	public static void main(String arg[]){
 		/*AccesBDDChargement test=new AccesBDDChargement();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
