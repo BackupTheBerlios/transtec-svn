@@ -12,7 +12,7 @@ public class Utilisateur{
 	
 	// Constantes décrivant les droits de l'utilisateur
 	public final static int ENTREE = 0;
-	public final static int PREPARATIOIN = 1;
+	public final static int PREPARATION = 1;
 	public final static int SUPERVISION = 2;
 	
 	//Constructeur recevant toutes les données en paramètres
@@ -42,7 +42,7 @@ public class Utilisateur{
 		this.id=(Integer)v.get(0);		
 		this.login=(String)v.get(1);
 		this.motDePasse=(String)v.get(2);
-		this.type=(Integer)v.get(3);
+		this.type=stringToConst((String)v.get(3));
 		Localisation l=new Localisation((Integer)v.get(4),(String)v.get(5),(String)v.get(6),(String)v.get(7));
 		this.personne=new Personne((Integer)v.get(8),(String)v.get(9),(String)v.get(10),(String)v.get(11),(String)v.get(12),l);
 	}
@@ -117,7 +117,7 @@ public class Utilisateur{
 		v.add(personne.getId());
 		v.add(login);
 		v.add(motDePasse);
-		v.add(type);
+		v.add(constToString(type));
 		v.add(personne.getLocalisation().getId());
 		v.add(personne.getLocalisation().getAdresse());
 		v.add(personne.getLocalisation().getCodePostal());
@@ -130,4 +130,39 @@ public class Utilisateur{
 		
 		return v;
 	}
+	
+	/****** Méthodes privées de conversion des constantes ******/
+	
+	// Renvoyer le mot en fonction de la valeur de la constante
+	private String constToString(Integer i){
+		String ret=null;
+		
+		switch(i.intValue()){
+		case ENTREE:
+			ret=new String("Entrée");
+			break;
+			
+		case PREPARATION:
+			ret=new String("Préparation");
+			break;
+			
+		case SUPERVISION:
+			ret=new String("Supervision");
+			break;
+		}
+		
+		return ret;
+	}
+	
+	// Renvoyer la constante en fonction du mot
+	private Integer stringToConst(String s){
+		Integer ret=null;
+		
+		if(s.equals("Entrée")) ret=new Integer(ENTREE);
+		else if(s.equals("Préparation")) ret=new Integer(PREPARATION);
+		else if(s.equals("Supervision")) ret=new Integer(SUPERVISION);
+
+		return ret;
+	}
+
 }

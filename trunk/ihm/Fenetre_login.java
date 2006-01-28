@@ -84,7 +84,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						fen = new Entree_Fenetre_colis(u);
 						fen.setVisible(true);
 						break;
-					case Utilisateur.PREPARATIOIN :
+					case Utilisateur.PREPARATION :
 						fen = new Prep_Fenetre_princ(u);
 						fen.setVisible(true);
 						break;

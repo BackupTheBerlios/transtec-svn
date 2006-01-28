@@ -13,10 +13,12 @@ import donnees.Localisation;
 
 // Invite d'ajout/modification d'un utilisateur
 public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
+
+	protected final static String [] ETATS = {"Entrée" , "Préparation" , "Supervision"};
 	
 	private JTextField textLogin = new JTextField(15);
 	private JTextField textMDP = new JTextField(15);
-	private JTextField textType = new JTextField(15);
+	private JComboBox comboType = new JComboBox(ETATS);
 	private JTextField textNom = new JTextField(15);
 	private JTextField textPrenom = new JTextField(15);
 	private JTextField textAdresse = new JTextField(15);
@@ -86,7 +88,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 		JPanel panneauSaisie = new JPanel(new GridLayout(10,1,5,5));
 		panneauSaisie.add(textLogin);
 		panneauSaisie.add(textMDP);
-		panneauSaisie.add(textType);
+		panneauSaisie.add(comboType);
 		panneauSaisie.add(textNom);
 		panneauSaisie.add(textPrenom);
 		panneauSaisie.add(textAdresse);
@@ -129,7 +131,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 			// On initialise les champs texte
 			textLogin.setText(u.getLogin());
 			textMDP.setText(u.getMotDePasse());
-			textType.setText(u.getType().toString());
+			comboType.setSelectedIndex(u.getType().intValue());
 			textNom.setText(u.getPersonne().getNom());
 			textPrenom.setText(u.getPersonne().getPrenom());
 			textAdresse.setText(u.getPersonne().getLocalisation().getAdresse());
@@ -158,7 +160,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 						u.setId(tableUtilisateurs.ajouter(this.getUtilisateur()));
 	
 						// Mise à jour du tableau
-						parent.ajouterLigne(this.getUtilisateur().toVector());
+						parent.ajouterLigne(u.toVector());
 					}
 					// Cas d'une modification d'utilisateur
 					else{
@@ -192,7 +194,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	private Utilisateur getUtilisateur(){
 		u.setLogin(textLogin.getText());
 		u.setMotDePasse(textMDP.getText());
-		u.setType(new Integer(textType.getText().trim()));
+		u.setType(new Integer(comboType.getSelectedIndex()));
 		u.setPersonne(p);
 		p.setMail(textMail.getText());
 		p.setNom(textNom.getText());
@@ -209,20 +211,10 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	// Vérification de saisie des champs
 	private boolean verifChamps(){
 		boolean ret = false;
-		boolean erreurType = false;
-
-		// On vérifie que la valeur numérique soit correctement saisie
-		try{
-			new Integer(this.textType.getText().trim());
-		}				
-		catch(NumberFormatException e){
-			erreurType = true;
-		}
 
 		// On vérifie que tous les champs sont remplis
 		if(textLogin.getText().equals("")) setWarning("Login");
 		else if(textMDP.getText().equals("")) setWarning("Password");
-		else if(textType.getText().equals("") || erreurType) setWarning("Type");
 		else if(textNom.getText().equals("")) setWarning("Nom");
 		else if(textPrenom.getText().equals("")) setWarning("Prénom");
 		else if(textAdresse.getText().equals("")) setWarning("Adresse");
