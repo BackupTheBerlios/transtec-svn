@@ -82,7 +82,7 @@ public class AccesBDDPersonne extends AccesBDD{
 	}
 	
 	public Vector rechercher(short type, String aChercher) throws SQLException{
-		Vector<Personne> liste =new Vector<Personne>();
+		Vector liste =new Vector();
 		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
 		Localisation locAChercher=null;
 		

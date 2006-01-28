@@ -60,7 +60,7 @@ public class AccesBDDChargement extends AccesBDD{
 	
 	//----- Lister les chargements -----//
 	public Vector lister() throws SQLException{
-		Vector<Chargement> liste=new Vector<Chargement>();
+		Vector liste=new Vector();
 		AccesBDDCamion bddCamion=new AccesBDDCamion();
 		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		
@@ -87,7 +87,7 @@ public class AccesBDDChargement extends AccesBDD{
 	
 	//----- Lister les colis présents dans un chargement -----//
 	public Vector listerColis(Integer idChargement) throws SQLException{
-		Vector<Colis> liste=new Vector<Colis>();
+		Vector liste=new Vector();
 	
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());

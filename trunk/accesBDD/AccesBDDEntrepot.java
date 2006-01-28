@@ -69,7 +69,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 	//----- Lister les entrepots -----//
 	public Vector lister() throws SQLException{
 		AccesBDDLocalisation loc=new AccesBDDLocalisation();
-		Vector<Entrepot> liste=new Vector<Entrepot>();
+		Vector liste=new Vector();
 		Entrepot courant=null;
 		
 		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT * FROM entrepots");

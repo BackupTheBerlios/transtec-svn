@@ -71,7 +71,7 @@ public class AccesBDDIncident extends AccesBDD{
 	
 	//----- Lister les incidents -----//
 	public Vector lister() throws SQLException{
-		Vector<Incident> liste=new Vector<Incident>();
+		Vector liste=new Vector();
 		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		AccesBDDColis bddColis=new AccesBDDColis();
 				

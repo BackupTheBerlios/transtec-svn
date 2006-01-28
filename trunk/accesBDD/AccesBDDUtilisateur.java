@@ -78,7 +78,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	//----- Lister tous les users -----//
 	public Vector lister() throws SQLException{
 		AccesBDDPersonne pers=new AccesBDDPersonne();
-		Vector<Utilisateur> liste=new Vector<Utilisateur>();
+		Vector liste=new Vector();
 		Utilisateur courantUtilisateur=null;
 		Personne courantPers=null;
 		

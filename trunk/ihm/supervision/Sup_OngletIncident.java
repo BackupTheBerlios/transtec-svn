@@ -30,7 +30,7 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Créateur");
         nomColonnes.add("Type");
  
-        try{
+ /*       try{
 	        // On récupère les Incidents de la base de données et on les affiche
 	        Vector listeIncidents = tableIncidents.lister();
 	        
@@ -41,7 +41,7 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
         catch(SQLException e){
         	
         }
-        
+ */       
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************

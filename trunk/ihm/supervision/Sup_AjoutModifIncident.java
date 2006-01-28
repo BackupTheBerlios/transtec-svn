@@ -219,11 +219,11 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Incident getIncident(){
-		incid.setColis(new Integer(this.textColis.getText().trim()));
+//		incid.setColis(new Integer(this.textColis.getText().trim()));
 		incid.setDate(new Timestamp(System.currentTimeMillis()));
 		incid.setEtat(new Integer(this.comboEtat.getSelectedIndex()));
 		incid.setDescription(this.textDescription.getText());
-		incid.setUtilisateur(new Integer(this.textUtilisateur.getText().trim()));
+//		incid.setUtilisateur(new Integer(this.textUtilisateur.getText().trim()));
 		incid.setType(new Integer(this.textType.getText()));
 
 		return incid;

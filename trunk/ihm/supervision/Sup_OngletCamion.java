@@ -29,7 +29,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Origine");
         nomColonnes.add("Destination");
 
-        try{
+ /*       try{
 	        // On récupère les camions de la base de données et on les affiche
 	        Vector listeCamions = tableCamions.lister();
 	        
@@ -40,7 +40,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         catch(SQLException e){
         	System.out.println(e.getMessage());
         }
-        
+  */      
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************

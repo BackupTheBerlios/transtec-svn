@@ -57,7 +57,7 @@ public class AccesBDDCamion extends AccesBDD{
 	
 	//----- Lister les camions -----//
 	public Vector lister() throws SQLException{
-		Vector<Camion> liste=new Vector<Camion>();
+		Vector liste=new Vector();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions");
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL

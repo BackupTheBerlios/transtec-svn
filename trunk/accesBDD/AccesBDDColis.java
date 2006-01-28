@@ -86,7 +86,7 @@ public class AccesBDDColis extends AccesBDD{
 		
 	//----- Lister les colis par destination -----//
 	public Vector listerDest(int idEntrepot) throws SQLException{
-		Vector<Colis> liste=new Vector<Colis>();
+		Vector liste=new Vector();
 				
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Entrepots_idEntrepots=? ");
 		recherche.setInt(1, idEntrepot);
