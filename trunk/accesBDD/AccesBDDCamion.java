@@ -28,7 +28,7 @@ public class AccesBDDCamion extends AccesBDD{
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO camions "
 				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination)" // Paramètre de la table
-				+ " VALUES (?,?,?,?,?)"); 
+				+ " VALUES (?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getDisponibilite().intValue());

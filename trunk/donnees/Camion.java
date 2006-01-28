@@ -48,7 +48,7 @@ public class Camion {
 	public Camion(Vector v){
 		this.id =(Integer)v.get(0);
 		this.numero=(String)v.get(1);
-		this.disponibilite=(Integer)v.get(2);
+		this.disponibilite=stringToConst((String)v.get(2));
 		this.volume=(Integer)v.get(3);
 		this.origine=new Entrepot(
 				(Integer)v.get(4),
@@ -80,7 +80,7 @@ public class Camion {
 		
 		v.add(id);
 		v.add(numero);
-		v.add(disponibilite);
+		v.add(constToString(disponibilite));
 		v.add(volume);
 		v.add(origine.getId());
 		v.add(origine.getTelephone());
@@ -122,7 +122,7 @@ public class Camion {
 	}
 	
 	//----- Insérer l'entrepôt de destination -----//
-	public void setIdDestination(Entrepot destination){
+	public void setDestination(Entrepot destination){
 		this.destination=destination;
 	}
 	
@@ -163,4 +163,40 @@ public class Camion {
 	public Entrepot getOrigine(){
 		return this.origine;
 	}
+	
+	
+	/****** Méthodes privées de conversion des constantes ******/
+	
+	// Renvoyer le mot en fonction de la valeur de la constante
+	private String constToString(Integer i){
+		String ret=null;
+		
+		switch(i.intValue()){
+		case DISPONIBLE:
+			ret=new String("Disponible");
+			break;
+			
+		case REPARATION:
+			ret=new String("En réparation");
+			break;
+			
+		case LIVRAISON:
+			ret=new String("En livraison");
+			break;
+		}
+		
+		return ret;
+	}
+	
+	// Renvoyer la constante en fonction du mot
+	private Integer stringToConst(String s){
+		Integer ret=null;
+		
+		if(s.equals("Disponible")) ret=new Integer(DISPONIBLE);
+		else if(s.equals("En réparation")) ret=new Integer(REPARATION);
+		else if(s.equals("En livraison")) ret=new Integer(LIVRAISON);
+
+		return ret;
+	}
+
 }

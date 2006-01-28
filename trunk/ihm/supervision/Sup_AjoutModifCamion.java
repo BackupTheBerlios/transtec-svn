@@ -2,30 +2,35 @@ package ihm.supervision;
 
 import java.awt.*;
 import java.sql.*;
+import java.util.Vector;
 import java.awt.event.*;
 import javax.swing.*;
 
 import donnees.Camion;
+import donnees.Entrepot;
 import accesBDD.AccesBDDCamion;
+import accesBDD.AccesBDDEntrepot;
 
 // Invite d'ajout/modification d'un camion
 public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	
-	private final static String [] TITRES = {"Disponible" , "En livraison" , "En réparation"};
+	private final static String [] TITRES = {"Disponible" , "En réparation" , "En livraison"};
+	private Vector vectOrigines = new Vector();
+	private Vector vectDestinations = new Vector();
 	
 	private JTextField textNumero = new JTextField(15);
 	private JComboBox comboDispo = new JComboBox(TITRES);
 	private JTextField textVolume = new JTextField(15);
-	private JTextField textDestination = new JTextField(15);
-	private JTextField textAppartenance = new JTextField(15);
+	private JComboBox comboOrigine;
+	private JComboBox comboDestination;
 	private JTextField textWarning = new JTextField(15);
 	private JButton boutValider = new JButton();
 	private JButton boutAnnuler = new JButton("Annuler");
 	private Camion camion;
-//	public boolean modif = false;
 	private Sup_OngletCamion parent;
 	
 	private AccesBDDCamion tableCamions;
+	private AccesBDDEntrepot tableEntrepots = new AccesBDDEntrepot();
 	
 	//Constructeur
 	public Sup_AjoutModifCamion(Camion c, Sup_OngletCamion parent, AccesBDDCamion tableCamions){
@@ -51,8 +56,22 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			camion = new Camion();
 		}
 		
+		// On récupère le contenu des paramètres
 		this.tableCamions = tableCamions;
 		this.parent = parent;
+		
+		// On initialise les listes d'entrepôts
+		try{
+			vectOrigines=tableEntrepots.lister();
+			vectDestinations=tableEntrepots.lister();			
+		}
+		catch(Exception ev){
+			System.out.println(ev.getMessage());
+		}
+		
+		// On initialise les listes de choix d'entrepôts
+		comboOrigine = new JComboBox(vectOrigines);
+		comboDestination = new JComboBox(vectDestinations);
 	
 		// Titres des informations à saisir
 		JPanel panneauLabels = new JPanel(new GridLayout(6,1,5,5));
@@ -67,8 +86,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		panneauSaisie.add(textNumero);
 		panneauSaisie.add(comboDispo);
 		panneauSaisie.add(textVolume);
-		panneauSaisie.add(textAppartenance);
-		panneauSaisie.add(textDestination);
+		panneauSaisie.add(comboOrigine);
+		panneauSaisie.add(comboDestination);
 		
 		// Boutons d'actions : Valider/Modifier et Annuler
 		JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
@@ -105,8 +124,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			textNumero.setText(c.getNumero());
 			comboDispo.setSelectedIndex(c.getDisponibilite().intValue());
 			textVolume.setText(c.getVolume().toString());
-			textDestination.setText(c.getDestination().getLocalisation().getVille().toString());
-			textAppartenance.setText(c.getOrigine().getLocalisation().getVille().toString());
+			comboOrigine.setSelectedItem(c.getOrigine());
+			comboDestination.setSelectedItem(c.getDestination());
 		}
 
 		pack();
@@ -128,7 +147,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 						camion.setId(tableCamions.ajouter(this.getCamion()));
 	
 						// Mise à jour du tableau
-						parent.ajouterLigne(this.getCamion().toVector());						
+						parent.ajouterLigne(camion.toVector());						
 					}
 					// Cas d'une modification de camion existant
 					else{
@@ -139,8 +158,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 						tableCamions.modifier(this.getCamion());
 					}
 				}
-				catch(SQLException eSQL){
-					
+				catch(Exception ex){
+					System.out.println(ex.getMessage());
 				}
 				finally{
 					// On masque la fenetre
@@ -162,8 +181,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		camion.setNumero(textNumero.getText());
 		camion.setDisponibilite(new Integer(comboDispo.getSelectedIndex()));
 		camion.setVolume(new Integer(textVolume.getText().trim()));
-//		camion.setDestination(new Entrepot());
-//		camion.setOrigine(new Entrepot());
+		camion.setOrigine((Entrepot)comboOrigine.getSelectedItem());
+		camion.setDestination((Entrepot)comboDestination.getSelectedItem());
 
 		return camion;
 	}
@@ -184,8 +203,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		// On vérifie que tous les champs sont remplis
 		if(textNumero.getText().equals("")) setWarning("Numéro");
 		else if(textVolume.getText().equals("") || erreurVolume) setWarning("Volume");
-		else if(textDestination.getText().equals("")) setWarning("Destination");
-		else if(textAppartenance.getText().equals("")) setWarning("Appartenance");
+		else if(comboOrigine.getSelectedIndex()==-1) setWarning("Destination");
+		else if(comboDestination.getSelectedIndex()==-1) setWarning("Appartenance");
 		else ret = true;
 
 		return ret;
@@ -196,4 +215,15 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
 		textWarning.updateUI();
 	}
+	
+	/*
+	class modeleComboEntrepots implements ComboBoxModel{
+		
+		public modeleComboEntrepots(Vector v){
+			for(int i=0;i<v.size();i++){
+				Entrepot e=(Entrepot)v.get(i);
+				this.addadd(e.getLocalisation().getVille(),(Object)e);
+			}
+		}
+	}*/
 }

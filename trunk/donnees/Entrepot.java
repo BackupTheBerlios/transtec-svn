@@ -51,4 +51,20 @@ public class Entrepot {
 	public Localisation getLocalisation(){
 		return this.localisation;
 	}
+	
+	
+	public String toString(){
+		return localisation.getVille();
+	}
+	
+	public boolean equals(Object o){
+		boolean ret=false;
+		
+		if(o instanceof Entrepot){
+			Entrepot entTmp=(Entrepot)o;
+			if(this.id.equals(entTmp.getId())) ret=true;			
+		}
+		
+		return ret;
+	}
 }
