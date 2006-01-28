@@ -19,6 +19,13 @@ public class Entrepot {
 		this.telephone=telephone;
 	}
 	
+	// Constructeur utilisant une instance de Localisation et une chaine de caractères
+	public Entrepot(Integer id, String telephone, Localisation localisation){
+		this.id=id;
+		this.telephone=telephone;
+		this.localisation=localisation;
+	}
+	
 	
 	/****** Méthodes d'écriture ******/
 
@@ -33,21 +40,6 @@ public class Entrepot {
 	//----- Récupération de l'id -----//
 	public Integer getId(){
 		return this.id;
-	}
-	
-	//----- Récupération de l'adresse -----//
-	public String getAdresse(){
-		return this.localisation.getAdresse();
-	}
-	
-	//----- Récupération du code postal -----//
-	public String getCodePostal(){
-		return this.localisation.getCodePostal();
-	}
-	
-	//----- Récupération de la ville -----//
-	public String getVille(){
-		return this.localisation.getVille();
 	}
 	
 	//----- Récupération du numéro de téléphone -----//

@@ -105,8 +105,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			textNumero.setText(c.getNumero());
 			comboDispo.setSelectedIndex(c.getDisponibilite().intValue());
 			textVolume.setText(c.getVolume().toString());
-			textDestination.setText(c.getDestination().getVille().toString());
-			textAppartenance.setText(c.getOrigine().getVille().toString());
+			textDestination.setText(c.getDestination().getLocalisation().getVille().toString());
+			textAppartenance.setText(c.getOrigine().getLocalisation().getVille().toString());
 		}
 
 		pack();

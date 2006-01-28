@@ -23,13 +23,22 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		//Liste des camions : noms des colonnes. On n'ajoute volontairement ID qui reste ainsi caché
 		nomColonnes.add("ID");
         nomColonnes.add("Numéro");
-        nomColonnes.add("Etat");
+        nomColonnes.add("Disponibilité");
         nomColonnes.add("Volume");
-        nomColonnes.add("Chauffeur");
+        nomColonnes.add("OrigineID");
+        nomColonnes.add("Téléphone");
+        nomColonnes.add("ID");
+        nomColonnes.add("Adresse");
+        nomColonnes.add("Code Postal");
         nomColonnes.add("Origine");
+        nomColonnes.add("DestinationID");
+        nomColonnes.add("Téléphone");
+        nomColonnes.add("ID");
+        nomColonnes.add("Adresse");
+        nomColonnes.add("Code Postal");
         nomColonnes.add("Destination");
 
- /*       try{
+        try{
 	        // On récupère les camions de la base de données et on les affiche
 	        Vector listeCamions = tableCamions.lister();
 	        
@@ -40,7 +49,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         catch(SQLException e){
         	System.out.println(e.getMessage());
         }
-  */      
+        
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************
@@ -55,6 +64,18 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
+		
+		// On cache les colonnes désirées
+		table.removeColumn(table.getColumnModel().getColumn(3));
+		table.removeColumn(table.getColumnModel().getColumn(3));
+		table.removeColumn(table.getColumnModel().getColumn(3));
+		table.removeColumn(table.getColumnModel().getColumn(3));
+		table.removeColumn(table.getColumnModel().getColumn(3));
+		table.removeColumn(table.getColumnModel().getColumn(4));
+		table.removeColumn(table.getColumnModel().getColumn(4));
+		table.removeColumn(table.getColumnModel().getColumn(4));
+		table.removeColumn(table.getColumnModel().getColumn(4));
+		table.removeColumn(table.getColumnModel().getColumn(4));
 
 		// Bouton Ajouter
 		boutAjouter.addActionListener(this);
