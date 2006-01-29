@@ -95,6 +95,34 @@ public class AccesBDDIncident extends AccesBDD{
 		
 		return liste;
 	}
+	
+//	----- Lister les incidents pour un colis-----//
+	public Vector lister_colis(Integer id_colis) throws SQLException{
+		Vector liste=new Vector();
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		AccesBDDColis bddColis=new AccesBDDColis();
+				
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM incidents WHERE Colis_idColis=?");
+		recherche.setInt(1, id_colis.intValue());
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			liste.add(new Incident(
+					new Integer(resultat.getInt("idIncidents")),
+					bddColis.rechercher(new Integer(resultat.getInt("Colis_idColis"))),
+					resultat.getTimestamp("DateCreation"),
+					new Integer(resultat.getInt("Etat")),
+					resultat.getString("Description"), 
+					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
+					new Integer(resultat.getInt("Type_2"))));
+		}
+				
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return liste;
+	}
 
 	//----- TESTS OKAY -----//
 	/*public static void main(String arg[]){

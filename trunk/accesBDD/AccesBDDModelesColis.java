@@ -43,6 +43,36 @@ public class AccesBDDModelesColis extends AccesBDD{
 		return aAjouter.getId().intValue();
 	}
 	
+	public ModeleColis rechercher(Integer aChercher) throws SQLException{
+		ModeleColis trouvee=null;
+		//AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM modelescolis WHERE idModelesColis=?");
+		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé le colis
+			//public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre,Integer volume){
+			trouvee=new ModeleColis(
+					new Integer(resultat.getInt("idModelesColis")),
+					new Integer(resultat.getInt("Forme")),
+					new Integer(resultat.getInt("Modele")),
+					new Integer(resultat.getInt("hauteur")),
+					new Integer(resultat.getInt("largeur")),
+					new Integer(resultat.getInt("Profondeur")),
+					new Integer(resultat.getInt("Diametre")),
+					new Integer(resultat.getInt("Volume"))
+					);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
+	}
+	
 	
 	
 	

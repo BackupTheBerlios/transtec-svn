@@ -31,7 +31,7 @@ import java.sql.Timestamp;
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
 
-	public Fenetre_create_incident(Colis col,Utilisateur user,boolean create,Entree_Fenetre_colis fenetre)
+	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,boolean create,Entree_Fenetre_colis fenetre)
 	{
 		colis = col;
 		utilis = user;
@@ -133,6 +133,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			valider_incident.setVisible(false);
 			annuler_incident.setBounds(120,240,100,25);
 			setBounds(292,200,360,310);
+			
 		}
 		
 		
@@ -156,10 +157,11 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		
 				try {
 					test.ajouter(aAjouter);
+
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				System.out.println("ici");
+				//System.out.println("ici");
 			
 			
 			

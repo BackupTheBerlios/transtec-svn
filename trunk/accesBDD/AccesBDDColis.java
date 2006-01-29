@@ -119,13 +119,13 @@ public class AccesBDDColis extends AccesBDD{
 			trouvee=new Colis(
 					new Integer(resultat.getInt("idColis")),
 					resultat.getString("Code_barre"),
-					bddPersonne.rechercher(new Integer(resultat.getInt("Code_barre"))),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Expediteur"))),
 					bddPersonne.rechercher(new Integer(resultat.getInt("Destinataire"))),
 					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("Createur"))),
 					new Integer(resultat.getInt("Poids")),
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("Fragilite")),
+					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur")
 					);
@@ -151,13 +151,13 @@ public class AccesBDDColis extends AccesBDD{
 			trouvee=new Colis(
 					new Integer(resultat.getInt("idColis")),
 					resultat.getString("Code_barre"),
-					bddPersonne.rechercher(new Integer(resultat.getInt("Code_barre"))),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Expediteur"))),
 					bddPersonne.rechercher(new Integer(resultat.getInt("Destinataire"))),
 					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("Createur"))),
 					new Integer(resultat.getInt("Poids")),
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("Fragilite")),
+					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur")
 					);

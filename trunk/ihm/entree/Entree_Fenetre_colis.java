@@ -22,6 +22,8 @@ import accesBDD.AccesBDDModelesColis;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDEntrepot;
 import accesBDD.AccesBDDLocalisation;
+import accesBDD.AccesBDDModelesColis;
+import accesBDD.AccesBDDIncident;
 
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
 
@@ -560,13 +562,13 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			fragilite_colis.setEnabled(false);
 			
 			
-			/*
-			forme_colis.setSelectedIndex(col.getForme().intValue());
-			modele_colis.setEnabled(false);
-			modele_colis.setSelectedIndex(col.getModele().intValue());
+			
+			//forme_colis.setSelectedIndex(col.getForme().intValue());
+			//modele_colis.setEnabled(false);
+			//modele_colis.setSelectedIndex(col.getModele().intValue());
 			fragilite_colis.setEnabled(false);
 			fragilite_colis.setSelectedIndex(col.getFragilite().intValue());
-			*/
+			
 			largeur.setEnabled(false);
 			hauteur.setEnabled(false);
 			profondeur.setEnabled(false);
@@ -589,6 +591,24 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			donnees_exp.setEnabled(false);
 			//donnees_exp.setText(col.expéditeur);
 			voir_incident.setVisible(true);
+			
+			AccesBDDModelesColis test3=new AccesBDDModelesColis();
+
+			try{
+				modelecolis = test3.rechercher(col.getModele());
+				System.out.println(col.getModele());
+			}
+			catch(SQLException e2){
+				System.out.println(e2.getMessage());
+			}
+			
+			forme_colis.setSelectedIndex(modelecolis.getForme().intValue());
+			//System.out.println(modelecolis.getModele().intValue());
+			modele_colis.setEnabled(false);
+			modele_colis.setSelectedIndex(modelecolis.getModele().intValue());
+			largeur.setText(modelecolis.getLargeur().toString());
+			hauteur.setText(modelecolis.getHauteur().toString());
+			profondeur.setText(modelecolis.getProfondeur().toString());
 			
 			AccesBDDPersonne test1=new AccesBDDPersonne();
 
@@ -613,6 +633,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 			try{
 				expediteur = test1.rechercher(col.getExpediteur().getId());
+				
 			}
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
@@ -626,6 +647,24 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			}
 			
 			donnees_exp.setText(expediteur.getNom()+ " "+ expediteur.getPrenom()+ "\n"+ localisation2.getAdresse()+ "\n"+ localisation2.getCodePostal()+ " "+ localisation2.getVille()+ "\n"+expediteur.getMail());
+			
+			Vector liste_incidents = new Vector();
+			//incident = new Incident();
+			AccesBDDIncident test5=new AccesBDDIncident();
+			try {
+				liste_incidents = test5.lister_colis(col.getId());
+				
+		            
+		          for(int i=0;i<liste_incidents.size();i++){
+		        	  ajouterInc((Incident)liste_incidents.get(i));
+		            	//donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
+		            }
+				
+				
+			} catch (SQLException e) {
+			
+				e.printStackTrace();
+			}
 			
 			
 		}
@@ -834,7 +873,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		if (source == create_incident)
 		{
 			create1 = true;
-			JFrame fen3 = new Fenetre_create_incident(col,utilisateur,create1,this);
+			JFrame fen3 = new Fenetre_create_incident(col,utilisateur,incident,create1,this);
 			fen3.setVisible(true);
 			
 		}
@@ -857,8 +896,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				ligneActive = sorter.modelIndex(ligneSelect);
 				Vector cVect = (Vector) modeleTabInc.getRow(ligneActive);
 				Incident c = new Incident(cVect);
-				String temp = c.getId().toString();
-				JFrame fen3 = new Fenetre_create_incident(col,utilisateur,create1,this);
+				//String temp = c.getId().toString();
+				JFrame fen3 = new Fenetre_create_incident(col,utilisateur,c,create1,this);
 				fen3.setVisible(true);
 				
 			}
@@ -892,6 +931,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private ModeleColis modelecolis;
 	private Entrepot entrepot;
 	private Localisation localisation1,localisation2;
+	private Incident incident;
 	
 	
 	
