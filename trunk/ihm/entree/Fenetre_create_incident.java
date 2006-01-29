@@ -31,8 +31,10 @@ import java.sql.Timestamp;
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
 
-	public Fenetre_create_incident(Colis col,String name,boolean create,Entree_Fenetre_colis fenetre)
+	public Fenetre_create_incident(Colis col,Utilisateur user,boolean create,Entree_Fenetre_colis fenetre)
 	{
+		colis = col;
+		utilis = user;
 		//création graphique
 		DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 		fenetre1 = fenetre;
@@ -86,7 +88,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		
 		utilisateur = new JTextField(15);
 		utilisateur.setBounds(175,37,110,20);
-		utilisateur.setText(name);
+		utilisateur.setText(utilis.getLogin());
 		utilisateur.setEnabled(false);
 		contenu.add(utilisateur);
 		
@@ -150,8 +152,8 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			//enregistrement dans la BDD
 			
 			AccesBDDIncident test=new AccesBDDIncident();
-			Incident aAjouter =new Incident(new Integer(0),new Integer(code_barre.getText()),new Timestamp(System.currentTimeMillis()),new Integer(0),donnees_description.getText(),new Integer(2),new Integer(Incident.EN_COURS));
-			
+			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.EN_COURS),donnees_description.getText(),utilis,new Integer(0));
+		
 				try {
 					test.ajouter(aAjouter);
 				} catch (SQLException e1) {
@@ -163,7 +165,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			
 			//System.out.println(inc);
 				dispose();
-				fenetre1.informations_colis();
+				fenetre1.informations_colis1();
 				
 		}
 	
@@ -175,4 +177,6 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	private JTextField date,incident,code_barre,utilisateur;
 	private JTextArea donnees_description;
 	private Entree_Fenetre_colis fenetre1;
+	private Colis colis;
+	private Utilisateur utilis;
 }

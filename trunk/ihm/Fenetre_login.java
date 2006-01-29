@@ -111,10 +111,15 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	private JButton valider;
 	
 	public static void main(String[] args) {
-		//JFrame fen = new Entree_Fenetre_colis("julien");
-		//fen.setVisible(true);
+		
+		Personne pers = null;
+		Utilisateur u= new Utilisateur(new Integer(0),"julien","julien",new Integer (0),pers);
+		//public Utilisateur(Integer id, String login, String motDePasse, Integer type, Personne personne){
+		
+		JFrame fen = new Entree_Fenetre_colis(u);
+		fen.setVisible(true);
 	
-		JFrame fen1 = new Fenetre_login();
-		fen1.setVisible(true);	
+		//JFrame fen1 = new Fenetre_login();
+		//fen1.setVisible(true);	
 	}	
 }

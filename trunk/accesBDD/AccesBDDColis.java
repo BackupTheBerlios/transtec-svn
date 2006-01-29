@@ -23,7 +23,7 @@ public class AccesBDDColis extends AccesBDD{
 				"INSERT INTO colis "
 				+ "(idColis,ModelesColis_idModelesColis,Createur,Expediteur,Destinataire,Destination,Code_barre, "
 				+"Poids,DateDepot,Valeur,Fragilite)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?,?,?)"); 
+				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getModele().intValue());
@@ -112,6 +112,38 @@ public class AccesBDDColis extends AccesBDD{
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE idColis=?");
 		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé le colis
+			trouvee=new Colis(
+					new Integer(resultat.getInt("idColis")),
+					resultat.getString("Code_barre"),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Code_barre"))),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Destinataire"))),
+					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("Createur"))),
+					new Integer(resultat.getInt("Poids")),
+					resultat.getTimestamp("DateDepot"),
+					new Integer(resultat.getInt("Fragilite")),
+					new Integer(resultat.getInt("Fragilite")),
+					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
+					resultat.getString("Valeur")
+					);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
+	}
+	
+	public Colis rechercherCode_barre(int aChercher) throws SQLException{
+		Colis trouvee=null;
+		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE Code_barre=?");
+		recherche.setInt(1, aChercher);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
