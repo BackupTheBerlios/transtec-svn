@@ -21,6 +21,7 @@ import donnees.*;
 import accesBDD.AccesBDDModelesColis;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDEntrepot;
+import accesBDD.AccesBDDLocalisation;
 
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
 
@@ -573,6 +574,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//hauteur.setText(col.getHauteur());
 			//profondeur.setText(col.getProfondeur());
 			
+			//largeur.setText(col.getModele().)
+			
 			poids.setEnabled(false);
 			poids.setText(col.getPoids().toString());
 			
@@ -586,6 +589,43 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			donnees_exp.setEnabled(false);
 			//donnees_exp.setText(col.expéditeur);
 			voir_incident.setVisible(true);
+			
+			AccesBDDPersonne test1=new AccesBDDPersonne();
+
+			try{
+				destinataire = test1.rechercher(col.getDestinataire().getId());
+			}
+			catch(SQLException e2){
+				System.out.println(e2.getMessage());
+			}
+			AccesBDDLocalisation test2=new AccesBDDLocalisation();
+			try{
+				localisation1 = test2.rechercher(destinataire.getLocalisation().getId());
+			}
+			catch(SQLException e2){
+				System.out.println(e2.getMessage());
+			}
+			
+			donnees_dest.setText(destinataire.getNom()+ " "+ destinataire.getPrenom()+ "\n"+ localisation1.getAdresse()+ "\n"+ localisation1.getCodePostal()+ " "+ localisation1.getVille()+ "\n"+destinataire.getMail());
+			
+			
+			//AccesBDDPersonne test3=new AccesBDDPersonne();
+
+			try{
+				expediteur = test1.rechercher(col.getExpediteur().getId());
+			}
+			catch(SQLException e2){
+				System.out.println(e2.getMessage());
+			}
+			//AccesBDDLocalisation test4=new AccesBDDLocalisation();
+			try{
+				localisation2 = test2.rechercher(expediteur.getLocalisation().getId());
+			}
+			catch(SQLException e2){
+				System.out.println(e2.getMessage());
+			}
+			
+			donnees_exp.setText(expediteur.getNom()+ " "+ expediteur.getPrenom()+ "\n"+ localisation2.getAdresse()+ "\n"+ localisation2.getCodePostal()+ " "+ localisation2.getVille()+ "\n"+expediteur.getMail());
 			
 			
 		}
@@ -851,6 +891,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private Personne destinataire,expediteur;
 	private ModeleColis modelecolis;
 	private Entrepot entrepot;
+	private Localisation localisation1,localisation2;
 	
 	
 	
