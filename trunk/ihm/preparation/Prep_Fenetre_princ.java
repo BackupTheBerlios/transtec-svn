@@ -35,10 +35,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	private TableSorter sorter;
 	
 	
-	public Prep_Fenetre_princ(Utilisateur u){
+	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		
 		//Constructeur de la fenetre
-		super("ALBERT MUDA - Preparateur");
+		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		Container ct = this.getContentPane();
 		
 		
@@ -115,7 +115,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création de la destination
 		JLabel txt_dest = new JLabel("destination");
-		String destination = "Paris";
+		String destination = "A faire dynamique";
 		JLabel champ_dest = new JLabel(destination);
 		txt_dest.setBounds(110,50,100,20);
 		champ_dest.setBounds(230,50,100,20);
@@ -125,7 +125,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création du volume
 		JLabel txt_vol = new JLabel("volume");
-		String volume = "200 m3";
+		String volume = "volume restant à charger";
 		JLabel champ_vol = new JLabel(volume);	
 		txt_vol.setBounds(110,100,100,20);
 		champ_vol.setBounds(230,100,100,20);
@@ -135,7 +135,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création de la charge
 		JLabel txt_charge = new JLabel("chargé");
-		String chargé = "100 m3";
+		String chargé = "volume déja chargé";
 		JLabel champ_chargé = new JLabel(chargé);	
 		txt_charge.setBounds(110,150,100,20);
 		champ_chargé.setBounds(230,150,100,20);
@@ -148,17 +148,9 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 //**********************APPEL A LA BDD************************************
 		
-		//On devra exporter les objets Camion associés au préparateur 
-        //Création des autres lignes
-		/*donnees_cam.addElement(new Camion(new Integer(1),"25TR76",new Integer(Camion.DISPONIBLE),new Integer(27),"Jean Bartigues",new Integer(0),new Integer(2)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(2),"1013TW78",new Integer(Camion.LIVRAISON),new Integer(12),"Robert Bair",new Integer(1),new Integer(1)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(3),"356LJ45",new Integer(Camion.REPARATION),new Integer(45),"Alain Truss",new Integer(1),new Integer(2)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(4),"654LLL1",new Integer(Camion.DISPONIBLE),new Integer(6),"René Vralgique",new Integer(2),new Integer(4)).toVector());
-		donnees_cam.addElement(new Camion(new Integer(5),"M-AR1265",new Integer(Camion.LIVRAISON),new Integer(18),"Thomas Kott",new Integer(4),new Integer(0)).toVector());
-  */
+		// Lister les camions pour cette destination
 		try{
-			AccesBDDCamion bddCam=new AccesBDDCamion();
-			Vector listeObj=bddCam.lister();
+			Vector listeObj=new AccesBDDCamion().listerParDest(/* destination */);
 			 for(int i=0;i<listeObj.size();i++){
 	            	donnees_cam.addElement(((Camion)listeObj.get(i)).toVector());
 	            }
@@ -249,11 +241,11 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	}
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		Prep_Fenetre_princ p = new Prep_Fenetre_princ(new Utilisateur("login2", "motDePasse2", new Integer(Utilisateur.PREPARATIOIN), "dfsfdfds", "fsdsfddfs", "fsdfdsfdsfdss", "9481", "vill2e", "mail2", "69686696"));
 		//JFrame p1 = new preparateur();
 
-	}
+	}*/
 }

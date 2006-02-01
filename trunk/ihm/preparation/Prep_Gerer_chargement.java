@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.Vector;
 
 import javax.swing.*;
-
+import donnees.Utilisateur;
 import donnees.Camion;
 import donnees.Colis;
 import donnees.Chargement;
@@ -35,10 +35,10 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	private TableSorter sorter2;
 	private JButton valider = new JButton("Valider");
 	
-	public Prep_Gerer_chargement(Vector cVect){
+	public Prep_Gerer_chargement(Vector cVect, Utilisateur utilisateur){
 		
 		//Constructeur de la fenetre
-		super("ALBERT MUDA - Preparateur");
+		super(" - Preparateur");
 		Container ct = this.getContentPane();
 		
 
