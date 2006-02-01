@@ -37,6 +37,11 @@ public class Utilisateur{
 		this.personne=personne;
 	}
 	
+	// Constructeur vide
+	public Utilisateur(){
+		
+	}
+	
 	// Construction utilisant un Vector
 	public Utilisateur(Vector v){
 		this.id=(Integer)v.get(0);		
@@ -46,10 +51,29 @@ public class Utilisateur{
 		Localisation l=new Localisation((Integer)v.get(4),(String)v.get(5),(String)v.get(6),(String)v.get(7));
 		this.personne=new Personne((Integer)v.get(8),(String)v.get(9),(String)v.get(10),(String)v.get(11),(String)v.get(12),l);
 	}
-	
-	// Constructeur vide
-	public Utilisateur(){
+
+	// Transforme l'objet en un Vector
+	public Vector toVector(){
+		Vector v = new Vector();
+
+		// ATTENTION l'ordre est très important !!
+		// l'ordre doit être :
+		// id, login, motDePasse, type, nom, prenom, adresse, codePostal, ville, mail, telephone
+		v.add(personne.getId());
+		v.add(login);
+		v.add(motDePasse);
+		v.add(constToString(type));
+		v.add(personne.getLocalisation().getId());
+		v.add(personne.getLocalisation().getAdresse());
+		v.add(personne.getLocalisation().getCodePostal());
+		v.add(personne.getLocalisation().getVille());
+		v.add(personne.getId());
+		v.add(personne.getNom());
+		v.add(personne.getPrenom());
+		v.add(personne.getMail());
+		v.add(personne.getTelephone());
 		
+		return v;
 	}
 	
 	/****** Méthodes d'écriture ******/
@@ -105,30 +129,6 @@ public class Utilisateur{
 	//----- Récupération d'un type Personne -----//
 	public Personne getPersonne(){
 		return this.personne;
-	}
-	
-	// Transforme l'objet en un Vector
-	public Vector toVector(){
-		Vector v = new Vector();
-
-		// ATTENTION l'ordre est très important !!
-		// l'ordre doit être :
-		// id, login, motDePasse, type, nom, prenom, adresse, codePostal, ville, mail, telephone
-		v.add(personne.getId());
-		v.add(login);
-		v.add(motDePasse);
-		v.add(constToString(type));
-		v.add(personne.getLocalisation().getId());
-		v.add(personne.getLocalisation().getAdresse());
-		v.add(personne.getLocalisation().getCodePostal());
-		v.add(personne.getLocalisation().getVille());
-		v.add(personne.getId());
-		v.add(personne.getNom());
-		v.add(personne.getPrenom());
-		v.add(personne.getMail());
-		v.add(personne.getTelephone());
-		
-		return v;
 	}
 
 

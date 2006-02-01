@@ -7,7 +7,7 @@ import accesBDD.AccesBDDIncident;
 
 public class Sup_AffichageIncident extends Sup_AjoutModifIncident{
 
-	Incident incid;
+	private Incident incid;
 	
 	
 	//Constructeur

@@ -1,5 +1,7 @@
 package donnees;
 
+import java.util.Vector;
+
 //----- Classe regroupant tous les attributs d'un entrepôt, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
 public class Entrepot {
@@ -26,12 +28,56 @@ public class Entrepot {
 		this.localisation=localisation;
 	}
 	
+	// Constructeur vide
+	public Entrepot(){
+		
+	}
+	
+	// Constructeur utilisant un Vector
+	public Entrepot(Vector v){
+		this.id =(Integer)v.get(0);
+		this.localisation=new Localisation(
+				(Integer)v.get(1),
+				(String)v.get(2),
+				(String)v.get(3),
+				(String)v.get(4));
+		this.telephone=(String)v.get(5);
+	}
+
+	// Transforme l'objet en un Vector
+	public Vector toVector(){
+		Vector v = new Vector();
+
+		// ATTENTION l'ordre est très important !!
+		// l'ordre doit être :
+		// id, id localisation, adresse, code postal, ville, telephone
+
+		v.add(id);
+		v.add(localisation.getId());
+		v.add(localisation.getAdresse());
+		v.add(localisation.getCodePostal());
+		v.add(localisation.getVille());
+		v.add(telephone);
+
+		return v;
+	}
+
 	
 	/****** Méthodes d'écriture ******/
 
 	//----- Insérer l'id de l'entrepôt -----//
 	public void setId(Integer id){
 		this.id=id;
+	}
+	
+	//----- Récupération du numéro de téléphone -----//
+	public void setTelephone(String telephone){
+		this.telephone=telephone;
+	}
+	
+	//----- Récupération du type Localisation -----//
+	public void setLocalisation(Localisation localisation){
+		this.localisation=localisation;
 	}
 	
 

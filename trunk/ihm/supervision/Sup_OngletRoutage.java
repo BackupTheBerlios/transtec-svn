@@ -23,15 +23,6 @@ public class Sup_OngletRoutage extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Destination");
         nomColonnes.add("Appartenance");
 
-        // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
-        /*********************************
-		donnees.addElement(new Camion(new Integer(0),"25TR76","Disponible",new Integer(27),"Chagrain","Chartres","Nantes").toVector());
-		donnees.addElement(new Camion(new Integer(1),"6548DGF76","Disponible",new Integer(30),"Tartampe","Nantes","Bordeaux").toVector());
-		donnees.addElement(new Camion(new Integer(2),"321ZU76","En réparation",new Integer(45),"Joffre","Bordeaux","Lyon").toVector());
-		donnees.addElement(new Camion(new Integer(3),"652UG76","En réparation",new Integer(60),"Bergman","Lyon","Chartres").toVector());
-		donnees.addElement(new Camion(new Integer(4),"646TC76","En livraison",new Integer(12),"Dufour","Nancy","Nancy").toVector());
-		/*********************************/
-
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
 

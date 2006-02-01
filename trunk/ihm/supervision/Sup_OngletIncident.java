@@ -11,8 +11,8 @@ import accesBDD.AccesBDDIncident;
 // Panneau de l'onglet de gestion des incidents
 public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 	
-	JButton boutAfficher = boutAjouter;
-	AccesBDDIncident tableIncidents = new AccesBDDIncident();
+	private JButton boutAfficher = boutAjouter;
+	private AccesBDDIncident tableIncidents = new AccesBDDIncident();
 	
 	public Sup_OngletIncident(){
 		super("Gestion des incidents");

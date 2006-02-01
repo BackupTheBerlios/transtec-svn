@@ -29,7 +29,6 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	protected JButton boutAnnuler = new JButton("Annuler");
 
 	protected Incident incid;
-	public boolean modif = false;
 	protected Sup_OngletIncident parent;
 	
 	private AccesBDDIncident tableIncidents; 

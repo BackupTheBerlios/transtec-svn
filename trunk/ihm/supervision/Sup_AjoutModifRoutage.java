@@ -20,7 +20,6 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 	private JButton boutValider = new JButton();
 	private JButton boutAnnuler = new JButton("Annuler");
 	private Camion camion;
-	public boolean modif = false;
 	private Sup_OngletRoutage parent;
 	
 	//Constructeur

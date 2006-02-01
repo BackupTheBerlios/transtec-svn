@@ -34,7 +34,6 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	private Utilisateur u;
 	private Personne p;
 	private Localisation l;
-	public boolean modif = false;
 	private Sup_OngletUtilisateur parent;
 	
 	private AccesBDDUtilisateur tableUtilisateurs; 
