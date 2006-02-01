@@ -19,7 +19,6 @@ import accesBDD.AccesBDDCamion;
 
 public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 
-	
 	/**
 	 * @param args
 	 */
