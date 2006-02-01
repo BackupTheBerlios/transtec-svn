@@ -130,7 +130,16 @@ public class Utilisateur{
 		
 		return v;
 	}
+
+
+	/****** Redéfinition de méthodes génériques ******/
 	
+	// Affichage d'un utilisateur : on affiche son nom
+	public String toString(){
+		return personne.getNom();
+	}
+
+
 	/****** Méthodes privées de conversion des constantes ******/
 	
 	// Renvoyer le mot en fonction de la valeur de la constante
@@ -164,5 +173,4 @@ public class Utilisateur{
 
 		return ret;
 	}
-
 }

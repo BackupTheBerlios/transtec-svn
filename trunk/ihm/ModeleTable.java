@@ -9,9 +9,7 @@ public class ModeleTable extends AbstractTableModel{
 	protected Vector rowData;
 
 	public ModeleTable(Vector paramNomColonnes, Vector paramRowData){
-		//nomColonnes=new Vector();
 		nomColonnes=paramNomColonnes;
-		//rowData=new Vector();
 		rowData=paramRowData;
 	}
 
@@ -49,11 +47,10 @@ public class ModeleTable extends AbstractTableModel{
     	rowData.setElementAt(value,row);    	
     }
 
-    /*
     public void setValueAt(Object value, int row, int col) {
     	Vector v=(Vector)rowData.elementAt(row);
     	v.setElementAt(value,col);
-    }*/
+    }
 
     // Ajouter une ligne au tableau
     public void addRow(Object row){

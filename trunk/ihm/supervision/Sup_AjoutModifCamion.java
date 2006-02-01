@@ -71,7 +71,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		// On initialise les listes de choix d'entrepôts
 		comboOrigine = new JComboBox(vectOrigines);
 		comboDestination = new JComboBox(vectDestinations);
-	
+		
 		// Titres des informations à saisir
 		JPanel panneauLabels = new JPanel(new GridLayout(6,1,5,5));
 		panneauLabels.add(new JLabel("Numéro :"));
@@ -125,6 +125,17 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			textVolume.setText(c.getVolume().toString());
 			comboOrigine.setSelectedItem(c.getOrigine());
 			comboDestination.setSelectedItem(c.getDestination());
+		}
+		// Si c'est un ajout on positionne les entrepôts sur la ligne vide par défaut
+		else{
+			try{
+				Entrepot ent = tableEntrepots.rechercher(new Integer(0));
+				comboOrigine.setSelectedItem(ent);
+				comboDestination.setSelectedItem((Object)ent);
+			}
+			catch(Exception ex){
+				System.out.println(ex.getMessage());
+			}
 		}
 
 		pack();
@@ -202,8 +213,8 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		// On vérifie que tous les champs sont remplis
 		if(textNumero.getText().equals("")) setWarning("Numéro");
 		else if(textVolume.getText().equals("") || erreurVolume) setWarning("Volume");
-		else if(comboOrigine.getSelectedIndex()==-1) setWarning("Destination");
-		else if(comboDestination.getSelectedIndex()==-1) setWarning("Appartenance");
+//		else if(comboOrigine.getSelectedIndex()==-1) setWarning("Origine");
+//		else if(comboDestination.getSelectedIndex()==-1) setWarning("Destination");
 		else ret = true;
 
 		return ret;
@@ -214,15 +225,4 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
 		textWarning.updateUI();
 	}
-	
-	/*
-	class modeleComboEntrepots implements ComboBoxModel{
-		
-		public modeleComboEntrepots(Vector v){
-			for(int i=0;i<v.size();i++){
-				Entrepot e=(Entrepot)v.get(i);
-				this.addadd(e.getLocalisation().getVille(),(Object)e);
-			}
-		}
-	}*/
 }

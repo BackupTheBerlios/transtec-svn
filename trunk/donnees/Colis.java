@@ -226,4 +226,13 @@ public class Colis {
 	public Entrepot getDestination(){
 		return this.destination;
 	}
+	
+	
+	/****** Redéfinition de méthodes génériques ******/
+	
+	// Affichage d'un Colis : on affiche son code barre
+	public String toString(){
+		return code_barre;
+	}
+
 }

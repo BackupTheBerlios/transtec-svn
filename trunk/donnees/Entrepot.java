@@ -53,10 +53,14 @@ public class Entrepot {
 	}
 	
 	
+	/****** Redéfinition de méthodes génériques ******/
+	
+	// Affichage d'un entrepôt : on affiche sa ville
 	public String toString(){
 		return localisation.getVille();
 	}
 	
+	// Comparaison de deux entrepôts selon leur ID
 	public boolean equals(Object o){
 		boolean ret=false;
 		

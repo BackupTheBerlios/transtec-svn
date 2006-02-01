@@ -14,7 +14,7 @@ import donnees.Incident;
 // Invite de modification d'un incident
 public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	
-	protected final static String [] ETATS = {"Non traité" , "En traitement" , "Réglé"};
+	protected final static String [] ETATS = {"Non traité" , "En cours" , "Traîté"};
 	
 	protected JTextField textColis = new JTextField(20);
 	protected JTextField textDate = new JTextField(20);
@@ -177,7 +177,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 			comboEtat.setSelectedIndex(incid.getEtat().intValue());
 			textDescription.setText(incid.getDescription());
 			textUtilisateur.setText(incid.getUtilisateur().getPersonne().getNom().toString());
-			textType.setText(incid.getType().toString());
+			textType.setText(Incident.constToString(incid.getType()));
 		}
 
 		pack();

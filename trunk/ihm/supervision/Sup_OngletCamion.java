@@ -25,17 +25,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         nomColonnes.add("Numéro");
         nomColonnes.add("Disponibilité");
         nomColonnes.add("Volume");
-        nomColonnes.add("OrigineID");
-        nomColonnes.add("Téléphone");
-        nomColonnes.add("ID");
-        nomColonnes.add("Adresse");
-        nomColonnes.add("Code Postal");
         nomColonnes.add("Origine");
-        nomColonnes.add("DestinationID");
-        nomColonnes.add("Téléphone");
-        nomColonnes.add("ID");
-        nomColonnes.add("Adresse");
-        nomColonnes.add("Code Postal");
         nomColonnes.add("Destination");
 
         try{
@@ -66,7 +56,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		construireTableau();
 		
 		// On cache les colonnes désirées
-		table.removeColumn(table.getColumnModel().getColumn(3));
+/*		table.removeColumn(table.getColumnModel().getColumn(3));
 		table.removeColumn(table.getColumnModel().getColumn(3));
 		table.removeColumn(table.getColumnModel().getColumn(3));
 		table.removeColumn(table.getColumnModel().getColumn(3));
@@ -75,7 +65,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		table.removeColumn(table.getColumnModel().getColumn(4));
 		table.removeColumn(table.getColumnModel().getColumn(4));
 		table.removeColumn(table.getColumnModel().getColumn(4));
-		table.removeColumn(table.getColumnModel().getColumn(4));
+		table.removeColumn(table.getColumnModel().getColumn(4));*/
 
 		// Bouton Ajouter
 		boutAjouter.addActionListener(this);
@@ -132,7 +122,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 			}
 		}
 		catch(SQLException e){
-			
+			System.out.println(e.getMessage());
 		}
 	}
 }

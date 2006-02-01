@@ -72,7 +72,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 		Vector liste=new Vector();
 		Entrepot courant=null;
 		
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT * FROM entrepots");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT * FROM entrepots ORDER BY idEntrepots");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){

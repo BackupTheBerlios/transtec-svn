@@ -50,22 +50,8 @@ public class Camion {
 		this.numero=(String)v.get(1);
 		this.disponibilite=stringToConst((String)v.get(2));
 		this.volume=(Integer)v.get(3);
-		this.origine=new Entrepot(
-				(Integer)v.get(4),
-				(String)v.get(5),
-				new Localisation(
-						(Integer)v.get(6),
-						(String)v.get(7),
-						(String)v.get(8),
-						(String)v.get(9)));
-		this.destination=new Entrepot(
-				(Integer)v.get(10),
-				(String)v.get(11),
-				new Localisation(
-						(Integer)v.get(12),
-						(String)v.get(13),
-						(String)v.get(14),
-						(String)v.get(15)));
+		this.origine=(Entrepot)v.get(4);
+		this.destination=(Entrepot)v.get(5);
 	}
 
 	// Transforme l'objet en un Vector
@@ -75,25 +61,13 @@ public class Camion {
 		// ATTENTION l'ordre est très important !!
 		// l'ordre doit être :
 		// id, numero, disponibilite, volume, origine, destination
-		// Pour origine et destination :
-		// id, adresse, codepostal, ville
 		
 		v.add(id);
 		v.add(numero);
 		v.add(constToString(disponibilite));
 		v.add(volume);
-		v.add(origine.getId());
-		v.add(origine.getTelephone());
-		v.add(origine.getLocalisation().getId());
-		v.add(origine.getLocalisation().getAdresse());
-		v.add(origine.getLocalisation().getCodePostal());
-		v.add(origine.getLocalisation().getVille());
-		v.add(destination.getId());
-		v.add(destination.getTelephone());
-		v.add(destination.getLocalisation().getId());
-		v.add(destination.getLocalisation().getAdresse());
-		v.add(destination.getLocalisation().getCodePostal());
-		v.add(destination.getLocalisation().getVille());
+		v.add(origine);
+		v.add(destination);
 
 		return v;
 	}
@@ -165,10 +139,10 @@ public class Camion {
 	}
 	
 	
-	/****** Méthodes privées de conversion des constantes ******/
+	/****** Méthodes de conversion des constantes ******/
 	
 	// Renvoyer le mot en fonction de la valeur de la constante
-	private String constToString(Integer i){
+	private static String constToString(Integer i){
 		String ret=null;
 		
 		switch(i.intValue()){
@@ -189,7 +163,7 @@ public class Camion {
 	}
 	
 	// Renvoyer la constante en fonction du mot
-	private Integer stringToConst(String s){
+	private static Integer stringToConst(String s){
 		Integer ret=null;
 		
 		if(s.equals("Disponible")) ret=new Integer(DISPONIBLE);
@@ -198,5 +172,4 @@ public class Camion {
 
 		return ret;
 	}
-
 }
