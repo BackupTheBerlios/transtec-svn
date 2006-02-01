@@ -1,7 +1,6 @@
 package ihm.supervision;
 
 import java.awt.*;
-import java.sql.*;
 import java.util.Vector;
 import java.awt.event.*;
 import javax.swing.*;
