@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Localisation;
 import donnees.Personne;
+import donnees.Utilisateur;
 
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -79,6 +80,35 @@ public class AccesBDDPersonne extends AccesBDD{
 		deconnecter();
 		
 		return trouvee;
+	}
+	
+	public Vector lister() throws SQLException{
+		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
+		
+		Vector liste=new Vector();
+	
+		Personne courantPers=null;
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM personnes");
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			Localisation loc=bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
+			courantPers=new Personne(new Integer(resultat.getInt("idPersonnes")),
+					resultat.getString("Nom"), 
+					resultat.getString("Prenom"),
+					resultat.getString("Email"), 
+					resultat.getString("Telephone"),
+					loc);
+
+			liste.add(courantPers);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return liste;
 	}
 	
 	public Vector rechercher(short type, String aChercher) throws SQLException{

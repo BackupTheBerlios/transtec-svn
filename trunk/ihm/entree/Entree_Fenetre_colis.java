@@ -198,6 +198,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(create_etiquette);
 		create_etiquette.addActionListener(this);
 		
+		select_personne = new JButton("Sélection des personnes");
+		contenu.add(select_personne);
+		select_personne.addActionListener(this);
+		
 		label_camion = new JLabel("Liste des colis présents dans le chargement :");
 		label_camion.setBounds(pos_x,410,280,15);
 		contenu.add(label_camion);
@@ -423,7 +427,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			label_liste_incidents.setVisible(false);
 			voir_incident.setVisible(false);
 			create_incident.setVisible(false);
-			
+			select_personne.setVisible(true);
+			select_personne.setBounds(pos_x+240,157,180,20);
 			label_dest.setBounds(pos_x+120,160,150,15);
 			label_exp.setBounds(pos_x+470,160,150,15);
 			donnees_dest.setVisible(false);
@@ -743,6 +748,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			JFrame fen4 = new Entree_Create_etiquette("5456465");
 			fen4.setVisible(true);
 		}
+		if (source ==select_personne) {
+			JFrame fen5 = new Entree_select_personne(this);
+			fen5.setVisible(true);
+		}
 		
 		//if (source ==forme_colis) System.out.println("forme colis");
 		if (source == valider_colis)
@@ -951,6 +960,27 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		JOptionPane.showMessageDialog(this,"Le champs \""+s+"\" est mal renseigné.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 	
 	}
+	public void modifier_info_personne(Personne p,int choix){
+		if(choix ==1)
+		{
+			nom_exp.setText(p.getNom());
+			prenom_exp.setText(p.getPrenom());
+			adresse_exp.setText(p.getLocalisation().getAdresse());
+			cp_exp.setText(p.getLocalisation().getCodePostal());
+			ville_exp.setText(p.getLocalisation().getVille());
+			email_exp.setText(p.getMail());
+			tel_exp.setText(p.getTelephone());
+		}
+		else{
+			nom_dest.setText(p.getNom());
+			prenom_dest.setText(p.getPrenom());
+			adresse_dest.setText(p.getLocalisation().getAdresse());
+			cp_dest.setText(p.getLocalisation().getCodePostal());
+			ville_dest.setText(p.getLocalisation().getVille());
+			email_dest.setText(p.getMail());
+			tel_dest.setText(p.getTelephone());
+		}
+	}
 	
 	private JMenuBar barreMenus;
 	private JMenu fichier,etiquette;
@@ -959,7 +989,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JTextField tel_exp,email_exp,ville_exp,adresse_exp,cp_exp,nom_exp,prenom_exp,tel_dest,email_dest,ville_dest,adresse_dest,cp_dest,nom_dest,prenom_dest,hauteur,profondeur,largeur,date_envoie,poids,code_barre;
 	private String[] formes={"cube","pavé","cylindre"}, modele={"modèle1","modèle2","modèle3","personalisé"},fragilite={"trés fragile","fragile","pas fragile"};
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
-	private JButton voir_incident,annuler,create_etiquette,create_incident,valider_colis;
+	private JButton select_personne,voir_incident,annuler,create_etiquette,create_incident,valider_colis;
 	private JTextArea donnees_dest,donnees_exp;
 	private Container contenu ;
 	private boolean create,create1;
