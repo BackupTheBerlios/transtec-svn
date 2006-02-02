@@ -25,7 +25,8 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			}
 		};
 		addWindowListener(l);
-		//création graphique de la fenetre
+		
+		// Création graphique de la fenetre
 		setTitle("Ouverture de session");
 		setBounds(350,300,300,150);
 		
@@ -52,48 +53,54 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		valider = new JButton("Valider");
 		valider.setBounds(90,70,100,25);
 		contenu.add(valider);
-		valider.addActionListener(this);
-			
+		valider.addActionListener(this);			
 	}
-	
 
-	
+	// Gestion des actions liées aux boutons
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
 		
+		// Bouton valider
 		if (source == valider)
 		{
-			int type;
 			JFrame fen;
-			
-			// rechercher la personne avec la méthode de Nico.
-			//Utilisateur u= new Utilisateur("rochef","pass",new Integer(1),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
 			Utilisateur u = null;
 			AccesBDDUtilisateur bdd=new AccesBDDUtilisateur();
 			
 			try {
+				// On récupère l'utilisateur associé au couple login/mot de passe
 				u = bdd.isRegistered(login.getText(), new String(pwd1.getPassword()));
 				
+				// Si un utilisateur correspond aux informations saisies
 				if(u!=null){
+					
+					// on fait disparaitre la fenêtre de login
 					dispose();
 					
+					// On ouvre l'interface du poste correspondant à l'utilisateur
 					switch(u.getType().intValue())
 					{
+					// Poste d'entrée
 					case Utilisateur.ENTREE :
 						fen = new Entree_Fenetre_colis(u);
 						fen.setVisible(true);
 						break;
+						
+					// Poste de préparation
 					case Utilisateur.PREPARATION :
 						fen = new Prep_Fenetre_princ(u);
 						fen.setVisible(true);
 						break;
+						
+					// Poste de supervision
 					case Utilisateur.SUPERVISION :
 						fen = new Sup_Interface(u);
 						fen.setVisible(true);
 						break;
 					}		
 				}
+				// Si aucun utilisateur n'est trouvé
 				else{
 					JOptionPane.showMessageDialog(this,"Le couple login/mot de passe est incorrect.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);					
 				}		
