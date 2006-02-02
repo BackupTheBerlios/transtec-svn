@@ -3,6 +3,8 @@ package ihm.entree;
 import ihm.Fenetre_login;
 import ihm.ModeleTable;
 import ihm.TableSorter;
+import ihm.preparation.Prep_Fenetre_princ;
+import ihm.supervision.Sup_Interface;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -295,13 +297,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(voir_incident);
 		voir_incident.addActionListener(this);
 		
-		
-		//Incident inc = new Incident(new Integer(1),new Integer(46468468),new Timestamp(System.currentTimeMillis()),new Integer(0),"problème sur le colis",new Integer(2),new Integer(0));
-		//ajouterInc(inc);
-		//inc = new Incident("02/04/05","Abimé",new Integer(1513513153));
-		//ajouterInc(inc);
-		//affichage des 5 faces du colis
-		
 		label_cam = new JLabel(" Vues caméra :");
 		label_cam.setBounds(65,10,160,10);
 		contenu.add(label_cam);
@@ -337,30 +332,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		tabInc.updateUI();
 	}
 	//Fonction permettant de simuler la douchette
-	public Colis douchette(){
-		String barre_code,temp="";
-		barre_code = JOptionPane.showInputDialog(null,"Code barre:","Simulation de la douchette",JOptionPane.PLAIN_MESSAGE);
-		temp = barre_code;
-		AccesBDDColis rechercher_colis=new AccesBDDColis();
-		
-		if (barre_code==null || barre_code.length()==0)
+	public String douchette()
 		{
-			col = new Colis();
-			
-		}
-		else{
-		
-			int i = Integer.parseInt(temp);
-			try {
-			col = rechercher_colis.rechercherCode_barre(i);
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
-		}
-		
-		
-		return col;
+		String barre_code;
+		barre_code = JOptionPane.showInputDialog(null,"Code barre:","Simulation de la douchette",JOptionPane.PLAIN_MESSAGE);
+	
+		return barre_code;
 	}
 	
 	//fonction qui affiche les informations du colis 
@@ -368,10 +345,45 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	public void informations_colis1()
 	{
 		
-		//String barre_code = 
-		do{
-		col = douchette();
-		}while(col == null);
+		String barre_code,temp="";
+		int Ok=0;
+		do{	
+			barre_code = douchette();
+			temp = barre_code;
+			AccesBDDColis rechercher_colis=new AccesBDDColis();
+			
+			if (barre_code==null || barre_code.length()==0)
+			{
+				col = new Colis();
+				Ok = 1;
+			
+			}
+			else{
+					try{
+						new Integer(temp.trim());
+						int i = Integer.parseInt(temp);
+						try {
+							col = rechercher_colis.rechercherCode_barre(i);
+							if(col!=null){
+								Ok =1;
+							}
+							else{
+								JOptionPane.showMessageDialog(this,"Le code barre ne correspond à aucun colis ou chargement.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);					
+							}
+							
+						} catch (SQLException e) {
+					
+							e.printStackTrace();
+						}
+					}
+					catch(NumberFormatException e){
+						//erreurVolume=true;
+						JOptionPane.showMessageDialog(this,"Le code barre ne correspond à aucun colis ou chargement.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+					}
+					
+			}
+	
+		}while(Ok == 0);
 		
 		contenu.removeAll();
 		contenu.validate();
@@ -395,8 +407,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					id = id + de;
 				}
 				//Si le code barre n'existe pas on sort du while
-				
-				
+						
 			}while(error==0);
 		
 	
@@ -406,11 +417,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 			
 			DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
-			//Timestamp dfs1;
-		
-			//String temp3= dfs1.toGMTString();
-			
-			//date_envoie.setText(temp3);
 			date_envoie.setText(new Timestamp(System.currentTimeMillis()).toString() );
 			date_envoie.setEnabled(false);
 			scrollPane1.setVisible(false);
@@ -549,47 +555,23 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 			create = false;
 			DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
-			//col = new Colis("413513555",3,2,3,"18","18/05/05",new Integer(1),new Integer(1),new Integer(3),"120","60","20");
-			Timestamp date=new Timestamp(System.currentTimeMillis());
-			
-			//col = new Colis(new Integer(0),"69696969",new Integer(1),new Integer(2),new Integer(1),"18",date,new Integer(1),new Integer(1),new Integer(1),"150");
-			 
+			Timestamp date=new Timestamp(System.currentTimeMillis());	 
 			//récupérer les infos dans la Bdd et les afficher
 			code_barre.setEnabled(false);
 			code_barre.setText(col.getCode_barre());
 			forme_colis.setEnabled(false);
 			modele_colis.setEnabled(false);
 			fragilite_colis.setEnabled(false);
-			
-			
-			
-			//forme_colis.setSelectedIndex(col.getForme().intValue());
-			//modele_colis.setEnabled(false);
-			//modele_colis.setSelectedIndex(col.getModele().intValue());
-			fragilite_colis.setEnabled(false);
 			fragilite_colis.setSelectedIndex(col.getFragilite().intValue());
-			
 			largeur.setEnabled(false);
 			hauteur.setEnabled(false);
 			profondeur.setEnabled(false);
-			//largeur.setText(col.getLargeur());
-			//hauteur.setText(col.getHauteur());
-			//profondeur.setText(col.getProfondeur());
-			
-			//largeur.setText(col.getModele().)
-			
 			poids.setEnabled(false);
-			poids.setText(col.getPoids().toString());
-			
+			poids.setText(col.getPoids().toString());	
 			date_envoie.setEnabled(false);
-			date_envoie.setText(col.getDate().toString());
-			
+			date_envoie.setText(col.getDate().toString());	
 			donnees_dest.setEnabled(false);
-			//donnees_dest.setText(col.getIdDestinataire());
-			
-			
 			donnees_exp.setEnabled(false);
-			//donnees_exp.setText(col.expéditeur);
 			voir_incident.setVisible(true);
 			
 			AccesBDDModelesColis test3=new AccesBDDModelesColis();
@@ -603,7 +585,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			}
 			
 			forme_colis.setSelectedIndex(modelecolis.getForme().intValue());
-			//System.out.println(modelecolis.getModele().intValue());
 			modele_colis.setEnabled(false);
 			modele_colis.setSelectedIndex(modelecolis.getModele().intValue());
 			largeur.setText(modelecolis.getLargeur().toString());
@@ -629,7 +610,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			donnees_dest.setText(destinataire.getNom()+ " "+ destinataire.getPrenom()+ "\n"+ localisation1.getAdresse()+ "\n"+ localisation1.getCodePostal()+ " "+ localisation1.getVille()+ "\n"+destinataire.getMail());
 			
 			
-			//AccesBDDPersonne test3=new AccesBDDPersonne();
+		
 
 			try{
 				expediteur = test1.rechercher(col.getExpediteur().getId());
@@ -638,7 +619,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
-			//AccesBDDLocalisation test4=new AccesBDDLocalisation();
+		
 			try{
 				localisation2 = test2.rechercher(expediteur.getLocalisation().getId());
 			}
@@ -649,8 +630,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			donnees_exp.setText(expediteur.getNom()+ " "+ expediteur.getPrenom()+ "\n"+ localisation2.getAdresse()+ "\n"+ localisation2.getCodePostal()+ " "+ localisation2.getVille()+ "\n"+expediteur.getMail());
 			
 			Vector liste_incidents = new Vector();
-			//incident = new Incident();
 			AccesBDDIncident test5=new AccesBDDIncident();
+			
 			try {
 				liste_incidents = test5.lister_colis(col.getId());
 				
@@ -768,105 +749,91 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		{
 			//Cas d'un nouveau colis
 			if(create == true){
+				boolean verif;
 				
-				/*
-				enregistrer toutes ces infos dans la BDD
-				code_barre.getText()
-				forme_colis.getSelectedIndex()
-				modele_colis.getSelectedIndex()
-				fragilite_colis.getSelectedIndex()
-				hauteur.getText()
-				largeur.getText()
-				profondeur.getText()
-				poids.getText()
-				date_envoie.getText()
-				donnees_dest.getText()
-				donnees_exp.getText()
-				*/
 				//enregistrer infos dans la Bdd
+				verif = verifChamps();
+				if (verif == true){
 				
-				AccesBDDPersonne test1=new AccesBDDPersonne();
-
-				//Timestamp date=new Timestamp(10);
-				destinataire = new Personne(new Integer(0),nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
-				//public Personne(Integer id, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone)
-				try{
-					test1.ajouter(destinataire);
-				}
-				catch(SQLException e2){
-					System.out.println(e2.getMessage());
-				}
-				
-				
-				AccesBDDPersonne test4=new AccesBDDPersonne();
-
-				//Timestamp date=new Timestamp(10);
-				expediteur = new Personne(new Integer(0),nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
-				try{
-					test4.ajouter(expediteur);
-				}
-				catch(SQLException e4){
-					System.out.println(e4.getMessage());
-				}
-			
-				
-				ModeleColis modele=null;
-				
-				//int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
-				
-				int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
-				
-				if(selectmodelecolis == 69)
-				{
-					//float volume=0 ;
-					AccesBDDModelesColis test6=new AccesBDDModelesColis();
-					modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),new Integer(20));
+					AccesBDDPersonne test1=new AccesBDDPersonne();
+	
+					//Timestamp date=new Timestamp(10);
+					destinataire = new Personne(new Integer(0),nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
+					//public Personne(Integer id, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone)
 					try{
-						selectmodelecolis = test6.ajouter(modele);
+						test1.ajouter(destinataire);
 					}
-					catch(SQLException e6){
-						System.out.println(e6.getMessage());
+					catch(SQLException e2){
+						System.out.println(e2.getMessage());
 					}
 					
 					
+					AccesBDDPersonne test4=new AccesBDDPersonne();
+	
+					//Timestamp date=new Timestamp(10);
+					expediteur = new Personne(new Integer(0),nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
+					try{
+						test4.ajouter(expediteur);
+					}
+					catch(SQLException e4){
+						System.out.println(e4.getMessage());
+					}
+				
+					
+					ModeleColis modele=null;
+					
+					//int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
+					
+					int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
+					
+					if(selectmodelecolis == 69)
+					{
+						//float volume=0 ;
+						AccesBDDModelesColis test6=new AccesBDDModelesColis();
+						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),new Integer(20));
+						try{
+							selectmodelecolis = test6.ajouter(modele);
+						}
+						catch(SQLException e6){
+							System.out.println(e6.getMessage());
+						}
+						
+						
+					}
+					
+					
+					
+					AccesBDDEntrepot test6=new AccesBDDEntrepot();
+					entrepot = new Entrepot("25 rue des peupliers","94250","Villejuif","0136523698");
+					
+					try{
+						test6.ajouter(entrepot);
+					}
+					catch(SQLException e2){
+						System.out.println(e2.getMessage());
+					}
+	
+					AccesBDDColis test=new AccesBDDColis();
+	
+					Timestamp date=new Timestamp(10);
+					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),entrepot,"20");
+				
+					try{
+						test.ajouter(col);
+					}
+					catch(SQLException e2){
+						System.out.println(e2.getMessage());
+					}
+				informations_colis1();
 				}
-				
-				
-				
-				AccesBDDEntrepot test6=new AccesBDDEntrepot();
-				entrepot = new Entrepot("25 rue des peupliers","94250","Villejuif","0136523698");
-				
-				try{
-					test6.ajouter(entrepot);
-				}
-				catch(SQLException e2){
-					System.out.println(e2.getMessage());
-				}
-				
-				
-				AccesBDDColis test=new AccesBDDColis();
-
-				Timestamp date=new Timestamp(10);
-				col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),entrepot,"20");
-				
-				//public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
-				try{
-					test.ajouter(col);
-				}
-				catch(SQLException e2){
-					System.out.println(e2.getMessage());
-				}
-				
-				
-				
 			}
 			//cas d'un colis à vérifier
 			else
 			{
 				//enregistrer heure de passage au poste d'entrée
-				
+				informations_colis1();
 			}
-			informations_colis1();
+			
 				
 		}
 		
@@ -906,6 +873,85 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		
 	}
+	private boolean verifChamps(){
+		boolean ret = false;		
+		boolean erreurPoids = false;
+		boolean erreurCPdest = false;
+		boolean erreurCPexp = false;
+		boolean erreurhaut = false;
+		boolean erreurlarg = false;
+		boolean erreurprof = false;
+	
+		
+		// On vérifie que la valeur numérique soit correctement saisie
+		try{
+			new Integer(poids.getText().trim());
+			try{
+				new Integer(cp_exp.getText().trim());
+				try{
+					new Integer(cp_dest.getText().trim());
+					try{
+						new Integer(hauteur.getText().trim());
+						try{
+							new Integer(largeur.getText().trim());
+							try{
+								new Integer(profondeur.getText().trim());
+											
+							}				
+							catch(Exception e){
+								erreurprof = true;
+							}			
+						}				
+						catch(Exception e){
+							erreurlarg = true;
+						}			
+					}				
+					catch(Exception e){
+						erreurhaut = true;
+					}			
+				}				
+				catch(Exception e){
+					erreurCPdest = true;
+				}
+			}
+			catch(Exception e){
+				erreurCPexp = true;
+			}
+		}
+		catch(NumberFormatException e){
+			erreurPoids = true;
+		}
+
+		// On vérifie que tous les champs sont remplis
+		if(poids.getText().equals("") || erreurPoids) setWarning("Poids");
+		else if(nom_dest.getText().equals("")) setWarning("Nom destinataire");
+		else if(prenom_dest.getText().equals("")) setWarning("Prénom destinataire");
+		else if(adresse_dest.getText().equals("")) setWarning("Adresse destinataire");
+		else if(ville_dest.getText().equals("")) setWarning("Ville destinataire");
+		else if(cp_dest.getText().equals("") || erreurCPdest) setWarning("CP destinataire");
+		else if(email_dest.getText().equals("")) setWarning("Email destinataire");
+		else if(tel_dest.getText().equals("")) setWarning("Téléphone destinataire");
+		else if(nom_exp.getText().equals("")) setWarning("Nom expéditeur");
+		else if(prenom_exp.getText().equals("")) setWarning("Prénom expéditeur");
+		else if(adresse_exp.getText().equals("")) setWarning("Adresse expéditeur");
+		else if(ville_exp.getText().equals("")) setWarning("Ville expéditeur");
+		else if(cp_exp.getText().equals("") || erreurCPexp) setWarning("CP expéditeur");
+		else if(email_exp.getText().equals("")) setWarning("Email expéditeur");
+		else if(tel_exp.getText().equals("")) setWarning("Téléphone expéditeur");
+		else if (modele_colis.getSelectedIndex()== 3 && (hauteur.getText().equals("") || erreurhaut))setWarning("Hauteur");
+		else if (modele_colis.getSelectedIndex()== 3 && (largeur.getText().equals("") || erreurlarg))setWarning("Largeur");
+		else if (modele_colis.getSelectedIndex()== 3 && (profondeur.getText().equals("") || erreurprof))setWarning("Profondeur");
+		else ret = true;
+		
+		return ret;
+	}
+
+	// Ajoute un message d'erreur à la boite de dialogue si un champs est mal renseigné
+	private void setWarning(String s){
+		JOptionPane.showMessageDialog(this,"Le champs \""+s+"\" est mal renseigné.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+	
+	}
+	
 	private JMenuBar barreMenus;
 	private JMenu fichier,etiquette;
 	private JMenuItem se_deloguer,creation;
@@ -932,8 +978,5 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private Entrepot entrepot;
 	private Localisation localisation1,localisation2;
 	private Incident incident;
-	
-	
-	
-	
+
 }
