@@ -64,7 +64,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		create_graphique(); //appel la fonction de la création graphique
 	
 		
-		informations_colis1();	
+		informations_colis1();// appel de la fonction qui demande le code barre	
 	}
 	
 	
@@ -321,9 +321,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		// On redessine le tableau
 		//tabColis.updateUI();
 	}
+	
+	//Fonction permettant d'ajouter un incident dans le tableau
 	public void ajouterInc(Incident c){
-		
-		// OBTENIR UN NOUVEL ID APRES ACCES A LA BDD
 		
 		// Ajout de la ligne
 		modeleTabInc.addRow(c.toVector());
@@ -341,23 +341,26 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	}
 	
 	//fonction qui affiche les informations du colis 
-	
 	public void informations_colis1()
 	{
 		
 		String barre_code,temp="";
 		int Ok=0;
+		// Tant que le code barre saisi n'est pas valide ou null ( pour la création d'un nouveau colis)
+		//On affiche la fenetre douchette
 		do{	
 			barre_code = douchette();
 			temp = barre_code;
 			AccesBDDColis rechercher_colis=new AccesBDDColis();
 			
+			//Si on veut créer un nouveau colis
 			if (barre_code==null || barre_code.length()==0)
 			{
 				col = new Colis();
 				Ok = 1;
 			
 			}
+			//Si on veut chercher un colis dans la Bdd
 			else{
 					try{
 						new Integer(temp.trim());
@@ -367,6 +370,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 							if(col!=null){
 								Ok =1;
 							}
+							//Si le code barre n'existe pas
 							else{
 								JOptionPane.showMessageDialog(this,"Le code barre ne correspond à aucun colis ou chargement.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);					
 							}
@@ -376,8 +380,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 							e.printStackTrace();
 						}
 					}
+					//Si le code barre n'est pas un chiffre
 					catch(NumberFormatException e){
-						//erreurVolume=true;
 						JOptionPane.showMessageDialog(this,"Le code barre ne correspond à aucun colis ou chargement.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 					}
 					
@@ -398,7 +402,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		if (col.getCode_barre()==null)
 		{
 			
-			//création du code barre ( il faut vérifier qu'il n'existe pas dans la BDD
+			//création du code barre 
 			do{
 				for (int i = 0; i< 9;i++)
 				{
@@ -406,17 +410,16 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					de = r.nextInt(10);
 					id = id + de;
 				}
-				//Si le code barre n'existe pas on sort du while
 						
 			}while(error==0);
 		
-	
+			// On affiche toutes les données vierges
 			create = true;
 			code_barre.setEnabled(false);
 			code_barre.setText(id);
 			
 			
-			DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
+			//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 			date_envoie.setText(new Timestamp(System.currentTimeMillis()).toString() );
 			date_envoie.setEnabled(false);
 			scrollPane1.setVisible(false);
@@ -553,11 +556,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on vérifie un colis
 		else
 		{
-			
 			create = false;
-			DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
-			Timestamp date=new Timestamp(System.currentTimeMillis());	 
-			//récupérer les infos dans la Bdd et les afficher
+			//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
+			//Timestamp date=new Timestamp(System.currentTimeMillis());	 
+			
 			code_barre.setEnabled(false);
 			code_barre.setText(col.getCode_barre());
 			forme_colis.setEnabled(false);
@@ -575,16 +577,18 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			donnees_exp.setEnabled(false);
 			voir_incident.setVisible(true);
 			
+			//On récupère les infos dans la Bdd et on les affiche
+			
+			// On cherche les infos sur le modèle du colis
 			AccesBDDModelesColis test3=new AccesBDDModelesColis();
-
 			try{
 				modelecolis = test3.rechercher(col.getModele());
-				System.out.println(col.getModele());
+				
 			}
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
-			
+			//On affiche les infos sur le modèle de colis
 			forme_colis.setSelectedIndex(modelecolis.getForme().intValue());
 			modele_colis.setEnabled(false);
 			modele_colis.setSelectedIndex(modelecolis.getModele().intValue());
@@ -592,6 +596,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			hauteur.setText(modelecolis.getHauteur().toString());
 			profondeur.setText(modelecolis.getProfondeur().toString());
 			
+			//On cherche les infos sur le destinataire
 			AccesBDDPersonne test1=new AccesBDDPersonne();
 
 			try{
@@ -600,6 +605,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
+			//On cherche les infos sur l'adresse du destinataire
 			AccesBDDLocalisation test2=new AccesBDDLocalisation();
 			try{
 				localisation1 = test2.rechercher(destinataire.getLocalisation().getId());
@@ -607,12 +613,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
-			
+			//On affiche les données du destinataire
 			donnees_dest.setText(destinataire.getNom()+ " "+ destinataire.getPrenom()+ "\n"+ localisation1.getAdresse()+ "\n"+ localisation1.getCodePostal()+ " "+ localisation1.getVille()+ "\n"+destinataire.getMail());
 			
 			
 		
-
+			//On cherche les infos sur l'expéditeur
 			try{
 				expediteur = test1.rechercher(col.getExpediteur().getId());
 				
@@ -620,26 +626,27 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
-		
+			//On cherche les infos sur l'adresse de l'expéditeur
 			try{
 				localisation2 = test2.rechercher(expediteur.getLocalisation().getId());
 			}
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
-			
+			//On affiche les infos de l'expéditeur
 			donnees_exp.setText(expediteur.getNom()+ " "+ expediteur.getPrenom()+ "\n"+ localisation2.getAdresse()+ "\n"+ localisation2.getCodePostal()+ " "+ localisation2.getVille()+ "\n"+expediteur.getMail());
 			
+			//On liste les incidents qu'il y a eu sur le colis
 			Vector liste_incidents = new Vector();
 			AccesBDDIncident test5=new AccesBDDIncident();
 			
 			try {
 				liste_incidents = test5.lister_colis(col.getId());
 				
-		            
+		           //On ajoute les incidents dans le tableau 
 		          for(int i=0;i<liste_incidents.size();i++){
 		        	  ajouterInc((Incident)liste_incidents.get(i));
-		            	//donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
+		           
 		            }
 				
 				
@@ -652,51 +659,56 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		}
 		contenu.validate();
 	}
+	
+	//Méthode permettant de choisir un ID_modèle de colis en fonction de sa forme et de son modèle
 	public int SelectionId(int forme,int modele)
 	{
 		int temp=0;
 		
 		switch (forme)
 		{
+			//Si le colis est carré
 			case 0:
 				switch(modele)
 				{
-					case 0: temp = 1;
+					case 0: temp = 1;//Modèle 1
 					break;
-					case 1: temp = 2;
+					case 1: temp = 2;//Modèle 2
 					break;
-					case 2: temp = 3;
+					case 2: temp = 3;//Modèle 3
 					break;
-					case 3: temp = 69;
+					case 3: temp = 69;////Modèle peronnalisé
 					break;	
 				}
 				
 			break;
 			
+			// Sile colis est un pavé
 			case 1:
 				switch(modele)
 				{
-					case 0: temp = 4;
+					case 0: temp = 4;//Modèle 1
 					break;
-					case 1: temp = 5;
+					case 1: temp = 5;//Modèle 2
 					break;
-					case 2: temp = 6;
+					case 2: temp = 6;//Modèle 3
 					break;
-					case 3: temp = 69;
+					case 3: temp = 69;//personnalisé
 					break;	
 				}
 			break;
 				
+			//Sile colis est cylindrique
 			case 2:
 				switch(modele)
 				{
-					case 0: temp = 7;
+					case 0: temp = 7;//Modèle 1
 					break;
-					case 1: temp = 8;
+					case 1: temp = 8;//Modèle 2
 					break;
-					case 2: temp = 9;
+					case 2: temp = 9;//Modèle 3
 					break;
-					case 3: temp = 69;
+					case 3: temp = 69;//Modèle personnalisé
 					break;	
 				}
 			break;
@@ -708,6 +720,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	}
 	
 
+	//Si le modèle choisi est "personnalisé"  on affiche les dimensions du colis
 	public void itemStateChanged (ItemEvent e)
 	{
 		int num = modele_colis.getSelectedIndex();
@@ -730,41 +743,45 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		}
 	}
 	
-	
+
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
+		//Si l'utilisateur veut se déloguer
 		if (source ==se_deloguer) {
 			
 			dispose();
 			JFrame fen1 = new Fenetre_login();
 			fen1.setVisible(true);
 		}
+		//Si l'utilisateur veut créer une étiquette
 		if (source ==creation) {
 			JFrame fen4 = new Entree_Create_etiquette("5456465");
 			fen4.setVisible(true);
 		}
+		//Si l'utilisateur veut choisir une personne comme expéditeur ou destinataire
 		if (source ==select_personne) {
 			JFrame fen5 = new Entree_select_personne(this);
 			fen5.setVisible(true);
 		}
 		
-		//if (source ==forme_colis) System.out.println("forme colis");
+		//
 		if (source == valider_colis)
 		{
 			//Cas d'un nouveau colis
 			if(create == true){
 				boolean verif;
 				
-				//enregistrer infos dans la Bdd
+				//enregistrer infos dans la Bdd.
+				//On vérifie tous les champs
 				verif = verifChamps();
+				//Si la vérification est Ok
 				if (verif == true){
 				
+					//On enregistre le destinataire dans la bdd
 					AccesBDDPersonne test1=new AccesBDDPersonne();
-	
-					//Timestamp date=new Timestamp(10);
 					destinataire = new Personne(new Integer(0),nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
-					//public Personne(Integer id, String nom, String prenom, String adresse, String codePostal, String ville, String mail, String telephone)
+			
 					try{
 						test1.ajouter(destinataire);
 					}
@@ -772,10 +789,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						System.out.println(e2.getMessage());
 					}
 					
-					
+					//On enregistre l'expéditeur dans la bdd
 					AccesBDDPersonne test4=new AccesBDDPersonne();
-	
-					//Timestamp date=new Timestamp(10);
 					expediteur = new Personne(new Integer(0),nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
 					try{
 						test4.ajouter(expediteur);
@@ -786,14 +801,13 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 					
 					ModeleColis modele=null;
-					
-					//int selectionidcolis = modele.SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
-					
+					//On recherche l' id_modele de colis
 					int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
 					
+					//Si le modèle n'est pas standard
 					if(selectmodelecolis == 69)
 					{
-						//float volume=0 ;
+						//On crée un nouveau modèle de colis avec les dimensions dans la bdd
 						AccesBDDModelesColis test6=new AccesBDDModelesColis();
 						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),new Integer(20));
 						try{
@@ -807,7 +821,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					}
 					
 					
-					
+					//On ajoute l'entrepot dans la bdd
 					AccesBDDEntrepot test6=new AccesBDDEntrepot();
 					entrepot = new Entrepot("25 rue des peupliers","94250","Villejuif","0136523698");
 					
@@ -818,8 +832,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						System.out.println(e2.getMessage());
 					}
 	
+					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-	
 					Timestamp date=new Timestamp(10);
 					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),entrepot,"20");
 				
@@ -842,6 +856,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 		}
 		
+		//Si on veut créer un incident
 		if (source == create_incident)
 		{
 			create1 = true;
@@ -849,21 +864,24 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			fen3.setVisible(true);
 			
 		}
+		//Si on veut créer une étiquette
 		if (source == create_etiquette)
 		{
 			JFrame fen4 = new Entree_Create_etiquette(code_barre.getText());
 			fen4.setVisible(true);
 		}
-		
+		//Si on veut annuler le colis en cours
 		if (source == annuler)
 		{
 			informations_colis1();
 		}
+		//Si on veut voir un incident
 		if ( source == voir_incident)
 		{
 			create1 = false;
 			int ligneActive;
 			int ligneSelect = tabInc.getSelectedRow();
+			//Si une ligne a bien été sélectionné, on affiche l'incident
 			if(ligneSelect != -1){
 				ligneActive = sorter.modelIndex(ligneSelect);
 				Vector cVect = (Vector) modeleTabInc.getRow(ligneActive);
@@ -878,6 +896,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		
 	}
+	//Méthode permettant de vérifier les champs 
 	private boolean verifChamps(){
 		boolean ret = false;		
 		boolean erreurPoids = false;
@@ -951,11 +970,13 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		return ret;
 	}
 
-	// Ajoute un message d'erreur à la boite de dialogue si un champs est mal renseigné
+	// On affiche un message d'erreur  si un champs est mal renseigné
 	private void setWarning(String s){
 		JOptionPane.showMessageDialog(this,"Le champs \""+s+"\" est mal renseigné.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 	
 	}
+	
+	//Méthode permettant de saisir automatiquement les infos sur une personne
 	public void modifier_info_personne(Personne p,int choix){
 		if(choix ==1)
 		{

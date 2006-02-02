@@ -46,32 +46,6 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
-		/*numero_incident = new JLabel("Numéro de l'incident :");
-		numero_incident.setBounds(50,10,150,10);
-		contenu.add(numero_incident);
-		int error = 1,de;
-		String id ="";
-		do{
-			for (int i = 0; i< 10;i++)
-			{
-				Random r = new Random();
-				de = r.nextInt(10);
-				id = id + de;
-			}
-			//Si le code barre n'existe pas on sort du while
-			
-			
-		}while(error==0);
-		
-		incident = new JTextField(15);
-		incident.setBounds(175,7,110,20);
-		if (inc.compareTo("")==0){
-			incident.setText(id);
-		}
-		else incident.setText(inc);
-		incident.setEnabled(false);
-		contenu.add(incident);*/
-		
 		numero_colis = new JLabel("Numéro du colis :");
 		numero_colis.setBounds(50,10,120,10);
 		contenu.add(numero_colis);
@@ -127,6 +101,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.add(annuler_incident);
 		annuler_incident.addActionListener(this);
 		
+		// Si on 
 		if ( create == false){
 			donnees_description.setEnabled(false);
 			annuler_incident.setText("Ok");
@@ -161,11 +136,6 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				//System.out.println("ici");
-			
-			
-			
-			//System.out.println(inc);
 				dispose();
 				fenetre1.informations_colis1();
 				
@@ -174,9 +144,9 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	}
 	
 	private Container contenu;
-	private JLabel label_date,numero_incident,numero_colis,label_utilisateur,description_incident;
+	private JLabel label_date,numero_colis,label_utilisateur,description_incident;
 	private JButton valider_incident,annuler_incident;
-	private JTextField date,incident,code_barre,utilisateur;
+	private JTextField date,code_barre,utilisateur;
 	private JTextArea donnees_description;
 	private Entree_Fenetre_colis fenetre1;
 	private Colis colis;

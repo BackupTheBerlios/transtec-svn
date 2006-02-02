@@ -26,7 +26,7 @@ public class Entree_Create_etiquette extends JFrame implements ActionListener
 		setTitle("Création de l'étiquette du colis " + code_barre);
 		setBounds(240,180,500,400);
 		
-		
+		//création du code barre à partir des images
 		String a = code_barre;	
 		int j=0;
 		for (int i=0; i<a.length() ;i++){
