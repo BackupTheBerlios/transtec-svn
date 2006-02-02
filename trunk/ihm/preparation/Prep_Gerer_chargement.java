@@ -175,7 +175,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		}*/
 		
 		 try{
-			    Vector listeObj=lister.listerDest(cam.getIdDestination().intValue());
+			    Vector listeObj=lister.listerDest(cam.getDestination().getId().intValue());
 			    for(int i=0;i<listeObj.size();i++){
 			    	donnees2.addElement(((Colis)listeObj.get(i)).toVector());
 	            }
@@ -255,7 +255,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		}
 		else if(source == valider){
 			// Ecriture dans la BDD des colis, on les associent à un chargement //
-			Timestamp date=new Timestamp(12-12-06);
+			/*Timestamp date=new Timestamp(12-12-06);
 			Chargement nouvCharg=new Chargement(cam.getId(), new Integer(donnees1.size()), 12, new Integer(2), date);
 			try{
 				 AccesBDDChargement bddCharg=new AccesBDDChargement();
@@ -271,7 +271,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		        }
 		        catch(Exception e){
 		        	System.out.println(e.getMessage());
-		        }
+		        }*/
 		        dispose();
 		}
 	}

@@ -132,10 +132,10 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	//----- Vérifie si l'utilisateur a été créé auparavant, retourn 0 si utilisateur inconnu, 1 si password inexact, 2 si Ok -----//
 	public Utilisateur isRegistered(String login, String password)throws SQLException{
 		Utilisateur trouvee=null;
-		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users WHERE Login=? AND Password_2=?");
+		//A REFAIRE
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users WHERE Login=?");
 		recherche.setString(1, login);
-		recherche.setString(1, password);
+		//recherche.setString(1, password);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		

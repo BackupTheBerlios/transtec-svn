@@ -14,6 +14,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Camion;
+import donnees.Entrepot;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDCamion;
 
@@ -32,13 +33,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	private JTable tab_cam;
 	private int ligneActive;
 	private TableSorter sorter;
+	private Utilisateur utilisateur=null;
 	
 	
-	public Prep_Fenetre_princ(Utilisateur utilisateur){
+	public Prep_Fenetre_princ(Utilisateur utilisateur, Entrepot entrepot, Integer volume){
 		
 		//Constructeur de la fenetre
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		Container ct = this.getContentPane();
+		this.utilisateur=utilisateur;
 		
 		
 		//Comportement lors de la fermeture
@@ -114,8 +117,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création de la destination
 		JLabel txt_dest = new JLabel("destination");
-		String destination = "A faire dynamique";
-		JLabel champ_dest = new JLabel(destination);
+		JLabel champ_dest = new JLabel(entrepot.getLocalisation().getVille());
 		txt_dest.setBounds(110,50,100,20);
 		champ_dest.setBounds(230,50,100,20);
 		ct.add(txt_dest);
@@ -124,8 +126,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création du volume
 		JLabel txt_vol = new JLabel("volume");
-		String volume = "volume restant à charger";
-		JLabel champ_vol = new JLabel(volume);	
+		JLabel champ_vol = new JLabel(volume.toString());	
 		txt_vol.setBounds(110,100,100,20);
 		champ_vol.setBounds(230,100,100,20);
 		ct.add(txt_vol);
@@ -147,16 +148,18 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 //**********************APPEL A LA BDD************************************
 		
-		// Lister les camions pour cette destination
+	// Lister les camions pour cette destination
 		try{
-			Vector listeObj=new AccesBDDCamion().listerParDest(/* destination */);
-			 for(int i=0;i<listeObj.size();i++){
+			// Ne pas oublier lien Prep dest cam
+			Vector listeObj=new AccesBDDCamion().listerParDest(entrepot.getId());
+			for(int i=0;i<listeObj.size();i++){
 	            	donnees_cam.addElement(((Camion)listeObj.get(i)).toVector());
 	            }
 		}
 		catch(SQLException e){
 			
 		}
+		
 		
 		
 //*******************************************************************************
@@ -202,7 +205,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 				Vector cVect = (Vector) modeleCam.getRow(ligneActive);
 				//dispose();
 //				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement(cVect);
+				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement(cVect, utilisateur);
 				fen1.setVisible(true);
 			}
 			else{
