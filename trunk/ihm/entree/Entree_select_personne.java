@@ -2,7 +2,6 @@ package ihm.entree;
 
 import ihm.ModeleTable;
 import ihm.TableSorter;
-import ihm.supervision.Sup_AjoutModifUtilisateur;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -21,9 +20,6 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import donnees.Personne;
-import donnees.Utilisateur;
-
-import accesBDD.AccesBDDUtilisateur;
 
 public class Entree_select_personne extends JFrame implements ActionListener{
 

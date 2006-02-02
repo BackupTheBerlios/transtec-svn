@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Localisation;
 import donnees.Personne;
-import donnees.Utilisateur;
 
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -16,7 +15,7 @@ public class AccesBDDPersonne extends AccesBDD{
 	public final static short EMAIL=2;
 	public final static short TELEPHONE=3;
 	public final static short ADRESSE=4;
-	public final static short VILLLE=5;
+	public final static short VILLE=5;
 	public final static short CODEPOSTAL=6;
 	
 	public AccesBDDPersonne(){
@@ -120,39 +119,39 @@ public class AccesBDDPersonne extends AccesBDD{
 		PreparedStatement recherche;
 		switch(type){
 			// Recherche d'un Nom
-			case 0:
+			case NOM:
 				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Nom=?");
 				break;
 					
 			// Recherche d'un Prenom
-			case 1:
+			case PRENOM:
 				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Prenom=?");
 				break;
 					
 			// Recherche d'un Email
-			case 2:
+			case EMAIL:
 				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Email=?");
 				break;
 					
 			// Recherhce d'un numéro de téléphone
-			case 3:
+			case TELEPHONE:
 				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Telephone=?");
 				break;
 					
 			// Recherche d'une adresse
-			case 4:	
+			case ADRESSE:	
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.ADRESSE, aChercher);
 				recherche=connecter().prepareStatement(	"SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 				
 			// Recherche d'une ville
-			case 5:	
+			case VILLE:	
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.VILLE, aChercher);
 				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;
 			
 			// Recherhce d'un code postal
-			case 6:
+			case CODEPOSTAL:
 				locAChercher=bddLoc.rechercher(AccesBDDLocalisation.CODEPOSTAL, aChercher);
 				recherche=connecter().prepareStatement("SELECT * FROM personnes WHERE Localisation_idLocalisation=?");
 				break;

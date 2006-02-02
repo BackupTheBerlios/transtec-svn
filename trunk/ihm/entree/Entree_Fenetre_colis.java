@@ -3,8 +3,6 @@ package ihm.entree;
 import ihm.Fenetre_login;
 import ihm.ModeleTable;
 import ihm.TableSorter;
-import ihm.preparation.Prep_Fenetre_princ;
-import ihm.supervision.Sup_Interface;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -21,10 +19,8 @@ import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPersonne;
 import donnees.*;
 import accesBDD.AccesBDDModelesColis;
-import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDEntrepot;
 import accesBDD.AccesBDDLocalisation;
-import accesBDD.AccesBDDModelesColis;
 import accesBDD.AccesBDDIncident;
 
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
