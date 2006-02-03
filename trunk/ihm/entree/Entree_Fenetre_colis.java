@@ -99,32 +99,32 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(label_modele_colis);
 		
 		label_hauteur_colis = new JLabel("Hauteur (cm) :");
-		label_hauteur_colis.setBounds(pos_x+300, 70,120,15);
+		label_hauteur_colis.setBounds(pos_x+330, 70,120,15);
 		contenu.add(label_hauteur_colis);
 		label_hauteur_colis.setVisible(false);
 		
 		label_largeur_colis = new JLabel("Largeur (cm) :");
-		label_largeur_colis.setBounds(pos_x+300,100,120,15);
+		label_largeur_colis.setBounds(pos_x+330,100,120,15);
 		contenu.add(label_largeur_colis);
 		label_largeur_colis.setVisible(false);
 		
 		label_profondeur_colis = new JLabel("Profondeur (cm) :");
-		label_profondeur_colis.setBounds(pos_x+300,130,120,15);
+		label_profondeur_colis.setBounds(pos_x+330,130,120,15);
 		contenu.add(label_profondeur_colis);
 		label_profondeur_colis.setVisible(false);
 		
 		hauteur = new JTextField(15);
-		hauteur.setBounds(pos_x + 405,67,50,20);
+		hauteur.setBounds(pos_x + 435,67,50,20);
 		contenu.add(hauteur);
 		hauteur.setVisible(false);
 		
 		largeur = new JTextField(15);
-		largeur.setBounds(pos_x + 405,97,50,20);
+		largeur.setBounds(pos_x + 435,97,50,20);
 		contenu.add(largeur);
 		largeur.setVisible(false);
 		
 		profondeur = new JTextField(15);
-		profondeur.setBounds(pos_x + 405,127,50,20);
+		profondeur.setBounds(pos_x + 435,127,50,20);
 		contenu.add(profondeur);
 		profondeur.setVisible(false);
 		
@@ -155,7 +155,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(label_date);
 		
 		date_envoie = new JTextField(10);
-		date_envoie.setBounds(pos_x + 195,127,70,20);
+		date_envoie.setBounds(pos_x + 195,127,120,20);
 		contenu.add(date_envoie);
 		
 		
@@ -420,7 +420,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 			
 			//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
-			date_envoie.setText(new Timestamp(System.currentTimeMillis()).toString() );
+			date_envoie.setText(new Timestamp(System.currentTimeMillis()).toLocaleString());
 			date_envoie.setEnabled(false);
 			scrollPane1.setVisible(false);
 			label_liste_incidents.setVisible(false);
@@ -572,7 +572,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			poids.setEnabled(false);
 			poids.setText(col.getPoids().toString());	
 			date_envoie.setEnabled(false);
-			date_envoie.setText(col.getDate().toString());	
+			date_envoie.setText(col.getDate().toLocaleString());
 			donnees_dest.setEnabled(false);
 			donnees_exp.setEnabled(false);
 			voir_incident.setVisible(true);
@@ -834,8 +834,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-					Timestamp date=new Timestamp(10);
-					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),date,new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),entrepot,"20");
+					//Timestamp date=new Timestamp(10);
+					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),entrepot,"20");
 				
 					try{
 						test.ajouter(col);
