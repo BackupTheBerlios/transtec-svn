@@ -8,20 +8,25 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.Vector;
 import accesBDD.*;
 
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import donnees.Incident;
 import donnees.Personne;
 
-public class Entree_select_personne extends JFrame implements ActionListener{
+public class Entree_select_personne extends JFrame implements ActionListener, ItemListener{
 
 	private Vector nomColonnes = new Vector();
 	private Vector donnees = new Vector();
@@ -33,6 +38,10 @@ public class Entree_select_personne extends JFrame implements ActionListener{
 	private int ligneActive;
 	private JButton ajout_exp,ajout_dest,fermer;
 	private Entree_Fenetre_colis fenetre1;
+	private String[] recherche={"Tous","Nom","Prénom","Email","Telephone"};
+	private JComboBox style_recherche;
+	private JTextField donnees_recherche;
+	private JButton rechercher;
 	
 	public Entree_select_personne(Entree_Fenetre_colis fenetre)
 	{
@@ -43,6 +52,21 @@ public class Entree_select_personne extends JFrame implements ActionListener{
 		
 		setTitle("Sélection d'un expéditeur et/ou destinataire");
 		setBounds(100,100,800,500);
+		
+		style_recherche = new JComboBox(recherche);
+		style_recherche.setBounds(40,20,80,20);
+		contenu.add(style_recherche);
+		style_recherche.addItemListener(this);
+		
+		donnees_recherche = new JTextField(15);
+		donnees_recherche.setBounds(130,20,120,20);
+		contenu.add(donnees_recherche);
+		
+		rechercher = new JButton("Rechercher");
+		contenu.add(rechercher);
+		rechercher.setBounds(260,20,150,20);
+		rechercher.addActionListener(this);
+		
 		
 		nomColonnes.add("ID");
         nomColonnes.add("Nom");
@@ -91,7 +115,7 @@ public class Entree_select_personne extends JFrame implements ActionListener{
 		table.setPreferredScrollableViewportSize(new Dimension(760,400));
 
 		// On place le tableau
-		scrollPane.setBounds(20,10,760,400);
+		scrollPane.setBounds(20,60,760,350);
 
 		// On définit le tableau transparent
 		scrollPane.setOpaque(false);
@@ -116,6 +140,27 @@ public class Entree_select_personne extends JFrame implements ActionListener{
 		fermer.addActionListener(this);
    
 		
+	}
+	
+	public void ajouterPers(Personne p){
+		
+		// Ajout de la ligne
+		modeleTab.addRow(p.toVector());
+		modeleTab.fireTableDataChanged();
+		// On redessine le tableau
+		table.updateUI();
+	}
+	
+	public void itemStateChanged (ItemEvent e)
+	{
+		int num = style_recherche.getSelectedIndex();
+		if (num ==0)
+		{
+			donnees_recherche.setEnabled(false);
+			donnees_recherche.setText("");			
+		}else{
+			donnees_recherche.setEnabled(true);
+		}
 	}
 	public void actionPerformed(ActionEvent e)
 	{
@@ -148,6 +193,64 @@ public class Entree_select_personne extends JFrame implements ActionListener{
 				}
 
 		}
+		
+		if (source == rechercher)
+		{
+			//AccesBDDPersonne recherche = new AccesBDDPersonne();
+			//table.removeAll();
+			System.out.println(sorter.getRowCount());
+			
+			for(int i=0 ;i <sorter.getRowCount();i++)
+			{
+				modeleTab.removeRow(sorter.getRowCount()- i -1);
+				modeleTab.fireTableDataChanged();
+				System.out.println(i);
+				table.updateUI();
+			}
+			
+			
+			/*switch(style_recherche.getSelectedIndex()){
+			case 0:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.lister();
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            }
+		        }
+		        catch(SQLException e1){
+		        	System.out.println(e1.getMessage());
+		        }
+				
+				break;
+			case 1:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.NOM,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
+		        
+				
+				
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				
+				break;
+			}*/
+		}
+
 		if(source==fermer){
 			dispose();
 		}

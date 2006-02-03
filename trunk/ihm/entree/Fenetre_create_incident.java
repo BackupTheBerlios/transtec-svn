@@ -31,16 +31,17 @@ import java.sql.Timestamp;
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
 
-	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,boolean create,Entree_Fenetre_colis fenetre)
+	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,Entree_Fenetre_colis fenetre)
 	{
 		colis = col;
 		utilis = user;
+		incident = inc;
 		//création graphique
 		DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 		fenetre1 = fenetre;
 		
 		setTitle("Création d'un incident");
-		setBounds(292,200,360,340);
+		setBounds(292,200,370,340);
 		
 		contenu = getContentPane();
 		contenu.setLayout(new FlowLayout());
@@ -51,7 +52,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.add(numero_colis);
 		
 		code_barre = new JTextField(15);
-		code_barre.setBounds(175,7,110,20);
+		code_barre.setBounds(175,7,130,20);
 		code_barre.setText(col.getCode_barre());
 		code_barre.setEnabled(false);
 		contenu.add(code_barre);
@@ -61,7 +62,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.add(label_utilisateur);
 		
 		utilisateur = new JTextField(15);
-		utilisateur.setBounds(175,37,110,20);
+		utilisateur.setBounds(175,37,130,20);
 		utilisateur.setText(utilis.getLogin());
 		utilisateur.setEnabled(false);
 		contenu.add(utilisateur);
@@ -72,42 +73,55 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		
 		
 		date = new JTextField(15);
-		date.setBounds(175,67,110,20);
-		date.setText(dfs.format(new Date()));
+		date.setBounds(175,67,130,20);
+		date.setText(new Timestamp(System.currentTimeMillis()).toLocaleString());
+		//date.setText(dfs.format(new Date()));
 		date.setEnabled(false);
 		contenu.add(date);
 		
 		
 		description_incident = new JLabel("Description de l'incident :");
-		description_incident.setBounds(100,100,180,15);
+		description_incident.setBounds(105,100,180,15);
 		contenu.add(description_incident);
 		
 		donnees_description = new JTextArea();
 		donnees_description.setColumns(25);
 		donnees_description.setRows(6);
-		donnees_description.setBounds(50,120,240,100);
+		donnees_description.setBounds(50,120,250,100);
 		donnees_description.setLineWrap(true);
 		
 		donnees_description.setWrapStyleWord(true);
 		contenu.add(donnees_description);
 		
 		valider_incident = new JButton("Envoyer en zone d'expertise");
-		valider_incident.setBounds(70,240,200,25);
+		valider_incident.setBounds(75,240,200,25);
 		contenu.add(valider_incident);
 		valider_incident.addActionListener(this);
 		
 		annuler_incident = new JButton("Annuler");
-		annuler_incident.setBounds(120,270,100,25);
+		annuler_incident.setBounds(125,270,100,25);
 		contenu.add(annuler_incident);
 		annuler_incident.addActionListener(this);
 		
 		// Si on 
-		if ( create == false){
+		if ( incident != null){
+			
 			donnees_description.setEnabled(false);
 			annuler_incident.setText("Ok");
 			valider_incident.setVisible(false);
-			annuler_incident.setBounds(120,240,100,25);
+			annuler_incident.setBounds(125,240,100,25);
+			date.setText(incident.getDate().toLocaleString());
+			donnees_description.setText(incident.getDescription());
 			setBounds(292,200,360,310);
+			AccesBDDUtilisateur test=new AccesBDDUtilisateur();
+			try{
+				utilis = test.rechercher(incident.getUtilisateur().getId());
+				
+			}
+			catch(SQLException e2){
+				System.out.println(e2.getMessage());
+			}
+			utilisateur.setText(utilis.getLogin());
 			
 		}
 		
@@ -151,4 +165,5 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	private Entree_Fenetre_colis fenetre1;
 	private Colis colis;
 	private Utilisateur utilis;
+	private Incident incident;
 }

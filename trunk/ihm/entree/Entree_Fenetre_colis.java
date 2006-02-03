@@ -99,39 +99,38 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(label_modele_colis);
 		
 		label_hauteur_colis = new JLabel("Hauteur (cm) :");
-		label_hauteur_colis.setBounds(pos_x+330, 70,120,15);
+		label_hauteur_colis.setBounds(pos_x+340, 70,120,15);
 		contenu.add(label_hauteur_colis);
 		label_hauteur_colis.setVisible(false);
 		
 		label_largeur_colis = new JLabel("Largeur (cm) :");
-		label_largeur_colis.setBounds(pos_x+330,100,120,15);
+		label_largeur_colis.setBounds(pos_x+340,100,120,15);
 		contenu.add(label_largeur_colis);
 		label_largeur_colis.setVisible(false);
 		
 		label_profondeur_colis = new JLabel("Profondeur (cm) :");
-		label_profondeur_colis.setBounds(pos_x+330,130,120,15);
+		label_profondeur_colis.setBounds(pos_x+340,130,120,15);
 		contenu.add(label_profondeur_colis);
 		label_profondeur_colis.setVisible(false);
 		
 		hauteur = new JTextField(15);
-		hauteur.setBounds(pos_x + 435,67,50,20);
+		hauteur.setBounds(pos_x + 445,67,50,20);
 		contenu.add(hauteur);
 		hauteur.setVisible(false);
 		
 		largeur = new JTextField(15);
-		largeur.setBounds(pos_x + 435,97,50,20);
+		largeur.setBounds(pos_x + 445,97,50,20);
 		contenu.add(largeur);
 		largeur.setVisible(false);
 		
 		profondeur = new JTextField(15);
-		profondeur.setBounds(pos_x + 435,127,50,20);
+		profondeur.setBounds(pos_x + 445,127,50,20);
 		contenu.add(profondeur);
 		profondeur.setVisible(false);
 		
 		modele_colis = new JComboBox(modele);
 		modele_colis.setBounds(pos_x + 65,67,200,20);
 		contenu.add(modele_colis);
-		
 		modele_colis.addItemListener(this);
 		
 		label_fragile = new JLabel("Fragilité :");
@@ -155,7 +154,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(label_date);
 		
 		date_envoie = new JTextField(10);
-		date_envoie.setBounds(pos_x + 195,127,120,20);
+		date_envoie.setBounds(pos_x + 195,127,130,20);
 		contenu.add(date_envoie);
 		
 		
@@ -860,7 +859,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		if (source == create_incident)
 		{
 			create1 = true;
-			JFrame fen3 = new Fenetre_create_incident(col,utilisateur,incident,create1,this);
+			incident = null;
+			JFrame fen3 = new Fenetre_create_incident(col,utilisateur,incident,this);
 			fen3.setVisible(true);
 			
 		}
@@ -878,16 +878,17 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on veut voir un incident
 		if ( source == voir_incident)
 		{
-			create1 = false;
+			//create1 = false;
 			int ligneActive;
 			int ligneSelect = tabInc.getSelectedRow();
 			//Si une ligne a bien été sélectionné, on affiche l'incident
 			if(ligneSelect != -1){
+				
 				ligneActive = sorter.modelIndex(ligneSelect);
 				Vector cVect = (Vector) modeleTabInc.getRow(ligneActive);
 				Incident c = new Incident(cVect);
 				//String temp = c.getId().toString();
-				JFrame fen3 = new Fenetre_create_incident(col,utilisateur,c,create1,this);
+				JFrame fen3 = new Fenetre_create_incident(col,utilisateur,c,this);
 				fen3.setVisible(true);
 				
 			}
