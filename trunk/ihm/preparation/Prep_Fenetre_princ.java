@@ -15,6 +15,7 @@ import javax.swing.*;
 
 import donnees.Camion;
 import donnees.Entrepot;
+import donnees.Preparation;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDCamion;
 
@@ -35,6 +36,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	private int ligneActive;
 	private TableSorter sorter;
 	private Utilisateur utilisateur=null;
+	private Preparation preparation=null;
 	
 	
 	public Prep_Fenetre_princ(Utilisateur utilisateur, Entrepot entrepot, Integer volume){
@@ -44,6 +46,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		Container ct = this.getContentPane();
 		this.utilisateur=utilisateur;
 		
+		// Creation de l'objet preparation
+		preparation=new Preparation(utilisateur, null, null, null);
 		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
@@ -212,7 +216,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 				Vector cVect = (Vector) modeleCam.getRow(ligneActive);
 				//dispose();
 //				ATTENTION:On passe un vecteur comme argument et pas un objet camion*/
-				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(/*cVect, */utilisateur);
+				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
 				fen1.setVisible(true);
 			/*}
 			else{

@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -18,6 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import accesBDD.AccesBDDColis;
+
+import donnees.Colis;
+import donnees.Preparation;
 import donnees.Utilisateur;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
@@ -26,9 +31,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private ModeleTable listeColis;
 	private TableSorter sorter;
 	private JTable tab;
+	private Vector donnees = new Vector();
 	
-	public Prep_Creer_chargement(Utilisateur utilisateur) {
-		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
+	public Prep_Creer_chargement(Preparation preparation) {
+		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
 		
 		Container ct = this.getContentPane();
 		
@@ -51,7 +57,16 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 //	  Création de la première ligne
 		nomColonnes.add("Liste des colis");
 		
-//Création du premier tableau
+		// Acces BDD pour récupération liste des colis pour la destination donnée
+		AccesBDDColis bddColis=new AccesBDDColis();
+		try{
+			Vector listeColisBDD=bddColis.listerDest(preparation.getDestination().getId());
+			for(int i=0;i<listeColisBDD.size();i++)	donnees.addElement(((Colis)listeColisBDD.get(i)).toVector());
+		}
+		catch(SQLException SQLe){
+			
+		}
+		//Création du premier tableau
 		
 		listeColis = new ModeleTable(nomColonnes,donnees);
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
