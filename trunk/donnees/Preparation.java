@@ -30,4 +30,20 @@ public class Preparation {
 	public Vector getListeCamion(){
 		return this.listeCamion;
 	}
+	
+	public void setDestination(Entrepot destination){
+		this.destination=destination;
+	}
+	
+	public void setVolumeChargement(Integer volumeChargement){
+		this.volumeChargement=volumeChargement;
+	}
+	
+	public void setUtilisateur(Utilisateur utilisateur){
+		this.utilisateur=utilisateur;
+	}
+	
+	public void setListeCamion(Vector listeCamion){
+		this.listeCamion=listeCamion;
+	}
 }

@@ -26,6 +26,7 @@ import donnees.Preparation;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer");
+	private JButton ajouter=new JButton("->");
 	private Vector nomColonnes = new Vector();
 	private ModeleTable listeColis;
 	private TableSorter sorter;
@@ -48,8 +49,13 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		ct.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
-		// Affichage du bouton "Quitter"
+		// Affichage du bouton "Créer"
 		creer.setBounds(350,400,100,50);
+	    ct.add(creer);
+	    creer.addActionListener(this);
+	    
+	    // Affichage du bouton "->"
+	   	creer.setBounds(350,400,100,50);
 	    ct.add(creer);
 	    creer.addActionListener(this);
 	    
@@ -93,7 +99,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		Object source = ev.getSource();
 		
-		//Sélection de "Quitter"
+		//Sélection de "Créer"
 		if(source == creer){
 			dispose();
 		}		

@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
 
+import donnees.Preparation;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDEntrepot;
 import accesBDD.AccesBDDPreparation;
@@ -29,7 +30,8 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 	private int ligneActive;
 	private TableSorter sorter;
 	private JButton preparer=new JButton("Préparer");
-	private Utilisateur u;
+	private Utilisateur utilisateur=null;
+	private Preparation preparation=null;
 	
 	public Prep_Choix_Dest(Utilisateur utilisateur){
 		
@@ -37,7 +39,8 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		Container ct = this.getContentPane();
 		
-		u = utilisateur;
+		// Conservation de l'utilisateur en cours
+		this.utilisateur=utilisateur;
 		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
@@ -79,7 +82,7 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		ct.add(preparer);
 
 		//Création de la première ligne
-		nomColonnes_preparation.add("id");
+		nomColonnes_preparation.add("idPreparation");
 		nomColonnes_preparation.add("Destination");
 		nomColonnes_preparation.add("Etat de la préparation");
 		nomColonnes_preparation.add("Volume");
@@ -132,9 +135,9 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 				if (ligneActive != -1){
 					//On récupère les données de la ligne du tableau
 					Vector cVect = (Vector) modelePrep.getRow(ligneActive);
-					//dispose();
-	//				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-					Prep_Fenetre_princ fen1 = new Prep_Fenetre_princ(u,new AccesBDDEntrepot().rechercher((Integer)cVect.get(0)),(Integer) cVect.get(3));
+					this.preparation=new AccesBDDPreparation().rechercher((Integer) cVect.get(0));
+					this.preparation.setUtilisateur(this.utilisateur);
+					Prep_Fenetre_princ fen1 = new Prep_Fenetre_princ(preparation);
 					fen1.setVisible(true);
 				}
 				else{
