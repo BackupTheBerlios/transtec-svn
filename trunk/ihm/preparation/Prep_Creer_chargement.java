@@ -23,7 +23,6 @@ import accesBDD.AccesBDDColis;
 
 import donnees.Colis;
 import donnees.Preparation;
-import donnees.Utilisateur;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer");

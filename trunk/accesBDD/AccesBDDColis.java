@@ -26,7 +26,7 @@ public class AccesBDDColis extends AccesBDD{
 				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
-		ajout.setInt(2,aAjouter.getModele().intValue());
+		ajout.setInt(2,aAjouter.getModele().getId().intValue());
 		ajout.setInt(3,aAjouter.getUtilisateur().getId().intValue());
 		ajout.setInt(4,aAjouter.getExpediteur().getId().intValue());
 		ajout.setInt(5,aAjouter.getDestinataire().getId().intValue());
@@ -65,7 +65,7 @@ public class AccesBDDColis extends AccesBDD{
 				+" WHERE idColis=?");
 		
 		modifie.setInt(1,aModifier.getId().intValue());
-		modifie.setInt(2,aModifier.getModele().intValue());
+		modifie.setInt(2,aModifier.getModele().getId().intValue());
 		modifie.setInt(3,aModifier.getUtilisateur().getId().intValue());
 		modifie.setInt(4,aModifier.getExpediteur().getId().intValue());
 		modifie.setInt(5,aModifier.getDestinataire().getId().intValue());
@@ -88,6 +88,7 @@ public class AccesBDDColis extends AccesBDD{
 	public Vector listerDest(Integer idEntrepot) throws SQLException{
 		Vector liste=new Vector();
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 				
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Entrepots_idEntrepots=? ");
 		recherche.setInt(1, idEntrepot.intValue());
@@ -103,7 +104,7 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Poids")),
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
+					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur")));
 		}
@@ -119,6 +120,7 @@ public class AccesBDDColis extends AccesBDD{
 	public Colis rechercher(Integer aChercher) throws SQLException{
 		Colis trouvee=null;
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE idColis=?");
 		recherche.setInt(1, aChercher.intValue());
@@ -135,7 +137,7 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Poids")),
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
+					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur")
 					);
@@ -151,6 +153,7 @@ public class AccesBDDColis extends AccesBDD{
 	public Colis rechercherCode_barre(int aChercher) throws SQLException{
 		Colis trouvee=null;
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE Code_barre=?");
 		recherche.setInt(1, aChercher);
@@ -167,7 +170,7 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Poids")),
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
-					new Integer(resultat.getInt("ModelesColis_idModelesColis")),
+					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur")
 					);

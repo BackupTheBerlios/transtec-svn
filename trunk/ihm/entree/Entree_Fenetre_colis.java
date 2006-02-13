@@ -581,7 +581,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			// On cherche les infos sur le modèle du colis
 			AccesBDDModelesColis test3=new AccesBDDModelesColis();
 			try{
-				modelecolis = test3.rechercher(col.getModele());
+				modelecolis = test3.rechercher(col.getModele().getId());
 				
 			}
 			catch(SQLException e2){
@@ -834,7 +834,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
 					//Timestamp date=new Timestamp(10);
-					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),new Integer(selectmodelecolis),entrepot,"20");
+					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"20");
 				
 					try{
 						test.ajouter(col);

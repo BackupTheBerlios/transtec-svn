@@ -19,7 +19,7 @@ public class Colis {
 	private Integer poids;// en grammes
 	private Timestamp date_envoi;
 	private Integer fragilite;
-	private Integer modele;/////////// A VOIR
+	private ModeleColis modele;/////////// A VOIR
 	private String valeur_declaree;
 
 	// Constructeur vide
@@ -27,7 +27,7 @@ public class Colis {
 	}
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree){
 		this.id=id;
 		this.code_barre = code_barre;		
 		this.modele=modele;
@@ -41,7 +41,7 @@ public class Colis {
 		this.valeur_declaree=valeur_declaree;
 	}
 	
-	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,Integer modele, Entrepot destination, String valeur_declaree/*,String hauteur,String largeur,String profondeur*/){
+	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree){
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.fragilite=fragilite;
@@ -66,45 +66,13 @@ public class Colis {
 		this.poids=(Integer)v.get(7);
 		this.date_envoi=(Timestamp)v.get(8);
 		this.fragilite=(Integer)v.get(9);
-		this.modele=(Integer)v.get(10);
+		this.modele=(ModeleColis)v.get(10);
 		this.valeur_declaree=(String)v.get(12);	
 	}
-	/*public Colis(Vector v){
-		this.code_barre1=(String)v.get(0);
-		this.forme1=(String)v.get(1);
-		this.modele1=(String)v.get(2);
-		this.fragilite1=(String)v.get(3);
-		this.poids=(String)v.get(4);
-		
-		
-	}*/
-	
 
-	// Transforme l'objet en un Vector
-	/*public Vector toVector(){
-		Vector v = new Vector();
-
-		// ATTENTION l'ordre est très important !!
-		// ordre : numero, etat, volume, chauffeur, destination, origine, ID
-		v.add(code_barre);
-		v.add(forme);
-		v.add(modele);
-		v.add(poids);
-		v.add(fragilite);
-		v.add(date_envoi);
-		v.add(expéditeur);
-		v.add(destinataire);
-		v.add(largeur);
-		v.add(hauteur);
-		v.add(profondeur);
-
-		return v;
-	}*/
 	public Vector toVector(){
 		Vector v = new Vector();
 
-		// ATTENTION l'ordre est très important !!
-		// ordre : 
 		v.add(id);
 		v.add(entrepot);
 		v.add(code_barre);
@@ -119,36 +87,6 @@ public class Colis {
 		v.add(valeur_declaree);
 		return v;
 	}
-	
-	/*public Colis changement_colis(Colis col){
-		String temp,temp1,temp2="",temp3="",temp4="";
-		temp = col.code_barre;
-		temp1 = col.poids;
-		switch(col.forme.intValue())
-		{
-		case 0 : temp2="cube";
-		case 1 : temp2="pavé";
-		case 2 : temp2="cylindre";
-		
-		}
-		switch(col.modele.intValue())
-		{
-		case 0 : temp3="modèle1";
-		case 1 : temp3="modèle2";
-		case 2 : temp3="modèle3";
-		case 3 : temp3="personalisé";
-		}
-		switch(col.fragilite.intValue())
-		{
-		case 0 : temp4="trés fragile";
-		case 1 : temp4="fragile";
-		case 2 : temp4="pas fragile";
-		
-		}
-		
-		Colis col1 = new Colis(temp,temp2,temp3,temp1,temp4);
-		return col1;
-	}*/
 	
 	public void setId(Integer id){
 		this.id=id;
@@ -184,29 +122,9 @@ public class Colis {
 	public Entrepot getEntrepot(){
 		return this.entrepot;
 	}
-	public Integer getModele(){
+	public ModeleColis getModele(){
 		return this.modele;
 	}
-	
-	/*public String getHauteur(){
-		return hauteur;
-	}
-	public String getLargeur(){
-		return largeur;
-	}
-	public String getProfondeur(){
-		return profondeur;
-	}*/
-	
-	//----- Récupération de la valeur déclarée du colis -----//
-	//public float getValeurDeclaree(){
-		//return valeurDeclaree;
-	//}
-	
-	//----- Récupération du lieu du colis -----//
-	//public int getLieu(){
-		//return lieu;
-	//}
 	
 	//----- Récupération de l'id de l'expéditeur -----//
 	public Personne getExpediteur(){
