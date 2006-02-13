@@ -27,6 +27,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	JButton generer_le_plan = new JButton("<html>générer le<br>plan de chargement</html>");
 	JButton imprimer_etiquette = new JButton("<html>imprimer<br>étiquette</html>");
 	JButton incident = new JButton("<html>incidents<br>archivés</html>");
+	JButton creer_chargement=new JButton("<HTML>Créer un<br>chargement (3D)");
 	private Vector nomColonnes_cam = new Vector();
 	private Vector donnees_cam = new Vector();
 	private ModeleTable modeleCam;
@@ -88,25 +89,31 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Insertion des boutons
 	
-		gerer_chargement.setBounds(520,10,250,100);
+		creer_chargement.setBounds(520,10,250,50);
+		creer_chargement.setFont(font);
+		ct.add(creer_chargement);
+		creer_chargement.addActionListener(this);
+		
+		gerer_chargement.setBounds(520,70,250,50);
 		gerer_chargement.setFont(font);
 		ct.add(gerer_chargement);
 		gerer_chargement.addActionListener(this);
 		
-		generer_le_plan.setBounds(520,130,250,100);
+		generer_le_plan.setBounds(520,130,250,50);
 		generer_le_plan.setFont(font);
 		ct.add(generer_le_plan);
 		generer_le_plan.addActionListener(this);
 		
-		imprimer_etiquette.setBounds(520,250,250,100);
+		imprimer_etiquette.setBounds(520,190,250,50);
 		imprimer_etiquette.setFont(font);
 		ct.add(imprimer_etiquette);
 		imprimer_etiquette.addActionListener(this);
 		
-		incident.setBounds(520,380,250,100);
+		incident.setBounds(520,380,250,50);
 		incident.setFont(font);
 		ct.add(incident);
 		incident.addActionListener(this);
+		
 		
 //Création du Panel stockant les informations sur les camions
 		
@@ -197,6 +204,21 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		Object source = e.getSource();
 		ligneActive = tab_cam.getSelectedRow();
 		
+		
+		if (source == creer_chargement) {
+			//Si une ligne est selectionnée
+			/*if (ligneActive != -1){
+				//On récupère les données de la ligne du tableau
+				Vector cVect = (Vector) modeleCam.getRow(ligneActive);
+				//dispose();
+//				ATTENTION:On passe un vecteur comme argument et pas un objet camion*/
+				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(/*cVect, */utilisateur);
+				fen1.setVisible(true);
+			/*}
+			else{
+				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+			}*/
+		}
 		//Selection de "Gérer le chargement"
 		if (source == gerer_chargement) {
 			//Si une ligne est selectionnée

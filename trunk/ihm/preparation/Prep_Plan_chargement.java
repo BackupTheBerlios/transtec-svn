@@ -5,12 +5,10 @@ import ihm.TableSorter;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Timestamp;
 import java.util.Vector;
 
 import javax.swing.*;
 
-import donnees.Colis;
 
 public class Prep_Plan_chargement extends JFrame implements ActionListener{
 
