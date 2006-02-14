@@ -2,7 +2,6 @@ package ihm.supervision;
 
 import java.util.Vector;
 import java.awt.event.*;
-import java.sql.SQLException;
 
 import accesBDD.AccesBDDUtilisateur;
 
@@ -43,12 +42,9 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
             	donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
             }
         }
-        catch(SQLException e){
+        catch(Exception e){
         	System.out.println(e.getMessage());
         }
-        
-        
-        
         
         // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
         /*********************************
@@ -57,8 +53,6 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 		donnees.addElement(new Utilisateur("granger","515dpldnx",new Integer(1),"Granger","Hermione","8 Albion Road","35H12S","London","hermione@potter.uk","+4414563269").toVector());
 		donnees.addElement(new Utilisateur("potter","358poop853",new Integer(2),"Potter","Harry","45 Denver Strees","369HND","Irvine","harry@potter.com","+4423654878").toVector());
 		/*********************************/
-
-        
         
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
@@ -85,7 +79,6 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 
 		// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
 		if(ligneSelect != -1){
-
 			try{
 				//On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
 				ligneActive = sorter.modelIndex(ligneSelect);
@@ -112,10 +105,9 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 					supprimerLigne(ligneActive);
 				}
 			}
-			catch(SQLException e){
-				
-			}
-			
+			catch(Exception e){
+				System.out.println(e.getMessage());
+			}			
 		}
 		// Ajout d'un utilisateur
 		if(source==boutAjouter){

@@ -11,7 +11,7 @@ public class Camion {
 	private Integer id;
 	private String numero;
 	private Integer disponibilite;
-	private Integer volume;
+	private Integer volume;//en cm3
 	private Entrepot origine;
 	private Entrepot destination;
 	

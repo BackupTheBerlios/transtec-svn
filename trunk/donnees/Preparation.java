@@ -3,10 +3,10 @@ package donnees;
 import java.util.Vector;
 
 public class Preparation {
-	private Utilisateur utilisateur=null;
-	private Entrepot destination=null;
-	private Integer volumeChargement=new Integer(0);
-	private Vector listeCamion=null;
+	private Utilisateur utilisateur;
+	private Entrepot destination;
+	private Integer volumeChargement;//en cm3
+	private Vector listeCamion;
 	
 	public Preparation(Utilisateur utilisateur, Entrepot destination, Integer volumeChargement, Vector listeCamion){
 		this.utilisateur=utilisateur;

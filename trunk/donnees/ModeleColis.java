@@ -2,7 +2,6 @@ package donnees;
 
 
 public class ModeleColis {
-
 	private Integer id;
 	private Integer forme;
 	private Integer modele;

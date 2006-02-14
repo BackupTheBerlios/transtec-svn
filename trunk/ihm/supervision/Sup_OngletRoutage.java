@@ -3,8 +3,6 @@ package ihm.supervision;
 import java.util.Vector;
 import java.awt.event.*;
 
-//import donnees.Camion;
-
 // Panneau de l'onglet de gestion des tables de routage
 public class Sup_OngletRoutage extends Sup_Onglet implements ActionListener{
 

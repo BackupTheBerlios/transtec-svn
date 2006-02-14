@@ -48,10 +48,6 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 		donnees.addElement(new Incident(new Integer(-1),new Integer(1),new Timestamp(System.currentTimeMillis()),new Integer(1),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
 		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Timestamp(System.currentTimeMillis()),new Integer(2),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
 		/*********************************/
-        
-        
-        
-        
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
