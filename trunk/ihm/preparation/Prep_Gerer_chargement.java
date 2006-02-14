@@ -175,7 +175,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		}*/
 		
 		 try{
-			    Vector listeObj=lister.listerDest(cam.getDestination().getId().intValue());
+			    Vector listeObj=lister.listerDest(cam.getDestination().getId());
 			    for(int i=0;i<listeObj.size();i++){
 			    	donnees2.addElement(((Colis)listeObj.get(i)).toVector());
 	            }

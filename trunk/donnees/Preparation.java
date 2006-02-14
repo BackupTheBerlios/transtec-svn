@@ -5,7 +5,7 @@ import java.util.Vector;
 public class Preparation {
 	private Utilisateur utilisateur=null;
 	private Entrepot destination=null;
-	private Integer volumeChargement=0;
+	private Integer volumeChargement=new Integer(0);
 	private Vector listeCamion=null;
 	
 	public Preparation(Utilisateur utilisateur, Entrepot destination, Integer volumeChargement, Vector listeCamion){

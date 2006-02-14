@@ -27,7 +27,7 @@ public class AccesBDDPreparation extends AccesBDD{
 		while(resultat.next()){
 			Vector elem=new Vector();
 			elem.add(new Integer(resultat.getInt("idPreparation")));
-			entrepot=bddEntrepot.rechercher(resultat.getInt("idDestination"));
+			entrepot=bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination")));
 			elem.add(entrepot.getLocalisation().getVille());
 			if(resultat.getInt("Etat")==A_FAIRE)	elem.add("A faire");
 			else	elem.add("En cours");
