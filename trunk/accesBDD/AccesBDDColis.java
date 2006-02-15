@@ -90,7 +90,7 @@ public class AccesBDDColis extends AccesBDD{
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 				
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Entrepots_idEntrepots=? ");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Destination=? ");
 		recherche.setInt(1, idEntrepot.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		

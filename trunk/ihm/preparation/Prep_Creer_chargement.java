@@ -60,13 +60,26 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    creer.addActionListener(this);
 	    
 //	  Création de la première ligne
-		nomColonnes.add("Liste des colis");
+		nomColonnes.add("id");
+		nomColonnes.add("entrepot");
+		nomColonnes.add("code_barre");
+		nomColonnes.add("expediteur");
+		nomColonnes.add("destinataire");
+		nomColonnes.add("destination");
+		nomColonnes.add("utilisateur");
+		nomColonnes.add("poids");
+		nomColonnes.add("date_envoi");
+		nomColonnes.add("modele");
+		nomColonnes.add("valeur_declaree");
+		
 		
 		// Acces BDD pour récupération liste des colis pour la destination donnée
 		AccesBDDColis bddColis=new AccesBDDColis();
 		try{
 			Vector listeColisBDD=bddColis.listerDest(preparation.getDestination().getId());
-			for(int i=0;i<listeColisBDD.size();i++)	donnees.addElement(((Colis)listeColisBDD.get(i)).toVector());
+			for(int i=0;i<listeColisBDD.size();i++){
+				donnees.addElement(((Colis)listeColisBDD.get(i)).toVector());
+			}
 		}
 		catch(SQLException SQLe){
 			
