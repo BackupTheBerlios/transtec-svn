@@ -38,7 +38,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 	private int ligneActive;
 	private JButton ajout_exp,ajout_dest,fermer;
 	private Entree_Fenetre_colis fenetre1;
-	private String[] recherche={"Tous","Nom","Prénom","Email","Telephone"};
+	private String[] recherche={"Tous","Nom","Prénom","Adresse","Code Postal","Ville","Email","Telephone"};
 	private JComboBox style_recherche;
 	private JTextField donnees_recherche;
 	private JButton rechercher;
@@ -54,7 +54,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		setBounds(100,100,800,500);
 		
 		style_recherche = new JComboBox(recherche);
-		style_recherche.setBounds(40,20,80,20);
+		style_recherche.setBounds(20,20,100,20);
 		contenu.add(style_recherche);
 		style_recherche.addItemListener(this);
 		
@@ -139,6 +139,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		contenu.add(fermer);
 		fermer.addActionListener(this);
    
+		donnees_recherche.setEnabled(false);
 		
 	}
 	
@@ -150,6 +151,18 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		// On redessine le tableau
 		table.updateUI();
 	}
+	public void supprimerLigne(int ligne){
+		// Suppression de la ligne
+		modeleTab.removeRow(ligne);
+		
+		// On indique au modèle que les données ont changé
+		modeleTab.fireTableDataChanged();
+		
+		// On redessine le tableau
+		//setFenetreActive(true);
+		table.updateUI();
+	}
+	
 	
 	public void itemStateChanged (ItemEvent e)
 	{
@@ -160,6 +173,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			donnees_recherche.setText("");			
 		}else{
 			donnees_recherche.setEnabled(true);
+			donnees_recherche.setText("");	
 		}
 	}
 	public void actionPerformed(ActionEvent e)
@@ -198,18 +212,22 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		{
 			//AccesBDDPersonne recherche = new AccesBDDPersonne();
 			//table.removeAll();
-			System.out.println(sorter.getRowCount());
-			
-			for(int i=0 ;i <sorter.getRowCount();i++)
+			//System.out.println(sorter.getRowCount());
+			int temp1 = sorter.getRowCount();
+			/*for(int i=0 ;i <sorter.getRowCount();i++)
 			{
-				modeleTab.removeRow(sorter.getRowCount()- i -1);
-				modeleTab.fireTableDataChanged();
-				System.out.println(i);
-				table.updateUI();
+				supprimerLigne(i);
+				
+			}*/
+			for(int i=0 ;i <temp1;i++)
+			{
+				supprimerLigne(0);
+				
 			}
 			
 			
-			/*switch(style_recherche.getSelectedIndex()){
+			
+			switch(style_recherche.getSelectedIndex()){
 			case 0:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
@@ -238,17 +256,105 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		        catch(SQLException e2){
 		        	System.out.println(e2.getMessage());
 		        }
-		        
-				
-				
+		
 				break;
 			case 2:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.PRENOM,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
 				
 				break;
 			case 3:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.ADRESSE,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
 				
 				break;
-			}*/
+			case 4:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.CODEPOSTAL,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
+				
+				break;
+			case 5:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.VILLE,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
+				
+				break;
+			case 6:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.EMAIL,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
+				
+				break;
+			case 7:
+				try{
+		        	//On récupère les utilisateurs de la base de données et on les affiche
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.TELEPHONE,donnees_recherche.getText());
+		            
+		            for(int i=0;i<listePersonnes.size();i++){
+		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
+		            	ajouterPers((Personne)listePersonnes.get(i));
+		        		
+		            }
+		        }
+		        catch(SQLException e2){
+		        	System.out.println(e2.getMessage());
+		        }
+				
+				break;
+			}
 		}
 
 		if(source==fermer){

@@ -18,6 +18,7 @@ import javax.swing.*;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPersonne;
 import donnees.*;
+import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDModelesColis;
 import accesBDD.AccesBDDEntrepot;
 import accesBDD.AccesBDDLocalisation;
@@ -59,6 +60,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		creation = new JMenuItem("Création");
 		etiquette.add(creation);
 		creation.addActionListener(this);
+		liste_colis = new Vector();
 		
 	
 		create_graphique(); //appel la fonction de la création graphique
@@ -73,8 +75,11 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		contenu = getContentPane();
 		contenu.setLayout(new FlowLayout());
-		getContentPane().setLayout(null);
 		
+		contenu1 = getContentPane();
+		contenu1.setLayout(new FlowLayout());
+		
+		getContentPane().setLayout(null);
 		numero_colis = new JLabel("Numéro :");
 		numero_colis.setBounds(pos_x,10,120,10);
 		contenu.add(numero_colis);
@@ -217,12 +222,27 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(annuler);
 		annuler.addActionListener(this);
 		
+		//if(modeleTabColis.getRowCount()!= 0)
+		//{
+			//System.out.println(modeleTabColis.getRowCount());
+		
+		//modeleTabColis.getRowCount()
+		
+		
 		nomColonnes = new Vector();
-		nomColonnes.add("Numéro");
-        nomColonnes.add("Forme");
-        nomColonnes.add("Modèle");
-        nomColonnes.add("Poids");
-        nomColonnes.add("Fragilité");
+		nomColonnes.add("id");
+        nomColonnes.add("entrepot");
+        nomColonnes.add("code_barre");
+        nomColonnes.add("expediteur");
+        nomColonnes.add("destinataire");
+        nomColonnes.add("destination");
+        nomColonnes.add("utilisateur");
+        nomColonnes.add("poids");
+        nomColonnes.add("date_envoi");
+        nomColonnes.add("fragilite");
+        nomColonnes.add("modele");
+        nomColonnes.add("valeur_declaree");
+        
        
         donnees = new Vector();
 		modeleTabColis = new ModeleTable(nomColonnes,donnees);
@@ -256,6 +276,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		// On ajoute le tableau au Panneau principal
 		contenu.add(scrollPane);
+		//}
 		
 		nomColonnes1 = new Vector();
 		nomColonnes1.add("id");
@@ -315,10 +336,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		// OBTENIR UN NOUVEL ID APRES ACCES A LA BDD
 		
 		// Ajout de la ligne
-		//modeleTabColis.addRow(c.toVector());
-		//modeleTabColis.fireTableDataChanged();
+		modeleTabColis.addRow(c.toVector());
+		modeleTabColis.fireTableDataChanged();
 		// On redessine le tableau
-		//tabColis.updateUI();
+		tabColis.updateUI();
 	}
 	
 	//Fonction permettant d'ajouter un incident dans le tableau
@@ -342,6 +363,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	//fonction qui affiche les informations du colis 
 	public void informations_colis1()
 	{
+		essai ++;
+		//System.out.println(essai);
+		
 		
 		String barre_code,temp="";
 		int Ok=0;
@@ -351,6 +375,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			barre_code = douchette();
 			temp = barre_code;
 			AccesBDDColis rechercher_colis=new AccesBDDColis();
+			AccesBDDChargement rechercher_chargement=new AccesBDDChargement();
 			
 			//Si on veut créer un nouveau colis
 			if (barre_code==null || barre_code.length()==0)
@@ -366,6 +391,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						int i = Integer.parseInt(temp);
 						try {
 							col = rechercher_colis.rechercherCode_barre(i);
+							//charg = rechercher_chargement.
 							if(col!=null){
 								Ok =1;
 							}
@@ -388,6 +414,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 		}while(Ok == 0);
 		
+		
 		contenu.removeAll();
 		contenu.validate();
 		create_graphique();	
@@ -396,6 +423,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		int de;
 		String id="";
 		int error = 1;
+		ajout_chargement();
 		
 		//Si on veut saisir un nouveau colis.
 		if (col.getCode_barre()==null)
@@ -555,6 +583,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on vérifie un colis
 		else
 		{
+			
+			
 			create = false;
 			//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 			//Timestamp date=new Timestamp(System.currentTimeMillis());	 
@@ -657,6 +687,44 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 		}
 		contenu.validate();
+	}
+	
+	public void ajout_chargement()
+	{
+		Vector liste_chargement = new Vector();
+		AccesBDDChargement test=new AccesBDDChargement();
+		
+		if(liste_colis.isEmpty()== true)
+		{
+		
+		try {
+			liste_chargement = test.listerColis(new Integer(0));
+			liste_colis = test.listerColis(new Integer(0));
+		
+			
+	           //On ajoute les incidents dans le tableau 
+	          for(int i=0;i<liste_chargement.size();i++){
+	        	  ajouterColis((Colis)liste_chargement.get(i));
+	           
+	            }
+	          System.out.println(liste_colis.size());
+	          //System.out.println("premiere etape");
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		}
+		else
+		{
+			for(int i=0;i<liste_colis.size();i++){
+	        	  ajouterColis((Colis)liste_colis.get(i));
+	        	  
+	            }
+			System.out.println(liste_colis.size());
+			 //System.out.println("deuxieme etape");
+		}
+		
 	}
 	
 	//Méthode permettant de choisir un ID_modèle de colis en fonction de sa forme et de son modèle
@@ -802,12 +870,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					ModeleColis modele=null;
 					//On recherche l' id_modele de colis
 					int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
-					
+					AccesBDDModelesColis test6=new AccesBDDModelesColis();
 					//Si le modèle n'est pas standard
 					if(selectmodelecolis == 69)
 					{
 						//On crée un nouveau modèle de colis avec les dimensions dans la bdd
-						AccesBDDModelesColis test6=new AccesBDDModelesColis();
+						
 						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),new Integer(20));
 						try{
 							selectmodelecolis = test6.ajouter(modele);
@@ -818,14 +886,23 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						
 						
 					}
+					else
+					{
+						try {
+							modele = test6.rechercher(new Integer(selectmodelecolis));
+						} catch (SQLException e1) {
+							// TODO Bloc catch auto-généré
+							e1.printStackTrace();
+						}
+					}
 					
 					
 					//On ajoute l'entrepot dans la bdd
-					AccesBDDEntrepot test6=new AccesBDDEntrepot();
+					AccesBDDEntrepot test7=new AccesBDDEntrepot();
 					entrepot = new Entrepot("25 rue des peupliers","94250","Villejuif","0136523698");
 					
 					try{
-						test6.ajouter(entrepot);
+						test7.ajouter(entrepot);
 					}
 					catch(SQLException e2){
 						System.out.println(e2.getMessage());
@@ -849,6 +926,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			else
 			{
 				//enregistrer heure de passage au poste d'entrée
+				liste_colis.removeElement(col.toVector());
+				
 				informations_colis1();
 			}
 			
@@ -1009,7 +1088,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
 	private JButton select_personne,voir_incident,annuler,create_etiquette,create_incident,valider_colis;
 	private JTextArea donnees_dest,donnees_exp;
-	private Container contenu ;
+	private Container contenu,contenu1 ;
 	private boolean create,create1;
 	private String login;
 	private static final int pos_x = 220 , pos_x1 = 350;
@@ -1020,11 +1099,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private TableSorter sorter;
 	private JScrollPane scrollPane1;
 	private Colis col;
+	private Chargement charge;
 	private Utilisateur utilisateur;
 	private Personne destinataire,expediteur;
 	private ModeleColis modelecolis;
 	private Entrepot entrepot;
 	private Localisation localisation1,localisation2;
 	private Incident incident;
+	private int essai = 0;
+	private Vector liste_colis;
 
 }

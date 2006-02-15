@@ -174,6 +174,8 @@ public class AccesBDDColis extends AccesBDD{
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur")
 					);
+			
+	       
 		}
 		
 		resultat.close();	// Fermeture requête SQL
