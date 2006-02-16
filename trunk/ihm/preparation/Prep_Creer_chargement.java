@@ -12,19 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import javax.media.j3d.Alpha;
-import javax.media.j3d.AmbientLight;
-import javax.media.j3d.Appearance;
-import javax.media.j3d.Background;
-import javax.media.j3d.BoundingBox;
-import javax.media.j3d.BoundingSphere;
-import javax.media.j3d.BranchGroup;
-import javax.media.j3d.Canvas3D;
-import javax.media.j3d.Material;
-import javax.media.j3d.RotationInterpolator;
-import javax.media.j3d.Texture;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.TransformGroup;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -32,14 +20,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.vecmath.Color3f;
-import javax.vecmath.Vector3d;
-
-import com.sun.j3d.utils.geometry.Box;
-import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import accesBDD.AccesBDDColis;
-
 import donnees.Colis;
 import donnees.Preparation;
 

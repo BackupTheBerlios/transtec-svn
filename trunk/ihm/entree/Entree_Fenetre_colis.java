@@ -84,7 +84,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		numero_colis.setBounds(pos_x,10,120,10);
 		contenu.add(numero_colis);
 
-
 		code_barre = new JTextField(15);
 		code_barre.setBounds(pos_x + 65,7,200,20);
 		contenu.add(code_barre);
@@ -161,8 +160,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		date_envoie = new JTextField(10);
 		date_envoie.setBounds(pos_x + 195,127,130,20);
 		contenu.add(date_envoie);
-		
-		
+			
 		label_dest = new JLabel("Destinataire :");
 		label_dest.setBounds(pos_x,160,150,15);
 		contenu.add(label_dest);
@@ -175,7 +173,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		donnees_dest.setWrapStyleWord(true);
 		contenu.add(donnees_dest);
-		
 		
 		label_exp = new JLabel("Expéditeur :");
 		label_exp.setBounds(pos_x,230,150,15);
@@ -207,7 +204,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(select_personne);
 		select_personne.addActionListener(this);
 		
-		label_camion = new JLabel("");//Liste des colis présents dans le chargement : (" + nombre_colis +" colis)");
+		label_camion = new JLabel("");
 		label_camion.setBounds(pos_x,410,340,15);
 		contenu.add(label_camion);
 		
@@ -227,13 +224,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(annuler);
 		annuler.addActionListener(this);
 		
-		//if(modeleTabColis.getRowCount()!= 0)
-		//{
-			//System.out.println(modeleTabColis.getRowCount());
-		
-		//modeleTabColis.getRowCount()
-		
-		
 		nomColonnes = new Vector();
 		nomColonnes.add("id");
         nomColonnes.add("entrepot");
@@ -247,8 +237,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
         nomColonnes.add("Fragilité");
         nomColonnes.add("modele");
         nomColonnes.add("valeur_declaree");
-        
-       
+           
         donnees = new Vector();
 		modeleTabColis = new ModeleTable(nomColonnes,donnees);
 		
@@ -287,7 +276,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		// On ajoute le tableau au Panneau principal
 		contenu.add(scrollPane);
-		//}
 		
 		nomColonnes1 = new Vector();
 		nomColonnes1.add("id");
@@ -313,7 +301,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		tabInc.removeColumn(tabInc.getColumnModel().getColumn(1));
 		tabInc.removeColumn(tabInc.getColumnModel().getColumn(2));
 		tabInc.removeColumn(tabInc.getColumnModel().getColumn(2));
-	
 		
 		scrollPane1 = new JScrollPane(tabInc);
 		tabInc.setPreferredScrollableViewportSize(new Dimension(20,20));
@@ -332,6 +319,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		label_cam.setBounds(65,10,160,10);
 		contenu.add(label_cam);
 		
+		//On affiche les images du colis
 		int j=0;
 		for (int i =1; i< 6;i++){
 			AffichageImage image = new AffichageImage("images/colis/face"+i+".JPG");
@@ -342,42 +330,31 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 	}
 	
+	//	Fonction permettant d'ajouter un colis dans le tableau de chargement
 	public void ajouterColis(Colis c){
-		
-		// OBTENIR UN NOUVEL ID APRES ACCES A LA BDD
-		
-		// Ajout de la ligne
 		modeleTabColis.addRow(c.toVector());
 		modeleTabColis.fireTableDataChanged();
-		// On redessine le tableau
 		tabColis.updateUI();
 	}
 	
-	//Fonction permettant d'ajouter un incident dans le tableau
+	//Fonction permettant d'ajouter un incident dans le tableau des incidents
 	public void ajouterInc(Incident c){
-		
-		// Ajout de la ligne
 		modeleTabInc.addRow(c.toVector());
 		modeleTabInc.fireTableDataChanged();
-		// On redessine le tableau
 		tabInc.updateUI();
 	}
+	
 	//Fonction permettant de simuler la douchette
 	public String douchette()
 		{
 		String barre_code;
 		barre_code = JOptionPane.showInputDialog(null,"Code barre:","Simulation de la douchette",JOptionPane.PLAIN_MESSAGE);
-	
 		return barre_code;
 	}
 	
 	//fonction qui affiche les informations du colis 
 	public void informations_colis1()
 	{
-		//essai ++;
-		//System.out.println(essai);
-		
-		
 		String barre_code,temp="";
 		int Ok=0;
 		// Tant que le code barre saisi n'est pas valide ou null ( pour la création d'un nouveau colis)
@@ -395,19 +372,24 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				Ok = 1;
 			
 			}
-			//Si on veut chercher un colis dans la Bdd
+			//Si on veut chercher un colis ou un chargement dans la Bdd
 			else{
 					try{
 						new Integer(temp.trim());
 						int i = Integer.parseInt(temp);
 						try {
+							//on cherche un colis dans la Bdd
 							col = rechercher_colis.rechercherCode_barre(i);
-							//charg = rechercher_chargement.
+							
+							
+							//Si le colis existe on quitte la boucle
 							if(col!=null){
 								Ok =1;
 							}
-							//Si le code barre n'existe pas
+							//Si le code barre n'existe pas, on va rechercher un chargement
 							else{
+								//charg = rechercher_chargement.
+								//Si il n'existe ni colis ni chargement avec ce code barre :
 								JOptionPane.showMessageDialog(this,"Le code barre ne correspond à aucun colis ou chargement.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);					
 							}
 							
@@ -423,9 +405,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					
 			}
 	
-		}while(Ok == 0);
-		
-		
+		}while(Ok == 0); // tant que le code barre n'est pas valide ou null
+	
+		//On reaffiche tout le contenu graphique 
 		contenu.removeAll();
 		contenu.validate();
 		create_graphique();	
@@ -435,6 +417,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		String id="";
 		int error = 1;
 		
+		//On va chercher les colis présents dans le chargement( Si un chargement a déja été rentré)
 		ajout_chargement();
 		
 		//Si on veut saisir un nouveau colis.
@@ -456,9 +439,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			create = true;
 			code_barre.setEnabled(false);
 			code_barre.setText(id);
-			
-			
-			//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 			date_envoie.setText(new Timestamp(System.currentTimeMillis()).toLocaleString());
 			date_envoie.setEnabled(false);
 			scrollPane1.setVisible(false);
@@ -528,7 +508,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			tel_dest.setBounds(pos_x + 70,307,100,20);
 			contenu.add(tel_dest);
 			
-			//
 			label_nom_exp = new JLabel("Nom :");
 			label_nom_exp.setBounds(pos_x1 + pos_x,190,50,15);
 			contenu.add(label_nom_exp);
@@ -595,12 +574,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on vérifie un colis
 		else
 		{
-			
-			
 			create = false;
-			//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
-			//Timestamp date=new Timestamp(System.currentTimeMillis());	 
-			
 			code_barre.setEnabled(false);
 			code_barre.setText(col.getCode_barre());
 			forme_colis.setEnabled(false);
@@ -701,17 +675,13 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.validate();
 	}
 	
+	//Fonction permettant d'ajouter les colis d'un chargement dans le tableau
 	public void ajout_chargement()
 	{
 		Vector liste_chargement = new Vector();
 		AccesBDDChargement test=new AccesBDDChargement();
-		
-		//if(nombre_colis !=0)
-		//{
-		
 		try {
 			liste_chargement = test.listerColis(new Integer(0));
-			//liste_colis = test.listerColis(new Integer(0));
 			nombre_colis = liste_chargement.size();
 			label_camion.setText("Liste des colis présents dans le chargement : (" + nombre_colis +" colis)");
 			
@@ -721,19 +691,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	           
 	            }
 	         
-	          //System.out.println("premiere etape");
 			
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
 		}
-		//}
-		//else
-		//{
-			
-			 //System.out.println("deuxieme etape");
-		//}
-		
+	
 	}
 	
 	//Méthode permettant de choisir un ID_modèle de colis en fonction de sa forme et de son modèle
@@ -841,7 +804,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			fen5.setVisible(true);
 		}
 		
-		//
+		//Lorsqu'on envoie le colis en zone de stockage
 		if (source == valider_colis)
 		{
 			//Cas d'un nouveau colis
@@ -895,7 +858,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						
 						
 					}
-					else
+					else // On va chercher les infos sur le modèle de colis existant
 					{
 						try {
 							modele = test6.rechercher(new Integer(selectmodelecolis));
@@ -919,7 +882,6 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-					//Timestamp date=new Timestamp(10);
 					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"0");
 				
 					try{
@@ -934,8 +896,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//cas d'un colis à vérifier
 			else
 			{
-				//enregistrer heure de passage au poste d'entrée
 				
+				//On envoie le colis en zone de stockage et on le supprime de la liste de chargement
 				AccesBDDChargement test10=new AccesBDDChargement();
 				try {
 					test10.supprimer_colis(col);
