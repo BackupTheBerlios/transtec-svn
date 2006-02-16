@@ -3,6 +3,7 @@ package ihm.preparation;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,12 +13,17 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.media.j3d.Alpha;
+import javax.media.j3d.AmbientLight;
+import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingBox;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Material;
 import javax.media.j3d.RotationInterpolator;
+import javax.media.j3d.Texture;
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +32,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.vecmath.Color3f;
+import javax.vecmath.Vector3d;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -39,8 +47,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer");
 	private JButton ajouter=new JButton("->");
 	private Vector nomColonnes = new Vector();
-	private ModeleTable listeColis;
-	private TableSorter sorter;
+	private ModeleTable listeColis, listeChargement;
+	private TableSorter sorter_colis, sorter_chargement;
 	private JTable tab;
 	private Vector donnees = new Vector();
 	
@@ -61,14 +69,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 		
 		// Affichage du bouton "Créer"
-		creer.setBounds(350,400,100,50);
+		creer.setBounds(220,560,100,50);
 	    ct.add(creer);
 	    creer.addActionListener(this);
 	    
 	    // Affichage du bouton "->"
-	   	creer.setBounds(540,300,100,50);
-	    ct.add(creer);
-	    creer.addActionListener(this);
+	   	ajouter.setBounds(520,140,100,50);
+	    ct.add(ajouter);
+	    ajouter.addActionListener(this);
 	    
 //	  Création de la première ligne
 		nomColonnes.add("id");
@@ -95,30 +103,127 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		catch(SQLException SQLe){
 			
 		}
+		
+		
 		//Création du premier tableau
 		
 		listeColis = new ModeleTable(nomColonnes,donnees);
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter = new TableSorter(listeColis);
+		sorter_colis = new TableSorter(listeColis);
 		// Création du tableau
-		tab = new JTable(sorter);
+		tab = new JTable(sorter_colis);
 		// initialisation du Sorter
-		sorter.setTableHeader(tab.getTableHeader());
+		sorter_colis.setTableHeader(tab.getTableHeader());
 	
 		tab.setAutoCreateColumnsFromModel(true);
 		tab.setOpaque(false);
 		tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(2));
+		tab.removeColumn(tab.getColumnModel().getColumn(2));
 		JScrollPane scrollPane = new JScrollPane(tab);
 		tab.setPreferredScrollableViewportSize(new Dimension(400,150));
 		scrollPane.setBounds(100,400,500,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
+
+		// Création du tableau contenant les colis que l'on veut mettre dans le chargement
+		
+		listeColis = new ModeleTable(nomColonnes,donnees);
+		//Création du TableSorter qui permet de réordonner les lignes à volonté
+		sorter_chargement = new TableSorter(listeColis);
+		// Création du tableau
+		tab = new JTable(sorter_chargement);
+		// initialisation du Sorter
+		sorter_chargement.setTableHeader(tab.getTableHeader());
+	
+		tab.setAutoCreateColumnsFromModel(true);
+		tab.setOpaque(false);
+		tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(0));
+		tab.removeColumn(tab.getColumnModel().getColumn(2));
+		tab.removeColumn(tab.getColumnModel().getColumn(2));
+		JScrollPane scrollPane_chargement = new JScrollPane(tab);
+		tab.setPreferredScrollableViewportSize(new Dimension(400,150));
+		scrollPane_chargement.setBounds(650,400,500,150);
+		scrollPane_chargement.setOpaque(false);
+		scrollPane_chargement.getViewport().setOpaque(false);
+		getContentPane().add(scrollPane_chargement);
 		
 		//Ajout d'un objet 3D
 		Objet3D(ct, 0.5f, 0.6f, 0.3f);
 		
+		// Creation de la zone 3D correspondant au camion
+		
+		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
+	    camion3D.setBounds(520,100,400,260);
+	    
+	    // Creation d'un objet SimpleUniverse
+	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
+	    
+	    // Positionnement du point d'observation pour avoir une vue correcte de la
+	    // scene 3D
+	    simpleU.getViewingPlatform().setNominalViewingTransform();
+	    
+	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut
+	    // visualiser
+	    
+	    BranchGroup parent = new BranchGroup();
+	    
+	    // Arriere plan en blanc
+	    Background background = new Background(1, 1, 1);
+	    background.setColor(new Color3f(Color.blue));
+	    background.setApplicationBounds(new BoundingBox());
+	    parent.addChild(background);
+	     // Construction du parallelepipede
+	    
+	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    Transform3D transform3D=new Transform3D();
+	    // Changement de l'échelle 
+	    transform3D.setScale(0.3f);
+	    // Rotation
+	    transform3D.rotX(1);
+	    transform3D.rotY(1);
+	    
+	    TransformGroup objSpin = new TransformGroup(transform3D);
+	    // Couleur de l'objet 3D
+	    Material materiau=new Material();
+	    materiau.setAmbientColor(new Color3f(Color.lightGray));
+	    
+	    AmbientLight lumiere=new AmbientLight();
+	    // Zone d'éclairage de la lumière
+	    lumiere.setInfluencingBounds(new BoundingBox());
+	    // Ajout de lalumière dans le système
+	    parent.addChild(lumiere);
+	    Appearance apparence=new Appearance();
+	    apparence.setMaterial(materiau);
+	    //apparence.setTexture(new Texture());
+	    objSpin.addChild(new Box(0.2f, 0.5f, 0.8f, apparence));
+	    parent.addChild(objSpin);
+	    BranchGroup scene= parent;
+	    
+	    // Compilation de la scene 3D
+	    scene.compile();
+	    
+	    // Attachement de la scene 3D a l'objet SimpleUniverse
+	    simpleU.addBranchGraph(scene);
+	    ct.add(camion3D);
+	    
+	    
+	    
 		setVisible(true);
 	}
 	
@@ -140,16 +245,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut
 	    // visualiser
 	    BranchGroup scene = createSceneGraph(hauteur, largeur, profondeur);
-	   /* BranchGroup scene = new BranchGroup();
-	    Background background = new Background(new Color3f(Color.blue));     
-		background.setApplicationBounds(new BoundingBox());
-	    // On ajoute l'instance de Background a la scene 3D
-	    scene.addChild(background);*/
 	    
-	    // Etape 7 :
 	    // Compilation de la scene 3D
 	    scene.compile();
-	    // Etape 8:
+	    
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
 	    ct_tmp.add(canvas3D);
