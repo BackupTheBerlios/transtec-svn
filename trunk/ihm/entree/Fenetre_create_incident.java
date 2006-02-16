@@ -41,7 +41,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		fenetre1 = fenetre;
 		
 		setTitle("Création d'un incident");
-		setBounds(292,200,370,340);
+		setBounds(292,200,370,360);
 		
 		contenu = getContentPane();
 		contenu.setLayout(new FlowLayout());
@@ -63,7 +63,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		
 		utilisateur = new JTextField(15);
 		utilisateur.setBounds(175,37,130,20);
-		utilisateur.setText(utilis.getLogin());
+		utilisateur.setText(utilis.getPersonne().getNom());
 		utilisateur.setEnabled(false);
 		contenu.add(utilisateur);
 		
@@ -94,18 +94,25 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.add(donnees_description);
 		
 		valider_incident = new JButton("Envoyer en zone d'expertise");
-		valider_incident.setBounds(75,240,200,25);
+		valider_incident.setBounds(75,230,200,25);
 		contenu.add(valider_incident);
 		valider_incident.addActionListener(this);
 		
+		envoie_stockage = new JButton("Envoyer en zone de stockage");
+		envoie_stockage.setBounds(75,260,200,25);
+		contenu.add(envoie_stockage);
+		envoie_stockage.addActionListener(this);
+		
 		annuler_incident = new JButton("Annuler");
-		annuler_incident.setBounds(125,270,100,25);
+		annuler_incident.setBounds(125,290,100,25);
 		contenu.add(annuler_incident);
 		annuler_incident.addActionListener(this);
 		
 		// Si on 
 		if ( incident != null){
 			
+			setTitle("Informations sur l'incident");
+			envoie_stockage.setVisible(false);
 			donnees_description.setEnabled(false);
 			annuler_incident.setText("Ok");
 			valider_incident.setVisible(false);
@@ -142,7 +149,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			//enregistrement dans la BDD
 			
 			AccesBDDIncident test=new AccesBDDIncident();
-			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.EN_COURS),donnees_description.getText(),utilis,new Integer(0));
+			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE));
 		
 				try {
 					test.ajouter(aAjouter);
@@ -150,8 +157,41 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				dispose();
-				fenetre1.informations_colis1();
+				
+			AccesBDDChargement test10=new AccesBDDChargement();
+			try {
+				test10.supprimer_colis(colis);
+			} catch (SQLException e1) {
+					// TODO Bloc catch auto-généré
+				e1.printStackTrace();
+			}
+			dispose();
+			fenetre1.informations_colis1();
+				
+		}
+		if (source == envoie_stockage)
+		{
+			//enregistrement dans la BDD
+			
+			AccesBDDIncident test=new AccesBDDIncident();
+			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE));
+		
+				try {
+					test.ajouter(aAjouter);
+
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+			AccesBDDChargement test10=new AccesBDDChargement();
+			try {
+				test10.supprimer_colis(colis);
+			} catch (SQLException e1) {
+					// TODO Bloc catch auto-généré
+				e1.printStackTrace();
+			}
+			dispose();
+			fenetre1.informations_colis1();
 				
 		}
 	
@@ -159,7 +199,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	
 	private Container contenu;
 	private JLabel label_date,numero_colis,label_utilisateur,description_incident;
-	private JButton valider_incident,annuler_incident;
+	private JButton envoie_stockage,valider_incident,annuler_incident;
 	private JTextField date,code_barre,utilisateur;
 	private JTextArea donnees_description;
 	private Entree_Fenetre_colis fenetre1;

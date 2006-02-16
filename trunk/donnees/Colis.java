@@ -65,9 +65,9 @@ public class Colis {
 		this.utilisateur=(Utilisateur)v.get(6);
 		this.poids=(Integer)v.get(7);
 		this.date_envoi=(Timestamp)v.get(8);
-		this.fragilite=(Integer)v.get(9);
+		this.fragilite=stringToConst((String)v.get(9));
 		this.modele=(ModeleColis)v.get(10);
-		this.valeur_declaree=(String)v.get(12);	
+		this.valeur_declaree=(String)v.get(11);	
 	}
 
 	public Vector toVector(){
@@ -82,10 +82,42 @@ public class Colis {
 		v.add(utilisateur);
 		v.add(poids);
 		v.add(date_envoi);
-		v.add(fragilite);
+		v.add(constToString(fragilite));
 		v.add(modele);
 		v.add(valeur_declaree);
 		return v;
+	}
+	
+	private static Integer stringToConst(String s){
+		Integer ret=null;
+		
+		if(s.equals("Peu")) ret=new Integer(0);
+		else if(s.equals("Moyen")) ret=new Integer(1);
+		else if(s.equals("Trés")) ret=new Integer(2);
+		
+
+		return ret;
+	}
+	
+	public static String constToString(Integer i){
+		String ret=null;
+		
+		switch(i.intValue()){
+		case 0:
+			ret=new String("Peu");
+			break;
+			
+		case 1:
+			ret=new String("Moyen");
+			break;
+			
+		case 2:
+			ret=new String("Trés");
+			break;
+			
+		}
+		
+		return ret;
 	}
 	
 	public void setId(Integer id){

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Chargement;
+import donnees.Colis;
 
 
 //----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes opérations nécessaire sur la table -----//
@@ -50,6 +51,16 @@ public class AccesBDDChargement extends AccesBDD{
 	public void supprimer(Integer aSupprimer) throws SQLException{
 		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement WHERE idChargement=?");
 		supprime.setInt(1, aSupprimer.intValue());
+				
+		supprime.executeUpdate();	// Exécution de la requête SQL
+						
+		supprime.close();	// Fermeture requête SQL
+		deconnecter();
+	}
+	//-----Supprimer un colis d'un chargement----//
+	public void supprimer_colis(Colis aSupprimer) throws SQLException{
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement_colis WHERE idColis=?");
+		supprime.setInt(1, aSupprimer.getId().intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
