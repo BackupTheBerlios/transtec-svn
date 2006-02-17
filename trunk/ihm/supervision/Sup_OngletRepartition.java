@@ -5,6 +5,7 @@ import ihm.TableSorter;
 
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDPreparation;
 
 import javax.swing.*;
 
@@ -15,13 +16,17 @@ import java.awt.event.*;
 import donnees.Camion;
 
 public class Sup_OngletRepartition extends JPanel implements ActionListener{
-	private JTable tabDestinations, tabCamions;
-	private ModeleTable modeleTabDestinations,modeleTabCamions;
-	private TableSorter sorterCamions,sorterDestinations;
+	private JLabel titre;
+	private JTable tabDestinations,tabCamions,tabPreparations;
+	private JScrollPane scrollPaneCamions,scrollPaneDestinations,scrollPanePreparations;
+	private ModeleTable modeleTabDestinations,modeleTabCamions,modeleTabPreparations;
+	private TableSorter sorterCamions,sorterDestinations,sorterPreparations;
 	private JPanel panTitre;
-	private JPanel panDonnees;
+	private CardLayout layoutPanDonnees;
+	private JPanel panDonnees,panDonneesDebut,panDonneesChoix,panDonneesFin;
 	private JPanel panBoutons;
-	
+	private ButtonGroup groupeRadio;
+	private JRadioButton radioAucun,radioRadin,radioPerenoel;
 	private JButton boutSuite = new JButton("Suite  >");
 	private JButton boutRetour = new JButton("<  Retour");
 
@@ -29,19 +34,30 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private Vector donneesDestinations = new Vector();
 	private Vector nomColonnesCamions = new Vector();
 	private Vector donneesCamions = new Vector();
+	private Vector nomColonnesPreparations = new Vector();
+	private Vector donneesPreparations = new Vector();
 	
-//	protected int ligneActive;
-
 	private AccesBDDCamion tableCamions = new AccesBDDCamion();
 	private AccesBDDColis tableColis = new AccesBDDColis();
+	private AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
 		
+	private final static int DEBUT = 0;
+	private final static int CHOIX = 1;
+	private final static int FIN = 2;
+	
+	private final static int AUCUN = 0;
+	private final static int RADIN = 1;
+	private final static int PERENOEL = 2;
+	
+	private int ecranActuel = DEBUT;	
+	
 	public Sup_OngletRepartition(){
 		// Mise en forme initiale
 		setOpaque(false);
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		
 		// Titre de l'onglet
-		JLabel titre = new JLabel();
+		titre = new JLabel();
 		titre.setText("Disponibilités");
 		titre.setAlignmentX(Box.LEFT_ALIGNMENT);
 		
@@ -67,6 +83,13 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		// Liste des destinations : noms des colonnes.
         nomColonnesDestinations.add("Destination");
         nomColonnesDestinations.add("Volume");
+        
+		// Liste des préparations : noms des colonnes.
+		nomColonnesPreparations.add("ID");
+		nomColonnesPreparations.add("Destination");
+		nomColonnesPreparations.add("Camion");
+		nomColonnesPreparations.add("Volume");
+		nomColonnesPreparations.add("Préparateur");
 
         try{
 	        // On récupère les camions de la base de données et on les affiche
@@ -87,18 +110,57 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
         	System.out.println(e.getMessage());
         }
         
-		// Construction du tableau et des fonction qui lui sont associées
+		// Construction des tableaux et des fonction qui leur sont associées
 		construireTableaux();
 
-		// Bouton Suite
-		boutSuite.addActionListener(this);
+		// On ajoute les tableaux au panel de début
+		panDonneesDebut = new JPanel();
+		panDonneesDebut.setLayout(new BoxLayout(panDonneesDebut,BoxLayout.X_AXIS));
+		panDonneesDebut.setOpaque(false);
+		panDonneesDebut.add(scrollPaneDestinations);
+		panDonneesDebut.add(Box.createHorizontalGlue());
+		panDonneesDebut.add(scrollPaneCamions);
+		
+		// Création du panel central
+		panDonnees = new JPanel(new CardLayout(10,10));
+		panDonnees.add(panDonneesDebut,"Disponibilités");
+		creerPanelChoix();
+		panDonnees.add(panDonneesChoix,"Choix d'un algorithme de répartition");
+		creerPanelFin();
+		panDonnees.add(panDonneesFin,"Répartition");
+		panDonnees.setAlignmentY(Box.CENTER_ALIGNMENT);
+		panDonnees.setOpaque(false);
+		layoutPanDonnees = (CardLayout)panDonnees.getLayout();
+		add(panDonnees);
+				
+		// Mise en page du panel des boutons
+		panBoutons = new JPanel();
+		panBoutons.setOpaque(false);
+		panBoutons.setLayout(new BoxLayout(panBoutons,BoxLayout.X_AXIS));
+		panBoutons.setBorder(BorderFactory.createEmptyBorder(40, 50, 20, 50));
 
 		// Bouton Retour
+		boutRetour.setSize(100,20);
+		boutRetour.setAlignmentX(Box.LEFT_ALIGNMENT);
 		boutRetour.addActionListener(this);
+		boutRetour.setVisible(false);
+		panBoutons.add(boutRetour);
+		
+		// Espace entre les boutons
+		panBoutons.add(Box.createRigidArea(new Dimension(100,0)));
+		
+		// Bouton Suite
+		boutSuite.setSize(100,20);
+		boutSuite.setAlignmentX(Box.RIGHT_ALIGNMENT);
+		boutSuite.addActionListener(this);
+		panBoutons.add(boutSuite);
+		
+		panBoutons.setAlignmentY(Box.BOTTOM_ALIGNMENT);
+		add(panBoutons);
 	}
 	
 	public void construireTableaux(){
-
+		
 		/********** Tableau des camions **********/
 		
 		// Création du modèle de tableau à l'aide des en-têtes de colonnes et des données 
@@ -122,7 +184,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		tabCamions.removeColumn(tabCamions.getColumnModel().getColumn(2));
 
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
-		JScrollPane scrollPaneCamions = new JScrollPane(tabCamions);
+		scrollPaneCamions = new JScrollPane(tabCamions);
 
 		// On définit les dimensions du tableau
 		tabCamions.setPreferredScrollableViewportSize(new Dimension(300,500));
@@ -156,7 +218,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		tabDestinations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
-		JScrollPane scrollPaneDestinations = new JScrollPane(tabDestinations);
+		scrollPaneDestinations = new JScrollPane(tabDestinations);
 
 		// On définit les dimensions du tableau
 		tabDestinations.setPreferredScrollableViewportSize(new Dimension(300,500));
@@ -168,87 +230,145 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		scrollPaneDestinations.setOpaque(false);
 		scrollPaneDestinations.getViewport().setOpaque(false);
 		scrollPaneDestinations.setAlignmentX(Box.RIGHT_ALIGNMENT);
-
-		// On ajoute les tableaux au Panneau principal
-		panDonnees = new JPanel();
-		panDonnees.setLayout(new BoxLayout(panDonnees,BoxLayout.X_AXIS));
-		panDonnees.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		panDonnees.setOpaque(false);
-		panDonnees.add(scrollPaneDestinations);
-		panDonnees.add(Box.createHorizontalGlue());
-		panDonnees.add(scrollPaneCamions);
-		add(panDonnees);
-		
-		// Mise en page du panel des boutons
-		panBoutons = new JPanel();
-		panBoutons.setOpaque(false);
-		panBoutons.setLayout(new BoxLayout(panBoutons,BoxLayout.X_AXIS));
-		panBoutons.setBorder(BorderFactory.createEmptyBorder(40, 50, 20, 50));
-
-		// Bouton Retour
-		boutRetour.setSize(100,20);
-		boutRetour.setAlignmentX(Box.LEFT_ALIGNMENT);
-		panBoutons.add(boutRetour);
-		
-		// Espace entre les boutons
-		panBoutons.add(Box.createRigidArea(new Dimension(100,0)));
-		
-		// Bouton Suite
-		boutSuite.setSize(100,20);
-		boutSuite.setAlignmentX(Box.RIGHT_ALIGNMENT);
-		panBoutons.add(boutSuite);
-		
-		panBoutons.setAlignmentY(Box.BOTTOM_ALIGNMENT);
-		add(panBoutons);
 	}
 	
+	// Création du panel de choix d'algorithme
+	public void creerPanelChoix(){
+		// Mise en page et taille du panel
+		panDonneesChoix = new JPanel();
+		panDonneesChoix.setLayout(new GridLayout(3,0));
+		panDonneesChoix.setOpaque(false);
+		panDonneesChoix.setSize(new Dimension(600,200));
+		
+		// Création des boutons radios
+		radioAucun = new JRadioButton("Pas d'algorithme");
+		radioAucun.setSelected(true);
+		radioRadin = new JRadioButton("Minimisation des coûts (radin)");
+		radioPerenoel = new JRadioButton("Maximisation de la satisfaction (Père Noël)");
+		
+		// Regroupement des boutons radio
+		groupeRadio = new ButtonGroup();
+		groupeRadio.add(radioAucun);
+		groupeRadio.add(radioRadin);
+		groupeRadio.add(radioPerenoel);
+		
+		// Ajout des boutons au panel
+		panDonneesChoix.add(radioAucun);
+		panDonneesChoix.add(radioRadin);
+		panDonneesChoix.add(radioPerenoel);
+	}
+	
+	// Création du panel d'affichage des préparations
+	public void creerPanelFin(){
+		panDonneesFin = new JPanel();
+		panDonneesFin.setLayout(new GridLayout(1,1));
+		panDonneesFin.setOpaque(false);
+		
+		// Création du modèle de tableau à l'aide des en-têtes de colonnes et des données 
+		modeleTabPreparations = new ModeleTable(nomColonnesPreparations,donneesPreparations);
+
+		// Création du TableSorter qui permet de réordonner les lignes à volonté
+		sorterPreparations = new TableSorter(modeleTabPreparations);
+
+		// Création du tableau
+		tabPreparations = new JTable(sorterPreparations);
+
+		// initialisation du Sorter
+		sorterPreparations.setTableHeader(tabPreparations.getTableHeader());
+
+		// On crée les colonnes du tableau selon le modèle
+		tabPreparations.setAutoCreateColumnsFromModel(true);
+		tabPreparations.setOpaque(false);
+		tabPreparations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
+
+		// On place le tableau dans un ScrollPane pour qu'il soit défilable
+		scrollPanePreparations = new JScrollPane(tabPreparations);
+
+		// On définit les dimensions du tableau
+		tabPreparations.setPreferredScrollableViewportSize(new Dimension(300,500));
+
+		// On place le tableau
+		scrollPanePreparations.setMaximumSize(new Dimension(300,500));
+
+		// On définit le tableau transparent
+		scrollPanePreparations.setOpaque(false);
+		scrollPanePreparations.getViewport().setOpaque(false);
+		scrollPanePreparations.setAlignmentX(Box.RIGHT_ALIGNMENT);
+		
+		// Ajout du tableau au Panel
+		panDonneesFin.add(scrollPanePreparations);		
+	}
+	
+	// Répartition des chargements à l'aide de l'algorithme sélectionné
+	public void repartirChargements(){
+		int algorithme=AUCUN;
+		
+		// On récupère l'algorithme choisi
+		if(radioAucun.isSelected()) algorithme=AUCUN;
+		else if(radioRadin.isSelected()) algorithme=RADIN;
+		else if(radioPerenoel.isSelected()) algorithme=PERENOEL;
+		
+		System.out.println(algorithme);
+
+		// On lance l'algorithme
+		// repatitionEnLangageC(algorithme);		
+	}
+	
+	// Gestion des actions liées aux boutons
 	public void actionPerformed(ActionEvent ev){
 		Object source = ev.getSource();
-
-/*		try{			
-			// On récupère le numéro de la ligne sélectionnée
-			int ligneSelect = table.getSelectedRow();
-	
-			// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
-			if(ligneSelect != -1){
-	
-				// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
-				ligneActive = sorter.modelIndex(ligneSelect);
+		
+		// Passage à l'écran suivant
+		if(source==boutSuite){			
+			// On définit les actions selon l'écran actuel
+			switch(ecranActuel){
+			// Ecran de début
+			case DEBUT:
+				ecranActuel++;
+				boutRetour.setVisible(true);
+				layoutPanDonnees.next(panDonnees);
+				titre.setText("Choix d'un algorithme de répartition");
+				break;
+			// Ecran de choix d'algorithme
+			case CHOIX:
+				ecranActuel++;
+				boutSuite.setText("Publier");
+				layoutPanDonnees.next(panDonnees);
+				titre.setText("Répartition");
 				
-				// Action liée au bouton de modification d'un camion
-				if(source==boutModifier){
+				// Répartition des chargements à l'aide de l'algorithme choisi
+				repartirChargements();
+				break;
+			// Ecran d'affichage final
+			case FIN:
+				// On publie la liste des chargements répartis
 				
-					// On récupère les données de la ligne du tableau
-					Vector cVect = (Vector) modeleTab.getRow(ligneActive);
-					Camion c = new Camion(cVect);
-	
-					// On affiche l'invite de modification
-					Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,tableCamions);
-					
-					// On bloque l'utilisateur sur le pop-up
-					setFenetreActive(false);
-				}
-				// Suppression d'un camion
-				else if(source==boutSupprimer){
-					// Suppression de la base de données
-					tableCamions.supprimer((Integer)modeleTab.getValueAt(ligneActive,0));
-	
-					// Mise à jour du tableau
-					supprimerLigne(ligneActive);
-				}
-			}
-			// Ajout d'un camion
-			if(source==boutAjouter){
-				// On affiche l'invite de saisie d'information
-				Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,tableCamions);
-				
-				// On bloque l'utilisateur sur le pop-up
-				setFenetreActive(false);
-			}
+				break;
+			}				
 		}
-		catch(SQLException e){
-			System.out.println(e.getMessage());
-		}*/
+		// Retour à l'écran précédent
+		else if(source==boutRetour){			
+			// On définit les actions selon l'écran actuel
+			switch(ecranActuel){
+			// Ecran de début
+			case DEBUT:
+				break;
+			// Ecran de choix d'algorithme
+			case CHOIX:
+				ecranActuel--;
+				boutRetour.setVisible(false);
+				layoutPanDonnees.previous(panDonnees);
+				titre.setText("Disponibilités");
+				break;
+			// Ecran d'affichage final
+			case FIN:
+				ecranActuel--;
+				boutSuite.setText("Suite  >");
+				layoutPanDonnees.previous(panDonnees);
+				titre.setText("Choix d'un algorithme de répartition");
+				break;
+			}			
+		}	
 	}
-
 }
