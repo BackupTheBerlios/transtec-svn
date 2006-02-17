@@ -64,10 +64,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		setJMenuBar(menuBar);
 		
 		//Création des icones
-		ImageIcon icone_cam = new ImageIcon("camion.gif");
-		ImageIcon icone_plan = new ImageIcon("plan.gif");
-		ImageIcon icone_eti = new ImageIcon("etiquette.gif");
-		ImageIcon icone_inc = new ImageIcon("incident.gif");
+		ImageIcon icone_cam = new ImageIcon("images/icones/camion.gif");
+		ImageIcon icone_plan = new ImageIcon("images/icones/plan.gif");
+		ImageIcon icone_eti = new ImageIcon("images/icones/etiquette.gif");
+		ImageIcon icone_inc = new ImageIcon("images/icones/incident.gif");
 		
 		//Taile de la fenêtre
 		setSize(800,600);
