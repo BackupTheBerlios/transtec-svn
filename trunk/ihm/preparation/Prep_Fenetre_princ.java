@@ -9,14 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Camion;
 import donnees.Preparation;
-import donnees.Utilisateur;
-import accesBDD.AccesBDDCamion;
+
 
 public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 

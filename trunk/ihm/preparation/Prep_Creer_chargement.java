@@ -20,10 +20,17 @@ import javax.media.j3d.BoundingBox;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.DirectionalLight;
+import javax.media.j3d.Geometry;
+import javax.media.j3d.LineArray;
 import javax.media.j3d.Material;
 import javax.media.j3d.RotationInterpolator;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.Texture2D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TransparencyAttributes;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -32,6 +39,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.vecmath.Color3f;
+import javax.vecmath.Point3f;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.geometry.Box;
@@ -182,10 +190,38 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Arriere plan en blanc
 	    Background background = new Background(1, 1, 1);
-	    background.setColor(new Color3f(Color.blue));
+	    background.setColor(new Color3f(Color.LIGHT_GRAY));
 	    background.setApplicationBounds(new BoundingBox());
 	    parent.addChild(background);
-	     // Construction du parallelepipede
+	    
+	    // Création d'un repère
+	    Point3f repere[]=new Point3f[4];
+	    repere[0]=new Point3f(0,0,0);
+	    repere[1]=new Point3f(2,0,0);
+	    repere[2]=new Point3f(0,0,8);
+	    repere[3]=new Point3f(0,5,0);
+	    
+//	  Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    Transform3D transform3D=new Transform3D();
+	    // Changement de l'échelle 
+	    transform3D.setScale(0.3f);
+	    // Rotation
+	    transform3D.rotX(1);
+	    transform3D.rotY(1);
+	    
+	    LineArray lineArray = new LineArray(4, LineArray.COORDINATES | 
+                LineArray.COLOR_3); 
+	    lineArray.setCoordinates(0, repere);
+	    lineArray.setColor(0,new Color3f(Color.black));
+	    lineArray.setColor(0,new Color3f(Color.black));
+	    TransformGroup objSpin=new TransformGroup(transform3D);
+	    Shape3D test=new Shape3D();
+	    test.setGeometry(lineArray);
+	    objSpin.addChild(test);
+	    parent.addChild(objSpin);
+
+
+	    /*// Construction du parallelepipede
 	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
@@ -198,18 +234,27 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    TransformGroup objSpin = new TransformGroup(transform3D);
 	    // Couleur de l'objet 3D
 	    Material materiau=new Material();
-	    materiau.setAmbientColor(new Color3f(Color.lightGray));
+	    materiau.setAmbientColor(new Color3f(Color.blue));
 	    
+	    DirectionalLight lumiereDir=new DirectionalLight();
 	    AmbientLight lumiere=new AmbientLight();
 	    // Zone d'éclairage de la lumière
 	    lumiere.setInfluencingBounds(new BoundingBox());
+	    lumiereDir.setInfluencingBounds(new BoundingBox());
 	    // Ajout de lalumière dans le système
 	    parent.addChild(lumiere);
+	    parent.addChild(lumiereDir);
+	    
+	    TransparencyAttributes transparence=new TransparencyAttributes();
+	    transparence.setTransparency(0.5f);
+	    transparence.setTransparencyMode(TransparencyAttributes.NICEST);
 	    Appearance apparence=new Appearance();
 	    apparence.setMaterial(materiau);
-	    //apparence.setTexture(new Texture());
-	    objSpin.addChild(new Box(0.2f, 0.5f, 0.8f, apparence));
+	    apparence.setTransparencyAttributes(transparence);
+	    Box cam = new Box(0.2f, 0.5f, 0.8f, apparence);
+	    objSpin.addChild(cam);
 	    parent.addChild(objSpin);
+	    */
 	    BranchGroup scene= parent;
 	    
 	    // Compilation de la scene 3D
