@@ -15,6 +15,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 	private JMenuBar menuBar;
 	private JTabbedPane onglets;
 	private Sup_OngletCamion ongletCamion;
+	private Sup_OngletRepartition ongletRepartition;
 	private Sup_OngletIncident ongletIncident;
 	private Sup_OngletRoutage ongletRoutage;
 	private Sup_OngletUtilisateur ongletUtilisateur;
@@ -57,10 +58,12 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		// Onglets : création et assemblage
 		onglets = new JTabbedPane(SwingConstants.TOP);
 		ongletCamion = new Sup_OngletCamion();
+		ongletRepartition = new Sup_OngletRepartition();
 		ongletIncident = new Sup_OngletIncident();
 		ongletRoutage = new Sup_OngletRoutage();
 		ongletUtilisateur = new Sup_OngletUtilisateur();
 		onglets.addTab("Camions",null,ongletCamion,"Gérer la liste des camions : état, disponibilités, propriétés, ...");
+		onglets.addTab("Répartition",null,ongletRepartition,"Gérer la répartition des colis par destination");
 		onglets.addTab("Incidents",null,ongletIncident,"Gérer les incidents : mise à jour, consultation des archives, ...");
 		onglets.addTab("Table de routage",null,ongletRoutage,"Gérer les tables de routage");
 		onglets.addTab("Utilisateurs",null,ongletUtilisateur,"Gérer la liste des utilisateurs : informations personnelles, droits, ...");
