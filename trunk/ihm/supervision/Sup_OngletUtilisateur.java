@@ -19,7 +19,7 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 		setOpaque(false);
 		setLayout(null);
 
-		//Liste des utilisateurs : noms des colonnes. On n'ajoute volontairement pas ID qui reste ainsi caché
+		//Liste des utilisateurs : noms des colonnes.
         nomColonnes.add("ID");
         nomColonnes.add("Login");
         nomColonnes.add("Mot de passe");

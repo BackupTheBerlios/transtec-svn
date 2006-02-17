@@ -13,7 +13,7 @@ public class Sup_OngletRoutage extends Sup_Onglet implements ActionListener{
 		setOpaque(false);
 		setLayout(null);
 
-		//Liste des destinations : noms des colonnes. On n'ajoute volontairement pas ID qui reste ainsi caché
+		//Liste des destinations : noms des colonnes.
         nomColonnes.add("Numéro");
         nomColonnes.add("Etat");
         nomColonnes.add("Volume");

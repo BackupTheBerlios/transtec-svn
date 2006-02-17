@@ -20,7 +20,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		setOpaque(false);
 		setLayout(null);
 
-		//Liste des camions : noms des colonnes. On n'ajoute volontairement ID qui reste ainsi caché
+		//Liste des camions : noms des colonnes.
 		nomColonnes.add("ID");
         nomColonnes.add("Numéro");
         nomColonnes.add("Disponibilité");

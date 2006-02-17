@@ -21,7 +21,7 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 		setOpaque(false);
 		setLayout(null);
 
-		//Liste des incidents : noms des colonnes. On n'ajoute volontairement pas ID qui reste ainsi caché
+		//Liste des incidents : noms des colonnes.
 		nomColonnes.add("ID");
         nomColonnes.add("Colis");
         nomColonnes.add("Date");
