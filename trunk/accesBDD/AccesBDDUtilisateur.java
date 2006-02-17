@@ -133,9 +133,9 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	public Utilisateur isRegistered(String login, String password)throws SQLException{
 		Utilisateur trouvee=null;
 		//A REFAIRE
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users WHERE Login=?");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users WHERE (Login=? and Password_2=?)");
 		recherche.setString(1, login);
-		//recherche.setString(1, password);
+		recherche.setString(2, password);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
