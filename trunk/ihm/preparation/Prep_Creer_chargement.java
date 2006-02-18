@@ -31,10 +31,12 @@ import javax.media.j3d.Texture2D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -45,6 +47,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.geometry.Box;
 
 import accesBDD.AccesBDDColis;
+import donnees.Camion;
 import donnees.Colis;
 import donnees.Preparation;
 
@@ -52,12 +55,13 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer");
 	private JButton ajouter=new JButton("->");
 	private Vector nomColonnes = new Vector();
-	private ModeleTable listeColis, listeChargement;
+	private ModeleTable listeColisMod, listeChargement;
 	private TableSorter sorter_colis, sorter_chargement;
-	private JTable tab;
-	private Vector donnees = new Vector();
+	private JTable listeColisTab, tab;
+	private Vector listeColis= new Vector(), donnees = new Vector();
+	private int ligneActive;
 	
-	public Prep_Creer_chargement(Preparation preparation) {
+	public Prep_Creer_chargement(Preparation preparation, Camion aCharger) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
 		
 		Container ct = this.getContentPane();
@@ -72,6 +76,12 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		ct = getContentPane();
 		ct.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
+		
+		// Création des icônes
+		ImageIcon icone_ajouter=new ImageIcon("images/icones/flech_droite_gauche.gif");
+		
+		// Insertion des icônes dans les boutons
+		ajouter.setIcon(icone_ajouter);
 		
 		// Affichage du bouton "Créer"
 		creer.setBounds(220,560,100,50);
@@ -112,28 +122,28 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		//Création du premier tableau
 		
-		listeColis = new ModeleTable(nomColonnes,donnees);
+		listeColisMod = new ModeleTable(nomColonnes,listeColis);
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter_colis = new TableSorter(listeColis);
+		sorter_colis = new TableSorter(listeColisMod);
 		// Création du tableau
-		tab = new JTable(sorter_colis);
+		listeColisTab = new JTable(sorter_colis);
 		// initialisation du Sorter
-		sorter_colis.setTableHeader(tab.getTableHeader());
+		sorter_colis.setTableHeader(listeColisTab.getTableHeader());
 	
-		tab.setAutoCreateColumnsFromModel(true);
-		tab.setOpaque(false);
-		tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(2));
-		tab.removeColumn(tab.getColumnModel().getColumn(2));
-		JScrollPane scrollPane = new JScrollPane(tab);
-		tab.setPreferredScrollableViewportSize(new Dimension(400,150));
+		listeColisTab.setAutoCreateColumnsFromModel(true);
+		listeColisTab.setOpaque(false);
+		listeColisTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(2));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(2));
+		JScrollPane scrollPane = new JScrollPane(listeColisTab);
+		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
 		scrollPane.setBounds(100,400,500,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
@@ -141,9 +151,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 
 		// Création du tableau contenant les colis que l'on veut mettre dans le chargement
 		
-		listeColis = new ModeleTable(nomColonnes,donnees);
+		listeChargement = new ModeleTable(nomColonnes,donnees);
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter_chargement = new TableSorter(listeColis);
+		sorter_chargement = new TableSorter(listeColisMod);
 		// Création du tableau
 		tab = new JTable(sorter_chargement);
 		// initialisation du Sorter
@@ -327,7 +337,23 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		//Sélection de "Créer"
 		if(source == creer){
-			dispose();
-		}		
+			
+		}
+		
+		// Ajouter un colis dans le camion
+		else if(source==ajouter){
+			ligneActive = listeColisTab.getSelectedRow();
+			if (ligneActive != -1){
+				//On récupère les données de la ligne du tableau
+				Vector cVect = (Vector) listeColisMod.getRow(ligneActive);
+				//dispose();
+				Camion camion=new Camion(cVect);
+				//Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation, camion);
+				//fen1.setVisible(true);
+			}
+			else{
+				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }

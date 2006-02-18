@@ -13,6 +13,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import donnees.Camion;
+import donnees.Entrepot;
 import donnees.Preparation;
 
 
@@ -150,22 +151,20 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création de la première ligne
 		nomColonnes_cam.add("idCamion");
-		nomColonnes_cam.add("Camion");
-		nomColonnes_cam.add("Volume restant");
-		
+		nomColonnes_cam.add("Immatriculation");
+		nomColonnes_cam.add("Disponibilité");
+		nomColonnes_cam.add("Volume");
+		nomColonnes_cam.add("Origine");
+		nomColonnes_cam.add("Destination");
+				
 //**********************APPEL A LA BDD************************************
 		
 	// Lister les camions pour cette destination
 		Camion camion=null;
 		
 		for(int i=0;i<preparation.getListeCamion().size();i++){
-			Vector courant=new Vector();
 			camion=(Camion)preparation.getListeCamion().get(i);
-			courant.add(camion.getId());
-			courant.add(camion.getNumero());
-			courant.add(camion.getVolume());
-			
-			donnees_cam.add(courant);
+			donnees_cam.add(camion.toVector());
 		}
 		
 //*******************************************************************************
@@ -183,6 +182,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		tab_cam.setAutoCreateColumnsFromModel(true);
 		tab_cam.setOpaque(false);
 		tab_cam.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
+		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(1));
+		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(2));
+		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(2));
 		
 		//Construction du JScrollPane
 		JScrollPane scrollPane = new JScrollPane(tab_cam);
@@ -206,17 +209,17 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		if (source == creer_chargement) {
 			//Si une ligne est selectionnée
-			/*if (ligneActive != -1){
+			if (ligneActive != -1){
 				//On récupère les données de la ligne du tableau
 				Vector cVect = (Vector) modeleCam.getRow(ligneActive);
 				//dispose();
-//				ATTENTION:On passe un vecteur comme argument et pas un objet camion*/
-				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
+				Camion camion=new Camion(cVect);
+				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation, camion);
 				fen1.setVisible(true);
-			/*}
+			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}*/
+			}
 		}
 		//Selection de "Gérer le chargement"
 		if (source == gerer_chargement) {

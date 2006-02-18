@@ -22,35 +22,39 @@ public class AccesBDDPersonne extends AccesBDD{
 		super();
 	}
 	
-	//----- Ajouter une personne dans la BDD -----//
+	//----- Ajouter une personne dans la BDD et retourner l'id si la personne existe déjà -----//
 	public Integer ajouter(Personne aAjouter) throws SQLException{
-		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idPersonnes) FROM Personnes");
-		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
-		resultat.next();	// Renvoie le plus grand ID
-		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
-		resultat.close();	// Fermeture requête SQL
-		rechercheMaxID.close();	// Fermeture requête SQL
+		boolean ajouter=true; // Permet d'effectuer ou non l'ajout d'une personne
 		
-		//----- Insertion d'une personne dans la BDD -----//
-		PreparedStatement ajout=connecter().prepareStatement(
-				"INSERT INTO Personnes"
-				+ " (idPersonnes,Localisation_idLocalisation,Nom,Prenom,Telephone,Email)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?)"); 
-		
-		ajout.setInt(1,aAjouter.getId().intValue());
-		// Ajout dans la table de localisation
-		ajout.setInt(2,new AccesBDDLocalisation().ajouter(aAjouter.getLocalisation()).intValue());
-		ajout.setString(3,aAjouter.getNom());
-		ajout.setString(4,aAjouter.getPrenom());
-		ajout.setString(5,aAjouter.getTelephone());
-		ajout.setString(6,aAjouter.getMail());
-		
-		ajout.executeUpdate();//execution de la requete SQL
-		
-		ajout.close();//fermeture requete SQL
-		deconnecter();
-		
+		if(ajouter==true){
+			//----- Recherche de l'identifiant le plus grand -----//
+			PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idPersonnes) FROM Personnes");
+			ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
+			resultat.next();	// Renvoie le plus grand ID
+			aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+			resultat.close();	// Fermeture requête SQL
+			rechercheMaxID.close();	// Fermeture requête SQL
+			
+			//----- Insertion d'une personne dans la BDD -----//
+			PreparedStatement ajout=connecter().prepareStatement(
+					"INSERT INTO Personnes"
+					+ " (idPersonnes,Localisation_idLocalisation,Nom,Prenom,Telephone,Email)" // Parametre de la table
+					+ " VALUES (?,?,?,?,?,?)"); 
+			
+			ajout.setInt(1,aAjouter.getId().intValue());
+			// Ajout dans la table de localisation
+			ajout.setInt(2,new AccesBDDLocalisation().ajouter(aAjouter.getLocalisation()).intValue());
+			ajout.setString(3,aAjouter.getNom());
+			ajout.setString(4,aAjouter.getPrenom());
+			ajout.setString(5,aAjouter.getTelephone());
+			ajout.setString(6,aAjouter.getMail());
+			
+			ajout.executeUpdate();//execution de la requete SQL
+			
+			ajout.close();//fermeture requete SQL
+			deconnecter();
+		}
+	
 		return aAjouter.getId();
 	}
 	
