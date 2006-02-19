@@ -206,32 +206,36 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Création d'un repère
 	    Point3f repere[]=new Point3f[4];
-	    repere[0]=new Point3f(0,0,0);
-	    repere[1]=new Point3f(2,0,0);
-	    repere[2]=new Point3f(0,0,8);
+	    repere[0]=new Point3f(-3,0,0);
+	    repere[1]=new Point3f(5,0,0);
+	    repere[2]=new Point3f(-3,0,0);
 	    repere[3]=new Point3f(0,5,0);
+	    //repere[4]=new Point3f(-3,0,0);
+	    //repere[5]=new Point3f(0,5,0);
 	    
 //	  Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
 	    // Changement de l'échelle 
-	    transform3D.setScale(0.3f);
+	    transform3D.setScale(0.1f);
 	    // Rotation
-	    transform3D.rotX(1);
-	    transform3D.rotY(1);
+	  //  transform3D.rotX(1);
+	   // transform3D.rotY(1);
 	    
 	    LineArray lineArray = new LineArray(4, LineArray.COORDINATES | 
                 LineArray.COLOR_3); 
 	    lineArray.setCoordinates(0, repere);
 	    lineArray.setColor(0,new Color3f(Color.black));
-	    lineArray.setColor(0,new Color3f(Color.black));
+	  
 	    TransformGroup objSpin=new TransformGroup(transform3D);
+	    
 	    Shape3D test=new Shape3D();
 	    test.setGeometry(lineArray);
+	    
 	    objSpin.addChild(test);
 	    parent.addChild(objSpin);
 
-
-	    /*// Construction du parallelepipede
+/*
+	    // Construction du parallelepipede
 	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
@@ -264,7 +268,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    Box cam = new Box(0.2f, 0.5f, 0.8f, apparence);
 	    objSpin.addChild(cam);
 	    parent.addChild(objSpin);
-	    */
+	   */
 	    BranchGroup scene= parent;
 	    
 	    // Compilation de la scene 3D
@@ -273,7 +277,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
 	    ct.add(camion3D);
-	    
 	    
 	    
 		setVisible(true);
