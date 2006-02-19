@@ -22,8 +22,8 @@ public class AccesBDDColis extends AccesBDD{
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO colis "
 				+ "(idColis,ModelesColis_idModelesColis,Createur,Expediteur,Destinataire,Destination,Code_barre, "
-				+"Poids,DateDepot,Valeur,Fragilite)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)"); 
+				+"Poids,DateDepot,Valeur,Fragilite, Volume)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getModele().getId().intValue());
@@ -36,6 +36,7 @@ public class AccesBDDColis extends AccesBDD{
 		ajout.setTimestamp(9, aAjouter.getDate());
 		ajout.setString(10, aAjouter.getValeurDeclaree());
 		ajout.setInt(11, aAjouter.getFragilite().intValue());
+		ajout.setInt(12, aAjouter.getVolume());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -61,7 +62,7 @@ public class AccesBDDColis extends AccesBDD{
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE colis SET "
 				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?, "
-				+"Poids=?,DateDepot=?, Valeur=?,Fragilite=?)"
+				+"Poids=?,DateDepot=?, Valeur=?,Fragilite=?, Volume=?)"
 				+" WHERE idColis=?");
 		
 		modifie.setInt(1,aModifier.getId().intValue());
@@ -75,6 +76,7 @@ public class AccesBDDColis extends AccesBDD{
 		modifie.setTimestamp(9, aModifier.getDate());
 		modifie.setString(10, aModifier.getValeurDeclaree());
 		modifie.setInt(11, aModifier.getFragilite().intValue());
+		modifie.setInt(12, aModifier.getVolume());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -106,7 +108,8 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Fragilite")),
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
-					resultat.getString("Valeur")));
+					resultat.getString("Valeur"),
+					resultat.getInt("Volume")));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -139,8 +142,8 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Fragilite")),
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
-					resultat.getString("Valeur")
-					);
+					resultat.getString("Valeur"),
+					resultat.getInt("Volume"));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -172,8 +175,8 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Fragilite")),
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
-					resultat.getString("Valeur")
-					);
+					resultat.getString("Valeur"),
+					resultat.getInt("Volume"));
 			
 	       
 		}

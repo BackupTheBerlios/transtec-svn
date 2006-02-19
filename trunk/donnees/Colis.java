@@ -21,13 +21,14 @@ public class Colis {
 	private Integer fragilite;
 	private ModeleColis modele;/////////// A VOIR
 	private String valeur_declaree;
+	private Integer volume;
 
 	// Constructeur vide
 	public Colis(){
 	}
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree){
+	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree, Integer volume){
 		this.id=id;
 		this.code_barre = code_barre;		
 		this.modele=modele;
@@ -39,9 +40,10 @@ public class Colis {
 		this.utilisateur=utilisateur;
 		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
+		this.volume=volume;
 	}
 	
-	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree){
+	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree, Integer volume){
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.fragilite=fragilite;
@@ -52,6 +54,7 @@ public class Colis {
 		this.utilisateur=utilisateur;
 		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
+		this.volume=volume;
 	}
 	
 	// Constructeur utilisant un Vector
@@ -68,6 +71,7 @@ public class Colis {
 		this.fragilite=stringToConst((String)v.get(9));
 		this.modele=(ModeleColis)v.get(10);
 		this.valeur_declaree=(String)v.get(11);	
+		this.volume=(Integer)v.get(12);	
 	}
 
 	public Vector toVector(){
@@ -85,6 +89,7 @@ public class Colis {
 		v.add(constToString(fragilite));
 		v.add(modele);
 		v.add(valeur_declaree);
+		v.add(volume);
 		return v;
 	}
 	
@@ -183,6 +188,11 @@ public class Colis {
 	// Affichage d'un Colis : on affiche son code barre
 	public String toString(){
 		return code_barre;
+	}
+	
+	// Récupération du volume du colis
+	public Integer getVolume(){
+		return this.volume;
 	}
 
 }

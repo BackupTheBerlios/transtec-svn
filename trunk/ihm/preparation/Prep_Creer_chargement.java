@@ -53,7 +53,7 @@ import donnees.Preparation;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer");
-	private JButton ajouter=new JButton("->");
+	private JButton ajouter=new JButton();
 	private Vector nomColonnes = new Vector();
 	private ModeleTable listeColisMod, listeChargement;
 	private TableSorter sorter_colis, sorter_chargement;
@@ -103,7 +103,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		nomColonnes.add("utilisateur");
 		nomColonnes.add("poids");
 		nomColonnes.add("date_envoi");
-		nomColonnes.add("modele");
+		nomColonnes.add("Volume");
 		nomColonnes.add("valeur_declaree");
 		
 		
@@ -112,7 +112,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		try{
 			Vector listeColisBDD=bddColis.listerDest(preparation.getDestination().getId());
 			for(int i=0;i<listeColisBDD.size();i++){
-				donnees.addElement(((Colis)listeColisBDD.get(i)).toVector());
+				listeColis.addElement(((Colis)listeColisBDD.get(i)).toVector());
 			}
 		}
 		catch(SQLException SQLe){
@@ -135,13 +135,24 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeColisTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(2));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(2));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
+		//listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
+		/*nomColonnes.add("id");
+		nomColonnes.add("entrepot");
+		nomColonnes.add("code_barre");
+		nomColonnes.add("expediteur");
+		nomColonnes.add("destinataire");
+		nomColonnes.add("destination");
+		nomColonnes.add("utilisateur");
+		nomColonnes.add("poids");
+		nomColonnes.add("date_envoi");
+		nomColonnes.add("Volume");
+		nomColonnes.add("valeur_declaree");*/
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
 		scrollPane.setBounds(100,400,500,150);
@@ -213,7 +224,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    //repere[4]=new Point3f(-3,0,0);
 	    //repere[5]=new Point3f(0,5,0);
 	    
-//	  Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
 	    // Changement de l'échelle 
 	    transform3D.setScale(0.1f);
