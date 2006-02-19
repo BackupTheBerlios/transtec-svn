@@ -279,67 +279,70 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		setVisible(true);
 	}
 	
-	//Fonction permettant de créer l'objet 3D
-	public void Objet3D(Container ct_tmp, float largeur, float hauteur, float profondeur){
-//		Zone 3D de la liste des colis
-		//Creation du Canvas 3D
+	//Fonction permettant de créer l'objet 3D dans le container
+	public void Objet3D(Container container, float largeur, float hauteur, float profondeur){
+		// Zone 3D de la liste des colis
 	    Canvas3D canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(100,40,400,260);
-	   // this.add(canvas3D, BorderLayout.CENTER);
-	    // Etape 4 :
+	    	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
-	    // Etape 5 :
-	    // Positionnement du point d'observation pour avoir une vue correcte de la
-	    // scene 3D
+	    
+	    // Positionnement du point d'observation pour avoir une vue correcte de la scene 3D
 	    simpleU.getViewingPlatform().setNominalViewingTransform();
-	    // Etape 6 :
-	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut
-	    // visualiser
-	    BranchGroup scene = createSceneGraph(hauteur, largeur, profondeur);
+	    
+	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut visualiser
+	    BranchGroup scene = new BranchGroup();
+	    	    
+	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    Transform3D transform3D=new Transform3D();
+	    // Changement de l'échelle 
+	    transform3D.setScale(0.1f);
+
+	    // Partie concernant l'animation du cube
+	    TransformGroup objSpin = new TransformGroup(transform3D);
+	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    Alpha rotationAlpha = new Alpha(-1, 4000);
+	    RotationInterpolator rotator = new RotationInterpolator(rotationAlpha, objSpin);
+	    BoundingSphere bounds = new BoundingSphere();
+	    rotator.setSchedulingBounds(bounds);
+	    objSpin.addChild(rotator);
+	    // Fin animation cube
+	    
+	    // Arrière plan de la scène 3D
+	    Background background = new Background(1, 1, 1);
+	    background.setColor(new Color3f(new Color(238,238,238)));
+	    background.setApplicationBounds(new BoundingBox());
+	    
+	    //Zone d'éclairage de la lumière
+	    DirectionalLight lumiereDir=new DirectionalLight();
+	    AmbientLight lumiere=new AmbientLight();
+	    lumiereDir.setColor(new Color3f(Color.cyan));
+	    lumiere.setInfluencingBounds(new BoundingBox());
+	    lumiereDir.setInfluencingBounds(new BoundingBox());
+	    
+	    // Couleur du cube
+	    Material materiau=new Material();
+	    materiau.setAmbientColor(new Color3f(Color.blue));
+	    Appearance apparence=new Appearance();
+	    apparence.setMaterial(materiau);
+	    
+	    // Ajout des paramètres à la scène
+	    scene.addChild(lumiere);
+	    scene.addChild(lumiereDir);
+	    scene.addChild(background);
+	    
+	     // Construction du cube
+	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    scene.addChild(objSpin);
 	    
 	    // Compilation de la scene 3D
 	    scene.compile();
 	    
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
-	    ct_tmp.add(canvas3D);
+	    container.add(canvas3D);
 	}
-	
-	
-	 public BranchGroup createSceneGraph(float largeur, float hauteur, float profondeur) {
-		    // Creation de l'objet parent qui contiendra tous les autres objets 3D
-		    BranchGroup parent = new BranchGroup();
-		    /************ Partie de code concernant l'animation du cube *************/
-		    /* Elle sera expliquee en details dans les chapitres relatifs aux
-		       transformations geometriques et aux animations */
-		    TransformGroup objSpin = new TransformGroup();
-		    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		    Alpha rotationAlpha = new Alpha(-1, 4000);
-		    RotationInterpolator rotator = new RotationInterpolator(rotationAlpha, objSpin);
-		    BoundingSphere bounds = new BoundingSphere();
-		    rotator.setSchedulingBounds(bounds);
-		    objSpin.addChild(rotator);
-		    /*************** Fin de la partie relative a l'animation ***************/
-		    // Arriere plan en blanc
-		    Background background = new Background(1, 1, 1);
-		    background.setColor(new Color3f(new Color(238,238,238)));
-		    background.setApplicationBounds(new BoundingBox());
-		    
-		    DirectionalLight lumiereDir=new DirectionalLight();
-		    AmbientLight lumiere=new AmbientLight();
-		    // Zone d'éclairage de la lumière
-		    lumiere.setInfluencingBounds(new BoundingBox());
-		    lumiereDir.setInfluencingBounds(new BoundingBox());
-		    
-		    parent.addChild(lumiere);
-		    parent.addChild(lumiereDir);
-		    parent.addChild(background);
-		     // Construction du parallelepipede
-		    objSpin.addChild(new Box(largeur, hauteur, profondeur, null));
-		    parent.addChild(objSpin);
-		    return parent;
-		  }
 	
 	public void actionPerformed(ActionEvent ev) {
 		

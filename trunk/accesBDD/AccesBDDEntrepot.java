@@ -132,7 +132,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 			
 			listeColis=bddColis.listerDest(new Integer(resultat.getInt("idEntrepots")));
 			for(int i=0;i<listeColis.size();i++)	volume+=((Colis)listeColis.get(i)).getModele().getVolume().intValue();
-
+			couple.add(volume);
 			liste.add(couple);
 		}
 		
