@@ -51,9 +51,9 @@ public class EcouteSouris extends JFrame implements MouseListener{
 		this.container.remove(canvas3D);
 		Colis colis=new Colis((Vector)tableauMod.getRow(tableau.getSelectedRow()));
 		Objet3D(container,
-			colis.getModele().getLargeur(),
-			colis.getModele().getProfondeur(),
-			colis.getModele().getHauteur());
+			colis.getModele().getLargeur().intValue(),
+			colis.getModele().getProfondeur().intValue(),
+			colis.getModele().getHauteur().intValue());
 		//JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 	}
 
