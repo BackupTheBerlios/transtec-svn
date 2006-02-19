@@ -184,7 +184,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		// Creation de la zone 3D correspondant au camion
 		
 		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    camion3D.setBounds(520,100,400,260);
+	    camion3D.setBounds(600,100,400,260);
 	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
@@ -323,7 +323,17 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		    /*************** Fin de la partie relative a l'animation ***************/
 		    // Arriere plan en blanc
 		    Background background = new Background(1, 1, 1);
+		    background.setColor(new Color3f(new Color(238,238,238)));
 		    background.setApplicationBounds(new BoundingBox());
+		    
+		    DirectionalLight lumiereDir=new DirectionalLight();
+		    AmbientLight lumiere=new AmbientLight();
+		    // Zone d'éclairage de la lumière
+		    lumiere.setInfluencingBounds(new BoundingBox());
+		    lumiereDir.setInfluencingBounds(new BoundingBox());
+		    
+		    parent.addChild(lumiere);
+		    parent.addChild(lumiereDir);
 		    parent.addChild(background);
 		     // Construction du parallelepipede
 		    objSpin.addChild(new Box(largeur, hauteur, profondeur, null));
