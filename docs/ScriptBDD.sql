@@ -6,7 +6,6 @@ CREATE TABLE ModelesColis (
   largeur INTEGER UNSIGNED NULL,
   Profondeur INTEGER UNSIGNED NULL,
   Diametre INTEGER UNSIGNED NULL,
-  Volume FLOAT NULL,
   PRIMARY KEY(idModelesColis)
 );
 
@@ -92,6 +91,7 @@ CREATE TABLE Colis (
   DateDepot DATETIME NULL,
   Valeur CHAR(20) NULL,
   Fragilite INTEGER UNSIGNED NULL,
+  Volume INTEGER NOT NULL,
   PRIMARY KEY(idColis),
   INDEX Colis_FKIndex1(ModelesColis_idModelesColis),
   INDEX Colis_FKIndex2(Destination),
@@ -212,15 +212,15 @@ CREATE TABLE Prep_Camions(
       ON UPDATE NO ACTION
 );
 
-INSERT INTO `modelescolis` VALUES (1, 0, 0, 20, 20, 20, 0, 0);
-INSERT INTO `modelescolis` VALUES (2, 0, 1, 40, 40, 40, 0, 0);
-INSERT INTO `modelescolis` VALUES (3, 0, 2, 60, 60, 60, 0, 0);
-INSERT INTO `modelescolis` VALUES (4, 1, 0, 20, 60, 20, 0, 0);
-INSERT INTO `modelescolis` VALUES (5, 1, 1, 60, 80, 100, 0, 0);
-INSERT INTO `modelescolis` VALUES (6, 1, 2, 30, 60, 40, 0, 0);
-INSERT INTO `modelescolis` VALUES (7, 2, 0, 80, 20, 20, 0, 0);
-INSERT INTO `modelescolis` VALUES (8, 2, 1, 40, 10, 10, 0, 0);
-INSERT INTO `modelescolis` VALUES (9, 2, 2, 100, 40, 40, 0, 0);
+INSERT INTO `modelescolis` VALUES (1, 0, 0, 20, 20, 20, 0);
+INSERT INTO `modelescolis` VALUES (2, 0, 1, 40, 40, 40, 0);
+INSERT INTO `modelescolis` VALUES (3, 0, 2, 60, 60, 60, 0);
+INSERT INTO `modelescolis` VALUES (4, 1, 0, 20, 60, 20, 0);
+INSERT INTO `modelescolis` VALUES (5, 1, 1, 60, 80, 100, 0);
+INSERT INTO `modelescolis` VALUES (6, 1, 2, 30, 60, 40, 0);
+INSERT INTO `modelescolis` VALUES (7, 2, 0, 80, 20, 20, 0);
+INSERT INTO `modelescolis` VALUES (8, 2, 1, 40, 10, 10, 0);
+INSERT INTO `modelescolis` VALUES (9, 2, 2, 100, 40, 40, 0);
 
 INSERT INTO `entrepots` VALUES (1, 8, '06-15-11-31-30');
 INSERT INTO `entrepots` VALUES (2, 9, '06-15-11-31-30');
@@ -258,6 +258,6 @@ INSERT INTO `preparation` VALUES (2, 1, 3, 0, 450);
 INSERT INTO `camions` VALUES (1, 'gtgdsdsd', 1, 250, 1, 2);
 INSERT INTO `camions` VALUES (2, 'uyuiiyiu', 1, 350, 3, 2);
 
-INSERT INTO `colis` VALUES (1, 1, 2, 1, 2, 2, 'vjv2454kjnhjkhj', 50, '2006-02-01 17:33:20', '5000', 2);
-INSERT INTO `colis` VALUES (2, 1, 2, 3, 4, 2, 'tonCulJulien', 150, '2006-01-10 17:34:56', '14000', 3);
+INSERT INTO `colis` VALUES (1, 1, 2, 1, 2, 2, 'vjv2454kjnhjkhj', 50, '2006-02-01 17:33:20', '5000', 2,10);
+INSERT INTO `colis` VALUES (2, 1, 2, 3, 4, 2, 'tonCulJulien', 150, '2006-01-10 17:34:56', '14000', 3,10);
 
