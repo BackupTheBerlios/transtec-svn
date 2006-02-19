@@ -22,11 +22,18 @@ public class AccesBDDPersonne extends AccesBDD{
 		super();
 	}
 	
-	//----- Ajouter une personne dans la BDD et retourner l'id si la personne existe déjà -----//
-	public Integer ajouter(Personne aAjouter) throws SQLException{
-		boolean ajouter=true; // Permet d'effectuer ou non l'ajout d'une personne
+	//----- Ajouter une personne dans la BDD -----//
+	public Personne ajouter(Personne aAjouter) throws SQLException{
+		// Recherche si la personne existe déjà dans la BDD
+		Personne aVerifier=personneExist(aAjouter);
+		// Si elle exite déjà on ne l'ajouter pas
+		if(aVerifier!=null){
+			// On ne l'ajoutera pas
+			aAjouter=aVerifier;
+		}
 		
-		if(ajouter==true){
+		// Si elle n'existe pas encore on l'ajouter
+		else{
 			//----- Recherche de l'identifiant le plus grand -----//
 			PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idPersonnes) FROM Personnes");
 			ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
@@ -55,7 +62,7 @@ public class AccesBDDPersonne extends AccesBDD{
 			deconnecter();
 		}
 	
-		return aAjouter.getId();
+		return aAjouter;
 	}
 	
 	//----- Recherche d'une personne dans la BDD -----//
@@ -216,6 +223,40 @@ public class AccesBDDPersonne extends AccesBDD{
 		// La suppression de la localisation se fera automatiquement suite à la configuration de la BDD
 		supprime.close();//fermeture requete SQL
 		deconnecter();
+	}
+	
+	// Permet de vérifier si la personne existe déjà dans la BDD
+	// Ajouter éventuellement cas ou personnes identiques???? et non localisation
+	public Personne personneExist(Personne personne) throws SQLException{
+		Personne aVerifier=personne;
+		PreparedStatement recherche=connecter().prepareStatement("SELECT idPersonnes,Localisation_idLocalisation "
+				+"FROM Personnes "
+				+"WHERE Nom=?, Prenom=?, Telephone=?, Email=?");
+		recherche.setString(1, aVerifier.getNom());
+		recherche.setString(1, aVerifier.getPrenom());
+		recherche.setString(1, aVerifier.getTelephone());
+		recherche.setString(1, aVerifier.getMail());
+		
+		// On recherche si une personne correspond à celle passée en paramètre dans la BDD
+		ResultSet resultat=recherche.executeQuery();
+		
+		if(resultat.next()){
+			// On vérifie si la localisation est également identique
+			Localisation localisation=new AccesBDDLocalisation().rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
+			// Si oui on rempli tous les id
+			if(localisation.equals(aVerifier.getLocalisation())){
+				aVerifier.getLocalisation().setId(localisation.getId());
+				aVerifier.setId(new Integer(resultat.getInt("idPersonnes")));
+			}
+			else aVerifier=null;
+		}
+		else aVerifier=null;
+		
+		resultat.close();
+		recherche.close();
+		deconnecter();
+		
+		return aVerifier;
 	}
 
 	//----- TEST OKAY SAUF RECHERCHER (ID OKAY) ENCORE SUPPRIMER LES SOUS TABLES-----//

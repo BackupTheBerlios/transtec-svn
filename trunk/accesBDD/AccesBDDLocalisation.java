@@ -133,6 +133,7 @@ public class AccesBDDLocalisation extends AccesBDD{
 		deconnecter();
 	}
 	
+	
 	//----- TESTS OKAY-----//
 	/*public static void main(String arg[]){
 		AccesBDDLocalisation test=new AccesBDDLocalisation();

@@ -31,7 +31,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout dans la table personne
-		ajout.setInt(2,new AccesBDDPersonne().ajouter(aAjouter.getPersonne()).intValue());
+		ajout.setInt(2,new AccesBDDPersonne().ajouter(aAjouter.getPersonne()).getId().intValue());
 		ajout.setString(3,aAjouter.getLogin());
 		ajout.setString(4,aAjouter.getMotDePasse());
 		ajout.setInt(5,aAjouter.getType().intValue());
