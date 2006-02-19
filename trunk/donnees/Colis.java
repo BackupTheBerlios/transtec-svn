@@ -182,6 +182,10 @@ public class Colis {
 		return this.destination;
 	}
 	
+	// Récupération du volume du colis
+	public Integer getVolume(){
+		return this.volume;
+	}	
 	
 	/****** Redéfinition de méthodes génériques ******/
 	
@@ -189,10 +193,4 @@ public class Colis {
 	public String toString(){
 		return code_barre;
 	}
-	
-	// Récupération du volume du colis
-	public Integer getVolume(){
-		return this.volume;
-	}
-
 }

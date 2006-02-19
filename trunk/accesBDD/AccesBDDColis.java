@@ -3,6 +3,7 @@ package accesBDD;
 import java.sql.*;
 import java.util.Vector;
 import donnees.Colis;
+import donnees.Entrepot;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -22,7 +23,7 @@ public class AccesBDDColis extends AccesBDD{
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO colis "
 				+ "(idColis,ModelesColis_idModelesColis,Createur,Expediteur,Destinataire,Destination,Code_barre, "
-				+"Poids,DateDepot,Valeur,Fragilite, Volume)" // Parametre de la table
+				+"Poids,DateDepot,Valeur,Fragilite,Volume)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
@@ -36,7 +37,7 @@ public class AccesBDDColis extends AccesBDD{
 		ajout.setTimestamp(9, aAjouter.getDate());
 		ajout.setString(10, aAjouter.getValeurDeclaree());
 		ajout.setInt(11, aAjouter.getFragilite().intValue());
-		ajout.setInt(12, aAjouter.getVolume());
+		ajout.setInt(12, aAjouter.getVolume().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -76,7 +77,7 @@ public class AccesBDDColis extends AccesBDD{
 		modifie.setTimestamp(9, aModifier.getDate());
 		modifie.setString(10, aModifier.getValeurDeclaree());
 		modifie.setInt(11, aModifier.getFragilite().intValue());
-		modifie.setInt(12, aModifier.getVolume());
+		modifie.setInt(12, aModifier.getVolume().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -109,7 +110,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur"),
-					resultat.getInt("Volume")));
+					new Integer(resultat.getInt("Volume"))));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -143,7 +144,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur"),
-					resultat.getInt("Volume"));
+					new Integer(resultat.getInt("Volume")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -176,9 +177,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
 					resultat.getString("Valeur"),
-					resultat.getInt("Volume"));
-			
-	       
+					new Integer(resultat.getInt("Volume")));	       
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -204,6 +203,35 @@ public class AccesBDDColis extends AccesBDD{
 		deconnecter();
 		
 		return trouvee;
+	}
+	
+	// Permet de lister tous les entrepots et le volume des colis a expédier
+	// Attention cas ou colis appartenant à un chargement pas encor gérer!!!!!!
+	public Vector VolumeDestination() throws SQLException{
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+		//AccesBDDColis bddColis=new AccesBDDColis();
+		Vector liste=new Vector(), couple=null, listeColis=null;
+		int volume;
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM entrepots");
+		ResultSet resultat=recherche.executeQuery();
+		
+		while(resultat.next()){
+			volume=0;
+			couple=new Vector();
+			couple.add(bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))));
+			
+			//listeColis=bddColis.listerDest(new Integer(resultat.getInt("idEntrepots")));
+			//for(int i=0;i<listeColis.size();i++)	volume+=((Colis)listeColis.get(i)).getModele().getVolume().intValue();
+			couple.add(new Integer(resultat.getInt("Volume")));
+			liste.add(couple);
+		}
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
+		
+		return liste;
 	}
 	
 	//----- TESTES OKAY -----//
