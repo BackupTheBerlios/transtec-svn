@@ -195,7 +195,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane_chargement);
 		
 		//Ajout d'un objet 3D
-		new EcouteSouris(listeColisTab, ct, listeColisMod, Objet3D(ct, 0.5f, 0.6f, 0.3f));
+		
+		Objet3D(ct, 0.5f, 0.6f, 0.3f);
 		
 		
 		// Creation de la zone 3D correspondant au camion
@@ -368,6 +369,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
 	    container.add(canvas3D);
+	    container.repaint();
+	    
+	    /*//TEST
+	    JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+	    scene.removeAllChildren();
+	    scene.compile();
+	    simpleU.addBranchGraph(scene);
+	    container.repaint();*/
 	    return canvas3D;
 	}
 	
