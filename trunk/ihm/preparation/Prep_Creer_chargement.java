@@ -29,6 +29,8 @@ import javax.media.j3d.Geometry;
 import javax.media.j3d.LineArray;
 import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
+import javax.media.j3d.QuadArray;
+import javax.media.j3d.RenderingAttributes;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Texture2D;
@@ -45,6 +47,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.vecmath.Color3f;
+import javax.vecmath.Color4f;
 import javax.vecmath.Point3f;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -200,7 +203,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		
 		// Creation de la zone 3D correspondant au camion
-		
 		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    camion3D.setBounds(700,100,400,260);
 	    
@@ -213,7 +215,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut
 	    // visualiser
-	    
 	    BranchGroup parent = new BranchGroup();
 	    
 	    // Arriere plan en blanc
@@ -222,81 +223,88 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    background.setApplicationBounds(new BoundingBox());
 	    parent.addChild(background);
 	    
-	    // Création d'un repère
-	    Point3f repere[]=new Point3f[2];
-	   // repere[0]=new Point3f(-0.8f,0,0);
-	   // repere[1]=new Point3f(0.2f,0,0);
-	   // repere[2]=new Point3f(-0.8f,0,0);
-	   // repere[3]=new Point3f(0,0.5f,0);
-	    repere[0]=new Point3f(-0.8f,0,0);
-	    repere[1]=new Point3f(0.5f,0,0);
-	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
-	    // Changement de l'échelle 
-	    //transform3D.setScale(0.1f);
+	    
 	    // Rotation
-	  // transform3D.rotX(1);
-	   // transform3D.rotY(0.1);
-	
+	    transform3D.rotY(-0.4f);
 	    
-	    LineArray lineArray = new LineArray(2, LineArray.COORDINATES | 
-                LineArray.COLOR_3); 
-	    lineArray.setCoordinates(0, repere);
-	    lineArray.setColor(0,new Color3f(Color.black));
-	  
-	    TransformGroup objSpin=new TransformGroup(transform3D);
-	    
-	    Shape3D test=new Shape3D();
-	    test.setGeometry(lineArray);
-	    
-	    objSpin.addChild(test);
-	    parent.addChild(objSpin);
-
-/*
-	    // Construction du parallelepipede
-	    
-	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
-	    Transform3D transform3D=new Transform3D();
-	    // Changement de l'échelle 
-	    transform3D.setScale(0.3f);
-	    // Rotation
-	    transform3D.rotX(1);
-	    transform3D.rotY(1);
-	    
+	    //Nouvel objet
 	    TransformGroup objSpin = new TransformGroup(transform3D);
-	    // Couleur de l'objet 3D
-	    Material materiau=new Material();
-	    materiau.setAmbientColor(new Color3f(Color.blue));
 	    
-	    DirectionalLight lumiereDir=new DirectionalLight();
-	    AmbientLight lumiere=new AmbientLight();
-	    // Zone d'éclairage de la lumière
-	    lumiere.setInfluencingBounds(new BoundingBox());
-	    lumiereDir.setInfluencingBounds(new BoundingBox());
-	    // Ajout de lalumière dans le système
-	    parent.addChild(lumiere);
-	    parent.addChild(lumiereDir);
+	    //Affichage du camion
+	    PolygonAttributes pol = new PolygonAttributes();
+	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);
+	    pol.setCullFace(PolygonAttributes.CULL_NONE);
 	    
-	    TransparencyAttributes transparence=new TransparencyAttributes();
-	    transparence.setTransparency(0.5f);
-	    transparence.setTransparencyMode(TransparencyAttributes.NICEST);
+	    //Création d'une apparence
 	    Appearance apparence=new Appearance();
-	    apparence.setMaterial(materiau);
-	    apparence.setTransparencyAttributes(transparence);
-	    Box cam = new Box(0.2f, 0.5f, 0.8f, apparence);
-	    objSpin.addChild(cam);
+	    apparence.setPolygonAttributes(pol);
+	    
+//*********************************CREATION DU CUBE*****************************************//
+	    
+	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
+	    // Face 1
+	    Point3f face1_s1 = new Point3f(-0.5f, 0.5f, 0.5f);
+	    Point3f face1_s2 = new Point3f(-0.5f, -0.5f, 0.5f);
+	    Point3f face1_s3 = new Point3f( 0.5f, -0.5f, 0.5f);
+	    Point3f face1_s4 = new Point3f( 0.5f, 0.5f, 0.5f);
+	    // Face 2
+	    Point3f face2_s1 = new Point3f( 0.5f, 0.5f, 0.5f);
+	    Point3f face2_s2 = new Point3f( 0.5f, -0.5f, 0.5f);
+	    Point3f face2_s3 = new Point3f( 0.5f, -0.5f, -0.5f);
+	    Point3f face2_s4 = new Point3f( 0.5f, 0.5f, -0.5f);
+	    // Face 3
+	    Point3f face3_s1 = new Point3f( 0.5f, 0.5f, -0.5f);
+	    Point3f face3_s2 = new Point3f( 0.5f, -0.5f, -0.5f);
+	    Point3f face3_s3 = new Point3f(-0.5f, -0.5f, -0.5f);
+	    Point3f face3_s4 = new Point3f(-0.5f, 0.5f, -0.5f);
+	    // Face 4
+	    Point3f face4_s1 = new Point3f(-0.5f, 0.5f, -0.5f);
+	    Point3f face4_s2 = new Point3f(-0.5f, -0.5f, -0.5f);
+	    Point3f face4_s3 = new Point3f(-0.5f, -0.5f, 0.5f);
+	    Point3f face4_s4 = new Point3f(-0.5f, 0.5f, 0.5f);
+	    // Les couleurs des 4 faces visibles du cube
+	    Color4f color1 = new Color4f(Color.darkGray);
+	    // Construction de l'objet geometrique QuadArray constitue de 16
+	    // points
+	    QuadArray quadArray = new QuadArray(16,
+	                                        QuadArray.COORDINATES | QuadArray.COLOR_4);
+	    // Tableau des points constituant les 4 faces (quadrilateres) qui
+	    // sont visibles
+	    quadArray.setCoordinates(0, new Point3f[] {
+	    /* face 1 */             face1_s1, face1_s2, face1_s3, face1_s4,
+	    /* face 2 */             face2_s1, face2_s2, face2_s3, face2_s4,
+	    /* face 3 */             face3_s1, face3_s2, face3_s3, face3_s4,
+	    /* face 4 */             face4_s1, face4_s2, face4_s3, face4_s4
+	    });
+	    // Tableau des couleurs des 4 sommets de chaque face
+	    quadArray.setColors(0, new Color4f[] {
+	    /* couleur face 1 */ color1, color1, color1, color1,
+	    /* couleur face 2 */ color1, color1, color1, color1,
+	    /* couleur face 3 */ color1, color1, color1, color1,
+	    /* couleur face 4 */ color1, color1, color1, color1
+	    });
+	    
+//******************************************************************************************//	    
+	    
+	    //Création du shade3D
+	    Shape3D shape = new Shape3D();
+	    shape.setGeometry(quadArray);
+	    shape.setAppearance(apparence);
+	    
+	    //Ajout de l'objet crée
+	    objSpin.addChild(shape);
 	    parent.addChild(objSpin);
-	   */
-	    BranchGroup scene= parent;
 	    
 	    // Compilation de la scene 3D
-	    scene.compile();
+	    parent.compile();
 	    
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
-	    simpleU.addBranchGraph(scene);
-	    ct.add(camion3D);
+	    simpleU.addBranchGraph(parent);
 	    
+	    //Ajout au container
+	    ct.add(camion3D);
 	    
 		setVisible(true);
 	}
