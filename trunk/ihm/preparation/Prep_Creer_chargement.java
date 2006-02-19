@@ -103,9 +103,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		nomColonnes.add("utilisateur");
 		nomColonnes.add("poids");
 		nomColonnes.add("date_envoi");
-		nomColonnes.add("Volume");
+		nomColonnes.add("Modele");
 		nomColonnes.add("valeur_declaree");
-		
+		nomColonnes.add("Volume");
 		
 		// Acces BDD pour récupération liste des colis pour la destination donnée
 		AccesBDDColis bddColis=new AccesBDDColis();
@@ -139,20 +139,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(1));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(2));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
-		//listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
-		/*nomColonnes.add("id");
-		nomColonnes.add("entrepot");
-		nomColonnes.add("code_barre");
-		nomColonnes.add("expediteur");
-		nomColonnes.add("destinataire");
-		nomColonnes.add("destination");
-		nomColonnes.add("utilisateur");
-		nomColonnes.add("poids");
-		nomColonnes.add("date_envoi");
-		nomColonnes.add("Volume");
-		nomColonnes.add("valeur_declaree");*/
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
 		scrollPane.setBounds(100,400,500,150);

@@ -8,15 +8,14 @@ public class ModeleColis {
 	private Integer hauteur;
 	private Integer largeur;
 	private Integer profondeur;
-	private Integer diametre;	
-	private Integer volume;// en cm3
+	private Integer diametre;
 	
 	// Constantes définissant la forme du colis
 	public final static int PAVE=0;
 	public final static int CYLINDRE=1;
 	
 	// Constructeur avec tous les paramètres
-	public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre,Integer volume){
+	public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre){
 		this.id=id;
 		this.forme=forme;
 		this.modele=modele;
@@ -24,7 +23,6 @@ public class ModeleColis {
 		this.largeur=largeur;
 		this.profondeur=profondeur;
 		this.diametre=diametre;
-		this.volume=volume;
 	}
 	
 	public void setId(Integer id){

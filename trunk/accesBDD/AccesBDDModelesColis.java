@@ -61,9 +61,7 @@ public class AccesBDDModelesColis extends AccesBDD{
 					new Integer(resultat.getInt("hauteur")),
 					new Integer(resultat.getInt("largeur")),
 					new Integer(resultat.getInt("Profondeur")),
-					new Integer(resultat.getInt("Diametre")),
-					new Integer(resultat.getInt("Volume"))
-					);
+					new Integer(resultat.getInt("Diametre")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
