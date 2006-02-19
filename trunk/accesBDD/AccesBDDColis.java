@@ -70,33 +70,29 @@ public class AccesBDDColis extends AccesBDD{
 	//----- Modifier les informations d'un colis -----//
 	public void modifier(Colis aModifier) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
-		
-		// Préparation de la requête SQL
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE colis SET "
-				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?, "
-				+"Poids=?,DateDepot=?, Valeur=?,Fragilite=?, Volume=?)"
-				+" WHERE idColis=?");
+				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?,Poids=?,DateDepot=?, Valeur=?,Fragilite=?"
+				+"WHERE idColis=?");
 		
-		modifie.setInt(1,aModifier.getId().intValue());
-		modifie.setInt(2,aModifier.getModele().getId().intValue());
-		modifie.setInt(3,aModifier.getUtilisateur().getId().intValue());
-		modifie.setInt(4,aModifier.getExpediteur().getId().intValue());
-		modifie.setInt(5,aModifier.getDestinataire().getId().intValue());
-		modifie.setInt(6,aModifier.getDestination().getId().intValue());
-		modifie.setString(7,aModifier.getCode_barre());
-		modifie.setInt(8,aModifier.getPoids().intValue());
-		modifie.setTimestamp(9, aModifier.getDate());
-		modifie.setString(10, aModifier.getValeurDeclaree());
-		modifie.setInt(11, aModifier.getFragilite().intValue());
-		modifie.setInt(12, aModifier.getVolume().intValue());
+		
+		modifie.setInt(1,aModifier.getModele().getId().intValue());
+		modifie.setInt(2,aModifier.getUtilisateur().getId().intValue());
+		modifie.setInt(3,aModifier.getExpediteur().getId().intValue());
+		modifie.setInt(4,aModifier.getDestinataire().getId().intValue());
+		modifie.setInt(5,aModifier.getDestination().getId().intValue());
+		modifie.setString(6,aModifier.getCode_barre());
+		modifie.setInt(7,aModifier.getPoids().intValue());
+		modifie.setTimestamp(8, aModifier.getDate());
+		modifie.setString(9, aModifier.getValeurDeclaree());
+		modifie.setInt(10, aModifier.getFragilite().intValue());
+		modifie.setInt(11,aModifier.getId().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//Recherche dans personne has_colis, mais est-ce nécéssaire
 						
-		// Fermeture des connexions
-		modifie.close();
+		modifie.close();	// Fermeture requête SQL
 		deconnecter();
 	}
 		
@@ -226,6 +222,7 @@ public class AccesBDDColis extends AccesBDD{
 		
 		return trouvee;
 	}
+	
 	
 	// Permet de lister le volume lié à chaque destination
 	// Attention cas ou colis appartenant à un chargement pas encor géré!!!!!!

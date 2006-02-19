@@ -43,6 +43,31 @@ public class AccesBDDModelesColis extends AccesBDD{
 		return aAjouter.getId().intValue();
 	}
 	
+	public void modifier(ModeleColis aModifier) throws SQLException{
+		//----- Modification de la localisation à partir de l'id -----//
+		PreparedStatement modifie=connecter().prepareStatement(
+				"UPDATE modelescolis SET "
+				+"Forme =?,Modele =?,hauteur =?,largeur =?,Profondeur =?,Diametre =?,Volume =?"
+				+"WHERE idModelesColis =?");
+		
+		
+		modifie.setInt(1,aModifier.getForme().intValue());
+		modifie.setInt(2,aModifier.getModele().intValue());
+		modifie.setInt(3,aModifier.getHauteur().intValue());
+		modifie.setInt(4,aModifier.getLargeur().intValue());
+		modifie.setInt(5,aModifier.getProfondeur().intValue());
+		modifie.setInt(6,aModifier.getDiametre().intValue());
+		//modifie.setInt(7,aModifier.getVolume().intValue());
+		modifie.setInt(7,aModifier.getId().intValue());
+
+		modifie.executeUpdate();	// Exécution de la requête SQL
+		
+		//Recherche dans personne has_colis, mais est-ce nécéssaire
+						
+		modifie.close();	// Fermeture requête SQL
+		deconnecter();
+	}
+	
 	public ModeleColis rechercher(Integer aChercher) throws SQLException{
 		ModeleColis trouvee=null;
 		//AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
