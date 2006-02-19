@@ -130,7 +130,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 				resultat.getString("telephone"),
 				bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")))));
 			
-			listeColis=bddColis.listerDest(resultat.getInt("idEntrepots"));
+			listeColis=bddColis.listerDest(new Integer(resultat.getInt("idEntrepots")));
 			for(int i=0;i<listeColis.size();i++)	volume+=((Colis)listeColis.get(i)).getModele().getVolume().intValue();
 
 			liste.add(couple);
