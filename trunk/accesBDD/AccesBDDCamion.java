@@ -79,8 +79,8 @@ public class AccesBDDCamion extends AccesBDD{
 		return liste;
 	}
 	
-	//----- Liste les camions en fonction de leurs états
-	public Vector lister(int etat) throws SQLException{
+	//----- Liste les camions en fonction de leur état
+	public Vector listerParEtat(int etat) throws SQLException{
 		Vector liste=new Vector();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Etat=?");
