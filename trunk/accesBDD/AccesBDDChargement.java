@@ -117,6 +117,34 @@ public class AccesBDDChargement extends AccesBDD{
 		return liste;
 	}
 	
+	public Chargement rechercher(Integer codeBarre) throws SQLException{
+		Chargement chargement=null;
+		AccesBDDCamion bddCamion=new AccesBDDCamion();
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement WHERE CodeBarre=?");
+		recherche.setInt(1, codeBarre.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){
+			chargement=new Chargement(
+				new Integer(resultat.getInt("idChargement")),
+				bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
+				new Integer(resultat.getInt("NbColis")),
+				new Integer("VolChargement"),
+				bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
+				resultat.getTimestamp("DateCreation"),
+				new Integer(resultat.getInt("CodeBarre")));
+		}
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
+		
+		return chargement;
+	}
+	
 	public static void main(String arg[]){
 		/*AccesBDDChargement test=new AccesBDDChargement();
 		ConnecteurSQL connecteur = new ConnecteurSQL();
