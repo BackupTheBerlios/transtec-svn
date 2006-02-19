@@ -100,11 +100,11 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	        }
 	        
 	        // On récupère les Destinations des colis et on les affiche avec le volume correspondant
-	        /*Vector listeDestinations = tableColis.listerDestVolume();
+	        Vector listeDestinations = tableColis.volumeDestination();
 	        
 	        for(int i=0;i<listeDestinations.size();i++){
 	        	donneesDestinations.addElement((listeDestinations.get(i)));
-	        }*/
+	        }
        }
         catch(Exception e){
         	System.out.println(e.getMessage());

@@ -3,7 +3,6 @@ package accesBDD;
 import java.sql.*;
 import java.util.Vector;
 import donnees.Colis;
-import donnees.Entrepot;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -213,7 +212,7 @@ public class AccesBDDColis extends AccesBDD{
 		Vector liste=new Vector(), couple=null, listeColis=null;
 		int volume;
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT SUM(Volume) FROM colis GROUP BY Destination");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT Destination,SUM(Volume) Volume FROM colis GROUP BY Destination");
 		ResultSet resultat=recherche.executeQuery();
 		
 		while(resultat.next()){
