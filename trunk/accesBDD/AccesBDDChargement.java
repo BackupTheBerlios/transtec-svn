@@ -39,7 +39,7 @@ public class AccesBDDChargement extends AccesBDD{
 		ajout.setFloat(4, aAjouter.getVolChargement().intValue());
 		ajout.setTimestamp(5, aAjouter.getDate());
 		ajout.setInt(6, aAjouter.getUtilisateur().getId().intValue());
-		ajout.setInt(7, aAjouter.getCodeBarre());
+		ajout.setInt(7, aAjouter.getCodeBarre().intValue());
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close(); //fermeture requete SQL
