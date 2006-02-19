@@ -1,8 +1,19 @@
 package ihm.entree;
 
-import java.awt.*;
-import java.awt.event.*; 
-import javax.swing.*;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+//import java.awt.*;
+//import java.awt.event.*; 
+//import javax.swing.*;
 
 import java.util.*;
 import java.text.DateFormat;
@@ -20,7 +31,7 @@ import java.sql.Timestamp;
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
 
-	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,Entree_Fenetre_colis fenetre)
+	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,Entree_Fenetre_colis fenetre,boolean inc_auto)
 	{
 		colis = col;
 		utilis = user;
@@ -97,7 +108,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.add(annuler_incident);
 		annuler_incident.addActionListener(this);
 		
-		// Si on 
+		// Si on veut voir les infos sur l'incident
 		if ( incident != null){
 			
 			setTitle("Informations sur l'incident");
@@ -108,16 +119,24 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			annuler_incident.setBounds(125,240,100,25);
 			date.setText(incident.getDate().toLocaleString());
 			donnees_description.setText(incident.getDescription());
-			setBounds(292,200,360,310);
+			setBounds(292,200,370,310);
 			AccesBDDUtilisateur test=new AccesBDDUtilisateur();
 			try{
 				utilis = test.rechercher(incident.getUtilisateur().getId());
+				utilisateur.setText(utilis.getPersonne().getNom());
 				
 			}
 			catch(SQLException e2){
 				System.out.println(e2.getMessage());
 			}
-			utilisateur.setText(utilis.getLogin());
+			
+		}
+		//Lors de la création d'un incident automatique
+		if (inc_auto == true){
+			envoie_stockage.setVisible(false);
+			valider_incident.setText("Créer l'incident");
+			setBounds(292,200,370,335);
+			annuler_incident.setBounds(125,265,100,25);
 			
 		}
 		

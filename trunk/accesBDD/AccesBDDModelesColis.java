@@ -25,8 +25,8 @@ public class AccesBDDModelesColis extends AccesBDD{
 		//----- Insertion d'une personne dans la BDD -----//
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO modelescolis"
-				+ " (idModelesColis,Forme,Modele,hauteur,largeur,Profondeur,Diametre,Volume)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?)"); 
+				+ " (idModelesColis,Forme,Modele,hauteur,largeur,Profondeur,Diametre)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getForme().intValue());
@@ -35,7 +35,7 @@ public class AccesBDDModelesColis extends AccesBDD{
 		ajout.setInt(5,aAjouter.getLargeur().intValue());
 		ajout.setInt(6,aAjouter.getProfondeur().intValue());
 		ajout.setInt(7,aAjouter.getDiametre().intValue());
-		ajout.setInt(8,aAjouter.calculerVolume().intValue());
+		//ajout.setInt(8,aAjouter.calculerVolume().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -47,7 +47,7 @@ public class AccesBDDModelesColis extends AccesBDD{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE modelescolis SET "
-				+"Forme =?,Modele =?,hauteur =?,largeur =?,Profondeur =?,Diametre =?,Volume =?"
+				+"Forme =?,Modele =?,hauteur =?,largeur =?,Profondeur =?,Diametre =?"
 				+"WHERE idModelesColis =?");
 		
 		

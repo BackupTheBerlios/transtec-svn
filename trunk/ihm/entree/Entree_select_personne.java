@@ -3,14 +3,28 @@ package ihm.entree;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.Vector;
 import accesBDD.*;
 
-import javax.swing.*;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+
+import donnees.Incident;
 import donnees.Personne;
 
 public class Entree_select_personne extends JFrame implements ActionListener, ItemListener{
@@ -232,7 +246,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 1:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.NOM,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.NOM,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -248,7 +262,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 2:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.PRENOM,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.PRENOM,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -264,7 +278,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 3:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.ADRESSE,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.ADRESSE,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -278,9 +292,12 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 				
 				break;
 			case 4:
+				boolean noerreur = verifChamps();
+				if (noerreur ==true)
+				{
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.CODEPOSTAL,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.CODEPOSTAL,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -291,12 +308,13 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		        catch(SQLException e2){
 		        	System.out.println(e2.getMessage());
 		        }
+				}
 				
 				break;
 			case 5:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.VILLE,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.VILLE,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -312,7 +330,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 6:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.EMAIL,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.EMAIL,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -328,7 +346,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 7:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.TELEPHONE,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.TELEPHONE,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -350,6 +368,24 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		
 		
 	
+	}
+	private boolean verifChamps(){
+		boolean ret = false;		
+		boolean erreurCP = false;
+		
+		try{
+			new Integer(donnees_recherche.getText().trim());
+		}
+		catch(NumberFormatException e){
+			erreurCP = true;
+		}
+		
+		if (erreurCP ==true){
+			JOptionPane.showMessageDialog(this,"Le champs Code postal est mal renseigné.","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+			
+		}
+		else ret = true;
+		return ret;
 	}
 	
 }
