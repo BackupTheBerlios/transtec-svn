@@ -25,6 +25,7 @@ public class ModeleColis {
 		this.diametre=diametre;
 	}
 	
+	
 	public void setId(Integer id){
 		this.id=id;
 	}

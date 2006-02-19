@@ -19,6 +19,15 @@ public class Personne{
 		this.mail=mail;
 		this.telephone=telephone;
 	}
+	public Personne(Integer id, String nom, String prenom,Integer id_loc,String adresse, String codePostal, String ville, String mail, String telephone){
+		this.id=id;
+		this.nom=nom;
+		this.prenom=prenom;
+		this.localisation=new Localisation(id_loc,adresse, codePostal, ville);
+		this.mail=mail;
+		this.telephone=telephone;
+	}
+	
 
 	// Constructeur utilisant une instance de Localisation
 	public Personne(String nom, String prenom, String mail, String telephone, Localisation localisation){
