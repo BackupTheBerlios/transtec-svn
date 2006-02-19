@@ -36,18 +36,20 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	private Container container=null;
 	private ModeleTable tableauMod=null;
 	private JTable tableau=null;
+	private Canvas3D canvas3D=null;
 	
-	public EcouteSouris(JTable tableau, Container container, ModeleTable tableauMod){
+	public EcouteSouris(JTable tableau, Container container, ModeleTable tableauMod, Canvas3D canvas3D){
 		super();
 		this.tableau=tableau;
 		this.tableau.addMouseListener(this);
 		this.container=container;
 		this.tableauMod=tableauMod;
+		this.canvas3D=canvas3D;
 	}
 	
 	public void mousePressed(MouseEvent ev){
+		this.container.remove(canvas3D);
 		Colis colis=new Colis((Vector)tableauMod.getRow(tableau.getSelectedRow()));
-		container.removeAll();
 		Objet3D(container,
 			colis.getModele().getLargeur(),
 			colis.getModele().getProfondeur(),

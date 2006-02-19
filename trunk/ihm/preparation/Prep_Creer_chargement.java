@@ -161,7 +161,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
-		new EcouteSouris(listeColisTab, ct, listeColisMod);
 		scrollPane.setBounds(100,400,500,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
@@ -196,7 +195,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane_chargement);
 		
 		//Ajout d'un objet 3D
-		Objet3D(ct, 0.5f, 0.6f, 0.3f);
+		new EcouteSouris(listeColisTab, ct, listeColisMod, Objet3D(ct, 0.5f, 0.6f, 0.3f));
+		
 		
 		// Creation de la zone 3D correspondant au camion
 		
@@ -301,7 +301,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	}
 	
 	//Fonction permettant de créer l'objet 3D dans le container
-	public void Objet3D(Container container, float largeur, float hauteur, float profondeur){
+	public Canvas3D Objet3D(Container container, float largeur, float hauteur, float profondeur){
 		// Zone 3D de la liste des colis
 	    Canvas3D canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(100,40,400,260);
@@ -368,6 +368,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
 	    container.add(canvas3D);
+	    return canvas3D;
 	}
 	
 	public void actionPerformed(ActionEvent ev) {
