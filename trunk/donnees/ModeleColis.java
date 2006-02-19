@@ -11,6 +11,10 @@ public class ModeleColis {
 	private Integer diametre;	
 	private Integer volume;// en cm3
 	
+	// Constantes définissant la forme du colis
+	public final static int PAVE=0;
+	public final static int CYLINDRE=1;
+	
 	// Constructeur avec tous les paramètres
 	public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre,Integer volume){
 		this.id=id;
@@ -48,7 +52,23 @@ public class ModeleColis {
 	public Integer getDiametre(){
 		return this.diametre;
 	}
-	public Integer getVolume(){
-		return this.volume;
+	
+	// Calcul du volume (en cm3) lié aux données.
+	public Integer calculerVolume(){
+		Integer vol = new Integer(0);
+		
+		// On regarde le type de modèle
+		switch(forme.intValue()){
+		// Cas d'un pavé
+		case PAVE:
+			vol = Integer.valueOf(largeur.intValue()*hauteur.intValue()*profondeur.intValue());
+			break;
+		// Cas d'un cylindre
+		case CYLINDRE:
+			vol = Integer.valueOf((int)Math.round(hauteur.intValue()*Math.PI*Math.pow((double)(diametre.intValue()/2.0),2.0)));
+			break;		
+		}
+		
+		return vol;
 	}
 }

@@ -92,8 +92,8 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		nomColonnesPreparations.add("Préparateur");
 
         try{
-	        // On récupère les camions de la base de données et on les affiche
-	        Vector listeCamions = tableCamions.lister();
+	        // On récupère les camions disponibles de la base de données et on les affiche
+	        Vector listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
 	        
 	        for(int i=0;i<listeCamions.size();i++){
 	        	donneesCamions.addElement(((Camion)listeCamions.get(i)).toVector());
@@ -111,7 +111,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
         }
         
 		// Construction des tableaux et des fonction qui leur sont associées
-		construireTableaux();
+		construireTableauxDebut();
 
 		// On ajoute les tableaux au panel de début
 		panDonneesDebut = new JPanel();
@@ -159,7 +159,8 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		add(panBoutons);
 	}
 	
-	public void construireTableaux(){
+	// Construction des tableaux du premier panel
+	public void construireTableauxDebut(){
 		
 		/********** Tableau des camions **********/
 		
