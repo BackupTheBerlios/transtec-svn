@@ -219,23 +219,24 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    parent.addChild(background);
 	    
 	    // Création d'un repère
-	    Point3f repere[]=new Point3f[4];
-	    repere[0]=new Point3f(-3,0,0);
-	    repere[1]=new Point3f(5,0,0);
-	    repere[2]=new Point3f(-3,0,0);
-	    repere[3]=new Point3f(0,5,0);
-	    //repere[4]=new Point3f(-3,0,0);
-	    //repere[5]=new Point3f(0,5,0);
+	    Point3f repere[]=new Point3f[2];
+	   // repere[0]=new Point3f(-0.8f,0,0);
+	   // repere[1]=new Point3f(0.2f,0,0);
+	   // repere[2]=new Point3f(-0.8f,0,0);
+	   // repere[3]=new Point3f(0,0.5f,0);
+	    repere[0]=new Point3f(-0.8f,0,0);
+	    repere[1]=new Point3f(0.5f,0,0);
 	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
 	    // Changement de l'échelle 
-	    transform3D.setScale(0.1f);
+	    //transform3D.setScale(0.1f);
 	    // Rotation
-	  //  transform3D.rotX(1);
-	   // transform3D.rotY(1);
+	  // transform3D.rotX(1);
+	   // transform3D.rotY(0.1);
+	
 	    
-	    LineArray lineArray = new LineArray(4, LineArray.COORDINATES | 
+	    LineArray lineArray = new LineArray(2, LineArray.COORDINATES | 
                 LineArray.COLOR_3); 
 	    lineArray.setCoordinates(0, repere);
 	    lineArray.setColor(0,new Color3f(Color.black));

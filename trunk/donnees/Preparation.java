@@ -60,13 +60,12 @@ public class Preparation {
 	}
 	
 	public void ajouterVolumeColis(Integer Volume){
-		// Peut être pb avec addition
-		this.VolumeColis+=Volume;
+		
+		this.VolumeColis=new Integer(Volume.intValue()+this.VolumeColis.intValue());
 	}
 	
 	public void soustraireVolumeColis(Integer Volume){
-		// Peut etre faux
-		this.VolumeColis-=Volume;
+		this.VolumeColis=new Integer(this.VolumeColis.intValue()-Volume.intValue());
 	}
 	
 	public Integer getVolumeColis(){
