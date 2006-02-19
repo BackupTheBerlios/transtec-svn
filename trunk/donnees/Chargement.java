@@ -11,22 +11,25 @@ public class Chargement {
 	private Integer volChargement; //en cm3
 	private Utilisateur utilisateur;
 	private Timestamp date;
+	private Integer codeBarre;
 	
-	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date){
+	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, Integer codeBarre){
 		this.camion=camion;
 		this.nbColis=nbColis;
 		this.volChargement=volChargement;
 		this.utilisateur=utilisateur;
 		this.date=date;
+		this.codeBarre=codeBarre;
 	}
 	
-	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date){
+	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, Integer codeBarre){
 		this.id=id;
 		this.camion=camion;
 		this.nbColis=nbColis;
 		this.volChargement=volChargement;
 		this.utilisateur=utilisateur;
 		this.date=date;
+		this.codeBarre=codeBarre;
 	}
 	
 	//----- Insérer l'id du chargement -----//
@@ -62,5 +65,10 @@ public class Chargement {
 	//----- Récupération de la date de création du chargement -----//
 	public Timestamp getDate(){
 		return this.date;
+	}
+	
+	//----- Récupération du code barre -----//
+	public Integer getCodeBarre(){
+		return this.codeBarre;
 	}
 }

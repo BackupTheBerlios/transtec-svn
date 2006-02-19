@@ -30,8 +30,8 @@ public class AccesBDDChargement extends AccesBDD{
 		//----- Insertion du colis dans la BDD -----//
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO chargement"
-				+ " (idChargement,Camions_idCamions, NbColis, VolChargement, DateCreation, Users_idUsers)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?)"); 
+				+ " (idChargement,Camions_idCamions, NbColis, VolChargement, DateCreation, Users_idUsers, CodeBarre)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getCamion().getId().intValue());
@@ -39,6 +39,7 @@ public class AccesBDDChargement extends AccesBDD{
 		ajout.setFloat(4, aAjouter.getVolChargement().intValue());
 		ajout.setTimestamp(5, aAjouter.getDate());
 		ajout.setInt(6, aAjouter.getUtilisateur().getId().intValue());
+		ajout.setInt(7, aAjouter.getCodeBarre());
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close(); //fermeture requete SQL
@@ -85,7 +86,8 @@ public class AccesBDDChargement extends AccesBDD{
 					new Integer(resultat.getInt("NbColis")),
 					new Integer("VolChargement"),
 					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
-					resultat.getTimestamp("DateCreation")));
+					resultat.getTimestamp("DateCreation"),
+					new Integer(resultat.getInt("CodeBarre"))));
 		}
 		
 		recherche.close();

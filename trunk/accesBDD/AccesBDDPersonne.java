@@ -233,9 +233,9 @@ public class AccesBDDPersonne extends AccesBDD{
 				+"FROM Personnes "
 				+"WHERE Nom=?, Prenom=?, Telephone=?, Email=?");
 		recherche.setString(1, aVerifier.getNom());
-		recherche.setString(1, aVerifier.getPrenom());
-		recherche.setString(1, aVerifier.getTelephone());
-		recherche.setString(1, aVerifier.getMail());
+		recherche.setString(2, aVerifier.getPrenom());
+		recherche.setString(3, aVerifier.getTelephone());
+		recherche.setString(4, aVerifier.getMail());
 		
 		// On recherche si une personne correspond à celle passée en paramètre dans la BDD
 		ResultSet resultat=recherche.executeQuery();
