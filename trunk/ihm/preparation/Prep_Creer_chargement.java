@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Vector;
@@ -159,6 +161,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
+		new EcouteSouris(listeColisTab, ct, listeColisMod);
 		scrollPane.setBounds(100,400,500,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
@@ -434,5 +437,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 			}
 		}
+	}
+	
+	public void mousePressed(MouseEvent ev){
+		
 	}
 }
