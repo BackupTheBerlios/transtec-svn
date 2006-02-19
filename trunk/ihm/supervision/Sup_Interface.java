@@ -1,11 +1,11 @@
 package ihm.supervision;
 
 import javax.swing.*;
-import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.*;
 import java.awt.*;
 
 import donnees.Utilisateur;
+//import ihm.Fenetre_login;
 
 //  Fenêtre principale du Superviseur
 public class Sup_Interface extends JFrame implements ActionListener{
@@ -83,8 +83,13 @@ public class Sup_Interface extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent ev){
 		Object source = ev.getSource();
 		
-		// Si l'utilisateur a cliqué sur Quitter, on ferme le programme
-		if(source==quitter) System.exit(0);
+		// Si l'utilisateur a cliqué sur Quitter, on retourne à l'invite de login
+		if(source==quitter){
+//			dispose();
+//			JFrame fenlogin = new Fenetre_login();
+//			fenlogin.setVisible(true);
+			System.exit(0);
+		}
 
 		// S'il a cliqué sur Entrepôts, on s'occupe de l'onglet de gestion des entrepôts
 		else if(source==entrepots){

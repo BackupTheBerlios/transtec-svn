@@ -1,10 +1,6 @@
 package ihm.entree;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 
 // Cette classe est utilisée pour l'affichage des images caméra des colis
 

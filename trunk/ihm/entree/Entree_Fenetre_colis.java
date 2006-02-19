@@ -6,8 +6,6 @@ import ihm.TableSorter;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.Locale;
 import java.util.Random;
 import java.util.Vector;
 
@@ -15,16 +13,10 @@ import java.awt.*;
 import java.awt.event.*; 
 import javax.swing.*;
 
-import accesBDD.AccesBDDColis;
-import accesBDD.AccesBDDPersonne;
+import accesBDD.*;
 import donnees.*;
-import accesBDD.AccesBDDChargement;
-import accesBDD.AccesBDDModelesColis;
-import accesBDD.AccesBDDEntrepot;
-import accesBDD.AccesBDDLocalisation;
-import accesBDD.AccesBDDIncident;
 
-//Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
+//Cette classe correspond à la fenetre de saisie ou de vérification d'un colis.
 
 public class Entree_Fenetre_colis extends JFrame implements ActionListener, ItemListener{
 
@@ -847,8 +839,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					if(selectmodelecolis == 69)
 					{
 						//On crée un nouveau modèle de colis avec les dimensions dans la bdd
-						
-						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0),new Integer(20));
+						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0));
 						try{
 							selectmodelecolis = test6.ajouter(modele);
 						}
@@ -882,7 +873,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"0");
+					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"0",new Integer(20));
 				
 					try{
 						test.ajouter(col);

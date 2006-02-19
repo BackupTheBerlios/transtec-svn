@@ -10,15 +10,21 @@ public class AccesBDDColis extends AccesBDD{
 //	----- Ajouter un colis dans la BDD -----//
 	public Integer ajouter(Colis aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
+		
+		// Préparation de la requête SQL
 		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idColis) FROM colis ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
 		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
-		resultat.close();	// Fermeture requête SQL
-		rechercheMaxID.close();	// Fermeture requête SQL
+
+		// Fermeture des connexions
+		resultat.close();
+		rechercheMaxID.close();
 		
 		//----- Insertion du colis dans la BDD -----//
+		
+		// Préparation de la requête SQL
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO colis "
 				+ "(idColis,ModelesColis_idModelesColis,Createur,Expediteur,Destinataire,Destination,Code_barre, "
@@ -39,7 +45,9 @@ public class AccesBDDColis extends AccesBDD{
 		ajout.setInt(12, aAjouter.getVolume().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
-		ajout.close();//fermeture requete SQL
+		
+		// Fermeture des connexions
+		ajout.close();
 		deconnecter();
 		
 		return aAjouter.getId();
@@ -47,18 +55,23 @@ public class AccesBDDColis extends AccesBDD{
 		
 	//----- Supprimer un colis de la BDD -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
+
+		// Préparation de la requête SQL
 		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM colis WHERE idColis=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
-		supprime.close();	// Fermeture requête SQL
+		// Fermeture des connexions
+		supprime.close();
 		deconnecter();
 	}
 	
 	//----- Modifier les informations d'un colis -----//
 	public void modifier(Colis aModifier) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
+		
+		// Préparation de la requête SQL
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE colis SET "
 				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?, "
@@ -82,7 +95,8 @@ public class AccesBDDColis extends AccesBDD{
 		
 		//Recherche dans personne has_colis, mais est-ce nécéssaire
 						
-		modifie.close();	// Fermeture requête SQL
+		// Fermeture des connexions
+		modifie.close();
 		deconnecter();
 	}
 		
@@ -92,8 +106,10 @@ public class AccesBDDColis extends AccesBDD{
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 				
+		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Destination=? ");
 		recherche.setInt(1, idEntrepot.intValue());
+		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
@@ -112,8 +128,9 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Volume"))));
 		}
 				
-		resultat.close();	// Fermeture requête SQL
-		recherche.close();	// Fermeture requête SQL
+		// Fermeture des connexions
+		resultat.close();
+		recherche.close();
 		deconnecter();
 		
 		return liste;
@@ -125,6 +142,7 @@ public class AccesBDDColis extends AccesBDD{
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 		
+		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE idColis=?");
 		recherche.setInt(1, aChercher.intValue());
 		
@@ -146,8 +164,9 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Volume")));
 		}
 		
-		resultat.close();	// Fermeture requête SQL
-		recherche.close();	// Fermeture requête SQL
+		// Fermeture des connexions
+		resultat.close();
+		recherche.close();
 		deconnecter();
 		
 		return trouvee;
@@ -158,6 +177,7 @@ public class AccesBDDColis extends AccesBDD{
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
 		
+		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE Code_barre=?");
 		recherche.setInt(1, aChercher);
 		
@@ -179,8 +199,9 @@ public class AccesBDDColis extends AccesBDD{
 					new Integer(resultat.getInt("Volume")));	       
 		}
 		
-		resultat.close();	// Fermeture requête SQL
-		recherche.close();	// Fermeture requête SQL
+		// Fermeture des connexions
+		resultat.close();
+		recherche.close();
 		deconnecter();
 		
 		return trouvee;
@@ -190,6 +211,7 @@ public class AccesBDDColis extends AccesBDD{
 	public Integer rechercherIdChargement(Integer idColis) throws SQLException{
 		Integer trouvee=null;
 		
+		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idColis=?");
 		recherche.setInt(1, idColis.intValue());
 		
@@ -197,6 +219,7 @@ public class AccesBDDColis extends AccesBDD{
 		
 		if(resultat.next())	trouvee=new Integer(resultat.getInt("idChargement"));
 		
+		// Fermeture des connexions
 		recherche.close();
 		resultat.close();
 		deconnecter();
@@ -204,28 +227,25 @@ public class AccesBDDColis extends AccesBDD{
 		return trouvee;
 	}
 	
-	// Permet de lister tous les entrepots et le volume des colis a expédier
-	// Attention cas ou colis appartenant à un chargement pas encor gérer!!!!!!
+	// Permet de lister le volume lié à chaque destination
+	// Attention cas ou colis appartenant à un chargement pas encor géré!!!!!!
 	public Vector volumeDestination() throws SQLException{
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
-		//AccesBDDColis bddColis=new AccesBDDColis();
 		Vector liste=new Vector(), couple=null, listeColis=null;
-		int volume;
-		
+
+		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT Destination,SUM(Volume) Volume FROM colis GROUP BY Destination");
 		ResultSet resultat=recherche.executeQuery();
 		
+		// Création d'un Vector couple contenant la destination et le volume, puis ajout au Vector liste
 		while(resultat.next()){
-			volume=0;
 			couple=new Vector();
 			couple.add(bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))));
-			
-			//listeColis=bddColis.listerDest(new Integer(resultat.getInt("idEntrepots")));
-			//for(int i=0;i<listeColis.size();i++)	volume+=((Colis)listeColis.get(i)).getModele().getVolume().intValue();
 			couple.add(new Integer(resultat.getInt("Volume")));
 			liste.add(couple);
 		}
 		
+		// Fermeture des connexions
 		recherche.close();
 		resultat.close();
 		deconnecter();
