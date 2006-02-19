@@ -55,9 +55,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer");
 	private JButton ajouter=new JButton();
 	private Vector nomColonnes = new Vector();
-	private ModeleTable listeColisMod, listeChargement;
+	private ModeleTable listeColisMod, listeChargementMod;
 	private TableSorter sorter_colis, sorter_chargement;
-	private JTable listeColisTab, tab;
+	private JTable listeColisTab, listeChargementTab;
 	private Vector listeColis= new Vector(), donnees = new Vector();
 	private int ligneActive;
 	
@@ -93,16 +93,16 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    ct.add(ajouter);
 	    ajouter.addActionListener(this);
 	    
-//	  Création de la première ligne
-		nomColonnes.add("id");
+	    // Création de la première ligne
+		nomColonnes.add("Id");
 		nomColonnes.add("entrepot");
-		nomColonnes.add("code_barre");
+		nomColonnes.add("Code Barre");
 		nomColonnes.add("expediteur");
 		nomColonnes.add("destinataire");
 		nomColonnes.add("destination");
 		nomColonnes.add("utilisateur");
-		nomColonnes.add("poids");
-		nomColonnes.add("date_envoi");
+		nomColonnes.add("Poids");
+		nomColonnes.add("Date Envoi");
 		nomColonnes.add("Modele");
 		nomColonnes.add("valeur_declaree");
 		nomColonnes.add("Volume");
@@ -120,7 +120,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		}
 		
 		
-		//Création du premier tableau
+		//Création du tableau listant les colis pour la destination
 		
 		listeColisMod = new ModeleTable(nomColonnes,listeColis);
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
@@ -150,28 +150,27 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 
 		// Création du tableau contenant les colis que l'on veut mettre dans le chargement
 		
-		listeChargement = new ModeleTable(nomColonnes,donnees);
+		listeChargementMod = new ModeleTable(nomColonnes,donnees);
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter_chargement = new TableSorter(listeColisMod);
+		sorter_chargement = new TableSorter(listeChargementMod);
 		// Création du tableau
-		tab = new JTable(sorter_chargement);
+		listeChargementTab = new JTable(sorter_chargement);
 		// initialisation du Sorter
-		sorter_chargement.setTableHeader(tab.getTableHeader());
+		sorter_chargement.setTableHeader(listeChargementTab.getTableHeader());
 	
-		tab.setAutoCreateColumnsFromModel(true);
-		tab.setOpaque(false);
-		tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		tab.removeColumn(tab.getColumnModel().getColumn(2));
-		tab.removeColumn(tab.getColumnModel().getColumn(2));
-		JScrollPane scrollPane_chargement = new JScrollPane(tab);
-		tab.setPreferredScrollableViewportSize(new Dimension(400,150));
+		listeChargementTab.setAutoCreateColumnsFromModel(true);
+		listeChargementTab.setOpaque(false);
+		listeChargementTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
+		JScrollPane scrollPane_chargement = new JScrollPane(listeChargementTab);
+		listeChargementTab.setPreferredScrollableViewportSize(new Dimension(400,150));
 		scrollPane_chargement.setBounds(650,400,500,150);
 		scrollPane_chargement.setOpaque(false);
 		scrollPane_chargement.getViewport().setOpaque(false);
