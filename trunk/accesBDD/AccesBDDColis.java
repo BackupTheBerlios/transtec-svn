@@ -207,13 +207,13 @@ public class AccesBDDColis extends AccesBDD{
 	
 	// Permet de lister tous les entrepots et le volume des colis a expédier
 	// Attention cas ou colis appartenant à un chargement pas encor gérer!!!!!!
-	public Vector VolumeDestination() throws SQLException{
+	public Vector volumeDestination() throws SQLException{
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 		//AccesBDDColis bddColis=new AccesBDDColis();
 		Vector liste=new Vector(), couple=null, listeColis=null;
 		int volume;
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM entrepots");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT SUM(Volume) FROM colis GROUP BY Destination");
 		ResultSet resultat=recherche.executeQuery();
 		
 		while(resultat.next()){

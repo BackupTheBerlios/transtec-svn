@@ -1,6 +1,5 @@
 package accesBDD;
 
-import donnees.Colis;
 import donnees.Entrepot;
 import java.util.Vector;
 import java.sql.*;
@@ -110,8 +109,6 @@ public class AccesBDDEntrepot extends AccesBDD{
 		
 		return trouvee;
 	}
-	
-
 
 	//----- TEST OKAY -----//
 	/*public static void main(String arg[]){
