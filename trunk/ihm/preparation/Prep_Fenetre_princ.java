@@ -210,11 +210,11 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		if (source == creer_chargement) {
 			//Si une ligne est selectionnée
 			if (ligneActive != -1){
-				//On récupère les données de la ligne du tableau
-				Vector cVect = (Vector) modeleCam.getRow(ligneActive);
+				//On récupère les données de la ligne du tablea
 				//dispose();
-				Camion camion=new Camion(cVect);
-				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation, camion);
+				preparation.initializeChargement();
+				preparation.setCamionACharger(new Camion((Vector) modeleCam.getRow(ligneActive)));
+				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
 				fen1.setVisible(true);
 			}
 			else{

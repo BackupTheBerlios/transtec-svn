@@ -7,12 +7,16 @@ public class Preparation {
 	private Entrepot destination;
 	private Integer volumeChargement;//en cm3
 	private Vector listeCamion;
+	private Camion aCharger;
+	private Integer VolumeColis;
 	
 	public Preparation(Utilisateur utilisateur, Entrepot destination, Integer volumeChargement, Vector listeCamion){
 		this.utilisateur=utilisateur;
 		this.destination=destination;
 		this.volumeChargement=volumeChargement;
 		this.listeCamion=listeCamion;
+		this.aCharger=null;
+		this.VolumeColis=new Integer(0);
 	}
 	
 	public Utilisateur getUtilisateur(){
@@ -45,5 +49,32 @@ public class Preparation {
 	
 	public void setListeCamion(Vector listeCamion){
 		this.listeCamion=listeCamion;
+	}
+	
+	public void setCamionACharger(Camion aCharger){
+		this.aCharger=aCharger;
+	}
+	
+	public Camion getCamionACharger(){
+		return this.aCharger;
+	}
+	
+	public void ajouterVolumeColis(Integer Volume){
+		// Peut être pb avec addition
+		this.VolumeColis+=Volume;
+	}
+	
+	public void soustraireVolumeColis(Integer Volume){
+		// Peut etre faux
+		this.VolumeColis-=Volume;
+	}
+	
+	public Integer getVolumeColis(){
+		return this.VolumeColis;
+	}
+	
+	public void initializeChargement(){
+		this.aCharger=null;
+		this.VolumeColis=new Integer(0);
 	}
 }

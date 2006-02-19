@@ -117,6 +117,23 @@ public class AccesBDDChargement extends AccesBDD{
 		return liste;
 	}
 	
+	//----- Ajouter des colis dans un chargement -----//
+	public void AjouterColis(Chargement chargement, Vector listeColis) throws SQLException{
+		PreparedStatement ajouter=null;
+		for(int i=0;i<listeColis.size();i++){
+			ajouter=connecter().prepareStatement("INSERT INTO Chargement_Colis "
+					+"(idChargement, idColis) "
+					+"VALUES (?,?)");
+			ajouter.setInt(1, chargement.getId().intValue());
+			ajouter.setInt(2, ((Colis)listeColis.get(i)).getId().intValue());
+			
+			ajouter.executeUpdate();
+		}
+		
+		ajouter.close();
+		deconnecter();
+	}
+	
 	public Chargement rechercher(Integer codeBarre) throws SQLException{
 		Chargement chargement=null;
 		AccesBDDCamion bddCamion=new AccesBDDCamion();
