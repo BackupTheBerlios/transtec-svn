@@ -1,5 +1,6 @@
 package accesBDD;
 
+import donnees.Colis;
 import donnees.Entrepot;
 import java.util.Vector;
 import java.sql.*;
@@ -108,6 +109,38 @@ public class AccesBDDEntrepot extends AccesBDD{
 		deconnecter();
 		
 		return trouvee;
+	}
+	
+	// Permet de lister tous les entrepots et le volume des colis a expédier
+	// Attention cas ou colis appartenant à un chargement pas encor gérer!!!!!!
+	public Vector VolumeDestination() throws SQLException{
+		AccesBDDLocalisation bddLoc=new AccesBDDLocalisation();
+		AccesBDDColis bddColis=new AccesBDDColis();
+		Vector liste=new Vector(), couple=null, listeColis=null;
+		int volume;
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM entrepots");
+		ResultSet resultat=recherche.executeQuery();
+		
+		while(resultat.next()){
+			volume=0;
+			couple=new Vector();
+			couple.add(new Entrepot(
+				new Integer(resultat.getInt("idEntrepots")),
+				resultat.getString("telephone"),
+				bddLoc.rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")))));
+			
+			listeColis=bddColis.listerDest(resultat.getInt("idEntrepots"));
+			for(int i=0;i<listeColis.size();i++)	volume+=((Colis)listeColis.get(i)).getModele().getVolume().intValue();
+
+			liste.add(couple);
+		}
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
+		
+		return liste;
 	}
 
 	//----- TEST OKAY -----//

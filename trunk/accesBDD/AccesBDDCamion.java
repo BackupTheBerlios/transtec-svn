@@ -79,6 +79,31 @@ public class AccesBDDCamion extends AccesBDD{
 		return liste;
 	}
 	
+	//----- Liste les camions en fonction de leurs états
+	public Vector lister(int etat) throws SQLException{
+		Vector liste=new Vector();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Etat=?");
+		recherche.setInt(1, etat);
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			liste.add(new Camion(
+					new Integer(resultat.getInt("idCamions")),
+					resultat.getString("Immatriculation"), 
+					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("Volume")), 
+					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
+					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
+		}
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return liste;
+	}
+	
 	//	----- Lister les camions -----//
 	public Vector listerParDest(Integer Destination) throws SQLException{
 		Vector liste=new Vector();

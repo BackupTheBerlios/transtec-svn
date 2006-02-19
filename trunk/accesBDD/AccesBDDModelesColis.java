@@ -71,9 +71,5 @@ public class AccesBDDModelesColis extends AccesBDD{
 		deconnecter();
 		
 		return trouvee;
-	}
-	
-	
-	
-	
+	}	
 }
