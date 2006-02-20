@@ -414,7 +414,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 					preparation.getVolumeColis(),
 					preparation.getUtilisateur(),
 					new Timestamp(System.currentTimeMillis()),
-					new Integer("12451"));
+					"42465fssdfsddf");
 			try{
 				bddChargement.ajouter(chargement);
 				for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));

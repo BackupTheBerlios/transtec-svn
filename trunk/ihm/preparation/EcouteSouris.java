@@ -149,10 +149,9 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    
 	    // Compilation de la scene 3D
 	    scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
-	    scene.setCapability(BranchGroup.ALLOW_COLLISION_BOUNDS_WRITE);
+	    scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
 	    scene2.setCapability(BranchGroup.ALLOW_DETACH);
-	    scene2.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
-	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    
 	    
 	    scene.addChild(scene2);
 	    scene2.compile();
