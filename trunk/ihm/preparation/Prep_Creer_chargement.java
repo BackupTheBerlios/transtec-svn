@@ -69,7 +69,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Vector listeColis= new Vector(), donnees = new Vector();
 	private int ligneActive;
 	private Preparation preparation=null;
-	EcouteSouris test=null;
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
@@ -173,6 +172,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
+		
+		// Ajout de l'écoute souris et de la zone graphique au dessus
+		AffichageColisDynamique zoneColis3D=new AffichageColisDynamique(ct);
+		zoneColis3D.Initialisation(0.5f, 0.6f, 0.3f);
+		listeColisTab.addMouseListener(zoneColis3D);
 
 		// Création du tableau contenant les colis que l'on veut mettre dans le chargement
 		
@@ -202,18 +206,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		scrollPane_chargement.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane_chargement);
 		
-		//Ajout d'un objet 3D
-		//Objet3D(ct, 0.5f, 0.6f, 0.3f);
-		test=new EcouteSouris(ct);
-		if(premierColisAAfficher!=null){
-			
-			test./*Objet3D(
-					premierColisAAfficher.getModele().getLargeur().intValue(),
-					premierColisAAfficher.getModele().getProfondeur().intValue(),
-					premierColisAAfficher.getModele().getHauteur().intValue())*/
-					Objet3D(0.5f, 0.6f, 0.3f);
-		}
-		
+				
 		// Creation de la zone 3D correspondant au camion
 		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    camion3D.setBounds(700,100,400,260);
@@ -470,8 +463,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		// Annulation de la création d'un chargement
 		else if(source==annuler){
-			test.rm();
-			
+			dispose();			
 		}
 	}
 }

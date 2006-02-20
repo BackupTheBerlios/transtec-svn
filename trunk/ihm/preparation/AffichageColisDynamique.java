@@ -1,12 +1,9 @@
 package ihm.preparation;
 
-import ihm.ModeleTable;
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Vector;
 
 import javax.media.j3d.Alpha;
 import javax.media.j3d.AmbientLight;
@@ -17,46 +14,39 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.Locale;
 import javax.media.j3d.Material;
-import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.vecmath.Color3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
-import donnees.Colis;
-
-public class EcouteSouris extends JFrame implements MouseListener{
+public class AffichageColisDynamique extends JFrame implements MouseListener{
 	private Container container;
-	BranchGroup scene;
-	Canvas3D canvas3D;
-	TransformGroup objSpin;
-	Box box;
+	private BranchGroup scene;
+	private Canvas3D canvas3D;
+	private TransformGroup objSpin;
 	
-	public EcouteSouris(Container container){
+	public AffichageColisDynamique(Container container){
 		super();
 		this.scene=null;
 		this.canvas3D=null;
 		this.objSpin=null;
-		this.box=null;
 		this.container=container;
 	}
 	
 	public void mousePressed(MouseEvent ev){
-		  branche.detach();
-		    
-			 
-		    scene.removeChild(branche);
-		    branche.compile();
-		    scene.addChild(branche);
-		//this.container.repaint();
+		// On supprime la branche -> tout l'objet 3D
+		this.scene.removeAllChildren();
+		
+		// On rajoute le nouveau
+		this.scene.addChild(creationObjet(0.1f, 0.1f, 0.1f));
+		
+		// Mise à jour de la zone graphique
+		this.canvas3D.repaint();
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
@@ -80,7 +70,7 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	}
 	
 	//	Fonction permettant de créer l'objet 3D dans le container
-	public void Objet3D(float largeur, float hauteur, float profondeur){
+	public void Initialisation(float largeur, float hauteur, float profondeur){
 		// Zone 3D de la liste des colis
 	    canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(100,40,400,260);
@@ -107,7 +97,7 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    container.add(canvas3D);
 	}
 	
-	public BranchGroup creationObjet(float largeur, float profondeur, float hauteur){
+	private BranchGroup creationObjet(float largeur, float profondeur, float hauteur){
 		// Création de la branche
 		BranchGroup branche=new BranchGroup();
 		
@@ -150,11 +140,10 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    branche.addChild(background);
 	    
 	    //Construction du cube
-	    box=new Box(largeur, hauteur, profondeur, apparence);
-	    objSpin.addChild(box);
+	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
 	    branche.addChild(objSpin);
 	    
-	    // Ajout de la capacité à distinguer les éléments de la branche
+	    // Ajout de la capacité à séparer la branche
 	    branche.setCapability(BranchGroup.ALLOW_DETACH);
 	    
 	    branche.compile();
