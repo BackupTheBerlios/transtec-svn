@@ -18,23 +18,17 @@ import javax.swing.*;
 
 import donnees.Preparation;
 import donnees.Utilisateur;
-import accesBDD.AccesBDDEntrepot;
 import accesBDD.AccesBDDPreparation;
 
 public class Prep_Choix_Dest extends JFrame implements ActionListener{
-	
-	private Vector nomColonnes_preparation = new Vector();
 	private Vector donnees_preparation = new Vector();
 	private ModeleTable modelePrep;
 	private JTable tab_preparation;
-	private int ligneActive;
-	private TableSorter sorter;
 	private JButton preparer=new JButton("Préparer");
+	private JButton quitter=new JButton("Quitter");
 	private Utilisateur utilisateur=null;
-	private Preparation preparation=null;
 	
 	public Prep_Choix_Dest(Utilisateur utilisateur){
-		
 		//Constructeur de la fenetre
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		Container ct = this.getContentPane();
@@ -60,7 +54,7 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		setJMenuBar(menuBar);
 
 		//Taile de la fenêtre
-		setBounds(200,100,500,550);
+		setBounds(400,220,380,370);
 		
 		//Declaration du layout
 		ct = getContentPane();
@@ -68,20 +62,28 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 		
 		//Création de la police
-		Font font;
-		font = new Font("Verdana", Font.BOLD, 15);
+		Font font = new Font("Verdana", Font.BOLD, 15);
 		
 		//Ajout du texte
-		JLabel texte = new JLabel("Bonjour " + utilisateur.getPersonne().getPrenom()+", veuillez choisir votre destination: ");
-		texte.setBounds(30, 10, 300, 20);
-		ct.add(texte);
+		JLabel texte1 = new JLabel("Bonjour "+utilisateur.getPersonne().getPrenom()+",");
+		texte1.setBounds(120, 10, 300, 20);
+		ct.add(texte1);
+		JLabel texte2=new JLabel("veuillez choisir la destination que vous préparerez : ");
+		texte2.setBounds(45, 30, 300, 20);
+		ct.add(texte2);
 		
 		//Ajout du bouton Préparer
-		preparer.setBounds(190, 300, 100, 40);
+		preparer.setBounds(80, 250, 100, 30);
 		preparer.addActionListener(this);
 		ct.add(preparer);
+		
+		// Ajout du bouton "Quitter"
+		quitter.setBounds(200, 250, 100, 30);
+		quitter.addActionListener(this);
+		ct.add(quitter);
 
 		//Création de la première ligne
+		Vector nomColonnes_preparation = new Vector();
 		nomColonnes_preparation.add("idPreparation");
 		nomColonnes_preparation.add("Destination");
 		nomColonnes_preparation.add("Etat de la préparation");
@@ -94,13 +96,11 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		catch(SQLException e){
 			
 		}
-		
-		
-		
+				
 		//Création du tableau
         modelePrep = new ModeleTable(nomColonnes_preparation,donnees_preparation);
 		// Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter = new TableSorter(modelePrep);
+        TableSorter sorter = new TableSorter(modelePrep);
 		// Création du tableau
 		tab_preparation = new JTable(sorter);
 		// initialisation du Sorter
@@ -115,7 +115,7 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		//Construction du JScrollPane
 		JScrollPane scrollPane = new JScrollPane(tab_preparation);
 		tab_preparation.setPreferredScrollableViewportSize(new Dimension(300,150));
-		scrollPane.setBounds(80,140,320,150);
+		scrollPane.setBounds(40,80,300,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
@@ -127,7 +127,7 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 	//A Revoir : Bouton inactif
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		ligneActive = tab_preparation.getSelectedRow();
+		int ligneActive = tab_preparation.getSelectedRow();
 		try{
 			//Selection de "Gérer le chargement"
 			if (source == preparer) {
@@ -135,20 +135,22 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 				if (ligneActive != -1){
 					//On récupère les données de la ligne du tableau
 					Vector cVect = (Vector) modelePrep.getRow(ligneActive);
-					this.preparation=new AccesBDDPreparation().rechercher((Integer) cVect.get(0));
-					this.preparation.setUtilisateur(this.utilisateur);
+					Preparation preparation=new AccesBDDPreparation().rechercher((Integer) cVect.get(0));
+					preparation.setUtilisateur(this.utilisateur);
 					Prep_Fenetre_princ fen1 = new Prep_Fenetre_princ(preparation);
 					fen1.setVisible(true);
 				}
-				else{
+				else
 					JOptionPane.showMessageDialog(this,"Veuillez sélectionner une préparation","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-				}
+			}
+			
+			// Sélection du bouton quitter 
+			else if(quitter==source){
+				dispose();
 			}
 		}
 		catch(SQLException ev){
 			JOptionPane.showMessageDialog(this,ev,"Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-
 		}
-		
 	}
 }
