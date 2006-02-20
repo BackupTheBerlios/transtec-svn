@@ -118,7 +118,7 @@ CREATE TABLE Chargement (
   VolChargement FLOAT NOT NULL,
   DateCreation DATETIME NOT NULL,
   Users_idUsers INTEGER NOT NULL,
-  CodeBarre INTEGER NOT NULL,
+  Code_barre VARCHAR(15),
   PRIMARY KEY(idChargement),
   INDEX Incidents_FKIndex1(Users_idUsers),
   INDEX Chargement_FKIndex2(Camions_idCamions),
