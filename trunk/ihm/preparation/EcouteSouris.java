@@ -97,6 +97,7 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    
 	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut visualiser
 	    scene = new BranchGroup();
+	    BranchGroup scene2=new BranchGroup();
 	    	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
@@ -137,33 +138,40 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    apparence.setPolygonAttributes(pol);
 	    
 	    // Ajout des paramètres à la scène
-	    scene.addChild(lumiere);
-	    scene.addChild(lumiereDir);
-	    scene.addChild(background);
+	    scene2.addChild(lumiere);
+	    scene2.addChild(lumiereDir);
+	    scene2.addChild(background);
 	    
 	     // Construction du cube
 	    box=new Box(largeur, hauteur, profondeur, apparence);
 	    objSpin.addChild(box);
-	    scene.addChild(objSpin);
+	    scene2.addChild(objSpin);
 	    
 	    // Compilation de la scene 3D
 	    scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
-	    scene.setCapability(BranchGroup.ALLOW_DETACH);
-	    objSpin.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
-	    scene.compile();
+	    scene.setCapability(BranchGroup.ALLOW_COLLISION_BOUNDS_WRITE);
+	    scene2.setCapability(BranchGroup.ALLOW_DETACH);
+	    scene2.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    
+	    scene.addChild(scene2);
+	    scene2.compile();
 	    
 	    // Phase TEST
 	    simpleU.addBranchGraph(scene);
 	    
-	    //scene.detach();
+	    scene2.detach();
 	    //Locale locale =simpleU.getLocale();
 	    //BranchGroup scene2=new BranchGroup();
 	    //locale.replaceBranchGraph(scene, scene2);
 	 
+	    scene.removeChild(scene2);
+	    scene2.compile();
+	    scene.addChild(scene2);
+	    //scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	    //scene.setCapability(BranchGroup.ALLOW_COLLISION_BOUNDS_WRITE);
+	    //scene2.setCapability(BranchGroup.ALLOW_DETACH);
 	    
-	   // scene.removeChild(objSpin);
-	    //objSpin.removeChild(box);
-	    //scene.addChild(objSpin);
 	    
 	    /*locale.addBranchGraph(scene);*/
 	    //scene.removeChild(objSpin);
