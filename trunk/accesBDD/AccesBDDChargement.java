@@ -59,9 +59,11 @@ public class AccesBDDChargement extends AccesBDD{
 		deconnecter();
 	}
 	//-----Supprimer un colis d'un chargement----//
-	public void supprimer_colis(Colis aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement_colis WHERE idColis=?");
-		supprime.setInt(1, aSupprimer.getId().intValue());
+	public void supprimer_colis(Colis aSupprimer,Chargement charg) throws SQLException{
+		
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement_colis WHERE idChargement=? AND idColis=? ");
+		supprime.setInt(1, charg.getId().intValue());
+		supprime.setInt(2, aSupprimer.getId().intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
@@ -149,7 +151,7 @@ public class AccesBDDChargement extends AccesBDD{
 				new Integer(resultat.getInt("idChargement")),
 				bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
 				new Integer(resultat.getInt("NbColis")),
-				new Integer("VolChargement"),
+				new Integer(resultat.getInt("VolChargement")),
 				bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
 				resultat.getTimestamp("DateCreation"),
 				resultat.getString("CodeBarre"));

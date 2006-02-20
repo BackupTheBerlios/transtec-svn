@@ -165,15 +165,17 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				
+				if (fenetre1.charg!=null){
 			AccesBDDChargement test10=new AccesBDDChargement();
 			try {
-				test10.supprimer_colis(colis);
+				test10.supprimer_colis(colis,fenetre1.charg);
 			} catch (SQLException e1) {
 					// TODO Bloc catch auto-généré
 				e1.printStackTrace();
 			}
+				}
 			dispose();
+			//fenetre1.ajout_chargement();
 			fenetre1.informations_colis1();
 				
 		}
@@ -190,15 +192,17 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				
+			if (fenetre1.charg!=null){
 			AccesBDDChargement test10=new AccesBDDChargement();
 			try {
-				test10.supprimer_colis(colis);
+				test10.supprimer_colis(colis,fenetre1.charg);
 			} catch (SQLException e1) {
 					// TODO Bloc catch auto-généré
 				e1.printStackTrace();
 			}
+			}
 			dispose();
+			//fenetre1.ajout_chargement();
 			fenetre1.informations_colis1();
 				
 		}

@@ -31,6 +31,8 @@ public class Chargement {
 		this.date=date;
 		this.codeBarre=codeBarre;
 	}
+	public Chargement(){
+	}
 	
 	//----- Insérer l'id du chargement -----//
 	public void setId(Integer id){
