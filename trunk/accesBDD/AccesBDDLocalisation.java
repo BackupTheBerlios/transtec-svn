@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import donnees.Localisation;
+import donnees.Personne;
 
 //----- Classe permettant l'accès à la table Localisation, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -131,6 +132,32 @@ public class AccesBDDLocalisation extends AccesBDD{
 						
 		supprime.close();	// Fermeture requête SQL
 		deconnecter();
+	}
+	
+	public Localisation localisationExist(Localisation localisation) throws SQLException{
+		Localisation aVerifier=localisation;
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * "
+				+"FROM localisation "
+				+"WHERE Adresse=? AND CodePostal=? AND Ville=? ");
+		recherche.setString(1, aVerifier.getAdresse());
+		recherche.setString(2, aVerifier.getCodePostal());
+		recherche.setString(3, aVerifier.getVille());
+		
+		// On recherche si une personne correspond à celle passée en paramètre dans la BDD
+		ResultSet resultat=recherche.executeQuery();
+		
+		if(resultat.next()){
+			
+				aVerifier.setId(new Integer(resultat.getInt("idLocalisation")));
+			
+		}
+		else aVerifier=null;
+		
+		resultat.close();
+		recherche.close();
+		deconnecter();
+		
+		return aVerifier;
 	}
 	
 	

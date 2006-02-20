@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Localisation;
 import donnees.Personne;
+import accesBDD.AccesBDDLocalisation;
 
 //----- Classe permettant l'accès à la table Personne, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -25,7 +26,8 @@ public class AccesBDDPersonne extends AccesBDD{
 	//----- Ajouter une personne dans la BDD -----//
 	public Personne ajouter(Personne aAjouter) throws SQLException{
 		// Recherche si la personne existe déjà dans la BDD
-		Personne aVerifier=personneExist(aAjouter);
+		Personne aVerifier= null;
+		aVerifier = personneExist(aAjouter);
 		// Si elle exite déjà on ne l'ajouter pas
 		if(aVerifier!=null){
 			// On ne l'ajoutera pas
@@ -231,7 +233,7 @@ public class AccesBDDPersonne extends AccesBDD{
 		Personne aVerifier=personne;
 		PreparedStatement recherche=connecter().prepareStatement("SELECT idPersonnes,Localisation_idLocalisation "
 				+"FROM Personnes "
-				+"WHERE Nom=?, Prenom=?, Telephone=?, Email=?");
+				+"WHERE Nom=? AND Prenom=? AND Telephone=? AND Email=?");
 		recherche.setString(1, aVerifier.getNom());
 		recherche.setString(2, aVerifier.getPrenom());
 		recherche.setString(3, aVerifier.getTelephone());
@@ -242,12 +244,22 @@ public class AccesBDDPersonne extends AccesBDD{
 		
 		if(resultat.next()){
 			// On vérifie si la localisation est également identique
-			Localisation localisation=new AccesBDDLocalisation().rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
+			//Localisation localisation=new AccesBDDLocalisation().rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
 			// Si oui on rempli tous les id
-			if(localisation.equals(aVerifier.getLocalisation())){
-				aVerifier.getLocalisation().setId(localisation.getId());
+			//if(localisation.equals(aVerifier.getLocalisation())== true){
+			AccesBDDLocalisation test=new AccesBDDLocalisation();
+			
+			Localisation aVerifier1= aVerifier.getLocalisation();
+			aVerifier1 = test.localisationExist(aVerifier1);
+			// Si elle exite déjà on ne l'ajouter pas
+			if(aVerifier1!=null){
+				// On ne l'ajoutera pas
+				//aAjouter=aVerifier;
+				aVerifier.getLocalisation().setId(aVerifier1.getId());
 				aVerifier.setId(new Integer(resultat.getInt("idPersonnes")));
 			}
+				
+			
 			else aVerifier=null;
 		}
 		else aVerifier=null;
@@ -258,6 +270,45 @@ public class AccesBDDPersonne extends AccesBDD{
 		
 		return aVerifier;
 	}
+	
+	/*public Personne personneExist(Personne personne) throws SQLException{
+		Personne aVerifier=null;
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Personnes WHERE Nom=?");//, Prenom=?, Telephone=?, Email=?");
+		recherche.setString(1, personne.getNom());
+		//recherche.setString(2, personne.getPrenom());
+		//recherche.setString(3, personne.getTelephone());
+		//recherche.setString(4, personne.getMail());
+		
+		// On recherche si une personne correspond à celle passée en paramètre dans la BDD
+		ResultSet resultat=recherche.executeQuery();
+		
+		if(resultat.next()){
+			// On vérifie si la localisation est également identique
+			Localisation localisation=new AccesBDDLocalisation().rechercher(new Integer(resultat.getInt("Localisation_idLocalisation")));
+			// Si oui on rempli tous les id
+			if(localisation.equals(personne.getLocalisation())){
+				//aVerifier.getLocalisation().setId(localisation.getId());
+				//aVerifier.setId(new Integer(resultat.getInt("idPersonnes")));
+				
+				aVerifier = new Personne (new Integer(resultat.getInt("idPersonnes")),
+						resultat.getString("Nom"), 
+						resultat.getString("Prenom"),
+						resultat.getString("Email"), 
+						resultat.getString("Telephone"),
+						personne.getLocalisation());
+			}
+			else aVerifier=null;
+		}
+		else aVerifier=null;
+		
+		resultat.close();
+		recherche.close();
+		deconnecter();
+		
+		return aVerifier;
+	}*/
+	
+
 
 	//----- TEST OKAY SAUF RECHERCHER (ID OKAY) ENCORE SUPPRIMER LES SOUS TABLES-----//
 	/*public static void main(String arg[]){

@@ -862,10 +862,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					destinataire = new Personne(new Integer(0),nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
 			
 					try{
+						
 						test1.ajouter(destinataire);
+						
 					}
 					catch(SQLException e2){
+						
 						System.out.println(e2.getMessage());
+						
 					}
 					
 					//On enregistre l'expéditeur dans la bdd
