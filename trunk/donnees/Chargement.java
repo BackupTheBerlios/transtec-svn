@@ -11,9 +11,9 @@ public class Chargement {
 	private Integer volChargement; //en cm3
 	private Utilisateur utilisateur;
 	private Timestamp date;
-	private Integer codeBarre;
+	private String codeBarre;
 	
-	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, Integer codeBarre){
+	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
 		this.camion=camion;
 		this.nbColis=nbColis;
 		this.volChargement=volChargement;
@@ -22,7 +22,7 @@ public class Chargement {
 		this.codeBarre=codeBarre;
 	}
 	
-	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, Integer codeBarre){
+	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
 		this.id=id;
 		this.camion=camion;
 		this.nbColis=nbColis;
@@ -68,7 +68,7 @@ public class Chargement {
 	}
 	
 	//----- Récupération du code barre -----//
-	public Integer getCodeBarre(){
+	public String getCodeBarre(){
 		return this.codeBarre;
 	}
 }

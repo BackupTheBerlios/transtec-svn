@@ -39,7 +39,7 @@ public class AccesBDDChargement extends AccesBDD{
 		ajout.setFloat(4, aAjouter.getVolChargement().intValue());
 		ajout.setTimestamp(5, aAjouter.getDate());
 		ajout.setInt(6, aAjouter.getUtilisateur().getId().intValue());
-		ajout.setInt(7, aAjouter.getCodeBarre().intValue());
+		ajout.setString(7, aAjouter.getCodeBarre());
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close(); //fermeture requete SQL
@@ -87,7 +87,7 @@ public class AccesBDDChargement extends AccesBDD{
 					new Integer("VolChargement"),
 					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
 					resultat.getTimestamp("DateCreation"),
-					new Integer(resultat.getInt("CodeBarre"))));
+					resultat.getString("CodeBarre")));
 		}
 		
 		recherche.close();
@@ -134,13 +134,13 @@ public class AccesBDDChargement extends AccesBDD{
 		deconnecter();
 	}
 	
-	public Chargement rechercher(Integer codeBarre) throws SQLException{
+	public Chargement rechercher(String codeBarre) throws SQLException{
 		Chargement chargement=null;
 		AccesBDDCamion bddCamion=new AccesBDDCamion();
 		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement WHERE CodeBarre=?");
-		recherche.setInt(1, codeBarre.intValue());
+		recherche.setString(1, codeBarre);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
@@ -152,7 +152,8 @@ public class AccesBDDChargement extends AccesBDD{
 				new Integer("VolChargement"),
 				bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
 				resultat.getTimestamp("DateCreation"),
-				new Integer(resultat.getInt("CodeBarre")));
+				resultat.getString("CodeBarre"));
+			
 		}
 		
 		recherche.close();
