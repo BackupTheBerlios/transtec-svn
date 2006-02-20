@@ -240,7 +240,7 @@ INSERT INTO `localisation` VALUES (10, 'adresse', '94800', 'Villejuif');
 INSERT INTO `localisation` VALUES (11, 'adresse', '94800', 'Villejuif');
 
 INSERT INTO `personnes` VALUES (1, 3, 'Chaubert', 'Jean-Jacques', '0165654545', 'jj.chaubert@transtec.de');
-INSERT INTO `personnes` VALUES (2, 4, 'DUMOL', 'Raymong', '0124466224', 'r.dumou@wanadoo.fr');
+INSERT INTO `personnes` VALUES (2, 4, 'DUMOL', 'Raymong', '0124466224', 'r.dumou@wanadoo.com');
 INSERT INTO `personnes` VALUES (3, 5, 'Jardin', 'Maurice', '0123456598', 'hortifleur@trantec.com');
 INSERT INTO `personnes` VALUES (4, 6, 'Banal', 'EncorePlus', '01000100001', 'neutre@neutral.com');
 
