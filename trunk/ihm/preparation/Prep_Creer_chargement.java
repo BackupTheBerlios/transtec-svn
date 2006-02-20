@@ -61,9 +61,7 @@ import donnees.Colis;
 import donnees.Preparation;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
-	private JButton creer=new JButton("Créer");
-	private JButton ajouter=new JButton();
-	private JButton supprimer=new JButton();
+	private JButton creer=new JButton("Créer"), ajouter=new JButton(),supprimer=new JButton(), annuler=new JButton("Annuler");
 	private Vector nomColonnes = new Vector();
 	private ModeleTable listeColisMod, listeChargementMod;
 	private TableSorter sorter_colis, sorter_chargement;
@@ -71,6 +69,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Vector listeColis= new Vector(), donnees = new Vector();
 	private int ligneActive;
 	private Preparation preparation=null;
+	EcouteSouris test=null;
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
@@ -104,6 +103,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		creer.setBounds(220,560,100,50);
 	    ct.add(creer);
 	    creer.addActionListener(this);
+	    
+	    // Affichage du bouton "Annuler"
+	    annuler.setBounds(400, 560, 100, 50);
+	    ct.add(annuler);
+	    annuler.addActionListener(this);
 	    
 	    // Affichage du bouton "->"
 	   	ajouter.setBounds(620,140,100,50);
@@ -200,13 +204,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		//Ajout d'un objet 3D
 		//Objet3D(ct, 0.5f, 0.6f, 0.3f);
+		test=new EcouteSouris(ct);
 		if(premierColisAAfficher!=null){
-			EcouteSouris test=new EcouteSouris(ct);
-			ct.add(test./*Objet3D(
+			
+			test./*Objet3D(
 					premierColisAAfficher.getModele().getLargeur().intValue(),
 					premierColisAAfficher.getModele().getProfondeur().intValue(),
 					premierColisAAfficher.getModele().getHauteur().intValue())*/
-					Objet3D(0.5f, 0.6f, 0.3f));
+					Objet3D(0.5f, 0.6f, 0.3f);
 		}
 		
 		// Creation de la zone 3D correspondant au camion
@@ -462,9 +467,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	}
-	
-	public void mousePressed(MouseEvent ev){
 		
+		// Annulation de la création d'un chargement
+		else if(source==annuler){
+			test.rm();
+			
+		}
 	}
 }

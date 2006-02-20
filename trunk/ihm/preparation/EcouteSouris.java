@@ -17,6 +17,7 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
+import javax.media.j3d.Locale;
 import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.RotationInterpolator;
@@ -37,27 +38,29 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	//private ModeleTable tableauMod=null;
 	//private JTable tableau=null;
 	//private Canvas3D canvas3D=null;
+	BranchGroup scene=null;
+	SimpleUniverse simpleU=null;
+	Canvas3D canvas3D=null;
+	TransformGroup objSpin=null;
+	Box box=null;
 	
 	public EcouteSouris(/*JTable tableau, */Container container/*, ModeleTable tableauMod, Canvas3D canvas3D*/){
 		super();
-		//this.tableau=tableau;
-		//this.tableau.addMouseListener(this);
 		this.container=container;
-		//this.tableauMod=tableauMod;
-		//this.canvas3D=canvas3D;
 	}
 	
 	public void mousePressed(MouseEvent ev){
-		//this.container.remove(canvas3D);
-		/*JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-		container.remove(canvas3D);
-		Colis colis=new Colis((Vector)tableauMod.getRow(tableau.getSelectedRow()));
-		Objet3D(container,
-			colis.getModele().getLargeur().intValue(),
-			colis.getModele().getProfondeur().intValue(),
-			colis.getModele().getHauteur().intValue());*/
-		//container.repaint();
-		//JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+		/*scene.removeChild(objSpin);
+	    objSpin.removeChild(box);
+	    scene.addChild(objSpin);
+	    container.add(canvas3D);*/
+	    
+	    /*scene.removeChild(objSpin);
+	    objSpin.addChild(box);
+	    scene.addChild(objSpin);*/
+		this.container.repaint();
+		
+		JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
@@ -81,19 +84,19 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	}
 	
 	//	Fonction permettant de créer l'objet 3D dans le container
-	public Canvas3D Objet3D(float largeur, float hauteur, float profondeur){
+	public void Objet3D(float largeur, float hauteur, float profondeur){
 		// Zone 3D de la liste des colis
-	    Canvas3D canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
+	    canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(100,40,400,260);
 	    	    
 	    // Creation d'un objet SimpleUniverse
-	    SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
+	    simpleU = new SimpleUniverse(canvas3D);
 	    
 	    // Positionnement du point d'observation pour avoir une vue correcte de la scene 3D
 	    simpleU.getViewingPlatform().setNominalViewingTransform();
 	    
 	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut visualiser
-	    BranchGroup scene = new BranchGroup();
+	    scene = new BranchGroup();
 	    	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
@@ -101,7 +104,7 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    transform3D.setScale(0.1f);
 
 	    // Partie concernant l'animation du cube
-	    TransformGroup objSpin = new TransformGroup(transform3D);
+	    objSpin = new TransformGroup(transform3D);
 	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	    Alpha rotationAlpha = new Alpha(-1, 4000);
 	    RotationInterpolator rotator = new RotationInterpolator(rotationAlpha, objSpin);
@@ -139,15 +142,49 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    scene.addChild(background);
 	    
 	     // Construction du cube
-	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    box=new Box(largeur, hauteur, profondeur, apparence);
+	    objSpin.addChild(box);
 	    scene.addChild(objSpin);
 	    
 	    // Compilation de la scene 3D
+	    scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	    scene.setCapability(BranchGroup.ALLOW_DETACH);
+	    objSpin.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
 	    scene.compile();
 	    
-	    // Attachement de la scene 3D a l'objet SimpleUniverse
+	    // Phase TEST
 	    simpleU.addBranchGraph(scene);
-	    //container.add(canvas3D);
-	    return canvas3D;
+	    
+	    //scene.detach();
+	    //Locale locale =simpleU.getLocale();
+	    //BranchGroup scene2=new BranchGroup();
+	    //locale.replaceBranchGraph(scene, scene2);
+	 
+	    
+	   // scene.removeChild(objSpin);
+	    //objSpin.removeChild(box);
+	    //scene.addChild(objSpin);
+	    
+	    /*locale.addBranchGraph(scene);*/
+	    //scene.removeChild(objSpin);
+	    //objSpin.addChild(box);
+	    //scene.addChild(objSpin);
+	    
+	    
+	    //Fin phase Test
+	    
+	    //	  Attachement de la scene 3D a l'objet SimpleUniverse
+	    //simpleU.addBranchGraph(scene);
+	    
+	    container.add(canvas3D);
+	}
+	
+	public Canvas3D rm(){
+		objSpin.addChild(new Box(0.1f, 0.1f, 0.1f, null));
+		/*scene.removeChild(objSpin);
+		scene.compile();
+		simpleU.addBranchGraph(scene);*/
+		scene.compile();
+		return canvas3D;
 	}
 }
