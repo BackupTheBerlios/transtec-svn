@@ -34,17 +34,17 @@ import donnees.Colis;
 
 public class EcouteSouris extends JFrame implements MouseListener{
 	private Container container=null;
-	private ModeleTable tableauMod=null;
-	private JTable tableau=null;
-	private Canvas3D canvas3D=null;
+	//private ModeleTable tableauMod=null;
+	//private JTable tableau=null;
+	//private Canvas3D canvas3D=null;
 	
-	public EcouteSouris(JTable tableau, Container container, ModeleTable tableauMod, Canvas3D canvas3D){
+	public EcouteSouris(/*JTable tableau, */Container container/*, ModeleTable tableauMod, Canvas3D canvas3D*/){
 		super();
-		this.tableau=tableau;
-		this.tableau.addMouseListener(this);
+		//this.tableau=tableau;
+		//this.tableau.addMouseListener(this);
 		this.container=container;
-		this.tableauMod=tableauMod;
-		this.canvas3D=canvas3D;
+		//this.tableauMod=tableauMod;
+		//this.canvas3D=canvas3D;
 	}
 	
 	public void mousePressed(MouseEvent ev){
@@ -81,7 +81,7 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	}
 	
 	//	Fonction permettant de créer l'objet 3D dans le container
-	public void Objet3D(Container container, float largeur, float hauteur, float profondeur){
+	public Canvas3D Objet3D(float largeur, float hauteur, float profondeur){
 		// Zone 3D de la liste des colis
 	    Canvas3D canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(100,40,400,260);
@@ -147,6 +147,7 @@ public class EcouteSouris extends JFrame implements MouseListener{
 	    
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
-	    container.add(canvas3D);
+	    //container.add(canvas3D);
+	    return canvas3D;
 	}
 }

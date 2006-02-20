@@ -75,6 +75,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
 		
+		Colis premierColisAAfficher=null;
 		// Initialisation de la preparation pour la classe
 		this.preparation=preparation;
 		
@@ -135,11 +136,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			for(int i=0;i<listeColisBDD.size();i++){
 				listeColis.addElement(((Colis)listeColisBDD.get(i)).toVector());
 			}
+			premierColisAAfficher=(Colis)listeColisBDD.get(0);
 		}
 		catch(SQLException SQLe){
 			
 		}
-		
 		
 		//Création du tableau listant les colis pour la destination
 		
@@ -198,9 +199,15 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane_chargement);
 		
 		//Ajout d'un objet 3D
-		
-		Objet3D(ct, 0.5f, 0.6f, 0.3f);
-		
+		//Objet3D(ct, 0.5f, 0.6f, 0.3f);
+		if(premierColisAAfficher!=null){
+			EcouteSouris test=new EcouteSouris(ct);
+			ct.add(test./*Objet3D(
+					premierColisAAfficher.getModele().getLargeur().intValue(),
+					premierColisAAfficher.getModele().getProfondeur().intValue(),
+					premierColisAAfficher.getModele().getHauteur().intValue())*/
+					Objet3D(0.5f, 0.6f, 0.3f));
+		}
 		
 		// Creation de la zone 3D correspondant au camion
 		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
@@ -310,7 +317,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	}
 	
 	//Fonction permettant de créer l'objet 3D dans le container
-	public Canvas3D Objet3D(Container container, float largeur, float hauteur, float profondeur){
+	/*public Canvas3D Objet3D(/*Container container, float largeur, float hauteur, float profondeur){
 		// Zone 3D de la liste des colis
 	    Canvas3D canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(100,40,400,260);
@@ -379,14 +386,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    container.add(canvas3D);
 	    container.repaint();
 	    
-	    /*//TEST
+	    
 	    JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 	    scene.removeAllChildren();
 	    scene.compile();
 	    simpleU.addBranchGraph(scene);
-	    container.repaint();*/
-	    return canvas3D;
-	}
+	    container.repaint();
+	    //return canvas3D;
+	}*/
 	
 	public void actionPerformed(ActionEvent ev) {
 		AccesBDDChargement bddChargement=new AccesBDDChargement();
