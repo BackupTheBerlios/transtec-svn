@@ -209,7 +209,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				
 		// Creation de la zone 3D correspondant au camion
 		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    camion3D.setBounds(700,100,400,260);
+	    camion3D.setBounds(600,0,650,300);
 	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
@@ -224,7 +224,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Arriere plan en blanc
 	    Background background = new Background(1, 1, 1);
-	    background.setColor(new Color3f(Color.LIGHT_GRAY));
+	    background.setColor(new Color3f(Color.lightGray));
 	    background.setApplicationBounds(new BoundingBox());
 	    parent.addChild(background);
 	    
@@ -246,31 +246,35 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    Appearance apparence=new Appearance();
 	    apparence.setPolygonAttributes(pol);
 	    
-//*********************************CREATION DU CUBE*****************************************//
+//*********************************CREATION DU CAMION*****************************************//
 	    
-	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
+//		Les coordonnees des 16 sommets des 4 faces visibles du cube
 	    // Face 1
-	    Point3f face1_s1 = new Point3f(-0.5f, 0.5f, 0.5f);
-	    Point3f face1_s2 = new Point3f(-0.5f, -0.5f, 0.5f);
-	    Point3f face1_s3 = new Point3f( 0.5f, -0.5f, 0.5f);
-	    Point3f face1_s4 = new Point3f( 0.5f, 0.5f, 0.5f);
+	    Point3f face1_s1 = new Point3f(-0.9f, 0.3f, 0.165f);
+	    Point3f face1_s2 = new Point3f(0.9f, 0.3f, 0.165f);
+	    Point3f face1_s3 = new Point3f( 0.9f, -0.3f, 0.165f);
+	    Point3f face1_s4 = new Point3f( -0.9f, -0.3f, 0.165f);
 	    // Face 2
-	    Point3f face2_s1 = new Point3f( 0.5f, 0.5f, 0.5f);
-	    Point3f face2_s2 = new Point3f( 0.5f, -0.5f, 0.5f);
-	    Point3f face2_s3 = new Point3f( 0.5f, -0.5f, -0.5f);
-	    Point3f face2_s4 = new Point3f( 0.5f, 0.5f, -0.5f);
+	    Point3f face2_s1 = new Point3f( 0.9f, 0.3f, 0.165f);
+	    Point3f face2_s2 = new Point3f( 0.9f, 0.3f, -0.165f);
+	    Point3f face2_s3 = new Point3f( 0.9f, -0.3f, -0.165f);
+	    Point3f face2_s4 = new Point3f( 0.9f, -0.3f, 0.165f);
 	    // Face 3
-	    Point3f face3_s1 = new Point3f( 0.5f, 0.5f, -0.5f);
-	    Point3f face3_s2 = new Point3f( 0.5f, -0.5f, -0.5f);
-	    Point3f face3_s3 = new Point3f(-0.5f, -0.5f, -0.5f);
-	    Point3f face3_s4 = new Point3f(-0.5f, 0.5f, -0.5f);
+	    Point3f face3_s1 = new Point3f( -0.9f, 0.3f, -0.165f);
+	    Point3f face3_s2 = new Point3f( 0.9f, 0.3f, -0.165f);
+	    Point3f face3_s3 = new Point3f(0.9f, -0.3f, -0.165f);
+	    Point3f face3_s4 = new Point3f(-0.9f, -0.3f, -0.165f);
 	    // Face 4
-	    Point3f face4_s1 = new Point3f(-0.5f, 0.5f, -0.5f);
-	    Point3f face4_s2 = new Point3f(-0.5f, -0.5f, -0.5f);
-	    Point3f face4_s3 = new Point3f(-0.5f, -0.5f, 0.5f);
-	    Point3f face4_s4 = new Point3f(-0.5f, 0.5f, 0.5f);
-	    // Les couleurs des 4 faces visibles du cube
-	    Color4f color1 = new Color4f(Color.darkGray);
+	    Point3f face4_s1 = new Point3f(-0.9f, 0.3f, 0.165f);
+	    Point3f face4_s2 = new Point3f(-0.9f, 0.3f, -0.165f);
+	    Point3f face4_s3 = new Point3f(-0.9f, -0.3f, -0.165f);
+	    Point3f face4_s4 = new Point3f(-0.9f, -0.3f, 0.165f);
+	     
+	    //Les couleurs des 4 faces visibles du cube
+	    Color4f color1 = new Color4f(Color.blue);
+	    Color4f color2 = new Color4f(200,200,200,1.0f);
+	    
+	  
 	    // Construction de l'objet geometrique QuadArray constitue de 16
 	    // points
 	    QuadArray quadArray = new QuadArray(16,
@@ -285,12 +289,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    });
 	    // Tableau des couleurs des 4 sommets de chaque face
 	    quadArray.setColors(0, new Color4f[] {
-	    /* couleur face 1 */ color1, color1, color1, color1,
+	    /* couleur face 1 */ color2, color2, color2, color2,
 	    /* couleur face 2 */ color1, color1, color1, color1,
 	    /* couleur face 3 */ color1, color1, color1, color1,
 	    /* couleur face 4 */ color1, color1, color1, color1
 	    });
-	    
 //******************************************************************************************//	    
 	    
 	    //Création du shade3D
@@ -300,6 +303,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    //Ajout de l'objet crée
 	    objSpin.addChild(shape);
+	    Box cam = new Box(0.1f, 0.1f, 0.1f, apparence);
+	    objSpin.addChild(cam);
 	    parent.addChild(objSpin);
 	    
 	    // Compilation de la scene 3D
@@ -351,8 +356,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    //Test
 	    PolygonAttributes pol = new PolygonAttributes();
-	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);
+	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);*/
 	    
+	/*
 	    //Zone d'éclairage de la lumière
 	    DirectionalLight lumiereDir=new DirectionalLight();
 	    AmbientLight lumiere=new AmbientLight();
@@ -365,7 +371,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    materiau.setAmbientColor(new Color3f(Color.blue));
 	    Appearance apparence=new Appearance();
 	    apparence.setMaterial(materiau);
-	    apparence.setPolygonAttributes(pol);
+	    //apparence.setPolygonAttributes(pol);
 	    
 	    // Ajout des paramètres à la scène
 	    scene.addChild(lumiere);
