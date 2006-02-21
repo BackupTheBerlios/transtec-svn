@@ -11,8 +11,9 @@ public class ModeleColis {
 	private Integer diametre;
 	
 	// Constantes définissant la forme du colis
-	public final static int PAVE=0;
-	public final static int CYLINDRE=1;
+	public final static int CUBE=0;
+	public final static int PAVE=1;
+	public final static int CYLINDRE=2;
 	
 	// Constructeur avec tous les paramètres
 	public ModeleColis(Integer id,Integer forme,Integer modele,Integer hauteur,Integer largeur,Integer profondeur,Integer diametre){
@@ -24,6 +25,15 @@ public class ModeleColis {
 		this.profondeur=profondeur;
 		this.diametre=diametre;
 	}
+	
+	public ModeleColis(Integer forme,Integer modele){
+	
+		this.forme=forme;
+		this.modele=modele;
+	
+	}
+	
+	
 	
 	
 	public void setId(Integer id){
@@ -59,12 +69,18 @@ public class ModeleColis {
 		// On regarde le type de modèle
 		switch(forme.intValue()){
 		// Cas d'un pavé
-		case PAVE:
+		case CUBE:
 			vol = Integer.valueOf(largeur.intValue()*hauteur.intValue()*profondeur.intValue());
 			break;
+			
+		case PAVE:
+
+			vol = Integer.valueOf(largeur.intValue()*hauteur.intValue()*profondeur.intValue());
+			break;
+			
 		// Cas d'un cylindre
 		case CYLINDRE:
-			vol = Integer.valueOf((int)Math.round(hauteur.intValue()*Math.PI*Math.pow((double)(diametre.intValue()/2.0),2.0)));
+			vol = Integer.valueOf((int)Math.round(hauteur.intValue()*Math.PI*Math.pow((double)(largeur.intValue()/2.0),2.0)));
 			break;		
 		}
 		

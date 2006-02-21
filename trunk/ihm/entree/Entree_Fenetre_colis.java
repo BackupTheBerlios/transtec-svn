@@ -249,9 +249,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
         nomColonnes.add("Poids");
         nomColonnes.add("Date d'envoi");
         nomColonnes.add("Fragilité");
-        nomColonnes.add("modele id");
-        //nomColonnes.add("modele forme");
-        //nomColonnes.add("modele mod");
+       // nomColonnes.add("modele id");
+        nomColonnes.add("modele forme");
+        nomColonnes.add("modele mod");
         nomColonnes.add("valeur_declaree");
            
         donnees = new Vector();
@@ -277,7 +277,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
-		tabColis.removeColumn(tabColis.getColumnModel().getColumn(5));
+		tabColis.removeColumn(tabColis.getColumnModel().getColumn(6));
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		JScrollPane scrollPane = new JScrollPane(tabColis);
 
@@ -599,6 +599,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	}
 	public void informations_vierge()
 	{
+		
 		code_barre.setEnabled(false);
 		date_envoie.setEnabled(false);
 		scrollPane1.setVisible(false);
@@ -733,6 +734,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		forme_colis.setEnabled(true);
 		modele_colis.setEnabled(true);
 		fragilite_colis.setEnabled(true);
+		poids.setEnabled(true);
 		
 	}
 	
@@ -847,6 +849,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			profondeur.setText("");
 			
 		}
+		
+		
 	}
 	
 	public void modification_informations()
@@ -962,19 +966,16 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					
 					
 					//On ajoute l'entrepot dans la bdd
-					AccesBDDEntrepot test7=new AccesBDDEntrepot();
-					entrepot = new Entrepot("25 rue des peupliers","94250","Villejuif","0136523698");
-					
-					try{
-						test7.ajouter(entrepot);
-					}
-					catch(SQLException e2){
-						System.out.println(e2.getMessage());
-					}
-	
+					//
+					String numero_cp = cp_dest.getText();
+					Integer cp_entrepot = new Integer (numero_cp.substring(0,1));
+					entrepot = new Entrepot();
+					entrepot = rechercher_entrepot(cp_entrepot);
+				
+			
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"0",new Integer(20));
+					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"0",modele.calculerVolume());
 				
 					try{
 						test.ajouter(col);
@@ -1076,9 +1077,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						}
 					}
 					
-					
+					String numero_cp = cp_dest.getText();
+					Integer cp_entrepot = new Integer (numero_cp.substring(0,1));
+					entrepot = new Entrepot();
+					entrepot = rechercher_entrepot(cp_entrepot);
 					//On ajoute l'entrepot dans la bdd
-					AccesBDDEntrepot test7=new AccesBDDEntrepot();
+					/*AccesBDDEntrepot test7=new AccesBDDEntrepot();
 					entrepot = new Entrepot("25 rue des peupliers","94250","Villejuif","0136523698");
 					
 					try{
@@ -1086,12 +1090,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					}
 					catch(SQLException e2){
 						System.out.println(e2.getMessage());
-					}
+					}*/
 	
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
 					System.out.println(col.getId());
-					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,"0",col.getVolume());
+					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,"0",modele_temp.calculerVolume());
 				
 					try{
 						test.modifier(col_temp);
@@ -1183,6 +1187,21 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		
 	}
+	private Entrepot rechercher_entrepot(Integer numero_entrepot){
+		
+		
+		
+		AccesBDDEntrepot test7=new AccesBDDEntrepot();
+		Entrepot entre = new Entrepot();
+		try{
+			entre = test7.rechercher(numero_entrepot);
+		}
+		catch(SQLException e2){
+			System.out.println(e2.getMessage());
+		}
+	
+		return entre;
+	}
 	//Méthode permettant de vérifier les champs 
 	private boolean verifChamps(){
 		boolean ret = false;		
@@ -1239,14 +1258,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		else if(prenom_dest.getText().equals("")) setWarning("Prénom destinataire");
 		else if(adresse_dest.getText().equals("")) setWarning("Adresse destinataire");
 		else if(ville_dest.getText().equals("")) setWarning("Ville destinataire");
-		else if(cp_dest.getText().equals("") || erreurCPdest) setWarning("CP destinataire");
+		else if(cp_dest.getText().equals("") || erreurCPdest || cp_dest.getText().length() < 2) setWarning("CP destinataire");
 		else if(email_dest.getText().equals("")) setWarning("Email destinataire");
 		else if(tel_dest.getText().equals("")) setWarning("Téléphone destinataire");
 		else if(nom_exp.getText().equals("")) setWarning("Nom expéditeur");
 		else if(prenom_exp.getText().equals("")) setWarning("Prénom expéditeur");
 		else if(adresse_exp.getText().equals("")) setWarning("Adresse expéditeur");
 		else if(ville_exp.getText().equals("")) setWarning("Ville expéditeur");
-		else if(cp_exp.getText().equals("") || erreurCPexp) setWarning("CP expéditeur");
+		else if(cp_exp.getText().equals("") || erreurCPexp ||cp_exp.getText().length() < 2) setWarning("CP expéditeur");
 		else if(email_exp.getText().equals("")) setWarning("Email expéditeur");
 		else if(tel_exp.getText().equals("")) setWarning("Téléphone expéditeur");
 		else if (modele_colis.getSelectedIndex()== 3 && (hauteur.getText().equals("") || erreurhaut))setWarning("Hauteur");
