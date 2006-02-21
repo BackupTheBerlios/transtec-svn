@@ -9,34 +9,21 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Vector;
 
-import javax.media.j3d.Alpha;
-import javax.media.j3d.AmbientLight;
+
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingBox;
-import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.ColoringAttributes;
-import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.Geometry;
-import javax.media.j3d.LineArray;
-import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.QuadArray;
-import javax.media.j3d.RenderingAttributes;
-import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
-import javax.media.j3d.Texture2D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.media.j3d.TransparencyAttributes;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,7 +42,6 @@ import com.sun.j3d.utils.geometry.Box;
 
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
-import donnees.Camion;
 import donnees.Chargement;
 import donnees.Colis;
 import donnees.Preparation;
@@ -79,12 +65,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		Container ct = this.getContentPane();
 		
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFichier = new JMenu("Fichier");
-		
 		// Taille de la fenêtre
 		setSize(800,600);
-		setBounds(0,0,1260,750);
+		setBounds(20,100,1240,680);
 		
 		ct = getContentPane();
 		ct.setLayout(new FlowLayout());
@@ -99,22 +82,22 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		supprimer.setIcon(icone_supprimer);
 		
 		// Affichage du bouton "Créer"
-		creer.setBounds(220,560,100,50);
+		creer.setBounds(345,540,100,40);
 	    ct.add(creer);
 	    creer.addActionListener(this);
 	    
 	    // Affichage du bouton "Annuler"
-	    annuler.setBounds(400, 560, 100, 50);
+	    annuler.setBounds(525, 540, 100, 40);
 	    ct.add(annuler);
 	    annuler.addActionListener(this);
 	    
 	    // Affichage du bouton "->"
-	   	ajouter.setBounds(620,140,100,50);
+	   	ajouter.setBounds(460,100,55,40);
 	    ct.add(ajouter);
 	    ajouter.addActionListener(this);
 	    
 	    // Affichage du bouton "<-"
-	    supprimer.setBounds(620, 400, 80, 40);
+	    supprimer.setBounds(460, 180, 55, 40);
 	    ct.add(supprimer);
 	    supprimer.addActionListener(this);
 	    
@@ -168,14 +151,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
-		scrollPane.setBounds(100,400,500,150);
+		scrollPane.setBounds(20,360,400,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
 		AffichageColisDynamique zoneColis3D=new AffichageColisDynamique(ct);
-		zoneColis3D.Initialisation(0.5f, 0.6f, 0.3f);
+		zoneColis3D.Initialisation(0.3f, 0.4f, 0.3f);
 		listeColisTab.addMouseListener(zoneColis3D);
 
 		// Création du tableau contenant les colis que l'on veut mettre dans le chargement
@@ -201,7 +184,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane_chargement = new JScrollPane(listeChargementTab);
 		listeChargementTab.setPreferredScrollableViewportSize(new Dimension(400,150));
-		scrollPane_chargement.setBounds(650,400,500,150);
+		scrollPane_chargement.setBounds(555,360,650,150);
 		scrollPane_chargement.setOpaque(false);
 		scrollPane_chargement.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane_chargement);
@@ -209,7 +192,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				
 		// Creation de la zone 3D correspondant au camion
 		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    camion3D.setBounds(600,0,650,300);
+	    camion3D.setBounds(555,20,650,300);
 	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
@@ -224,7 +207,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Arriere plan en blanc
 	    Background background = new Background(1, 1, 1);
-	    background.setColor(new Color3f(Color.lightGray));
+	    background.setColor(new Color3f(new Color(238,238,238)));
 	    background.setApplicationBounds(new BoundingBox());
 	    parent.addChild(background);
 	    

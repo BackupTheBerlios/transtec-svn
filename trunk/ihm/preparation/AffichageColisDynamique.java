@@ -73,7 +73,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	public void Initialisation(float largeur, float hauteur, float profondeur){
 		// Zone 3D de la liste des colis
 	    canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    canvas3D.setBounds(100,40,400,260);
+	    canvas3D.setBounds(20,20,400,300);
 	    	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
@@ -97,6 +97,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	    container.add(canvas3D);
 	}
 	
+	// Fonction permettant de créer un cube
 	private BranchGroup creationObjet(float largeur, float profondeur, float hauteur){
 		// Création de la branche
 		BranchGroup branche=new BranchGroup();
