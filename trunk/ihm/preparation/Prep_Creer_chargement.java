@@ -14,21 +14,25 @@ import java.sql.Timestamp;
 import java.util.Vector;
 
 
+import javax.media.j3d.Alpha;
+import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingBox;
+import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.DirectionalLight;
+import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.QuadArray;
+import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -48,18 +52,19 @@ import donnees.Preparation;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer"), ajouter=new JButton(),supprimer=new JButton(), annuler=new JButton("Annuler");
-	private Vector nomColonnes = new Vector();
 	private ModeleTable listeColisMod, listeChargementMod;
 	private TableSorter sorter_colis, sorter_chargement;
 	private JTable listeColisTab, listeChargementTab;
 	private Vector listeColis= new Vector(), donnees = new Vector();
-	private int ligneActive;
 	private Preparation preparation=null;
+	private BranchGroup scene;
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
 		
+		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
+		
 		// Initialisation de la preparation pour la classe
 		this.preparation=preparation;
 		
@@ -197,19 +202,18 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
 	    
-	    // Positionnement du point d'observation pour avoir une vue correcte de la
-	    // scene 3D
+	    // Positionnement du point d'observation pour avoir une vue correcte de la scene 3D
 	    simpleU.getViewingPlatform().setNominalViewingTransform();
 	    
-	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut
-	    // visualiser
-	    BranchGroup parent = new BranchGroup();
+	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut visualiser
+	    this.scene=new BranchGroup();
+	    BranchGroup branche = new BranchGroup();
 	    
-	    // Arriere plan en blanc
+	    // Arriere plan
 	    Background background = new Background(1, 1, 1);
 	    background.setColor(new Color3f(new Color(238,238,238)));
 	    background.setApplicationBounds(new BoundingBox());
-	    parent.addChild(background);
+	    branche.addChild(background);
 	    
 	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
@@ -231,7 +235,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 //*********************************CREATION DU CAMION*****************************************//
 	    
-//		Les coordonnees des 16 sommets des 4 faces visibles du cube
+	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
 	    // Face 1
 	    Point3f face1_s1 = new Point3f(-0.9f, 0.3f, 0.165f);
 	    Point3f face1_s2 = new Point3f(0.9f, 0.3f, 0.165f);
@@ -286,106 +290,32 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    //Ajout de l'objet crée
 	    objSpin.addChild(shape);
-	    Box cam = new Box(0.1f, 0.1f, 0.1f, apparence);
-	    objSpin.addChild(cam);
-	    parent.addChild(objSpin);
+	    //Box cam = new Box(0.1f, 0.1f, 0.1f, apparence);
+	    //objSpin.addChild(cam);
+	    branche.addChild(objSpin);
 	    
 	    // Compilation de la scene 3D
-	    parent.compile();
+	    branche.compile();
+	    
+	    this.scene.addChild(branche);
+	    this.scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	    this.scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
 	    
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
-	    simpleU.addBranchGraph(parent);
+	    simpleU.addBranchGraph(this.scene);
 	    
 	    //Ajout au container
 	    ct.add(camion3D);
 	    
 		setVisible(true);
 	}
-	
-	//Fonction permettant de créer l'objet 3D dans le container
-	/*public Canvas3D Objet3D(/*Container container, float largeur, float hauteur, float profondeur){
-		// Zone 3D de la liste des colis
-	    Canvas3D canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    canvas3D.setBounds(100,40,400,260);
-	    	    
-	    // Creation d'un objet SimpleUniverse
-	    SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
-	    
-	    // Positionnement du point d'observation pour avoir une vue correcte de la scene 3D
-	    simpleU.getViewingPlatform().setNominalViewingTransform();
-	    
-	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut visualiser
-	    BranchGroup scene = new BranchGroup();
-	    	    
-	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
-	    Transform3D transform3D=new Transform3D();
-	    // Changement de l'échelle 
-	    transform3D.setScale(0.1f);
-
-	    // Partie concernant l'animation du cube
-	    TransformGroup objSpin = new TransformGroup(transform3D);
-	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-	    Alpha rotationAlpha = new Alpha(-1, 4000);
-	    RotationInterpolator rotator = new RotationInterpolator(rotationAlpha, objSpin);
-	    BoundingSphere bounds = new BoundingSphere();
-	    rotator.setSchedulingBounds(bounds);
-	    objSpin.addChild(rotator);
-	    // Fin animation cube
-	    
-	    // Arrière plan de la scène 3D
-	    Background background = new Background(1, 1, 1);
-	    background.setColor(new Color3f(new Color(238,238,238)));
-	    background.setApplicationBounds(new BoundingBox());
-	    
-	    //Test
-	    PolygonAttributes pol = new PolygonAttributes();
-	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);*/
-	    
-	/*
-	    //Zone d'éclairage de la lumière
-	    DirectionalLight lumiereDir=new DirectionalLight();
-	    AmbientLight lumiere=new AmbientLight();
-	    lumiereDir.setColor(new Color3f(Color.cyan));
-	    lumiere.setInfluencingBounds(new BoundingBox());
-	    lumiereDir.setInfluencingBounds(new BoundingBox());
-	    
-	    // Couleur du cube
-	    Material materiau=new Material();
-	    materiau.setAmbientColor(new Color3f(Color.blue));
-	    Appearance apparence=new Appearance();
-	    apparence.setMaterial(materiau);
-	    //apparence.setPolygonAttributes(pol);
-	    
-	    // Ajout des paramètres à la scène
-	    scene.addChild(lumiere);
-	    scene.addChild(lumiereDir);
-	    scene.addChild(background);
-	    
-	     // Construction du cube
-	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
-	    scene.addChild(objSpin);
-	    
-	    // Compilation de la scene 3D
-	    scene.compile();
-	    
-	    // Attachement de la scene 3D a l'objet SimpleUniverse
-	    simpleU.addBranchGraph(scene);
-	    container.add(canvas3D);
-	    container.repaint();
-	    
-	    
-	    JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-	    scene.removeAllChildren();
-	    scene.compile();
-	    simpleU.addBranchGraph(scene);
-	    container.repaint();
-	    //return canvas3D;
-	}*/
-	
+		
 	public void actionPerformed(ActionEvent ev) {
 		AccesBDDChargement bddChargement=new AccesBDDChargement();
 		Vector aCharger=new Vector();
 		Object source = ev.getSource();
+		int ligneActive;
+		Colis colis=null;
 		
 		// Création d'un chargement à l'état en cours
 		if(source == creer){
@@ -414,7 +344,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			if (ligneActive != -1){
 				//On ajoute au chargement la ligne selectionnée
 				listeChargementMod.addRow(listeColisMod.getRow(ligneActive));
-				Colis colis=new Colis((Vector)listeColisMod.getRow(ligneActive));
+				colis=new Colis((Vector)listeColisMod.getRow(ligneActive));
 				preparation.ajouterVolumeColis(colis.getVolume());
 				listeChargementMod.fireTableDataChanged();
 				//On supprime de la liste des colis
@@ -423,6 +353,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				//Mise à jour des tableaux
 				listeColisTab.updateUI();
 				listeChargementTab.updateUI();
+				
+				// Ajout de l'objet 3D
+				scene.addChild(brancheCube(0.1f/*colis.getModele().getLargeur()*/, 
+						0.1f/*colis.getModele().getProfondeur()*/, 
+						0.1f/*colis.getModele().getHauteur()*/));
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -435,7 +370,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			if (ligneActive != -1){
 				// On ajoute à la liste des colis
 				listeColisMod.addRow(listeChargementMod.getRow(ligneActive));
-				Colis colis=new Colis((Vector)listeChargementMod.getRow(ligneActive));
+				colis=new Colis((Vector)listeChargementMod.getRow(ligneActive));
 				preparation.soustraireVolumeColis(colis.getVolume());
 				listeColisMod.fireTableDataChanged();
 				//On supprime du chargement
@@ -454,5 +389,50 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		else if(source==annuler){
 			dispose();			
 		}
+	}
+	
+	private BranchGroup brancheCube(float largeur, float profondeur, float hauteur){
+		// Création de la branche
+		BranchGroup branche=new BranchGroup();
+		
+		// Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    Transform3D transform3D=new Transform3D();
+	    // Changement de l'échelle 
+	    transform3D.setScale(0.1f);
+
+	    // Arrière plan de la scène 3D
+	    Background background = new Background(1, 1, 1);
+	    background.setColor(new Color3f(new Color(238,238,238)));
+	    background.setApplicationBounds(new BoundingBox());
+		
+	    // Zone d'éclairage de la lumière
+	    DirectionalLight lumiereDir=new DirectionalLight();
+	    AmbientLight lumiere=new AmbientLight();
+	    lumiereDir.setColor(new Color3f(Color.cyan));
+	    lumiere.setInfluencingBounds(new BoundingBox());
+	    lumiereDir.setInfluencingBounds(new BoundingBox());
+	    
+	    // Couleur du cube
+	    Material materiau=new Material();
+	    materiau.setAmbientColor(new Color3f(Color.blue));
+	    Appearance apparence=new Appearance();
+	    apparence.setMaterial(materiau);
+	    
+	    // Ajout des paramètres à la scène
+	    branche.addChild(lumiere);
+	    branche.addChild(lumiereDir);
+	    branche.addChild(background);
+	    
+	    //Construction du cube
+	    TransformGroup objSpin=new TransformGroup();
+	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    branche.addChild(objSpin);
+	    
+	    // Ajout de la capacité à séparer la branche
+	    branche.setCapability(BranchGroup.ALLOW_DETACH);
+	    
+	    branche.compile();
+	    
+		return branche;
 	}
 }
