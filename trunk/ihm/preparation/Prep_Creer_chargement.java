@@ -39,10 +39,20 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.vecmath.Color3f;
 import javax.vecmath.Color4f;
+import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
+import javax.vecmath.Vector3f;
 
+import quicktime.qd3d.math.Point3D;
+
+import com.sun.j3d.utils.picking.PickTool;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+import com.sun.j3d.utils.behaviors.mouse.MouseBehavior;
+import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
+import com.sun.j3d.utils.behaviors.picking.PickRotateBehavior;
+import com.sun.j3d.utils.behaviors.picking.PickTranslateBehavior;
 import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.geometry.ColorCube;
 
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
@@ -58,6 +68,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Vector listeColis= new Vector(), donnees = new Vector();
 	private Preparation preparation=null;
 	private BranchGroup scene;
+	private Canvas3D camion3D;
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
@@ -196,7 +207,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 				
 		// Creation de la zone 3D correspondant au camion
-		Canvas3D camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
+		camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    camion3D.setBounds(555,20,650,300);
 	    
 	    // Creation d'un objet SimpleUniverse
@@ -296,7 +307,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Compilation de la scene 3D
 	    branche.compile();
-	    
+	    this.scene.addChild(createSceneGraph(camion3D));
 	    this.scene.addChild(branche);
 	    this.scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
 	    this.scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
@@ -426,13 +437,69 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    //Construction du cube
 	    TransformGroup objSpin=new TransformGroup();
 	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    
+	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    objSpin.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
+	    objSpin.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
 	    branche.addChild(objSpin);
 	    
 	    // Ajout de la capacité à séparer la branche
 	    branche.setCapability(BranchGroup.ALLOW_DETACH);
 	    
+	    
+//	  TEST DYNAMIQUE SOURIS
+	    PickTranslateBehavior test=new PickTranslateBehavior(branche, camion3D, new BoundingSphere());
+	    branche.addChild(test);
+	    // Fin test
+	    
 	    branche.compile();
 	    
 		return branche;
 	}
+	
+	public BranchGroup createSceneGraph(Canvas3D canvas) {
+		 // Create the root of the branch graph
+		 BranchGroup objRoot = new BranchGroup();
+		
+		 TransformGroup objRotate = null;
+
+		PickRotateBehavior pickRotate = null;
+		 //PickTranslateBehavior pickTranslate = null;
+		Transform3D transform = new Transform3D();
+		BoundingSphere behaveBounds = new BoundingSphere();
+		BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0,
+			      0.0), 100.0);
+		
+		 // create ColorCube and PickRotateBehavior objects
+		 transform.setTranslation(new Vector3f(-0.6f, 0.0f, -0.6f));
+		 objRotate = new TransformGroup(transform);
+		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		 objRotate.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
+		
+		 objRoot.addChild(objRotate);
+		 objRotate.addChild(new ColorCube(0.4));
+		
+		 pickRotate = new PickRotateBehavior(objRoot,canvas, bounds);
+		 //pickTranslate=new PickTranslateBehavior(objRoot,canvas, bounds);
+		 //pickTranslate.setPickMode(PickTool.GEOMETRY);
+
+		 objRoot.addChild(pickRotate);
+		
+		 // add a second ColorCube object to the scene graph
+		 transform.setTranslation(new Vector3f( 0.6f, 0.0f, -0.6f));
+
+		 objRotate = new TransformGroup(transform);
+		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		 objRotate.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
+		
+		 objRoot.addChild(objRotate);
+		 objRotate.addChild(new ColorCube(0.4));
+		
+		 // Let Java 3D perform optimizations on this scene graph.
+		 objRoot.compile();
+		
+		return objRoot;
+		} // end of createSceneGraph method of MousePickApp
 }
