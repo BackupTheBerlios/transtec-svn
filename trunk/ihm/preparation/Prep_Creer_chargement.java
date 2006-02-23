@@ -43,7 +43,7 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
-import quicktime.qd3d.math.Point3D;
+//import quicktime.qd3d.math.Point3D;
 
 import com.sun.j3d.utils.picking.PickTool;
 import com.sun.j3d.utils.universe.SimpleUniverse;
