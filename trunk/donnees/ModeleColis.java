@@ -70,7 +70,7 @@ public class ModeleColis {
 		switch(forme.intValue()){
 		// Cas d'un pavé
 		case CUBE:
-			vol = Integer.valueOf(largeur.intValue()*hauteur.intValue()*profondeur.intValue());
+			vol = Integer.valueOf(hauteur.intValue()*hauteur.intValue()*hauteur.intValue());
 			break;
 			
 		case PAVE:

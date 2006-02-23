@@ -98,7 +98,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		forme_colis.setEditable(false);
 		forme_colis.setBounds(pos_x + 65,37,200,20);
 		contenu.add(forme_colis);
-		forme_colis.addActionListener(this);
+		forme_colis.addItemListener(this);
 		forme_colis.setEnabled(false);
 		
 		label_modele_colis = new JLabel("Modèle :");
@@ -106,17 +106,17 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(label_modele_colis);
 		
 		label_hauteur_colis = new JLabel("Hauteur (cm) :");
-		label_hauteur_colis.setBounds(pos_x+340, 70,120,15);
+		label_hauteur_colis.setBounds(pos_x+340, 67,120,15);
 		contenu.add(label_hauteur_colis);
 		label_hauteur_colis.setVisible(false);
 		
 		label_largeur_colis = new JLabel("Largeur (cm) :");
-		label_largeur_colis.setBounds(pos_x+340,100,120,15);
+		label_largeur_colis.setBounds(pos_x+340,97,120,15);
 		contenu.add(label_largeur_colis);
 		label_largeur_colis.setVisible(false);
 		
 		label_profondeur_colis = new JLabel("Profondeur (cm) :");
-		label_profondeur_colis.setBounds(pos_x+340,130,120,15);
+		label_profondeur_colis.setBounds(pos_x+340,127,120,15);
 		contenu.add(label_profondeur_colis);
 		label_profondeur_colis.setVisible(false);
 		
@@ -218,7 +218,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		select_personne.addActionListener(this);
 		
 		label_camion = new JLabel("");
-		label_camion.setBounds(pos_x,410,340,15);
+		label_camion.setBounds(pos_x,410,390,15);
 		contenu.add(label_camion);
 		
 		create_incident = new JButton("Incident");
@@ -250,8 +250,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
         nomColonnes.add("Date d'envoi");
         nomColonnes.add("Fragilité");
        // nomColonnes.add("modele id");
-        nomColonnes.add("modele forme");
-        nomColonnes.add("modele mod");
+        nomColonnes.add("Forme");
+        nomColonnes.add("Modèle");
         nomColonnes.add("valeur_declaree");
            
         donnees = new Vector();
@@ -747,7 +747,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		try {
 			liste_chargement = test.listerColis(charg.getId());
 			nombre_colis = liste_chargement.size();
-			label_camion.setText("Liste des colis présents dans le chargement : (" + nombre_colis +" colis)");
+			label_camion.setText("Liste des colis présents dans le chargement : " + charg.getCodeBarre() +" (" + nombre_colis +" colis)");
 			
 	           //On ajoute les incidents dans le tableau 
 	          for(int i=0;i<liste_chargement.size();i++){
@@ -848,7 +848,40 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			largeur.setText("");
 			profondeur.setText("");
 			
+			int num1 = forme_colis.getSelectedIndex();
+			if (num1 == 2)
+			{
+				label_profondeur_colis.setVisible(false);
+				profondeur.setVisible(false);
+				label_largeur_colis.setText("Diamètre (cm) :");
+				
+				
+			}
+			else if(num1==0)
+			{
+				label_profondeur_colis.setVisible(false);
+				profondeur.setVisible(false);
+				label_largeur_colis.setVisible(false);
+				largeur.setVisible(false);
+				label_hauteur_colis.setText("Coté (cm) :");
+				
+				
+			}
+			else
+			{
+				label_profondeur_colis.setVisible(true);
+				profondeur.setVisible(true);
+				label_largeur_colis.setVisible(true);
+				largeur.setVisible(true);
+				label_largeur_colis.setText("Largeur (cm) :");
+				label_hauteur_colis.setText("Hauteur (cm) :");
+				
+			}
+			
 		}
+		
+		
+		
 		
 		
 	}
@@ -884,6 +917,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		}
 		//Si l'utilisateur veut créer une étiquette
 		if (source ==creation) {
+			
 			JFrame fen4 = new Entree_Create_etiquette(code_barre.getText());
 			fen4.setVisible(true);
 		}
@@ -939,17 +973,32 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					//Si le modèle n'est pas standard
 					if(selectmodelecolis == 69)
 					{
+						String profondeur_temp= "",largeur_temp="";
 						//On crée un nouveau modèle de colis avec les dimensions dans la bdd
-						//int volume_temp = hauteur.getText(). * hauteur.getText() * hauteur.getText();
 						
-						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0));
+						if(forme_colis.getSelectedIndex() == 2)
+						{
+							largeur_temp = largeur.getText();
+							profondeur_temp = "0";
+						}
+						else if(forme_colis.getSelectedIndex() == 0)
+						{
+							largeur_temp ="0";
+							profondeur_temp = "0";
+						}
+						else{
+							largeur_temp = largeur.getText();
+							profondeur_temp = profondeur.getText();
+						}
+						
+						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur_temp),new Integer(profondeur_temp),new Integer(0));
 						try{
 							selectmodelecolis = test6.ajouter(modele);
 						}
 						catch(SQLException e6){
-							System.out.println("1");
+							
 							System.out.println(e6.getMessage());
-							System.out.println("2");
+							
 						}
 						
 						
@@ -989,14 +1038,16 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//cas d'un colis à vérifier
 			else if(create ==1)
 			{
-				
+			
 				//On envoie le colis en zone de stockage et on le supprime de la liste de chargement
+				if (charg !=null){
 				AccesBDDChargement test10=new AccesBDDChargement();
 				try {
 					test10.supprimer_colis(col,charg);
 				} catch (SQLException e1) {
 					
 					e1.printStackTrace();
+				}
 				}
 				//ajout_chargement();
 				informations_colis1();
@@ -1034,7 +1085,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						System.out.println(e4.getMessage());
 					}
 				
-					//TODO Faire l'update de modele colis
+					
 					
 					//ModeleColis modele=null;
 					ModeleColis modele_temp = null;
@@ -1045,8 +1096,25 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					if(selectmodelecolis == 69 && modelecolis.getId().intValue() > 9)
 					{
 						//On crée un nouveau modèle de colis avec les dimensions dans la bdd
+						String profondeur_temp= "",largeur_temp="";
+						//On crée un nouveau modèle de colis avec les dimensions dans la bdd
 						
-						modele_temp = new ModeleColis(modelecolis.getId(),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0));
+						if(forme_colis.getSelectedIndex() == 2)
+						{
+							largeur_temp = largeur.getText();
+							profondeur_temp = "0";
+						}
+						else if(forme_colis.getSelectedIndex() == 0)
+						{
+							largeur_temp ="0";
+							profondeur_temp = "0";
+						}
+						else{
+							largeur_temp = largeur.getText();
+							profondeur_temp = profondeur.getText();
+						}
+						
+						modele_temp = new ModeleColis(modelecolis.getId(),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur_temp),new Integer(profondeur_temp),new Integer(0));
 						try{
 							test6.modifier(modele_temp);
 						}
@@ -1058,7 +1126,24 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					}
 					else if(selectmodelecolis == 69 && modelecolis.getId().intValue() <= 9)
 					{
-						modele_temp = new ModeleColis(new Integer(0),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur.getText()),new Integer(profondeur.getText()),new Integer(0));
+						String profondeur_temp= "",largeur_temp="";
+						
+						if(forme_colis.getSelectedIndex() == 2)
+						{
+							largeur_temp = largeur.getText();
+							profondeur_temp = "0";
+						}
+						else if(forme_colis.getSelectedIndex() == 0)
+						{
+							largeur_temp ="0";
+							profondeur_temp = "0";
+						}
+						else{
+							largeur_temp = largeur.getText();
+							profondeur_temp = profondeur.getText();
+						}
+						
+						modele_temp = new ModeleColis(new Integer(0),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur_temp),new Integer(profondeur_temp),new Integer(0));
 						try{
 							selectmodelecolis = test6.ajouter(modele_temp);
 						}
@@ -1094,7 +1179,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-					System.out.println(col.getId());
+					//System.out.println(col.getId());
 					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,"0",modele_temp.calculerVolume());
 				
 					try{
@@ -1269,8 +1354,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		else if(email_exp.getText().equals("")) setWarning("Email expéditeur");
 		else if(tel_exp.getText().equals("")) setWarning("Téléphone expéditeur");
 		else if (modele_colis.getSelectedIndex()== 3 && (hauteur.getText().equals("") || erreurhaut))setWarning("Hauteur");
-		else if (modele_colis.getSelectedIndex()== 3 && (largeur.getText().equals("") || erreurlarg))setWarning("Largeur");
-		else if (modele_colis.getSelectedIndex()== 3 && (profondeur.getText().equals("") || erreurprof))setWarning("Profondeur");
+		else if (modele_colis.getSelectedIndex()== 3 && forme_colis.getSelectedIndex() == 1 &&(largeur.getText().equals("") || erreurlarg))setWarning("Largeur");
+		else if (modele_colis.getSelectedIndex()== 3 && forme_colis.getSelectedIndex() == 1 &&(profondeur.getText().equals("") || erreurprof))setWarning("Profondeur");
 		else ret = true;
 		
 		return ret;
@@ -1304,6 +1389,11 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			tel_dest.setText(p.getTelephone());
 		}
 	}
+
+	public Chargement getChargement()		
+	{
+		return charg;
+	}
 	
 	private JMenuBar barreMenus;
 	private JMenu fichier,etiquette;
@@ -1332,6 +1422,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private Incident incident;
 	private int nombre_colis=0;
 	private Vector liste_chargement;
-	public Chargement charg;
+	private Chargement charg;
+	
 
 }

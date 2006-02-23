@@ -72,7 +72,7 @@ public class AccesBDDColis extends AccesBDD{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE colis SET "
-				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?,Poids=?,DateDepot=?, Valeur=?,Fragilite=?"
+				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?,Poids=?,DateDepot=?, Valeur=?,Fragilite=?,Volume=?"
 				+"WHERE idColis=?");
 		
 		
@@ -86,7 +86,8 @@ public class AccesBDDColis extends AccesBDD{
 		modifie.setTimestamp(8, aModifier.getDate());
 		modifie.setString(9, aModifier.getValeurDeclaree());
 		modifie.setInt(10, aModifier.getFragilite().intValue());
-		modifie.setInt(11,aModifier.getId().intValue());
+		modifie.setInt(11, aModifier.getVolume().intValue());
+		modifie.setInt(12,aModifier.getId().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
