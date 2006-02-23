@@ -3,6 +3,7 @@ package donnees;
 import java.util.Vector;
 
 public class Preparation {
+	private Integer id;
 	private Utilisateur utilisateur;
 	private Entrepot destination;
 	private Integer volumeChargement;//en cm3
