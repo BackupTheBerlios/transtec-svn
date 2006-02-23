@@ -61,4 +61,10 @@ public class ModeleTable extends AbstractTableModel{
     public void removeRow(int ligne){    	
     	rowData.remove(ligne);
     }
+    
+    // Obtenir la classe d'une cellule
+    // (pour les cellules contenant des objets autres que des String)
+    public Class getColumnClass(int c) {
+        return getValueAt(0, c).getClass();
+    }
 }

@@ -2,12 +2,13 @@ package donnees;
 
 import java.util.Vector;
 
+
 /*
  * Classe regroupant tous les attributs d'un camion, ainsi que
  * les méthodes propres à la manipulation de cet objet
  */
 
-public class Camion {
+public class Camion implements Comparable{
 	private Integer id;
 	private String numero;
 	private Integer disponibilite;
@@ -172,4 +173,23 @@ public class Camion {
 
 		return ret;
 	}
+	
+	
+	/****** Redéfinition de méthodes génériques ******/
+	
+	// Affichage d'un utilisateur : on affiche son nom
+	public String toString(){
+		return numero;
+	}
+
+	
+	/****** Méthode liée à l'implémentation de Comparable ******/
+	
+	// Permet de comparer deux objets entre eux
+   public int compareTo(Object o) {
+        Camion c = (Camion)o;
+        
+        // On renvoie le résultat de la comparaison de leur numéro
+        return this.numero.compareToIgnoreCase(c.getNumero());
+   }
 }

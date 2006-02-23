@@ -2,6 +2,7 @@ package accesBDD;
 
 import java.sql.PreparedStatement;
 import java.util.Vector;
+import java.util.Collections;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import donnees.Camion;
@@ -89,6 +90,7 @@ public class AccesBDDCamion extends AccesBDD{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
+			// Création de l'objet courant et ajout dans la liste
 			liste.add(new Camion(
 					new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
@@ -100,6 +102,9 @@ public class AccesBDDCamion extends AccesBDD{
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
 		deconnecter();
+		
+		// On ordonne la liste
+		Collections.sort(liste);
 		
 		return liste;
 	}

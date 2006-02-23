@@ -6,6 +6,7 @@ import ihm.TableSorter;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPreparation;
+import accesBDD.AccesBDDUtilisateur;
 
 import javax.swing.*;
 
@@ -14,12 +15,14 @@ import java.util.Vector;
 import java.awt.event.*;
 
 import donnees.Camion;
+import donnees.Utilisateur;
+import donnees.Destination;
 
 public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JLabel titre;
 	private JTable tabDestinations,tabCamions,tabPreparations;
 	private JScrollPane scrollPaneCamions,scrollPaneDestinations,scrollPanePreparations;
-	private ModeleTable modeleTabDestinations,modeleTabCamions,modeleTabPreparations;
+	private ModeleTable modeleTabCamions,modeleTabDestinations,modeleTabPreparations;
 	private TableSorter sorterCamions,sorterDestinations,sorterPreparations;
 	private JPanel panTitre;
 	private CardLayout layoutPanDonnees;
@@ -37,9 +40,13 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private Vector nomColonnesPreparations = new Vector();
 	private Vector donneesPreparations = new Vector();
 	
+	private Vector listePreparateurs,listeDestinations,listeVolumesDestinations,listeCamions;
+	
 	private AccesBDDCamion tableCamions = new AccesBDDCamion();
 	private AccesBDDColis tableColis = new AccesBDDColis();
 	private AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
+	private AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur();
+	
 		
 	private final static int DEBUT = 0;
 	private final static int CHOIX = 1;
@@ -76,34 +83,36 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		nomColonnesCamions.add("ID");
 		nomColonnesCamions.add("Camion");
         nomColonnesCamions.add("Disponibilité");
-        nomColonnesCamions.add("Volume");
+        nomColonnesCamions.add("Volume (m3)");
         nomColonnesCamions.add("Origine");
         nomColonnesCamions.add("Destination");
         
 		// Liste des destinations : noms des colonnes.
+        nomColonnesDestinations.add("ID");
         nomColonnesDestinations.add("Destination");
-        nomColonnesDestinations.add("Volume");
+        nomColonnesDestinations.add("Volume (cm3)");
         
 		// Liste des préparations : noms des colonnes.
 		nomColonnesPreparations.add("ID");
-		nomColonnesPreparations.add("Destination");
 		nomColonnesPreparations.add("Camion");
-		nomColonnesPreparations.add("Volume");
+		nomColonnesPreparations.add("Destination");
+		nomColonnesPreparations.add("Volume (cm3)");
 		nomColonnesPreparations.add("Préparateur");
+		nomColonnesPreparations.add("Volume Tot. (cm3)");
 
         try{
 	        // On récupère les camions disponibles de la base de données et on les affiche
-	        Vector listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
+	        listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
 	        
 	        for(int i=0;i<listeCamions.size();i++){
 	        	donneesCamions.addElement(((Camion)listeCamions.get(i)).toVector());
 	        }
 	        
 	        // On récupère les Destinations des colis et on les affiche avec le volume correspondant
-	        Vector listeDestinations = tableColis.volumeDestination();
+	        listeVolumesDestinations = tableColis.volumeDestination();
 	        
-	        for(int i=0;i<listeDestinations.size();i++){
-	        	donneesDestinations.addElement((listeDestinations.get(i)));
+	        for(int i=0;i<listeVolumesDestinations.size();i++){
+	        	donneesDestinations.addElement(((Destination)listeVolumesDestinations.get(i)).toVector());
 	        }
        }
         catch(Exception e){
@@ -111,7 +120,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
         }
         
 		// Construction des tableaux et des fonction qui leur sont associées
-		construireTableauxDebut();
+        creerPanelDebut();
 
 		// On ajoute les tableaux au panel de début
 		panDonneesDebut = new JPanel();
@@ -159,8 +168,8 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		add(panBoutons);
 	}
 	
-	// Construction des tableaux du premier panel
-	public void construireTableauxDebut(){
+	// Construction des du premier panel
+	public void creerPanelDebut(){
 		
 		/********** Tableau des camions **********/
 		
@@ -217,6 +226,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		tabDestinations.setAutoCreateColumnsFromModel(true);
 		tabDestinations.setOpaque(false);
 		tabDestinations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabDestinations.removeColumn(tabDestinations.getColumnModel().getColumn(0));
 
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		scrollPaneDestinations = new JScrollPane(tabDestinations);
@@ -243,9 +253,12 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		
 		// Création des boutons radios
 		radioAucun = new JRadioButton("Pas d'algorithme");
+		radioAucun.setOpaque(false);
 		radioAucun.setSelected(true);
 		radioRadin = new JRadioButton("Minimisation des coûts (radin)");
+		radioRadin.setOpaque(false);
 		radioPerenoel = new JRadioButton("Maximisation de la satisfaction (Père Noël)");
+		radioPerenoel.setOpaque(false);
 		
 		// Regroupement des boutons radio
 		groupeRadio = new ButtonGroup();
@@ -266,21 +279,25 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		panDonneesFin.setOpaque(false);
 		
 		// Création du modèle de tableau à l'aide des en-têtes de colonnes et des données 
-		modeleTabPreparations = new ModeleTable(nomColonnesPreparations,donneesPreparations);
-
-		// Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorterPreparations = new TableSorter(modeleTabPreparations);
+		modeleTabPreparations = new ModeleTable(nomColonnesPreparations,donneesPreparations){
+		    
+			// Ajout de cette méthode pour pouvoir afficher la ComboBox
+			public boolean isCellEditable(int row, int col) {
+				// Les colonnes contenant les ComboBox et le volume sont éditables
+		        if (col==2 || col==3 || col==4) {
+		            return true;
+		        } else {
+		            return false;
+		        }
+		    }
+		};
 
 		// Création du tableau
-		tabPreparations = new JTable(sorterPreparations);
-
-		// initialisation du Sorter
-		sorterPreparations.setTableHeader(tabPreparations.getTableHeader());
+		tabPreparations = new JTable(modeleTabPreparations);
 
 		// On crée les colonnes du tableau selon le modèle
 		tabPreparations.setAutoCreateColumnsFromModel(true);
 		tabPreparations.setOpaque(false);
-		tabPreparations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
 
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
@@ -306,15 +323,60 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		int algorithme=AUCUN;
 		
 		// On récupère l'algorithme choisi
-		if(radioAucun.isSelected()) algorithme=AUCUN;
+		if(radioAucun.isSelected()) affTabPreparationsSansAlgo();
 		else if(radioRadin.isSelected()) algorithme=RADIN;
 		else if(radioPerenoel.isSelected()) algorithme=PERENOEL;
 		
+		/*** DEBUG ***
 		System.out.println(algorithme);
+		/*** DEBUG ***/
 
-		// On lance l'algorithme
-		// repatitionEnLangageC(algorithme);		
+		// On lance l'algorithme voulu par le superviseur
+		// repartitionEnLangageC(algorithme);		
 	}
+	
+	// Configuration du tableau des préparations pour que ces dernières soient créées manuellement
+	public void affTabPreparationsSansAlgo(){
+		try{
+	        // On récupère les camions disponibles de la base de données et on les affiche
+	        listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
+	             
+	        // On récupère les Destinations des colis et on les affiche avec le volume correspondant
+	        listeVolumesDestinations = tableColis.volumeDestination();
+	              
+	        // On récupère les préparateurs
+			listePreparateurs = tableUtilisateurs.listerParType(Utilisateur.PREPARATION);
+		}
+        catch(Exception e){
+        	System.out.println(e.getMessage());
+        }
+        
+        // On construit le Vector de données du tableau des préparations
+        for(int i=0;i<listeCamions.size();i++){
+        	Vector ligne = new Vector();
+        	ligne.add(new Integer(0));
+        	ligne.add(listeCamions.get(i));
+        	ligne.add(new String("Choisir..."));
+        	ligne.add(((Camion)listeCamions.get(i)).getVolume());
+        	ligne.add(new String("Choisir..."));
+        	ligne.add(new Integer(0));
+        	
+        	// On ajoute la ligne aux données du tableau temporaire
+        	donneesPreparations.add(ligne);
+        }
+        
+        // On place une liste de choix dans la colonne des préparateurs
+        JComboBox comboPreparateurs = new JComboBox(listePreparateurs);
+        tabPreparations.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboPreparateurs));
+ 
+        // On place une liste de choix dans la colonne des destinations
+        JComboBox comboDestinations = new JComboBox(listeVolumesDestinations);
+        tabPreparations.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboDestinations));
+        
+        // Prise en compte et affichage des modifications dans le tableau
+        modeleTabPreparations.fireTableDataChanged();
+        tabPreparations.updateUI();	
+ 	}
 	
 	// Gestion des actions liées aux boutons
 	public void actionPerformed(ActionEvent ev){
@@ -335,6 +397,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			case CHOIX:
 				ecranActuel++;
 				boutSuite.setText("Publier");
+				boutRetour.setEnabled(false);
 				layoutPanDonnees.next(panDonnees);
 				titre.setText("Répartition");
 				

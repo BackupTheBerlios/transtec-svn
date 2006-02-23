@@ -3,6 +3,7 @@ package accesBDD;
 import java.sql.*;
 import java.util.Vector;
 import donnees.Colis;
+import donnees.Destination;
 
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -229,17 +230,18 @@ public class AccesBDDColis extends AccesBDD{
 	// Attention cas ou colis appartenant à un chargement pas encor géré!!!!!!
 	public Vector volumeDestination() throws SQLException{
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
-		Vector liste=new Vector(), couple=null, listeColis=null;
+		Vector liste=new Vector(), listeColis=null;
+		Destination couple;
 
 		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT Destination,SUM(Volume) Volume FROM colis GROUP BY Destination");
 		ResultSet resultat=recherche.executeQuery();
 		
-		// Création d'un Vector couple contenant la destination et le volume, puis ajout au Vector liste
+		// Création d'une Destination la destination et le volume, puis ajout au Vector liste
 		while(resultat.next()){
-			couple=new Vector();
-			couple.add(bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))));
-			couple.add(new Integer(resultat.getInt("Volume")));
+			couple = new Destination(new Integer(0),
+									bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
+									new Integer(resultat.getInt("Volume")));
 			liste.add(couple);
 		}
 		

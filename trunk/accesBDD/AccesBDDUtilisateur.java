@@ -4,6 +4,7 @@ import donnees.Personne;
 import donnees.Utilisateur;
 import java.sql.*;
 import java.util.Vector;
+import java.util.Collections;
 
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
@@ -154,7 +155,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		return trouvee;
 	}
 	
-	//----- Rechercher un utilisateur dans la BDD -----//
+	//----- Rechercher un utilisateur dans la BDD selon son ID -----//
 	public Utilisateur rechercher(Integer aChercher) throws SQLException{
 		Utilisateur trouvee=null;
 		
@@ -178,6 +179,38 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		return trouvee;
 	}
+	
+	//----- Liste les utilisateurs d'un type défini -----//
+	public Vector listerParType(int typeUtilisateur) throws SQLException{
+		Vector listeutilisateurs = new Vector();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Users WHERE Type_2="+typeUtilisateur);
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){	// S'il a trouvé l'utilisateur
+			// Création d'un objet pour l'utilisateur courant
+			Utilisateur u=new Utilisateur(
+					new Integer(resultat.getInt("idUsers")),
+					resultat.getString("Login"),
+					resultat.getString("Password_2"),
+					new Integer(resultat.getInt("Type_2")),
+					new AccesBDDPersonne().rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+			
+			// Ajout de l'utilisateur à la liste
+			listeutilisateurs.add(u);
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		// On ordonne les utilisateurs trouvés
+		Collections.sort(listeutilisateurs);
+		
+		return listeutilisateurs;
+	}
+
 
 	//----- TEST OKAY -----//
 	/*public static void main(String arg[]){

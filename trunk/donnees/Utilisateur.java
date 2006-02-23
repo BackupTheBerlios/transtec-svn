@@ -3,7 +3,7 @@ package donnees;
 import java.util.Vector;
 
 
-public class Utilisateur{
+public class Utilisateur implements Comparable{
 	private String login;
 	private String motDePasse;
 	private Personne personne;
@@ -136,7 +136,7 @@ public class Utilisateur{
 	
 	// Affichage d'un utilisateur : on affiche son nom
 	public String toString(){
-		return personne.getNom();
+		return new String(personne.getNom()+" "+personne.getPrenom());
 	}
 
 
@@ -173,4 +173,22 @@ public class Utilisateur{
 
 		return ret;
 	}
+	
+	
+	/****** Méthode liée à l'implémentation de Comparable ******/
+	
+	// Permet de comparer deux objets entre eux
+    public int compareTo(Object o) {
+    	int ret;
+    	
+        Utilisateur u = (Utilisateur)o;
+        
+        // On compare les utilisateurs selon leur nom
+        ret = this.personne.getNom().compareToIgnoreCase(u.getPersonne().getNom());
+        
+        // Si les noms sont égaux, on compare les prénoms
+        if(ret==0)ret = this.personne.getPrenom().compareToIgnoreCase(u.getPersonne().getPrenom());
+        
+        return ret;
+   }
 }
