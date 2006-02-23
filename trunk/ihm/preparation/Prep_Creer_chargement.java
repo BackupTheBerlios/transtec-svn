@@ -226,24 +226,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    background.setApplicationBounds(new BoundingBox());
 	    branche.addChild(background);
 	    
-	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
-	    Transform3D transform3D=new Transform3D();
-	    
-	    // Rotation
-	    transform3D.rotY(-0.4f);
-	    
-	    //Nouvel objet
-	    TransformGroup objSpin = new TransformGroup(transform3D);
-	    
-	    //Affichage du camion
-	    PolygonAttributes pol = new PolygonAttributes();
-	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);
-	    pol.setCullFace(PolygonAttributes.CULL_NONE);
-	    
-	    //Création d'une apparence
-	    Appearance apparence=new Appearance();
-	    apparence.setPolygonAttributes(pol);
-	    
 //*********************************CREATION DU CAMION*****************************************//
 	    
 	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
@@ -294,20 +276,43 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    });
 //******************************************************************************************//	    
 	    
+//	  Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    Transform3D echelle=new Transform3D();
+	    Transform3D rotation=new Transform3D();
+	    
+	    // Echelle
+	    echelle.setScale(1);
+	    // Rotation
+	    rotation.rotY(-0.4f);
+	    
+	    //Nouvel objet
+	    TransformGroup objSpin1 = new TransformGroup(echelle);
+	    TransformGroup objSpin2 = new TransformGroup(rotation);
+	    
+	    //Affichage du camion
+	    PolygonAttributes pol = new PolygonAttributes();
+	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);
+	    pol.setCullFace(PolygonAttributes.CULL_NONE);
+	    
+	    //Création d'une apparence
+	    Appearance apparence=new Appearance();
+	    apparence.setPolygonAttributes(pol);
+	    
 	    //Création du shade3D
 	    Shape3D shape = new Shape3D();
 	    shape.setGeometry(quadArray);
 	    shape.setAppearance(apparence);
 	    
 	    //Ajout de l'objet crée
-	    objSpin.addChild(shape);
+	    objSpin1.addChild(objSpin2);
+	    objSpin2.addChild(shape);
 	    //Box cam = new Box(0.1f, 0.1f, 0.1f, apparence);
 	    //objSpin.addChild(cam);
-	    branche.addChild(objSpin);
+	    branche.addChild(objSpin1);
 	    
 	    // Compilation de la scene 3D
 	    branche.compile();
-	    this.scene.addChild(createSceneGraph(camion3D));
+	    //this.scene.addChild(createSceneGraph(camion3D));
 	    this.scene.addChild(branche);
 	    this.scene.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
 	    this.scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
@@ -407,9 +412,24 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		BranchGroup branche=new BranchGroup();
 		
 		// Objet  relatif aux paramêtres du milieu (echelle, ...)
-	    Transform3D transform3D=new Transform3D();
-	    // Changement de l'échelle 
-	    transform3D.setScale(0.1f);
+	    Transform3D echelle=new Transform3D();
+	    Transform3D rotation=new Transform3D();
+	    Transform3D translation=new Transform3D();
+	    // Création des objets
+	    // Echelle
+	    echelle.setScale(1);
+	    // Rotation
+	    rotation.rotY(-0.4f);
+	    // Translation
+	    Vector3f vector = new Vector3f( 0.5f, .0f, .0f);
+	    translation.setTranslation(vector);
+	    
+	    
+	    
+	    //Création des TransformGroup
+	    TransformGroup objSpin1=new TransformGroup(echelle);
+	    TransformGroup objSpin2=new TransformGroup(rotation);
+	    TransformGroup objSpin3=new TransformGroup(translation);
 
 	    // Arrière plan de la scène 3D
 	    Background background = new Background(1, 1, 1);
@@ -435,13 +455,15 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.addChild(background);
 	    
 	    //Construction du cube
-	    TransformGroup objSpin=new TransformGroup();
-	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    objSpin1.addChild(objSpin2);
+	    objSpin2.addChild(objSpin3);
+	    objSpin3.addChild(new Box(largeur, hauteur, profondeur, apparence));
 	    
-	    objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-	    objSpin.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
-	    objSpin.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
-	    branche.addChild(objSpin);
+	    objSpin3.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
+	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
+	    
+	    branche.addChild(objSpin1);
 	    
 	    // Ajout de la capacité à séparer la branche
 	    branche.setCapability(BranchGroup.ALLOW_DETACH);
