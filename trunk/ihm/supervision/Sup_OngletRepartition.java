@@ -11,6 +11,7 @@ import accesBDD.AccesBDDUtilisateur;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableCellEditor;
+import javax.swing.DefaultCellEditor;
 import javax.swing.event.*;
 import java.awt.*;
 import java.util.Vector;
@@ -371,6 +372,9 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			donneesPreparations.add(ligne);
 		}
 		
+		JTextField texteVolume = new JTextField();
+		tabPreparations.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(texteVolume));
+		
 		// On place une liste de choix dans la colonne des préparateurs
 		comboPreparateurs = new JComboBox(listePreparateurs);
 		
@@ -423,8 +427,9 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 				// Ecran d'affichage final
 			case FIN:
 				// On publie la liste des chargements répartis
+				traverseAllCells(tabPreparations);
 				Vector v = (Vector)modeleTabPreparations.getRow(0);
-				System.out.println("");
+				System.out.println(v);
 				break;
 			}				
 		}
@@ -453,6 +458,22 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		}	
 	}
 	
+	public void traverseAllCells(JTable table)
+	{
+		//	 gives to focus to cell editor and jtable does not retains the focus
+		//	 so the editor component keep the focus and lostfocus method
+		//	 will be called when the next cell is focused by editCell(x, y) method call
+		table.setSurrendersFocusOnKeystroke(true);
+		for (int x = 0; x < table.getRowCount(); x++)
+		{
+			for (int y = 0; y < table.getColumnCount(); y++)
+			{
+				table.editCellAt(x ,y);
+			}
+		}
+	}
+
+
 	public class comboRenderer extends JComboBox implements TableCellRenderer {		
 		public comboRenderer(Vector v) {
 			super(v);
@@ -533,7 +554,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		
 		public Object getCellEditorValue() {
 			return getSelectedItem();
-		} 
+		}
 		
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column){
 			setSelectedItem(value);
