@@ -1,5 +1,6 @@
 package ihm.preparation;
 
+import ihm.preparation.CollisionDetector;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
@@ -279,11 +280,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    /* couleur face 4 */ color1, color1, color1, color1
 	    });
 //******************************************************************************************//	    
-	    
+	   
 //	  Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D echelle=new Transform3D();
 	    Transform3D rotation=new Transform3D();
-	    
+	  
 	    // Echelle
 	    echelle.setScale(1);
 	    // Rotation
@@ -306,6 +307,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    Shape3D shape = new Shape3D();
 	    shape.setGeometry(quadArray);
 	    shape.setAppearance(apparence);
+	   
+	    CollisionDetector cd=new CollisionDetector(shape);
+		BoundingBox bounds1;
+	    bounds1 = new BoundingBox(new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f));
+	    cd.setSchedulingBounds(bounds1);
 	    
 	    //Ajout de l'objet crée
 	    objSpin1.addChild(objSpin2);
@@ -437,10 +443,12 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    TransformGroup objSpin2=new TransformGroup(rotation);
 	    TransformGroup objSpin3=new TransformGroup(translation);
 	    
+	    
 	    objSpin3.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 	    objSpin3.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
 	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
+	
 	    
 	    // Déplacement du colis
 	    deplacement.objetADeplacer(objSpin3, translation);
@@ -468,10 +476,23 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.addChild(lumiereDir);
 	    branche.addChild(background);
 	    
+	    Box b = new Box(largeur, hauteur, profondeur, apparence);
+	    CollisionDetector cd=new CollisionDetector(b);
+		BoundingBox bounds1;
+	    bounds1 = new BoundingBox(new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f));
+	    cd.setSchedulingBounds(bounds1);
+	    
+	    //CollisionDetector cd1=new CollisionDetector(b);
+		BoundingBox bounds2;
+	    bounds2 = new BoundingBox(new Point3d(-0.1f, -0.1f, -0.1f),new Point3d(0.1f, 0.1f, 0.1f));
+	    cd.setSchedulingBounds(bounds2);
+	    
 	    //Construction du cube
 	    objSpin1.addChild(objSpin2);
 	    objSpin2.addChild(objSpin3);
-	    objSpin3.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    objSpin3.addChild(b);
+	    objSpin3.addChild(cd);
+	   // objSpin3.addChild(cd1);
 	    
 	    
 	    
