@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Vector;
@@ -69,6 +70,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Preparation preparation=null;
 	private BranchGroup scene;
 	private Canvas3D camion3D;
+	private deplacementColis deplacement=new deplacementColis(ajouter);
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
@@ -210,6 +212,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    camion3D.setBounds(555,20,650,300);
 	    
+	    
+	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
 	    
@@ -306,6 +310,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    //Ajout de l'objet crée
 	    objSpin1.addChild(objSpin2);
 	    objSpin2.addChild(shape);
+	    //objSpin1.addChild(createSceneGraph(camion3D));
 	    //Box cam = new Box(0.1f, 0.1f, 0.1f, apparence);
 	    //objSpin.addChild(cam);
 	    branche.addChild(objSpin1);
@@ -372,8 +377,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				
 				// Ajout de l'objet 3D
 				scene.addChild(brancheCube(0.1f/*colis.getModele().getLargeur()*/, 
-						0.1f/*colis.getModele().getProfondeur()*/, 
+					0.1f/*colis.getModele().getProfondeur()*/, 
 						0.1f/*colis.getModele().getHauteur()*/));
+				//scene.addChild(new deplacementColis(ajouter).ajouterColis(0.1f,0.1f,0.1f));
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -430,6 +436,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    TransformGroup objSpin1=new TransformGroup(echelle);
 	    TransformGroup objSpin2=new TransformGroup(rotation);
 	    TransformGroup objSpin3=new TransformGroup(translation);
+	    
+	    objSpin3.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    objSpin3.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
+	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
+	    
+	    // Déplacement du colis
+	    deplacement.objetADeplacer(objSpin3, translation);
 
 	    // Arrière plan de la scène 3D
 	    Background background = new Background(1, 1, 1);
@@ -459,9 +473,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    objSpin2.addChild(objSpin3);
 	    objSpin3.addChild(new Box(largeur, hauteur, profondeur, apparence));
 	    
-	    objSpin3.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
-	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
+	    
 	    
 	    branche.addChild(objSpin1);
 	    
