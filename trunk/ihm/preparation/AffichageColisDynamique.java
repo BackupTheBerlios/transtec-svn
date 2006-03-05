@@ -1,9 +1,17 @@
 package ihm.preparation;
 
+/*
+/*	Classe permettant d'afficher le colis dans le container (fenêtre)
+/* 	et surtout de changer l'affichage en fonction du colis cliqué sur le tableau
+*/	
+
+import ihm.ModeleTable;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Vector;
 
 import javax.media.j3d.Alpha;
 import javax.media.j3d.AmbientLight;
@@ -19,23 +27,30 @@ import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.vecmath.Color3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+
+import donnees.Colis;
 
 public class AffichageColisDynamique extends JFrame implements MouseListener{
 	private Container container;
 	private BranchGroup scene;
 	private Canvas3D canvas3D;
 	private TransformGroup objSpin;
+	ModeleTable tableColisMod;
+	JTable tableColis;
 	
-	public AffichageColisDynamique(Container container){
+	public AffichageColisDynamique(Container container, ModeleTable tableColisMod, JTable tableColis){
 		super();
 		this.scene=null;
 		this.canvas3D=null;
 		this.objSpin=null;
 		this.container=container;
+		this.tableColisMod=tableColisMod;
+		this.tableColis=tableColis;
 	}
 	
 	public void mousePressed(MouseEvent ev){
@@ -43,7 +58,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 		this.scene.removeAllChildren();
 		
 		// On rajoute le nouveau
-		this.scene.addChild(creationObjet(0.1f, 0.1f, 0.1f));
+		this.scene.addChild(creationObjet(new Colis((Vector)tableColisMod.getRow(this.tableColis.getSelectedRow()))));
 		
 		// Mise à jour de la zone graphique
 		this.canvas3D.repaint();
@@ -70,7 +85,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	}
 	
 	//	Fonction permettant de créer l'objet 3D dans le container
-	public void Initialisation(float largeur, float hauteur, float profondeur){
+	public void Initialisation(Colis colis){
 		// Zone 3D de la liste des colis
 	    canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    canvas3D.setBounds(20,20,400,300);
@@ -89,7 +104,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	    scene.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
 	    
 	    // Ajout de la branche (objet + contexte)
-	    scene.addChild(creationObjet(largeur, profondeur, hauteur));
+	    scene.addChild(creationObjet(colis));
 	    
 	    // Attachement de la scene 3D a l'objet SimpleUniverse
 	    simpleU.addBranchGraph(scene);
@@ -98,7 +113,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	}
 	
 	// Fonction permettant de créer un cube
-	private BranchGroup creationObjet(float largeur, float profondeur, float hauteur){
+	private BranchGroup creationObjet(Colis colis){
 		// Création de la branche
 		BranchGroup branche=new BranchGroup();
 		
@@ -141,7 +156,9 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	    branche.addChild(background);
 	    
 	    //Construction du cube
-	    objSpin.addChild(new Box(largeur, hauteur, profondeur, apparence));
+	    // Echelle
+	    float taille[]=echelleColis(colis);
+	    objSpin.addChild(new Box(taille[1], taille[2], taille[0], apparence));
 	    branche.addChild(objSpin);
 	    
 	    // Ajout de la capacité à séparer la branche
@@ -150,5 +167,30 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	    branche.compile();
 	    
 		return branche;
+	}
+	
+	// Permet au colis de ne pas être plus grand que la scène 3D
+	private float[] echelleColis(Colis colis){
+		float taille[] =new float[3];
+		if(colis!=null){
+			// initialisation
+			taille[0]=colis.getModele().getLargeur().floatValue();
+			taille[1]=colis.getModele().getProfondeur().floatValue();
+			taille[2]=colis.getModele().getHauteur().floatValue();
+			
+			// On réduit la taille
+			while(taille[0]>0.5f || taille[1]>0.5f || taille[2]>0.5f){
+				taille[0]/=1.1f;
+				taille[1]/=1.1f;
+				taille[2]/=1.1f;
+			}
+		}
+		else{
+			taille[0]=0;
+			taille[1]=0;
+			taille[2]=0;
+		}
+		
+		return taille;
 	}
 }

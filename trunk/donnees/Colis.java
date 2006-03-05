@@ -69,8 +69,8 @@ public class Colis {
 		this.poids=(Integer)v.get(7);
 		this.date_envoi=(Timestamp)v.get(8);
 		this.fragilite=stringToConst((String)v.get(9));
-		//this.modele=(ModeleColis)v.get(10);
-		ModeleColis m=new ModeleColis(FormeToConst((String)v.get(10)),ModeleToConst((String)v.get(11)));
+		this.modele=(ModeleColis)v.get(10);
+		//ModeleColis m=new ModeleColis(FormeToConst((String)v.get(10)),ModeleToConst((String)v.get(11)));
 		this.valeur_declaree=(String)v.get(12);	
 		this.volume=(Integer)v.get(13);	
 	}
@@ -88,7 +88,7 @@ public class Colis {
 		v.add(poids);
 		v.add(date_envoi);
 		v.add(constToString(fragilite));
-		v.add(constToForme(modele.getForme()));
+		v.add(modele);
 		v.add(constToModele(modele.getModele()));
 		v.add(valeur_declaree);
 		v.add(volume);

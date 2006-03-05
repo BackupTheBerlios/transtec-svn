@@ -10,13 +10,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Vector;
 
-
-import javax.media.j3d.Alpha;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
@@ -28,7 +25,6 @@ import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.QuadArray;
-import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -45,16 +41,11 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
-//import quicktime.qd3d.math.Point3D;
-
-import com.sun.j3d.utils.picking.PickTool;
-import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.sun.j3d.utils.behaviors.mouse.MouseBehavior;
-import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.behaviors.picking.PickRotateBehavior;
 import com.sun.j3d.utils.behaviors.picking.PickTranslateBehavior;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.ColorCube;
+import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
@@ -140,8 +131,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			Vector listeColisBDD=bddColis.listerDest(preparation.getDestination().getId());
 			for(int i=0;i<listeColisBDD.size();i++){
 				listeColis.addElement(((Colis)listeColisBDD.get(i)).toVector());
+				if(i==0)	premierColisAAfficher=(Colis)listeColisBDD.get(i);
 			}
-			premierColisAAfficher=(Colis)listeColisBDD.get(0);
 		}
 		catch(SQLException SQLe){
 			
@@ -176,8 +167,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
-		AffichageColisDynamique zoneColis3D=new AffichageColisDynamique(ct);
-		zoneColis3D.Initialisation(0.3f, 0.4f, 0.3f);
+		// SANS DOUTE ENLEVER FCT INITIALIZE
+		AffichageColisDynamique zoneColis3D=new AffichageColisDynamique(ct, listeColisMod, listeColisTab);
+		// Le premier colis de la liste que l'on affiche
+		zoneColis3D.Initialisation(premierColisAAfficher);
+		// Ecoute de la souris par rapport au tableau
 		listeColisTab.addMouseListener(zoneColis3D);
 
 		// Création du tableau contenant les colis que l'on veut mettre dans le chargement
