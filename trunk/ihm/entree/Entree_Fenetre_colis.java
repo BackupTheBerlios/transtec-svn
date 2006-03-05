@@ -1,28 +1,16 @@
 package ihm.entree;
 
-import ihm.Fenetre_login;
-import ihm.ModeleTable;
-import ihm.TableSorter;
-
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Vector;
+import ihm.*;
+import java.sql.*;
+import java.util.*;
 
 import java.awt.*;
 import java.awt.event.*; 
 import javax.swing.*;
 
-import accesBDD.AccesBDDColis;
-import accesBDD.AccesBDDPersonne;
 import donnees.*;
-import accesBDD.AccesBDDChargement;
-import accesBDD.AccesBDDModelesColis;
-import accesBDD.AccesBDDEntrepot;
-import accesBDD.AccesBDDLocalisation;
-import accesBDD.AccesBDDIncident;
+import accesBDD.*;
+
 
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
 
