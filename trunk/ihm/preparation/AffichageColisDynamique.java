@@ -58,10 +58,28 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 		this.scene.removeAllChildren();
 		
 		// On rajoute le nouveau
-		this.scene.addChild(creationObjet(new Colis((Vector)tableColisMod.getRow(this.tableColis.getSelectedRow()))));
+		int a=this.tableColis.getSelectedRow();
+		if(a==-1)	a=0;
+		Colis colis=new Colis((Vector)tableColisMod.getRow(a));
+		this.scene.addChild(creationObjet(colis));
 		
 		// Mise à jour de la zone graphique
 		this.canvas3D.repaint();
+	}
+	
+	public void update(Colis colis, ModeleTable tableColisMod, JTable tableColis){
+//		 On supprime la branche -> tout l'objet 3D
+		this.scene.removeAllChildren();
+		
+		// On rajoute le nouveau
+		this.scene.addChild(creationObjet(colis));
+		
+		// Mise à jour de la zone graphique
+		this.canvas3D.repaint();
+		
+		// Màj tableau
+		this.tableColisMod=tableColisMod;
+		this.tableColis=tableColis;
 	}
 
 	public void mouseClicked(MouseEvent arg0) {

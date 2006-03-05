@@ -18,7 +18,6 @@ import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingBox;
-import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
@@ -41,10 +40,7 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
-import com.sun.j3d.utils.behaviors.picking.PickRotateBehavior;
-import com.sun.j3d.utils.behaviors.picking.PickTranslateBehavior;
 import com.sun.j3d.utils.geometry.Box;
-import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import accesBDD.AccesBDDChargement;
@@ -64,6 +60,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Canvas3D camion3D;
 	private deplacementColis deplacement=new deplacementColis(ajouter);
 	private float echelle=0;
+	AffichageColisDynamique zoneColis3D=null;
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
@@ -168,7 +165,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
-		AffichageColisDynamique zoneColis3D=new AffichageColisDynamique(ct, listeColisMod, listeColisTab);
+		zoneColis3D=new AffichageColisDynamique(ct, listeColisMod, listeColisTab);
 		// Le premier colis de la liste que l'on affiche
 		zoneColis3D.Initialisation(premierColisAAfficher);
 		// Ecoute de la souris par rapport au tableau
@@ -316,7 +313,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		Vector aCharger=new Vector();
 		Object source = ev.getSource();
 		int ligneActive;
-		Colis colis=null;
+		Colis colis=null, colisSuiv=null;
 		
 		// Création d'un chargement à l'état en cours
 		if(source == creer){
@@ -346,6 +343,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				//On ajoute au chargement la ligne selectionnée
 				listeChargementMod.addRow(listeColisMod.getRow(ligneActive));
 				colis=new Colis((Vector)listeColisMod.getRow(ligneActive));
+				if(listeColisTab.getRowCount()>1)
+					colisSuiv=new Colis((Vector)listeColisMod.getRow(ligneActive+1));
+				else	colisSuiv=null;
 				preparation.ajouterVolumeColis(colis.getVolume());
 				listeChargementMod.fireTableDataChanged();
 				//On supprime de la liste des colis
@@ -360,7 +360,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 						colis.getModele().getLargeur().intValue()/(this.echelle*100), 
 						colis.getModele().getProfondeur().intValue()/(this.echelle*100), 
 						colis.getModele().getHauteur().intValue()/(this.echelle*100)));
-				//scene.addChild(new deplacementColis(ajouter).ajouterColis(0.1f,0.1f,0.1f));
+				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
