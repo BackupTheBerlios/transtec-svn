@@ -84,8 +84,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 		
 		// Création des icônes
-		ImageIcon icone_ajouter=new ImageIcon("images/icones/flech_droite_gauche.gif");
-		ImageIcon icone_supprimer=new ImageIcon("images/icones/flech_gauche_droite.gif");
+		ImageIcon icone_ajouter=new ImageIcon("images/icones/flech_gauche_droite.gif");
+		ImageIcon icone_supprimer=new ImageIcon("images/icones/flech_droite_gauche.gif");
 		
 		// Insertion des icônes dans les boutons
 		ajouter.setIcon(icone_ajouter);
@@ -167,7 +167,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
-		// SANS DOUTE ENLEVER FCT INITIALIZE
 		AffichageColisDynamique zoneColis3D=new AffichageColisDynamique(ct, listeColisMod, listeColisTab);
 		// Le premier colis de la liste que l'on affiche
 		zoneColis3D.Initialisation(premierColisAAfficher);
@@ -494,61 +493,9 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Ajout de la capacité à séparer la branche
 	    branche.setCapability(BranchGroup.ALLOW_DETACH);
-	    
-	    
-//	  TEST DYNAMIQUE SOURIS
-	    PickTranslateBehavior test=new PickTranslateBehavior(branche, camion3D, new BoundingSphere());
-	    branche.addChild(test);
-	    // Fin test
-	    
+	        
 	    branche.compile();
 	    
 		return branche;
 	}
-	
-	public BranchGroup createSceneGraph(Canvas3D canvas) {
-		 // Create the root of the branch graph
-		 BranchGroup objRoot = new BranchGroup();
-		
-		 TransformGroup objRotate = null;
-
-		PickRotateBehavior pickRotate = null;
-		 //PickTranslateBehavior pickTranslate = null;
-		Transform3D transform = new Transform3D();
-		BoundingSphere behaveBounds = new BoundingSphere();
-		BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0,
-			      0.0), 100.0);
-		
-		 // create ColorCube and PickRotateBehavior objects
-		 transform.setTranslation(new Vector3f(-0.6f, 0.0f, -0.6f));
-		 objRotate = new TransformGroup(transform);
-		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		 objRotate.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-		
-		 objRoot.addChild(objRotate);
-		 objRotate.addChild(new ColorCube(0.4));
-		
-		 pickRotate = new PickRotateBehavior(objRoot,canvas, bounds);
-		 //pickTranslate=new PickTranslateBehavior(objRoot,canvas, bounds);
-		 //pickTranslate.setPickMode(PickTool.GEOMETRY);
-
-		 objRoot.addChild(pickRotate);
-		
-		 // add a second ColorCube object to the scene graph
-		 transform.setTranslation(new Vector3f( 0.6f, 0.0f, -0.6f));
-
-		 objRotate = new TransformGroup(transform);
-		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		 objRotate.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		 objRotate.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-		
-		 objRoot.addChild(objRotate);
-		 objRotate.addChild(new ColorCube(0.4));
-		
-		 // Let Java 3D perform optimizations on this scene graph.
-		 objRoot.compile();
-		
-		return objRoot;
-		} // end of createSceneGraph method of MousePickApp
 }
