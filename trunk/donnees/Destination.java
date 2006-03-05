@@ -1,5 +1,6 @@
 package donnees;
 
+import java.util.Comparator;
 import java.util.Vector;
 
 //----- Classe regroupant tous les attributs d'une destination (couple "Entrepôt + volume de colis")
@@ -8,12 +9,14 @@ public class Destination implements Comparable{
 	private Integer id;
 	private Entrepot entrepot;
 	private Integer volume;//en cm3
+	private boolean transit;
 	
 	// Constructeur avec tous les paramètres
-	public Destination(Integer id, Entrepot entrepot, Integer volume){
+	public Destination(Integer id, Entrepot entrepot, Integer volume, boolean transit){
 		this.id=id;
 		this.entrepot=entrepot;
 		this.volume=volume;
+		this.transit = transit;
 	}
 
 	// Constructeur vide
@@ -54,7 +57,12 @@ public class Destination implements Comparable{
 		this.volume=volume;
 	}
 	
+	//----- Insérer le type -----//
+	public void setTransit(boolean transit) {
+		this.transit = transit;
+	}	
 
+	
 	/****** Méthodes de lecture ******/
 	
 	//----- Récupération de l'id -----//
@@ -70,6 +78,11 @@ public class Destination implements Comparable{
 	//----- Récupération du volume -----//
 	public Integer getVolume(){
 		return this.volume;
+	}
+	
+	//----- Obtenir le type -----//
+	public boolean getTransit() {
+		return this.transit;
 	}
 	
 	
@@ -93,18 +106,17 @@ public class Destination implements Comparable{
 	}
 	
 	
-	/****** Méthode liée à l'implémentation de Comparable ******/
+	/****** Méthodes liées à l'implémentation de Comparable ******/
 	
-	// Permet de comparer deux objets entre eux
+	// Comparaison par défaut : selon la ville de l'entrepôt
     public int compareTo(Object o) {
     	int ret;
     	
         Destination d = (Destination)o;
         
-        // On compare les utilisateurs selon leur nom
+        // On compare les destinations selon leur ville
         ret = this.entrepot.getLocalisation().getVille().compareToIgnoreCase(d.getEntrepot().getLocalisation().getVille());
         
         return ret;
    }
-
 }

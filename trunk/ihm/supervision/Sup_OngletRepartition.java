@@ -28,7 +28,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JTable tabDestinations,tabCamions,tabPreparations;
 	private JScrollPane scrollPaneCamions,scrollPaneDestinations,scrollPanePreparations;
 	private ModeleTable modeleTabCamions,modeleTabDestinations,modeleTabPreparations;
-	private TableSorter sorterCamions,sorterDestinations,sorterPreparations;
+	private TableSorter sorterCamions,sorterDestinations;
 	private JPanel panTitre;
 	private CardLayout layoutPanDonnees;
 	private JPanel panDonnees,panDonneesDebut,panDonneesChoix,panDonneesFin;
@@ -116,7 +116,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			}
 			
 			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
-			listeVolumesDestinations = tableColis.volumeDestination();
+			listeVolumesDestinations = tableColis.calculVolumesDestinations();
 			
 			for(int i=0;i<listeVolumesDestinations.size();i++){
 				donneesDestinations.addElement(((Destination)listeVolumesDestinations.get(i)).toVector());
@@ -126,11 +126,12 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			System.out.println(e.getMessage());
 		}
 		
-		// Construction des tableaux et des fonction qui leur sont associées
+		// Construction des tableaux initiaux
 		creerPanelDebut();
 		
 		// On ajoute les tableaux au panel de début
 		panDonneesDebut = new JPanel();
+		
 		panDonneesDebut.setLayout(new BoxLayout(panDonneesDebut,BoxLayout.X_AXIS));
 		panDonneesDebut.setOpaque(false);
 		panDonneesDebut.add(scrollPaneDestinations);
@@ -175,7 +176,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		add(panBoutons);
 	}
 	
-	// Construction des du premier panel
+	// Construction du premier panel
 	public void creerPanelDebut(){
 		
 		/********** Tableau des camions **********/
@@ -349,7 +350,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
 			
 			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
-			listeVolumesDestinations = tableColis.volumeDestination();
+			listeVolumesDestinations = tableColis.calculVolumesDestinations();
 			
 			// On récupère les préparateurs
 			listePreparateurs = tableUtilisateurs.listerParType(Utilisateur.PREPARATION);

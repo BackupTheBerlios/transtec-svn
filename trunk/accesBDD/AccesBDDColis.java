@@ -228,7 +228,7 @@ public class AccesBDDColis extends AccesBDD{
 	
 	// Permet de lister le volume lié à chaque destination
 	// Attention cas ou colis appartenant à un chargement pas encor géré!!!!!!
-	public Vector volumeDestination() throws SQLException{
+	public Vector calculVolumesDestinations() throws SQLException{
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 		Vector liste=new Vector(), listeColis=null;
 		Destination couple;
@@ -241,7 +241,8 @@ public class AccesBDDColis extends AccesBDD{
 		while(resultat.next()){
 			couple = new Destination(new Integer(0),
 									bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
-									new Integer(resultat.getInt("Volume")));
+									new Integer(resultat.getInt("Volume")),
+									false);
 			liste.add(couple);
 		}
 		

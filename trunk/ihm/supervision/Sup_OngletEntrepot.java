@@ -24,8 +24,8 @@ public class Sup_OngletEntrepot extends Sup_Onglet implements ActionListener{
 		nomColonnes.add("ID");
 		nomColonnes.add("ID Loc.");
         nomColonnes.add("Adresse");
-        nomColonnes.add("Ville");
         nomColonnes.add("Code Postal");
+        nomColonnes.add("Ville");
         nomColonnes.add("Téléphone");
 
         try{

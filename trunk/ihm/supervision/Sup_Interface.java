@@ -20,7 +20,6 @@ public class Sup_Interface extends JFrame implements ActionListener{
 	private Sup_OngletRoutage ongletRoutage;
 	private Sup_OngletUtilisateur ongletUtilisateur;
 	private Sup_OngletEntrepot ongletEntrepot = new Sup_OngletEntrepot();
-	private boolean ongletEntrepotActif=false;
 	
 	// Constructeur : nécessite un utilisateur en paramètre
 	public Sup_Interface(Utilisateur u) {
@@ -123,6 +122,6 @@ public class Sup_Interface extends JFrame implements ActionListener{
 	// Fonction principale de l'interface Superviseur
 	public static void main(String [] args){
 		Utilisateur uTest = new Utilisateur(new Integer(-1),"rochef","pass",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
-		JFrame frame = new Sup_Interface(uTest);		
+		new Sup_Interface(uTest);	
 	}
 }

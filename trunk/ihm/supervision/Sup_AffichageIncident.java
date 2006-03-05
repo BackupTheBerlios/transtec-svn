@@ -7,7 +7,7 @@ import accesBDD.AccesBDDIncident;
 
 public class Sup_AffichageIncident extends Sup_AjoutModifIncident{
 
-	private Incident incid;
+//	private Incident incid;
 	
 	//Constructeur
 	public Sup_AffichageIncident(Incident incid, Sup_OngletIncident parent, AccesBDDIncident tableIncidents){
