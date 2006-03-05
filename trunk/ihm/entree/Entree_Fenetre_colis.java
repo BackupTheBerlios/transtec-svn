@@ -1353,8 +1353,21 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		else if(cp_exp.getText().equals("") || erreurCPexp ||cp_exp.getText().length() < 2) setWarning("CP expéditeur");
 		else if(email_exp.getText().equals("")) setWarning("Email expéditeur");
 		else if(tel_exp.getText().equals("")) setWarning("Téléphone expéditeur");
-		else if (modele_colis.getSelectedIndex()== 3 && (hauteur.getText().equals("") || erreurhaut))setWarning("Hauteur");
-		else if (modele_colis.getSelectedIndex()== 3 && forme_colis.getSelectedIndex() == 1 &&(largeur.getText().equals("") || erreurlarg))setWarning("Largeur");
+		else if (modele_colis.getSelectedIndex()== 3 && (hauteur.getText().equals("") || erreurhaut)){
+			if (forme_colis.getSelectedIndex()==0)
+			{
+				setWarning("Coté");
+			}
+			else setWarning("Hauteur");
+		}
+		else if (modele_colis.getSelectedIndex()== 3 && (forme_colis.getSelectedIndex() == 1 || forme_colis.getSelectedIndex() == 2) && (largeur.getText().equals("") || erreurlarg)) {
+			if (forme_colis.getSelectedIndex()==2)
+			{
+				setWarning("Diamètre");
+			}
+			else setWarning("Largeur");
+			
+		}
 		else if (modele_colis.getSelectedIndex()== 3 && forme_colis.getSelectedIndex() == 1 &&(profondeur.getText().equals("") || erreurprof))setWarning("Profondeur");
 		else ret = true;
 		
