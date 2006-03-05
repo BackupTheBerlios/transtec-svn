@@ -63,6 +63,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private BranchGroup scene;
 	private Canvas3D camion3D;
 	private deplacementColis deplacement=new deplacementColis(ajouter);
+	private float echelle=0;
 		
 	public Prep_Creer_chargement(Preparation preparation) {
 		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
@@ -225,29 +226,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.addChild(background);
 	    
 //*********************************CREATION DU CAMION*****************************************//
-	    
+	   
 	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
-	    // Face 1
-	    Point3f face1_s1 = new Point3f(-0.9f, 0.3f, 0.165f);
-	    Point3f face1_s2 = new Point3f(0.9f, 0.3f, 0.165f);
-	    Point3f face1_s3 = new Point3f( 0.9f, -0.3f, 0.165f);
-	    Point3f face1_s4 = new Point3f( -0.9f, -0.3f, 0.165f);
-	    // Face 2
-	    Point3f face2_s1 = new Point3f( 0.9f, 0.3f, 0.165f);
-	    Point3f face2_s2 = new Point3f( 0.9f, 0.3f, -0.165f);
-	    Point3f face2_s3 = new Point3f( 0.9f, -0.3f, -0.165f);
-	    Point3f face2_s4 = new Point3f( 0.9f, -0.3f, 0.165f);
-	    // Face 3
-	    Point3f face3_s1 = new Point3f( -0.9f, 0.3f, -0.165f);
-	    Point3f face3_s2 = new Point3f( 0.9f, 0.3f, -0.165f);
-	    Point3f face3_s3 = new Point3f(0.9f, -0.3f, -0.165f);
-	    Point3f face3_s4 = new Point3f(-0.9f, -0.3f, -0.165f);
-	    // Face 4
-	    Point3f face4_s1 = new Point3f(-0.9f, 0.3f, 0.165f);
-	    Point3f face4_s2 = new Point3f(-0.9f, 0.3f, -0.165f);
-	    Point3f face4_s3 = new Point3f(-0.9f, -0.3f, -0.165f);
-	    Point3f face4_s4 = new Point3f(-0.9f, -0.3f, 0.165f);
-	     
+	    Point3f benne[]=tailleBenne(2.55f, 4, 12);
+	    
 	    //Les couleurs des 4 faces visibles du cube
 	    Color4f color1 = new Color4f(Color.blue);
 	    Color4f color2 = new Color4f(200,200,200,1.0f);
@@ -255,15 +237,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	  
 	    // Construction de l'objet geometrique QuadArray constitue de 16
 	    // points
-	    QuadArray quadArray = new QuadArray(16,
-	                                        QuadArray.COORDINATES | QuadArray.COLOR_4);
+	    QuadArray quadArray = new QuadArray(16, QuadArray.COORDINATES | QuadArray.COLOR_4);
 	    // Tableau des points constituant les 4 faces (quadrilateres) qui
 	    // sont visibles
 	    quadArray.setCoordinates(0, new Point3f[] {
-	    /* face 1 */             face1_s1, face1_s2, face1_s3, face1_s4,
-	    /* face 2 */             face2_s1, face2_s2, face2_s3, face2_s4,
-	    /* face 3 */             face3_s1, face3_s2, face3_s3, face3_s4,
-	    /* face 4 */             face4_s1, face4_s2, face4_s3, face4_s4
+	    /* face 1 */             benne[0],benne[1],benne[2],benne[3],
+	    /* face 2 */             benne[4],benne[5],benne[6],benne[7],
+	    /* face 3 */             benne[8],benne[9],benne[10],benne[11],
+	    /* face 4 */             benne[12],benne[13],benne[14],benne[15]
 	    });
 	    // Tableau des couleurs des 4 sommets de chaque face
 	    quadArray.setColors(0, new Color4f[] {
@@ -375,9 +356,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				listeChargementTab.updateUI();
 				
 				// Ajout de l'objet 3D
-				scene.addChild(brancheCube(0.1f/*colis.getModele().getLargeur()*/, 
-					0.1f/*colis.getModele().getProfondeur()*/, 
-						0.1f/*colis.getModele().getHauteur()*/));
+				scene.addChild(brancheCube(
+						colis.getModele().getLargeur().intValue()/(this.echelle*100), 
+						colis.getModele().getProfondeur().intValue()/(this.echelle*100), 
+						colis.getModele().getHauteur().intValue()/(this.echelle*100)));
 				//scene.addChild(new deplacementColis(ajouter).ajouterColis(0.1f,0.1f,0.1f));
 			}
 			else{
@@ -469,7 +451,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.addChild(lumiereDir);
 	    branche.addChild(background);
 	    
-	    Box b = new Box(largeur, hauteur, profondeur, apparence);
+	    Box b = new Box(profondeur, hauteur, largeur, apparence);
 	    CollisionDetector cd=new CollisionDetector(b);
 		BoundingBox bounds1;
 	    bounds1 = new BoundingBox(new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f));
@@ -497,5 +479,45 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.compile();
 	    
 		return branche;
+	}
+	
+	// Calcul de l'échelle pour le camion et donne les point pour le dessin de la benne
+	private Point3f[] tailleBenne(float profondeur, float hauteur, float largeur){
+		Point3f benne[]=new Point3f[16];
+		this.echelle=1.1f;
+		float tmp_profondeur=profondeur, tmp_hauteur=hauteur, tmp_largeur=largeur;
+		
+		while(tmp_largeur>2.1f || tmp_hauteur>0.61f || tmp_profondeur>0.51f){
+			tmp_profondeur/=1.1f;
+			tmp_hauteur/=1.1f;
+			tmp_largeur/=1.1f;
+			this.echelle*=1.1f;
+		}
+		tmp_largeur/=2;
+		tmp_hauteur/=2;
+		tmp_profondeur/=2;
+		
+		// Face 1
+		benne[0]=new Point3f(-tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[1]=new Point3f(tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[2]=new Point3f(tmp_largeur, -tmp_hauteur, tmp_profondeur);
+		benne[3]=new Point3f(-tmp_largeur, -tmp_hauteur, tmp_profondeur);
+		// Face 2
+		benne[4]=new Point3f(tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[5]=new Point3f(tmp_largeur, tmp_hauteur, -tmp_profondeur);
+		benne[6]=new Point3f(tmp_largeur, -tmp_hauteur, -tmp_profondeur);
+		benne[7]=new Point3f(tmp_largeur, -tmp_hauteur, tmp_profondeur);
+		// Face 3
+		benne[8]=new Point3f(-tmp_largeur, tmp_hauteur, -tmp_profondeur);
+		benne[9]=new Point3f(tmp_largeur, tmp_hauteur, -tmp_profondeur);
+		benne[10]=new Point3f(tmp_largeur, -tmp_hauteur, -tmp_profondeur);
+		benne[11]=new Point3f(-tmp_largeur, -tmp_hauteur, -tmp_profondeur);
+		// Face 4
+		benne[12]=new Point3f(-tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[13]=new Point3f(-tmp_largeur, tmp_hauteur, -tmp_profondeur);
+		benne[14]=new Point3f(-tmp_largeur, -tmp_hauteur, -tmp_profondeur);
+		benne[15]=new Point3f(-tmp_largeur, -tmp_hauteur, tmp_profondeur);
+		
+		return benne;
 	}
 }
