@@ -1012,8 +1012,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
-					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,"0",modele.calculerVolume());
-				
+					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,entrepot,entrepot,"0",modele.calculerVolume());
 					try{
 						test.ajouter(col);
 					}
@@ -1168,7 +1167,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
 					//System.out.println(col.getId());
-					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,"0",modele_temp.calculerVolume());
+					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,entrepot,entrepot,"0",modele_temp.calculerVolume());
 				
 					try{
 						test.modifier(col_temp);
