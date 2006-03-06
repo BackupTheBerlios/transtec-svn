@@ -19,12 +19,12 @@ public class Fenetre_login extends JFrame implements ActionListener{
 
 	public Fenetre_login()
 	{
-		WindowListener l = new WindowAdapter() {
+		/*WindowListener l = new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
 			}
 		};
-		addWindowListener(l);
+		addWindowListener(l);*/
 		
 		// Création graphique de la fenetre
 		setTitle("Ouverture de session");
@@ -32,11 +32,10 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		contenu = new panelContenu();
 		setContentPane(contenu);
 		setUndecorated(true);
-		//setBounds(350,300,300,150);
 		contenu.setOpaque(false);
-		
 		contenu.setLayout(null);
 		
+		// Création des éléments de login : textes et zones de saisie
 		label_login = new JLabel("Login : ");
 		label_login.setBounds(410,390,50,15);
 		contenu.add(label_login);
@@ -53,16 +52,21 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		pwd1.setBounds(480,427,150,20);
 		contenu.add(pwd1);
 		
-		valider = new JButton(new ImageIcon("images/login/valider.png"));
+		// Bouton de validation
+		valider = new CustomBouton("images/login/valider.png","images/login/valideronclick.png");
 		valider.setBounds(520,465,48,51);
-		valider.setBorder(null);
-		valider.setOpaque(false);
-		valider.setContentAreaFilled(false);
-		valider.setMargin(null);
-		valider.setRolloverEnabled(false);
-		valider.setPressedIcon(new ImageIcon("images/login/valideronclick.png"));
 		contenu.add(valider);
-		valider.addActionListener(this);			
+		valider.addActionListener(this);
+		
+		// Bouton permettant de quitter l'application
+		label_quitter = new JLabel("Quitter");
+		label_quitter.setBounds(38,738,50,15);
+		contenu.add(label_quitter);
+		
+		quitter = new CustomBouton("images/login/quitter.png","images/login/quitteronclick.png");
+		quitter.setBounds(10,735,22,22);
+		contenu.add(quitter);
+		quitter.addActionListener(this);
 	}
 
 	// Gestion des actions liées aux boutons
@@ -118,15 +122,19 @@ public class Fenetre_login extends JFrame implements ActionListener{
 				System.out.println(m.getMessage());
 			}				
 		}
+		// Si l'utilisateur veut quitter l'application
+		else if(source==quitter){
+			System.exit(0);			
+		}
 	}
 	
 	private Utilisateur u;
 	private AccesBDDUtilisateur bdd;
 	private panelContenu contenu;
-	private JLabel label_login,label_pwd;
+	private JLabel label_login,label_pwd,label_quitter;
 	private JTextField login;
 	private JPasswordField pwd1;
-	private JButton valider;
+	private JButton valider,quitter;
 	
 	public static void main(String[] args) {
 		
@@ -153,5 +161,19 @@ public class Fenetre_login extends JFrame implements ActionListener{
 				g.drawImage(img.getImage(), 0, 0, null);
 				super.paintComponent(g);
 		}	
+	}
+	
+	// Bouton personnalisé composé d'une image uniquement
+	class CustomBouton extends JButton{
+		public CustomBouton(String cheminImage, String cheminImageOnClick){
+			super();
+			this.setIcon(new ImageIcon(cheminImage));
+			this.setBorder(null);
+			this.setOpaque(false);
+			this.setContentAreaFilled(false);
+			this.setMargin(null);
+			this.setRolloverEnabled(false);
+			this.setPressedIcon(new ImageIcon(cheminImageOnClick));
+		}
 	}
 }
