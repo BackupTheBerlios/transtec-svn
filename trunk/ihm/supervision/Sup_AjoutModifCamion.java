@@ -19,7 +19,9 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	
 	private JTextField textNumero = new JTextField(15);
 	private JComboBox comboDispo = new JComboBox(TITRES);
-	private JTextField textVolume = new JTextField(15);
+	private JTextField textLargeur = new JTextField(15);
+	private JTextField textHauteur = new JTextField(15);
+	private JTextField textProfondeur = new JTextField(15);
 	private JComboBox comboOrigine;
 	private JComboBox comboDestination;
 	private JTextField textWarning = new JTextField(15);
@@ -76,7 +78,9 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		JPanel panneauLabels = new JPanel(new GridLayout(6,1,5,5));
 		panneauLabels.add(new JLabel("Numéro :"));
 		panneauLabels.add(new JLabel("Disponibilité :"));
-		panneauLabels.add(new JLabel("Volume :"));
+		panneauLabels.add(new JLabel("Largeur :"));
+		panneauLabels.add(new JLabel("Hauteur :"));
+		panneauLabels.add(new JLabel("Profondeur :"));
 		panneauLabels.add(new JLabel("Origine :"));
 		panneauLabels.add(new JLabel("Destination :"));
 		
@@ -84,7 +88,9 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		JPanel panneauSaisie = new JPanel(new GridLayout(6,1,5,5));
 		panneauSaisie.add(textNumero);
 		panneauSaisie.add(comboDispo);
-		panneauSaisie.add(textVolume);
+		panneauSaisie.add(textLargeur);
+		panneauSaisie.add(textHauteur);
+		panneauSaisie.add(textProfondeur);		
 		panneauSaisie.add(comboOrigine);
 		panneauSaisie.add(comboDestination);
 		
@@ -122,7 +128,9 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 			// On initialise les champs texte
 			textNumero.setText(c.getNumero());
 			comboDispo.setSelectedIndex(c.getDisponibilite().intValue());
-			textVolume.setText(c.getVolume().toString());
+			textLargeur.setText(c.getLargeur().toString());
+			textHauteur.setText(c.getHauteur().toString());
+			textProfondeur.setText(c.getProfondeur().toString());
 			comboOrigine.setSelectedItem(c.getOrigine());
 			comboDestination.setSelectedItem(c.getDestination());
 		}
@@ -190,7 +198,10 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	private Camion getCamion(){
 		camion.setNumero(textNumero.getText());
 		camion.setDisponibilite(new Integer(comboDispo.getSelectedIndex()));
-		camion.setVolume(new Integer(textVolume.getText().trim()));
+		camion.setLargeur(new Float(textLargeur.getText().trim()));
+		camion.setHauteur(new Float(textHauteur.getText().trim()));
+		camion.setProfondeur(new Float(textProfondeur.getText().trim()));		
+		camion.calculerVolume();
 		camion.setOrigine((Entrepot)comboOrigine.getSelectedItem());
 		camion.setDestination((Entrepot)comboDestination.getSelectedItem());
 
@@ -200,21 +211,35 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	// Vérification de saisie des champs
 	private boolean verifChamps(){
 		boolean ret = false;
-		boolean erreurVolume = false;
+		boolean erreurLargeur = false;
+		boolean erreurHauteur = false;
+		boolean erreurProfondeur = false;
 		
 		// On vérifie que la valeur numérique soit correctement saisie
 		try{
-			new Integer(this.textVolume.getText().trim());
+			new Float(this.textLargeur.getText().trim());			
+			try{
+				new Float(this.textHauteur.getText().trim());				
+				try{
+					new Float(this.textProfondeur.getText().trim());
+				}
+				catch(NumberFormatException e){
+					erreurProfondeur=true;
+				}
+			}
+			catch(NumberFormatException e){
+				erreurHauteur=true;
+			}
 		}
 		catch(NumberFormatException e){
-			erreurVolume=true;
+			erreurLargeur=true;
 		}
 
 		// On vérifie que tous les champs sont remplis
 		if(textNumero.getText().equals("")) setWarning("Numéro");
-		else if(textVolume.getText().equals("") || erreurVolume) setWarning("Volume");
-//		else if(comboOrigine.getSelectedIndex()==-1) setWarning("Origine");
-//		else if(comboDestination.getSelectedIndex()==-1) setWarning("Destination");
+		else if(textLargeur.getText().equals("") || erreurLargeur) setWarning("Largeur");
+		else if(textHauteur.getText().equals("") || erreurHauteur) setWarning("Hauteur");
+		else if(textProfondeur.getText().equals("") || erreurProfondeur) setWarning("Profondeur");	
 		else ret = true;
 
 		return ret;

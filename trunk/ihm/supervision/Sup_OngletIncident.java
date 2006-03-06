@@ -42,22 +42,16 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
         	
         }
 
-        // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
-        /*********************************
-		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Timestamp(System.currentTimeMillis()),new Integer(0),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
-		donnees.addElement(new Incident(new Integer(-1),new Integer(1),new Timestamp(System.currentTimeMillis()),new Integer(1),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
-		donnees.addElement(new Incident(new Integer(-1),new Integer(0),new Timestamp(System.currentTimeMillis()),new Integer(2),"Colis non trouvé lors du chargement",new Integer(27),new Integer(0)).toVector());
-		/*********************************/
-
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
 
 		// Le Bouton Ajouter est transformé en bouton d'affichage
-		boutAfficher.setText("Afficher");
+		boutAfficher.setText("Détails");
 		boutAfficher.addActionListener(this);
 
 		// Bouton Modifier
 		boutModifier.addActionListener(this);
+		boutModifier.setText("Changer d'état");
 
 		// On cache le bouton Supprimer qui n'est pas utile ici
 		boutSupprimer.setVisible(false);

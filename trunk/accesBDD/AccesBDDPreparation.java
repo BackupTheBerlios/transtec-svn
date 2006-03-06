@@ -1,17 +1,15 @@
 package accesBDD;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Vector;
-import java.sql.SQLException;
 
 import donnees.Preparation;
 import donnees.Utilisateur;
+
 /*
  * Classe permettant l'accès à la table préparation, lien entre le superviseur et le préparateur
  */
 public class AccesBDDPreparation extends AccesBDD{
-	
 	
 	public AccesBDDPreparation(){
 		super();
@@ -30,8 +28,8 @@ public class AccesBDDPreparation extends AccesBDD{
 			courante=new Preparation(
 					new Integer(resultat.getInt("idPreparation")),
 					preparateur,
-					bddEntrepot.rechercher(resultat.getInt("Origine")),
-					bddEntrepot.rechercher(resultat.getInt("idDestination")), 
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")));
@@ -87,8 +85,8 @@ public class AccesBDDPreparation extends AccesBDD{
 			trouvee=new Preparation(
 					aChercher,
 					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("idPreparateur"))),
-					bddEntrepot.rechercher(resultat.getInt("Origine")),
-					bddEntrepot.rechercher(resultat.getInt("idDestination")), 
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")));

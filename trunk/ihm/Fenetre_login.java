@@ -53,17 +53,25 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		contenu.add(pwd1);
 		
 		// Bouton de validation
-		valider = new CustomBouton("images/login/valider.png","images/login/valideronclick.png");
+		valider = new Bouton("images/login/valider.png","images/login/valideronclick.png");
 		valider.setBounds(520,465,48,51);
 		contenu.add(valider);
 		valider.addActionListener(this);
+/*		valider.addKeyListener( new KeyListener(){
+			public void keyPressed(KeyEvent ke){
+				
+			}			
+			public void keyReleased(KeyEvent ke){
+				
+			}
+		});*/
 		
 		// Bouton permettant de quitter l'application
 		label_quitter = new JLabel("Quitter");
 		label_quitter.setBounds(38,738,50,15);
 		contenu.add(label_quitter);
 		
-		quitter = new CustomBouton("images/login/quitter.png","images/login/quitteronclick.png");
+		quitter = new Bouton("images/login/quitter.png","images/login/quitteronclick.png");
 		quitter.setBounds(10,735,22,22);
 		contenu.add(quitter);
 		quitter.addActionListener(this);
@@ -164,12 +172,11 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	}
 	
 	// Bouton personnalisé composé d'une image uniquement
-	class CustomBouton extends JButton{
-		public CustomBouton(String cheminImage, String cheminImageOnClick){
+	class Bouton extends JButton{
+		public Bouton(String cheminImage, String cheminImageOnClick){
 			super();
 			this.setIcon(new ImageIcon(cheminImage));
 			this.setBorder(null);
-			this.setOpaque(false);
 			this.setContentAreaFilled(false);
 			this.setMargin(null);
 			this.setRolloverEnabled(false);

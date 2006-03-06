@@ -3,9 +3,6 @@ package donnees;
 import java.util.Vector;
 
 public class Preparation {
-	public final static int A_FAIRE=0;
-	public final static int EN_COURS=1;
-	
 	private Integer id;
 	private Utilisateur utilisateur;
 	private Entrepot destination, origine;
@@ -14,6 +11,10 @@ public class Preparation {
 	private Camion aCharger;
 	private Integer VolumeColis;
 	private Integer etat;
+	
+	// Constantes décrivant l'état d'une préparation
+	public final static int A_FAIRE=0;
+	public final static int EN_COURS=1;
 	
 	
 	public Preparation(Utilisateur utilisateur, Entrepot origine, Entrepot destination, Float volume, Camion camion, Integer etat){
@@ -77,10 +78,10 @@ public class Preparation {
 		vector.add(this.destination);
 		vector.add(this.destination.getLocalisation().getVille());
 		vector.add(this.camion);
-		vector.add(this.camion.getNumero());
-		vector.add(this.VolumeColis.floatValue());
-		if(this.etat==A_FAIRE)	vector.add("A faire");
-		else	vector.add("En cours");
+		vector.add(this.camion);
+		vector.add(this.VolumeColis);
+		if(this.etat.intValue()==A_FAIRE) vector.add("A faire");
+		else vector.add("En cours");
 		
 		return vector;
 	}

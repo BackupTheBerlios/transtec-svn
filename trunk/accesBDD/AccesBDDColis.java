@@ -254,7 +254,7 @@ public class AccesBDDColis extends AccesBDD{
 		while(resultat.next()){
 			couple = new Destination(new Integer(0),
 									bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
-									new Integer(resultat.getInt("Volume")),
+									new Float(resultat.getFloat("Volume")),
 									false);
 			liste.add(couple);
 		}
@@ -267,7 +267,7 @@ public class AccesBDDColis extends AccesBDD{
 		return liste;
 	}
 	
-	//----- TESTES OKAY -----//
+	//----- TESTS OKAY -----//
 	/*public static void main(String arg[]){
 		AccesBDDColis test=new AccesBDDColis();
 		ConnecteurSQL connecteur = new ConnecteurSQL();

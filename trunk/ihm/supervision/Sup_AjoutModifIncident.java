@@ -1,7 +1,6 @@
 package ihm.supervision;
 
 import java.awt.*;
-import java.sql.*;
 import java.awt.event.*;
 import java.sql.Timestamp;
 import javax.swing.*;
@@ -22,9 +21,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 	protected JTextArea textDescription = new JTextArea(20,5);
 	protected JTextField textUtilisateur = new JTextField(20);
 	protected JTextField textType = new JTextField(20);
-
-	protected JTextField textWarning = new JTextField();
-	
+	protected JTextField textWarning = new JTextField();	
 	protected JButton boutModifier = new JButton("Modifier");
 	protected JButton boutAnnuler = new JButton("Annuler");
 
@@ -198,8 +195,8 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 					// Ecriture dans la base de données
 					tableIncidents.changerEtat(this.getIncident());
 				}
-				catch(SQLException eSQL){
-					
+				catch(Exception ex){
+					System.out.println(ex.getMessage());
 				}
 				finally{
 					// On masque la fenetre
@@ -218,13 +215,7 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 
 	//Méthodes permettant d'obtenir le contenu des champs
 	private Incident getIncident(){
-//		incid.setColis(new Integer(this.textColis.getText().trim()));
-		incid.setDate(new Timestamp(System.currentTimeMillis()));
 		incid.setEtat(new Integer(this.comboEtat.getSelectedIndex()));
-		incid.setDescription(this.textDescription.getText());
-//		incid.setUtilisateur(new Integer(this.textUtilisateur.getText().trim()));
-		incid.setType(new Integer(this.textType.getText()));
-
 		return incid;
 	}
 
@@ -233,26 +224,12 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 		boolean ret = false;		
 		boolean erreurColis = false;
 		boolean erreurDate = false;
-		boolean erreurUtilisateur = false;
-		boolean erreurType = false;
 		
 		// On vérifie que la valeur numérique soit correctement saisie
 		try{
 			new Integer(this.textColis.getText().trim());
 			try{
 				new Timestamp(System.currentTimeMillis());
-				try{
-					new Integer(this.textUtilisateur.getText().trim());
-					try{
-						new Integer(this.textType.getText().trim());
-					}
-					catch(NumberFormatException e){
-						 erreurType = true;
-					}					
-				}				
-				catch(Exception e){
-					erreurUtilisateur = true;
-				}
 			}
 			catch(Exception e){
 				erreurDate = true;
@@ -266,8 +243,8 @@ public class Sup_AjoutModifIncident extends JFrame implements ActionListener{
 		if(textColis.getText().equals("") || erreurColis) setWarning("Colis");
 		else if(textDate.getText().equals("") || erreurDate) setWarning("Date");
 		else if(textDescription.getText().equals("")) setWarning("Description");
-		else if(textUtilisateur.getText().equals("") || erreurUtilisateur) setWarning("Utilisateur");
-		else if(textType.getText().equals("") || erreurType) setWarning("Type");
+		else if(textUtilisateur.getText().equals("")) setWarning("Utilisateur");
+		else if(textType.getText().equals("")) setWarning("Type");
 		else ret = true;
 
 		return ret;

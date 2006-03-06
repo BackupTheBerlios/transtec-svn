@@ -24,6 +24,9 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		nomColonnes.add("ID");
         nomColonnes.add("Numéro");
         nomColonnes.add("Disponibilité");
+        nomColonnes.add("Largeur");
+        nomColonnes.add("Hauteur");
+        nomColonnes.add("Profondeur");      
         nomColonnes.add("Volume");
         nomColonnes.add("Origine");
         nomColonnes.add("Destination");

@@ -89,9 +89,9 @@ public class Camion implements Comparable {
 		v.add(id);
 		v.add(numero);
 		v.add(constToString(disponibilite));
-		v.add(this.largeur);
-		v.add(this.hauteur);
-		v.add(this.profondeur);
+		v.add(largeur);
+		v.add(hauteur);
+		v.add(profondeur);
 		v.add(volume);
 		v.add(origine);
 		v.add(destination);
@@ -115,13 +115,33 @@ public class Camion implements Comparable {
 	public void setDisponibilite(Integer disponibilite) {
 		this.disponibilite = disponibilite;
 	}
+	
+	// ----- Insérer la largeur du camion -----//
+	public void setLargeur(Float largeur) {
+		this.largeur = largeur;
+	}
+	
+	// ----- Insérer la hauteur du camion -----//
+	public void setHauteur(Float hauteur) {
+		this.hauteur = hauteur;
+	}
+	
+	// ----- Insérer la profondeur du camion -----//
+	public void setProfondeur(Float profondeur) {
+		this.profondeur = profondeur;
+	}
+	
+	// ----- Insérer le volume du camion -----//
+	public void setVolume(Float volume) {
+		this.volume = volume;
+	}	
 
 	// ----- Insérer l'entrepôt de destination -----//
 	public void setDestination(Entrepot destination) {
 		this.destination = destination;
 	}
 
-	// ----- Insérer l'id de l'entrepôt d'origine -----//
+	// ----- Insérer l'entrepôt d'origine -----//
 	public void setOrigine(Entrepot origine) {
 		this.origine = origine;
 	}
@@ -158,21 +178,26 @@ public class Camion implements Comparable {
 		return this.origine;
 	}
 	
-	//----- Récupération de la hauteur de la remorque -----//
+	//----- Récupération de la hauteur du camion -----//
 	public Float getHauteur(){
 		return this.hauteur;
 	}
 	
-//	----- Récupération de la largeur de la remorque -----//
+	//	----- Récupération de la largeur du camion -----//
 	public Float getLargeur(){
 		return this.largeur;
 	}
 	
-//	----- Récupération de la profondeur de la remorque -----//
+	//	----- Récupération de la profondeur du camion -----//
 	public Float getProfondeur(){
 		return this.profondeur;
 	}
 
+	/****** Méthode de calcul interne ******/
+	public void calculerVolume(){
+		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());
+	}
+	
 	/****** Méthodes de conversion des constantes ******/
 
 	// Renvoyer le mot en fonction de la valeur de la constante

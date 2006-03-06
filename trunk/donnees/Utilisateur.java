@@ -59,7 +59,7 @@ public class Utilisateur implements Comparable{
 		// ATTENTION l'ordre est très important !!
 		// l'ordre doit être :
 		// id, login, motDePasse, type, nom, prenom, adresse, codePostal, ville, mail, telephone
-		v.add(personne.getId());
+		v.add(id);
 		v.add(login);
 		v.add(motDePasse);
 		v.add(constToString(type));

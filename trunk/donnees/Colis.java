@@ -216,10 +216,10 @@ public class Colis {
 	public Integer getPoids(){
 		return this.poids;
 	}
+	
 	public String getCode_barre(){
 		return this.code_barre;
-	}
-	
+	}	
 	
 	public String getValeurDeclaree(){
 		return this.valeur_declaree;
@@ -256,11 +256,12 @@ public class Colis {
 		return this.utilisateur;
 	}
 	
-	//----- Récupération de l'id de l'origine -----//
+	//----- Récupération de l'origine -----//
 	public Entrepot getOrigine(){
 		return this.origine;
 	}
 	
+	//----- Récupération de la destination -----//
 	public Entrepot getDestination(){
 		return this.destination;
 	}

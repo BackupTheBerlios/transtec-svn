@@ -3,23 +3,39 @@ package ihm.supervision;
 import java.util.Vector;
 import java.awt.event.*;
 
-// Panneau de l'onglet de gestion des tables de routage
-public class Sup_OngletRoutage extends Sup_Onglet implements ActionListener{
+import accesBDD.AccesBDDRoutage;
+import donnees.Route;
 
-	public Sup_OngletRoutage(){
+// Panneau de l'onglet de gestion des tables de routage
+public class Sup_OngletRoutage extends Sup_Onglet implements ActionListener {
+
+	AccesBDDRoutage tableRoutage = new AccesBDDRoutage();
+	
+	public Sup_OngletRoutage() {
 		super("Gestion de la table de routage");
-		
+
 		//Mise en forme initiale
 		setOpaque(false);
 		setLayout(null);
 
 		//Liste des destinations : noms des colonnes.
-        nomColonnes.add("Numéro");
-        nomColonnes.add("Etat");
-        nomColonnes.add("Volume");
-        nomColonnes.add("Chauffeur");
-        nomColonnes.add("Destination");
-        nomColonnes.add("Appartenance");
+		nomColonnes.add("ID");
+		nomColonnes.add("Origine");
+		nomColonnes.add("Destination");
+		nomColonnes.add("Intermédiaire");
+		nomColonnes.add("Distance");
+	
+        try{
+	        // On récupère les routes de la base de données et on les affiche
+	        Vector listeRoutes = tableRoutage.lister();
+	        
+	        for(int i=0;i<listeRoutes.size();i++){
+	        	donnees.addElement(((Route)listeRoutes.get(i)).toVector());
+	        }       
+        }
+        catch(Exception e){
+        	System.out.println(e.getMessage());
+        }
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
@@ -34,40 +50,39 @@ public class Sup_OngletRoutage extends Sup_Onglet implements ActionListener{
 		boutSupprimer.addActionListener(this);
 	}
 
-	public void actionPerformed(ActionEvent ev){
+	public void actionPerformed(ActionEvent ev) {
 		Object source = ev.getSource();
 
 		// On récupère le numéro de la ligne sélectionnée
 		int ligneSelect = table.getSelectedRow();
 
 		// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
-		if(ligneSelect != -1){
+		if (ligneSelect != -1) {
 
 			// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
 			ligneActive = sorter.modelIndex(ligneSelect);
-			
+
 			// Action liée au bouton de modification d'un camion
-			if(source==boutModifier){
-			
+			if (source == boutModifier) {
+
 				// On récupère les données de la ligne du tableau
-				Vector cVect = (Vector) modeleTab.getRow(ligneActive);
-				
-				//Camion c = new Camion(cVect);
+				Vector rVect = (Vector) modeleTab.getRow(ligneActive);
+
+				Route r = new Route(rVect);
 
 				// On affiche l'invite de modification
-				//Sup_AjoutModifRoutage modifRoutage = new Sup_AjoutModifRoutage(c,this);
+				new Sup_AjoutModifRoutage(r,this,tableRoutage);
 			}
 			// Suppression d'un camion
-			else if(source==boutSupprimer){
+			else if (source == boutSupprimer) {
 				supprimerLigne(ligneActive);
 			}
 		}
 		// Ajout d'un camion
-		if(source==boutAjouter){
+		if (source == boutAjouter) {
 			// On affiche l'invite de saisie d'information
-			Sup_AjoutModifRoutage ajoutRoutage = new Sup_AjoutModifRoutage(null,this);
+			new Sup_AjoutModifRoutage(null,this,tableRoutage);
 		}
 	}
-
 
 }

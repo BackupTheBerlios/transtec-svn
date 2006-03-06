@@ -7,11 +7,11 @@ import java.util.Vector;
 public class Destination implements Comparable{
 	private Integer id;
 	private Entrepot entrepot;
-	private Integer volume;//en cm3
+	private Float volume;//en cm3
 	private boolean transit;
 	
 	// Constructeur avec tous les paramètres
-	public Destination(Integer id, Entrepot entrepot, Integer volume, boolean transit){
+	public Destination(Integer id, Entrepot entrepot, Float volume, boolean transit){
 		this.id=id;
 		this.entrepot=entrepot;
 		this.volume=volume;
@@ -52,7 +52,7 @@ public class Destination implements Comparable{
 	}
 	
 	//----- Récupération du volume -----//
-	public void setVolume(Integer volume){
+	public void setVolume(Float volume){
 		this.volume=volume;
 	}
 	
@@ -75,7 +75,7 @@ public class Destination implements Comparable{
 	}
 	
 	//----- Récupération du volume -----//
-	public Integer getVolume(){
+	public Float getVolume(){
 		return this.volume;
 	}
 	

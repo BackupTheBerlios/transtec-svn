@@ -1,71 +1,89 @@
 package ihm.supervision;
 
+import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
 import javax.swing.*;
 
-import donnees.Camion;
+import accesBDD.AccesBDDEntrepot;
+import accesBDD.AccesBDDRoutage;
+import donnees.Entrepot;
+import donnees.Route;
 
 // Invite d'ajout/modification d'un camion
 public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 	
-	private final static String [] TITRES = {"Disponible" , "En livraison" , "En réparation"};
-	
-	private JTextField textNumero = new JTextField(15);
-	private JComboBox comboDispo = new JComboBox(TITRES);
-	private JTextField textVolume = new JTextField(15);
-	private JTextField textChauffeur = new JTextField(15);
-	private JTextField textDestination = new JTextField(15);
-	private JTextField textAppartenance = new JTextField(15);
+	private JComboBox comboOrigine;
+	private JComboBox comboDestination;
+	private JComboBox comboIntermed;
+	private JTextField textDistance = new JTextField(15);
 	private JTextField textWarning = new JTextField(15);
 	private JButton boutValider = new JButton();
 	private JButton boutAnnuler = new JButton("Annuler");
-	private Camion camion;
+	private Route route;
 	private Sup_OngletRoutage parent;
+	private Vector vectOrigines = new Vector();
+	private Vector vectDestinations = new Vector();
+	private Vector vectIntermed = new Vector();
+	private AccesBDDEntrepot tableEntrepots = new AccesBDDEntrepot();
+	private AccesBDDRoutage tableRoutage;
 	
 	//Constructeur
-	public Sup_AjoutModifRoutage(Camion c, Sup_OngletRoutage parent){
+	public Sup_AjoutModifRoutage(Route r, Sup_OngletRoutage parent, AccesBDDRoutage tableRoutage){
 		super("");
-		/*
+		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
-				setVisible(false);
-				modif = false;
+				boutAnnuler.doClick();
 			}
 		};
 		addWindowListener(l);
 
 		// On indique le titre de la fenêtre selon le cas de figure : modification ou ajout
-		if(c!=null){
-			setTitle("Modification d'un camion");
+		if(r!=null){
+			setTitle("Modification d'une route");
 			boutValider.setText("Modifier");
-			camion = c;
+			route = r;
 		}
 		else{
-			setTitle("Ajout d'un camion");
+			setTitle("Ajout d'une route");
 			boutValider.setText("Ajouter");
-			camion = new Camion();
+			route = new Route();
 		}
 		
+		// On récupère le contenu des paramètres
 		this.parent = parent;
+		this.tableRoutage = tableRoutage;
+		
+		// On initialise les listes d'entrepôts
+		try{
+			vectOrigines=tableEntrepots.lister();
+			vectDestinations=tableEntrepots.lister();	
+			vectIntermed=tableEntrepots.lister();
+		}
+		catch(Exception ev){
+			System.out.println(ev.getMessage());
+		}
+		
+		// On initialise les listes de choix d'entrepôts
+		comboOrigine = new JComboBox(vectOrigines);
+		comboDestination = new JComboBox(vectDestinations);
+		comboIntermed = new JComboBox(vectIntermed);
 	
 		// Titres des informations à saisir
-		JPanel panneauLabels = new JPanel(new GridLayout(6,1,5,5));
-		panneauLabels.add(new JLabel("Numéro :"));
-		panneauLabels.add(new JLabel("Disponibilité :"));
-		panneauLabels.add(new JLabel("Volume :"));
-		panneauLabels.add(new JLabel("Chauffeur :"));
+		JPanel panneauLabels = new JPanel(new GridLayout(4,1,5,5));
+		panneauLabels.add(new JLabel("Origine :"));
 		panneauLabels.add(new JLabel("Destination :"));
-		panneauLabels.add(new JLabel("Appartenance :"));
+		panneauLabels.add(new JLabel("Intermédiaire :"));
+		panneauLabels.add(new JLabel("Distance :"));
 		
 		// Champs de saisie des informations
-		JPanel panneauSaisie = new JPanel(new GridLayout(6,1,5,5));
-		panneauSaisie.add(textNumero);
-		panneauSaisie.add(comboDispo);
-		panneauSaisie.add(textVolume);
-		panneauSaisie.add(textChauffeur);
-		panneauSaisie.add(textDestination);
-		panneauSaisie.add(textAppartenance);
+		JPanel panneauSaisie = new JPanel(new GridLayout(4,1,5,5));
+		panneauSaisie.add(comboOrigine);
+		panneauSaisie.add(comboDestination);
+		panneauSaisie.add(comboIntermed);
+		panneauSaisie.add(textDistance);
 		
 		// Boutons d'actions : Valider/Modifier et Annuler
 		JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
@@ -94,79 +112,89 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		getContentPane().add(panneauWarning,BorderLayout.SOUTH);
 
 		// Si on est dans le cas d'une modification
-		if(c!= null){
-			// On initialise les champs texte
-			textNumero.setText(c.numero);
-			comboDispo.setSelectedItem(c.dispo);
-			textVolume.setText(c.volume.toString());
-			textChauffeur.setText(c.chauffeur);
-			textDestination.setText(c.destination);
-			textAppartenance.setText(c.origine);
+		if(r!= null){
+			// On initialise les ComboBox et le champ texte
+			comboOrigine.setSelectedItem(r.getOrigine());
+			comboDestination.setSelectedItem(r.getDestination());
+			comboIntermed.setSelectedItem(r.getIntermediaire());
+			textDistance.setText(r.getDistance().toString());
 		}
 
 		pack();
 		setAlwaysOnTop(true);
-		setVisible(true);*/
+		setVisible(true);
 	}
 
-	// Gestion des actions liées au boutons
+	// Gestion des actions liées aux boutons
 	public void actionPerformed(ActionEvent e){
-/*		Object source = e.getSource();
+		Object source = e.getSource();
 
 		// Validation
 		if(source==boutValider){
 			if(verifChamps()){
-				// Cas d'un ajout de camion
-				if(boutValider.getText().equals("Ajouter")){
-					parent.ajouterLigne(this.getCamion().toVector());
+				try{
+					// Cas d'un ajout de route
+					if(boutValider.getText().equals("Ajouter")){
+						// Ecriture dans la base de données
+						route.setId(tableRoutage.ajouter(this.getRoute()));
+	
+						// Mise à jour du tableau
+						parent.ajouterLigne(route.toVector());						
+					}
+					// Cas d'une modification de route existante
+					else{
+						// Mise à jour du tableau
+						parent.modifierLigne(this.getRoute().toVector());
+						
+						// Ecriture dans la base de données
+						tableRoutage.modifier(this.getRoute());
+					}
 				}
-				// Cas d'une modification de camion existant
-				else{
-					parent.modifierLigne(this.getCamion().toVector());
-				}				
-				// On masque la fenetre
-				this.setVisible(false);
-				this.dispose();
-			}
+				catch(Exception ex){
+					System.out.println(ex.getMessage());
+				}
+				finally{
+					// On masque la fenetre
+					this.setVisible(false);
+					this.dispose();						
+				}
+			}	
 		}
 		// Annulation, on masque simplement la fenêtre
 		else if(source==boutAnnuler){
+			parent.setFenetreActive(true);
 			this.setVisible(false);
 			this.dispose();
 		}
-*/	}
-/*
-	//Méthodes permettant d'obtenir le contenu des champs
-	private Camion getCamion(){
-		camion.numero = (String)this.textNumero.getText();
-		camion.dispo = (String)this.comboDispo.getSelectedItem();
-		camion.volume = new Integer(this.textVolume.getText().trim());
-		camion.chauffeur = (String)this.textChauffeur.getText();
-		camion.destination = (String)this.textDestination.getText();
-		camion.origine = (String)this.textAppartenance.getText();
+	}
 
-		return camion;
+	//Méthodes permettant d'obtenir le contenu des champs
+	private Route getRoute(){
+		route.setOrigine((Entrepot)comboOrigine.getSelectedItem());
+		route.setDestination((Entrepot)comboDestination.getSelectedItem());
+		route.setIntermediaire((Entrepot)comboIntermed.getSelectedItem());
+		route.setDistance(new Float(textDistance.getText().trim()));
+
+		return route;
 	}
 
 	// Vérification de saisie des champs
 	private boolean verifChamps(){
 		boolean ret = false;
-		boolean erreurVolume = false;
+		boolean erreurDistance = false;
 		
 		// On vérifie que la valeur numérique soit correctement saisie
 		try{
-			new Integer(this.textVolume.getText().trim());
+			new Float(this.textDistance.getText().trim());
 		}
 		catch(NumberFormatException e){
-			erreurVolume=true;
+			erreurDistance=true;
 		}
 
 		// On vérifie que tous les champs sont remplis
-		if(textNumero.getText().equals("")) setWarning("Numéro");
-		else if(textVolume.getText().equals("") || erreurVolume) setWarning("Volume");
-		else if(textChauffeur.getText().equals("")) setWarning("Chauffeur");
-		else if(textDestination.getText().equals("")) setWarning("Destination");
-		else if(textAppartenance.getText().equals("")) setWarning("Appartenance");
+		if(((Entrepot)(comboOrigine.getSelectedItem())).getId().equals(new Integer(0))) setWarning("Origine");
+		else if(((Entrepot)(comboDestination.getSelectedItem())).getId().equals(new Integer(0))) setWarning("Destination");
+		else if(textDistance.getText().equals("") || erreurDistance) setWarning("Distance");
 		else ret = true;
 
 		return ret;
@@ -177,6 +205,4 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
 		textWarning.updateUI();
 	}
-	
-*/
 }
