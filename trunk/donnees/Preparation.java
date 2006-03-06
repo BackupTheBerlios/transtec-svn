@@ -72,9 +72,12 @@ public class Preparation {
 		
 		vector.add(this.id);
 		vector.add(this.utilisateur);
+		vector.add(this.origine);
 		vector.add(this.origine.getLocalisation().getVille());
+		vector.add(this.destination);
 		vector.add(this.destination.getLocalisation().getVille());
 		vector.add(this.camion);
+		vector.add(this.camion.getNumero());
 		vector.add(this.VolumeColis.floatValue());
 		if(this.etat==A_FAIRE)	vector.add("A faire");
 		else	vector.add("En cours");

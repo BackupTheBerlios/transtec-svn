@@ -6,27 +6,30 @@ import ihm.TableSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
+
+import accesBDD.AccesBDDPreparation;
 
 import donnees.Camion;
 import donnees.Entrepot;
 import donnees.Preparation;
+import donnees.Utilisateur;
 
 
-public class Prep_Fenetre_princ extends JFrame implements ActionListener{
-
-	/**
-	 * @param args
-	 */
+public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemListener{
 	JButton gerer_chargement = new JButton("<html>gérer le<br>chargement</html>");
 	JButton generer_le_plan = new JButton("<html>générer le<br>plan de chargement</html>");
 	JButton imprimer_etiquette = new JButton("<html>imprimer<br>étiquette</html>");
 	JButton incident = new JButton("<html>incidents<br>archivés</html>");
 	JButton creer_chargement=new JButton("<HTML>Créer un<br>chargement (3D)");
+	JComboBox destinations;
 	private Vector nomColonnes_cam = new Vector();
 	private Vector donnees_cam = new Vector();
 	private ModeleTable modeleCam;
@@ -34,12 +37,12 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 	private int ligneActive;
 	private TableSorter sorter;
 	private Preparation preparation=null;
+	private String listeDestinations[];
 	
-	
-	public Prep_Fenetre_princ(Preparation preparation){
+	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		
 		//Constructeur de la fenetre
-		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
+		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		Container ct = this.getContentPane();
 		
 		// On sauve l'objet
@@ -61,6 +64,14 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		menuFichier.add("Quitter");
 		//Construction du menu
 		setJMenuBar(menuBar);
+		
+		// Choix de la destination
+		destinations = new JComboBox(listeDestinations);
+		destinations.setEditable(false);
+		destinations.setBounds(65,37,200,20);
+		ct.add(destinations);
+		destinations.addItemListener(this);
+		destinations.setEnabled(false);
 		
 		//Création des icones
 		ImageIcon icone_cam = new ImageIcon("images/icones/camion.gif");
@@ -124,7 +135,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création de la destination
 		JLabel txt_dest = new JLabel("destination");
-		JLabel champ_dest = new JLabel(preparation.getDestination().getLocalisation().getVille());
+		JLabel champ_dest = new JLabel(/*preparation.getDestination().getLocalisation().getVille()*/);
 		txt_dest.setBounds(110,50,100,20);
 		champ_dest.setBounds(230,50,100,20);
 		ct.add(txt_dest);
@@ -133,7 +144,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		
 		//Création du volume
 		JLabel txt_vol = new JLabel("volume");
-		JLabel champ_vol = new JLabel(preparation.getVolumeChargement().toString());	
+		JLabel champ_vol = new JLabel(/*preparation.getVolumeChargement().toString()*/);	
 		txt_vol.setBounds(110,100,100,20);
 		champ_vol.setBounds(230,100,100,20);
 		ct.add(txt_vol);
@@ -150,24 +161,24 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		ct.add(champ_chargé);
 		
 		//Création de la première ligne
-		nomColonnes_cam.add("idCamion");
-		nomColonnes_cam.add("Immatriculation");
-		nomColonnes_cam.add("Disponibilité");
-		nomColonnes_cam.add("Volume");
+		nomColonnes_cam.add("idPreparation");
+		nomColonnes_cam.add("Utilisateur");
+		nomColonnes_cam.add("Origine");
 		nomColonnes_cam.add("Origine");
 		nomColonnes_cam.add("Destination");
-				
-//**********************APPEL A LA BDD************************************
+		nomColonnes_cam.add("Destination");
+		nomColonnes_cam.add("Camion");
+		nomColonnes_cam.add("Camion");
+		nomColonnes_cam.add("Volume");
+		nomColonnes_cam.add("Etat");
 		
-	// Lister les camions pour cette destination
-		Camion camion=null;
-		
-		for(int i=0;i<preparation.getListeCamion().size();i++){
-			camion=(Camion)preparation.getListeCamion().get(i);
-			donnees_cam.add(camion.toVector());
+		try{
+			donnees_cam=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
+		}
+		catch(SQLException e){
+			
 		}
 		
-//*******************************************************************************
 		
 //Création du tableau
         modeleCam = new ModeleTable(nomColonnes_cam,donnees_cam);
@@ -183,8 +194,9 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 		tab_cam.setOpaque(false);
 		tab_cam.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
+		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
+		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
 		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(1));
-		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(2));
 		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(2));
 		
 		//Construction du JScrollPane
@@ -264,6 +276,13 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener{
 			Prep_Consulter_incident cons = new Prep_Consulter_incident();
 			cons.setVisible(true);
 		}	
+	}
+
+
+
+	public void itemStateChanged(ItemEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -1,7 +1,7 @@
 package ihm;
 
 import ihm.entree.Entree_Fenetre_colis;
-import ihm.preparation.Prep_Choix_Dest;
+import ihm.preparation.Prep_Fenetre_princ;
 import ihm.supervision.Sup_Interface;
 
 import java.awt.*;
@@ -102,7 +102,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						
 					// Poste de préparation
 					case Utilisateur.PREPARATION :
-						fen = new Prep_Choix_Dest(u);
+						fen = new Prep_Fenetre_princ(u);
 						fen.setVisible(true);
 						break;
 						
