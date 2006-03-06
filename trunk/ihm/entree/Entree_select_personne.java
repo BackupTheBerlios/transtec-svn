@@ -24,7 +24,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-import donnees.Incident;
 import donnees.Personne;
 
 public class Entree_select_personne extends JFrame implements ActionListener, ItemListener{
@@ -246,7 +245,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 1:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.NOM,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.NOM,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -262,7 +261,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 2:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.PRENOM,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.PRENOM,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -278,7 +277,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 3:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.ADRESSE,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.ADRESSE,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -297,7 +296,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 				{
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.CODEPOSTAL,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.CODEPOSTAL,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -314,7 +313,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 5:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.VILLE,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.VILLE,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -330,7 +329,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 6:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.EMAIL,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.EMAIL,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
@@ -346,7 +345,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 			case 7:
 				try{
 		        	//On récupère les utilisateurs de la base de données et on les affiche
-		            Vector listePersonnes = tablePersonnes.rechercher(tablePersonnes.TELEPHONE,donnees_recherche.getText());
+		            Vector listePersonnes = tablePersonnes.rechercher(AccesBDDPersonne.TELEPHONE,donnees_recherche.getText());
 		            
 		            for(int i=0;i<listePersonnes.size();i++){
 		            	//donnees.addElement(((Personne)listePersonnes.get(i)).toVector());
