@@ -3,6 +3,7 @@ package accesBDD;
 import java.sql.*;
 import java.util.Vector;
 
+import donnees.Camion;
 import donnees.Route;
 
 /*
@@ -14,12 +15,6 @@ public class AccesBDDRoutage extends AccesBDD{
 		super();
 	}
 
-	public Integer ajouter(Route r){
-		Integer ID = new Integer(-1);
-		
-		return ID;
-	}
-	
 	public void modifier(Route r){
 		
 	}
@@ -50,5 +45,35 @@ public class AccesBDDRoutage extends AccesBDD{
 		deconnecter();
 		
 		return liste;
-	}	
+	}
+	
+//	----- Ajouter un camion dans la BDD -----//
+	public Integer ajouter(Route aAjouter) throws SQLException{
+		//----- Recherche de l'identifiant le plus grand -----//
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
+		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
+		resultat.next();	// Renvoie le plus grand ID
+		
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		resultat.close();	// Fermeture requête SQL
+		rechercheMaxID.close();	// Fermeture requête SQL
+		
+		//----- Insertion d'un camion dans la BDD -----//
+		PreparedStatement ajout =connecter().prepareStatement(
+				"INSERT INTO routage "
+				+ " (idRoutage,Origine,Destination,PlatInter,Distance)" // Paramètre de la table
+				+ " VALUES (?,?,?,?,?)"); 
+		
+		ajout.setInt(1,aAjouter.getId().intValue());
+		ajout.setInt(2,aAjouter.getOrigine().getId().intValue());
+		ajout.setInt(3, aAjouter.getDestination().getId().intValue());
+		ajout.setInt(4, aAjouter.getIntermediaire().getId().intValue());
+		ajout.setFloat(5,aAjouter.getDistance().floatValue());
+				
+		ajout.executeUpdate();	// Execution de la requête SQL
+		ajout.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return aAjouter.getId();
+	}
 }
