@@ -1,6 +1,5 @@
 package donnees;
 
-import java.util.Comparator;
 import java.util.Vector;
 
 //----- Classe regroupant tous les attributs d'une destination (couple "Entrepôt + volume de colis")

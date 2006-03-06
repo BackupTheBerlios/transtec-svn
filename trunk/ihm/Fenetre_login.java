@@ -28,30 +28,39 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		
 		// Création graphique de la fenetre
 		setTitle("Ouverture de session");
-		setBounds(350,300,300,150);
+		setSize(1024,768);
+		contenu = new panelContenu();
+		setContentPane(contenu);
+		setUndecorated(true);
+		//setBounds(350,300,300,150);
+		contenu.setOpaque(false);
 		
-		contenu = getContentPane();
-		contenu.setLayout(new FlowLayout());
-		getContentPane().setLayout(null);
+		contenu.setLayout(null);
 		
 		label_login = new JLabel("Login : ");
-		label_login.setBounds(20,20,50,15);
+		label_login.setBounds(410,390,50,15);
 		contenu.add(label_login);
 		
 		label_pwd = new JLabel("Password : ");
-		label_pwd.setBounds(20,45,70,15);
+		label_pwd.setBounds(410,430,70,15);
 		contenu.add(label_pwd);
 		
 		login = new JTextField(15);
-		login.setBounds(90,17,150,20);
+		login.setBounds(480,387,150,20);
 		contenu.add(login);
 
 		pwd1 = new JPasswordField(15);
-		pwd1.setBounds(90,42,150,20);
+		pwd1.setBounds(480,427,150,20);
 		contenu.add(pwd1);
 		
-		valider = new JButton("Valider");
-		valider.setBounds(90,70,100,25);
+		valider = new JButton(new ImageIcon("images/login/boutonbleu.png"));
+		valider.setBounds(500,480,12,14);
+		valider.setBorder(null);
+		valider.setOpaque(false);
+		valider.setBackground(null);
+		valider.setMargin(null);
+		valider.setRolloverEnabled(false);
+		valider.setPressedIcon(new ImageIcon("images/login/boutonjaune.png"));
 		contenu.add(valider);
 		valider.addActionListener(this);			
 	}
@@ -65,8 +74,8 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		if (source == valider)
 		{
 			JFrame fen;
-			Utilisateur u = null;
-			AccesBDDUtilisateur bdd=new AccesBDDUtilisateur();
+			u = null;
+			bdd=new AccesBDDUtilisateur();
 			
 			try {
 				// On récupère l'utilisateur associé au couple login/mot de passe
@@ -111,7 +120,9 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		}
 	}
 	
-	private Container contenu;
+	private Utilisateur u;
+	private AccesBDDUtilisateur bdd;
+	private panelContenu contenu;
 	private JLabel label_login,label_pwd;
 	private JTextField login;
 	private JPasswordField pwd1;
@@ -129,4 +140,18 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		JFrame fen1 = new Fenetre_login();
 		fen1.setVisible(true);	
 	}	
+	
+	// Classe dérivée de JPanel correspondant au panel principal de la fenêtre de login 
+	class panelContenu extends JPanel{		
+		public panelContenu(){
+			super();
+		}
+		
+		// Permet de définir une image de fond
+		public void paintComponent(Graphics g){
+				ImageIcon img = new ImageIcon("images/login/bg.png");
+				g.drawImage(img.getImage(), 0, 0, null);
+				super.paintComponent(g);
+		}	
+	}
 }

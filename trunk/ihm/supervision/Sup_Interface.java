@@ -26,7 +26,10 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		super(u.getPersonne().getPrenom()+" "+u.getPersonne().getNom()+" - Superviseur");
 
 		// Taille de la fenêtre
-		setSize(800,600);
+		setSize(1024,768);
+		
+		// On enlève les barres d'état
+		setUndecorated(true);
 
 		// Construction de la barre de menu
 		menuBar = new JMenuBar();

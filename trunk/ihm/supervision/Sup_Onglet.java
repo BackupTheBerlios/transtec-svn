@@ -63,10 +63,10 @@ public class Sup_Onglet extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(table);
 
 		// On définit les dimensions du tableau
-		table.setPreferredScrollableViewportSize(new Dimension(780,150));
+		table.setPreferredScrollableViewportSize(new Dimension(980,350));
 
 		// On place le tableau
-		scrollPane.setBounds(10,40,760,300);
+		scrollPane.setBounds(10,40,960,500);
 
 		// On définit le tableau transparent
 		scrollPane.setOpaque(false);
@@ -77,17 +77,17 @@ public class Sup_Onglet extends JPanel{
 
 		// Bouton Ajouter
 		boutAjouter.setSize(100,20);
-		boutAjouter.setLocation(100,360);
+		boutAjouter.setLocation(100,560);
 		add(boutAjouter);
 
 		// Bouton Modifier
 		boutModifier.setSize(100,20);
-		boutModifier.setLocation(220,360);
+		boutModifier.setLocation(220,560);
 		add(boutModifier);
 
 		// Bouton Supprimer
 		boutSupprimer.setSize(100,20);
-		boutSupprimer.setLocation(340,360);
+		boutSupprimer.setLocation(340,560);
 		add(boutSupprimer);
 	}
 	
