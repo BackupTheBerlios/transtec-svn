@@ -254,7 +254,8 @@ public class AccesBDDColis extends AccesBDD{
 		while(resultat.next()){
 			couple = new Destination(new Integer(0),
 									bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
-									new Float(resultat.getFloat("Volume")),
+//									On passe des cm3 aux m3 en divisant par 1 000 000
+									new Float(resultat.getFloat("Volume")/1000000),
 									false);
 			liste.add(couple);
 		}

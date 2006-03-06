@@ -7,7 +7,7 @@ import java.util.Vector;
 public class Destination implements Comparable{
 	private Integer id;
 	private Entrepot entrepot;
-	private Float volume;//en cm3
+	private Float volume;//en m3
 	private boolean transit;
 	
 	// Constructeur avec tous les paramètres

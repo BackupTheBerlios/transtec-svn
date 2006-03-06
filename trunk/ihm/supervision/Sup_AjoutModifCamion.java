@@ -75,7 +75,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		comboDestination = new JComboBox(vectDestinations);
 		
 		// Titres des informations à saisir
-		JPanel panneauLabels = new JPanel(new GridLayout(6,1,5,5));
+		JPanel panneauLabels = new JPanel(new GridLayout(7,1,5,5));
 		panneauLabels.add(new JLabel("Numéro :"));
 		panneauLabels.add(new JLabel("Disponibilité :"));
 		panneauLabels.add(new JLabel("Largeur :"));
@@ -85,7 +85,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 		panneauLabels.add(new JLabel("Destination :"));
 		
 		// Champs de saisie des informations
-		JPanel panneauSaisie = new JPanel(new GridLayout(6,1,5,5));
+		JPanel panneauSaisie = new JPanel(new GridLayout(7,1,5,5));
 		panneauSaisie.add(textNumero);
 		panneauSaisie.add(comboDispo);
 		panneauSaisie.add(textLargeur);
