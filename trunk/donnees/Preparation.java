@@ -5,17 +5,18 @@ import java.util.Vector;
 public class Preparation {
 	private Integer id;
 	private Utilisateur utilisateur;
-	private Entrepot destination;
+	private Entrepot destination, origine;
 	private Integer volumeChargement;//en cm3
-	private Vector listeCamion;
+	private Camion camion;
 	private Camion aCharger;
 	private Integer VolumeColis;
 	
-	public Preparation(Utilisateur utilisateur, Entrepot destination, Integer volumeChargement, Vector listeCamion){
+	public Preparation(Utilisateur utilisateur, Entrepot destination, Entrepot origine, Integer volumeChargement, Camion camion){
 		this.utilisateur=utilisateur;
+		this.origine=origine;
 		this.destination=destination;
 		this.volumeChargement=volumeChargement;
-		this.listeCamion=listeCamion;
+		this.camion=camion;
 		this.aCharger=null;
 		this.VolumeColis=new Integer(0);
 	}
@@ -32,8 +33,8 @@ public class Preparation {
 		return this.volumeChargement;
 	}
 	
-	public Vector getListeCamion(){
-		return this.listeCamion;
+	public Camion getListeCamion(){
+		return this.camion;
 	}
 	
 	public void setDestination(Entrepot destination){
@@ -46,10 +47,6 @@ public class Preparation {
 	
 	public void setUtilisateur(Utilisateur utilisateur){
 		this.utilisateur=utilisateur;
-	}
-	
-	public void setListeCamion(Vector listeCamion){
-		this.listeCamion=listeCamion;
 	}
 	
 	public void setCamionACharger(Camion aCharger){

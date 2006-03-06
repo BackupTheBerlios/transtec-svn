@@ -14,6 +14,7 @@ public class Colis {
 	private String code_barre;
 	private Personne expediteur;
 	private Personne destinataire;
+	private Entrepot origine;
 	private Entrepot destination;
 	private Utilisateur utilisateur;
 	private Integer poids;// en grammes
@@ -28,7 +29,7 @@ public class Colis {
 	}
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree, Integer volume){
+	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, String valeur_declaree, Integer volume){
 		this.id=id;
 		this.code_barre = code_barre;		
 		this.modele=modele;
@@ -38,12 +39,13 @@ public class Colis {
 		this.expediteur=expediteur;
 		this.destinataire=destinataire;
 		this.utilisateur=utilisateur;
+		this.origine=origine;
 		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
 		this.volume=volume;
 	}
 	
-	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot destination, String valeur_declaree, Integer volume){
+	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, String valeur_declaree, Integer volume){
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.fragilite=fragilite;
@@ -52,6 +54,7 @@ public class Colis {
 		this.expediteur=expediteur;
 		this.destinataire=destinataire;
 		this.utilisateur=utilisateur;
+		this.origine=origine;
 		this.destination=destination;
 		this.valeur_declaree=valeur_declaree;
 		this.volume=volume;
@@ -64,12 +67,13 @@ public class Colis {
 		this.code_barre=(String)v.get(2);
 		this.expediteur=(Personne)v.get(3);
 		this.destinataire=(Personne)v.get(4);
-		this.destination=(Entrepot)v.get(5);
-		this.utilisateur=(Utilisateur)v.get(6);
-		this.poids=(Integer)v.get(7);
-		this.date_envoi=(Timestamp)v.get(8);
-		this.fragilite=stringToConst((String)v.get(9));
-		this.modele=(ModeleColis)v.get(10);
+		this.origine=(Entrepot)v.get(5);
+		this.destination=(Entrepot)v.get(6);
+		this.utilisateur=(Utilisateur)v.get(7);
+		this.poids=(Integer)v.get(8);
+		this.date_envoi=(Timestamp)v.get(9);
+		this.fragilite=stringToConst((String)v.get(10));
+		this.modele=(ModeleColis)v.get(11);
 		//ModeleColis m=new ModeleColis(FormeToConst((String)v.get(10)),ModeleToConst((String)v.get(11)));
 		this.valeur_declaree=(String)v.get(12);	
 		this.volume=(Integer)v.get(13);	
@@ -83,6 +87,7 @@ public class Colis {
 		v.add(code_barre);
 		v.add(expediteur);
 		v.add(destinataire);
+		v.add(this.origine);
 		v.add(destination);
 		v.add(utilisateur);
 		v.add(poids);
@@ -245,6 +250,11 @@ public class Colis {
 	//----- Récupération de l'id de l'utilisateur -----//
 	public Utilisateur getUtilisateur(){
 		return this.utilisateur;
+	}
+	
+	//----- Récupération de l'id de l'origine -----//
+	public Entrepot getOrigine(){
+		return this.origine;
 	}
 	
 	public Entrepot getDestination(){

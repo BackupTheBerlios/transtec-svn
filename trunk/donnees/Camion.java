@@ -11,6 +11,7 @@ public class Camion implements Comparable {
 	private Integer id;
 	private String numero;
 	private Integer disponibilite;
+	private Integer largeur, hauteur, profondeur;
 	private Integer volume;// en cm3
 	private Entrepot origine;
 	private Entrepot destination;
@@ -22,20 +23,26 @@ public class Camion implements Comparable {
 
 	// Constructeur avec tous les paramètres
 	public Camion(Integer id, String numero, Integer disponibilite,
-			Integer volume, Entrepot origine, Entrepot destination) {
+			Integer largeur, Integer hauteur, Integer profondeur,Integer volume, Entrepot origine, Entrepot destination) {
 		this.id = id;
 		this.numero = numero;
 		this.disponibilite = disponibilite;
+		this.largeur=largeur;
+		this.hauteur=hauteur;
+		this.profondeur=profondeur;
 		this.volume = volume;
 		this.origine = origine;
 		this.destination = destination;
 	}
 
 	// Constructeur n'utilisant pas l'ID
-	public Camion(String numero, Integer disponibilite, Integer volume,
+	public Camion(String numero, Integer disponibilite, Integer largeur, Integer hauteur, Integer profondeur,Integer volume,
 			Entrepot origine, Entrepot destination) {
 		this.numero = numero;
 		this.disponibilite = disponibilite;
+		this.largeur=largeur;
+		this.hauteur=hauteur;
+		this.profondeur=profondeur;
 		this.volume = volume;
 		this.origine = origine;
 		this.destination = destination;
@@ -51,9 +58,12 @@ public class Camion implements Comparable {
 		this.id = (Integer) v.get(0);
 		this.numero = (String) v.get(1);
 		this.disponibilite = stringToConst((String) v.get(2));
-		this.volume = (Integer) v.get(3);
-		this.origine = (Entrepot) v.get(4);
-		this.destination = (Entrepot) v.get(5);
+		this.largeur=(Integer) v.get(3);
+		this.hauteur=(Integer) v.get(4);
+		this.profondeur=(Integer) v.get(5);
+		this.volume = (Integer) v.get(6);
+		this.origine = (Entrepot) v.get(7);
+		this.destination = (Entrepot) v.get(8);
 	}
 
 	// Transforme l'objet en un Vector
@@ -67,6 +77,9 @@ public class Camion implements Comparable {
 		v.add(id);
 		v.add(numero);
 		v.add(constToString(disponibilite));
+		v.add(this.largeur);
+		v.add(this.hauteur);
+		v.add(this.profondeur);
 		v.add(volume);
 		v.add(origine);
 		v.add(destination);
@@ -136,6 +149,18 @@ public class Camion implements Comparable {
 	// ----- Récupération de l'entrepôt d'origine -----//
 	public Entrepot getOrigine() {
 		return this.origine;
+	}
+	
+	public Integer getHauteur(){
+		return this.hauteur;
+	}
+	
+	public Integer getLargeur(){
+		return this.largeur;
+	}
+	
+	public Integer getProfondeur(){
+		return this.profondeur;
 	}
 
 	/****** Méthodes de conversion des constantes ******/
