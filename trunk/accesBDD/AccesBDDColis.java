@@ -29,8 +29,8 @@ public class AccesBDDColis extends AccesBDD{
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO colis "
 				+ "(idColis,ModelesColis_idModelesColis,Createur,Expediteur,Destinataire,Destination,Code_barre, "
-				+"Poids,DateDepot,Valeur,Fragilite,Volume)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"); 
+				+"Poids,DateDepot,Valeur,Fragilite,Volume,Origine,EntrepotEnCours)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getModele().getId().intValue());
@@ -44,6 +44,8 @@ public class AccesBDDColis extends AccesBDD{
 		ajout.setString(10, aAjouter.getValeurDeclaree());
 		ajout.setInt(11, aAjouter.getFragilite().intValue());
 		ajout.setInt(12, aAjouter.getVolume().intValue());
+		ajout.setInt(13, aAjouter.getOrigine().getId().intValue());
+		ajout.setInt(14, aAjouter.getEntrepot().getId().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		
@@ -73,7 +75,7 @@ public class AccesBDDColis extends AccesBDD{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE colis SET "
-				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?,Poids=?,DateDepot=?, Valeur=?,Fragilite=?,Volume=?"
+				+"ModelesColis_idModelesColis=?,Createur=?,Expediteur=?,Destinataire=?,Destination=?,Code_barre=?,Poids=?,DateDepot=?, Valeur=?,Fragilite=?,Volume=?, Origine=?, EntrepotEnCours=?"
 				+"WHERE idColis=?");
 		
 		
@@ -89,6 +91,8 @@ public class AccesBDDColis extends AccesBDD{
 		modifie.setInt(10, aModifier.getFragilite().intValue());
 		modifie.setInt(11, aModifier.getVolume().intValue());
 		modifie.setInt(12,aModifier.getId().intValue());
+		modifie.setInt(13, aModifier.getOrigine().getId().intValue());
+		modifie.setInt(14, aModifier.getEntrepot().getId().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -103,6 +107,7 @@ public class AccesBDDColis extends AccesBDD{
 		Vector liste=new Vector();
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 				
 		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM colis WHERE Destination=? ");
@@ -121,7 +126,9 @@ public class AccesBDDColis extends AccesBDD{
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
 					new Integer(resultat.getInt("Volume"))));
 		}
@@ -139,6 +146,7 @@ public class AccesBDDColis extends AccesBDD{
 		Colis trouvee=null;
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 		
 		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE idColis=?");
@@ -157,7 +165,9 @@ public class AccesBDDColis extends AccesBDD{
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
 					new Integer(resultat.getInt("Volume")));
 		}
@@ -174,6 +184,7 @@ public class AccesBDDColis extends AccesBDD{
 		Colis trouvee=null;
 		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 		
 		// Préparation de la requête SQL
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Colis WHERE Code_barre=?");
@@ -192,7 +203,9 @@ public class AccesBDDColis extends AccesBDD{
 					resultat.getTimestamp("DateDepot"),
 					new Integer(resultat.getInt("Fragilite")),
 					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
 					new Integer(resultat.getInt("Volume")));	       
 		}

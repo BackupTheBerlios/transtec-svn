@@ -29,7 +29,7 @@ public class Colis {
 	}
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, String valeur_declaree, Integer volume){
+	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Integer volume){
 		this.id=id;
 		this.code_barre = code_barre;		
 		this.modele=modele;
@@ -41,11 +41,12 @@ public class Colis {
 		this.utilisateur=utilisateur;
 		this.origine=origine;
 		this.destination=destination;
+		this.entrepot=entrepot;
 		this.valeur_declaree=valeur_declaree;
 		this.volume=volume;
 	}
 	
-	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, String valeur_declaree, Integer volume){
+	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Integer volume){
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.fragilite=fragilite;
@@ -56,6 +57,7 @@ public class Colis {
 		this.utilisateur=utilisateur;
 		this.origine=origine;
 		this.destination=destination;
+		this.entrepot=entrepot;
 		this.valeur_declaree=valeur_declaree;
 		this.volume=volume;
 	}
@@ -69,14 +71,15 @@ public class Colis {
 		this.destinataire=(Personne)v.get(4);
 		this.origine=(Entrepot)v.get(5);
 		this.destination=(Entrepot)v.get(6);
-		this.utilisateur=(Utilisateur)v.get(7);
-		this.poids=(Integer)v.get(8);
-		this.date_envoi=(Timestamp)v.get(9);
-		this.fragilite=stringToConst((String)v.get(10));
-		this.modele=(ModeleColis)v.get(11);
+		this.entrepot=(Entrepot)v.get(7);
+		this.utilisateur=(Utilisateur)v.get(8);
+		this.poids=(Integer)v.get(9);
+		this.date_envoi=(Timestamp)v.get(10);
+		this.fragilite=stringToConst((String)v.get(11));
+		this.modele=(ModeleColis)v.get(12);
 		//ModeleColis m=new ModeleColis(FormeToConst((String)v.get(10)),ModeleToConst((String)v.get(11)));
-		this.valeur_declaree=(String)v.get(12);	
-		this.volume=(Integer)v.get(13);	
+		this.valeur_declaree=(String)v.get(13);	
+		this.volume=(Integer)v.get(14);	
 	}
 
 	public Vector toVector(){
@@ -89,6 +92,7 @@ public class Colis {
 		v.add(destinataire);
 		v.add(this.origine);
 		v.add(destination);
+		v.add(this.entrepot);
 		v.add(utilisateur);
 		v.add(poids);
 		v.add(date_envoi);
