@@ -33,7 +33,7 @@ public class AccesBDDPreparation extends AccesBDD{
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")));
-			liste.add(courante.toVector());
+			liste.add(courante);
 		}
 		
 		resultat.close();	// Fermeture requête SQL

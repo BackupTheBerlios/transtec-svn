@@ -22,7 +22,9 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	JButton imprimer_etiquette = new JButton("<html>imprimer<br>étiquette</html>");
 	JButton incident = new JButton("<html>incidents<br>archivés</html>");
 	JButton creer_chargement=new JButton("<HTML>Créer un<br>chargement (3D)");
-	JComboBox destinations;
+	private JComboBox destinations;	// Liste des destinations
+	private JLabel labelVolume;	// Volume de la destination	
+	private JLabel labelCharge;
 	private Vector nomColonnes_cam = new Vector();
 	private Vector donnees_cam = new Vector();
 	private ModeleTable modeleCam;
@@ -30,13 +32,14 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private int ligneActive;
 	private TableSorter sorter;
 	private Preparation preparation=null;
-	private String listeDestinations[];
+	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
+	private Container ct;	// Conatiner des éléments d'affichage
 	
 	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		
 		//Constructeur de la fenetre
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
-		Container ct = this.getContentPane();
+		ct = this.getContentPane();
 		
 		// On sauve l'objet
 //		this.preparation=preparation;
@@ -57,14 +60,20 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		menuFichier.add("Quitter");
 		//Construction du menu
 		setJMenuBar(menuBar);
+		try{
+			listeDonneesPrep=new ListeDonneesPrep(utilisateur);
+		}
+		catch(SQLException e){
+			
+		}
+		
 		
 		// Choix de la destination
-		destinations = new JComboBox(listeDestinations);
+		destinations = new JComboBox(listeDonneesPrep.combo());
 		destinations.setEditable(false);
 		destinations.setBounds(65,37,200,20);
 		ct.add(destinations);
 		destinations.addItemListener(this);
-		destinations.setEnabled(false);
 		
 		//Création des icones
 		ImageIcon icone_cam = new ImageIcon("images/icones/camion.gif");
@@ -118,40 +127,32 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		ct.add(incident);
 		incident.addActionListener(this);
 		
+		// Affichage des zones textes
+		JLabel labelVolume = new JLabel("Volume");
+		labelVolume.setBounds(110,100,100,20);
+		ct.add(labelVolume);
+		JLabel labelCharge = new JLabel("Chargé");
+		labelCharge.setBounds(110,150,100,20);
+		ct.add(labelCharge);
 		
-//Création du Panel stockant les informations sur les camions
+		if(listeDonneesPrep.getListe()!=null){
+			// Affichage du volume
+			this.labelVolume = new JLabel(((DonneesPrep)listeDonneesPrep.getListe().get(0)).getVolume().toString());
+			this.labelVolume.setBounds(230,100,100,20);
+			ct.add(this.labelVolume);
+			
+			// Affichage du volume déjà chargé
+			this.labelCharge = new JLabel(((DonneesPrep)listeDonneesPrep.getListe().get(0)).getCharge().toString());	
+			this.labelCharge.setBounds(230,150,100,20);
+			ct.add(this.labelCharge);
+		}
 		
-		//Création du titre
-		JLabel titre_list_cam = new JLabel("information sur le travail");
-		titre_list_cam.setBounds(150,10,200,20);
-		ct.add(titre_list_cam);
-		
-		//Création de la destination
-		JLabel txt_dest = new JLabel("destination");
-		JLabel champ_dest = new JLabel(/*preparation.getDestination().getLocalisation().getVille()*/);
-		txt_dest.setBounds(110,50,100,20);
-		champ_dest.setBounds(230,50,100,20);
-		ct.add(txt_dest);
-		ct.add(champ_dest);
-		
-		
-		//Création du volume
-		JLabel txt_vol = new JLabel("volume");
-		JLabel champ_vol = new JLabel(/*preparation.getVolumeChargement().toString()*/);	
-		txt_vol.setBounds(110,100,100,20);
-		champ_vol.setBounds(230,100,100,20);
-		ct.add(txt_vol);
-		ct.add(champ_vol);
 
 		
-		//Création de la charge
-		JLabel txt_charge = new JLabel("chargé");
-		String chargé = "volume déja chargé";
-		JLabel champ_chargé = new JLabel(chargé);	
-		txt_charge.setBounds(110,150,100,20);
-		champ_chargé.setBounds(230,150,100,20);
-		ct.add(txt_charge);
-		ct.add(champ_chargé);
+		
+		
+		
+		
 		
 		//Création de la première ligne
 		nomColonnes_cam.add("idPreparation");
@@ -165,16 +166,17 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		nomColonnes_cam.add("Volume");
 		nomColonnes_cam.add("Etat");
 		
-		try{
+		/*try{
 			donnees_cam=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
 		}
 		catch(SQLException e){
 			
-		}
+		}*/
+		donnees_cam=null;
 		
 		
 //Création du tableau
-        modeleCam = new ModeleTable(nomColonnes_cam,donnees_cam);
+        /*modeleCam = new ModeleTable(nomColonnes_cam,donnees_cam);
 		// Création du TableSorter qui permet de réordonner les lignes à volonté
 		sorter = new TableSorter(modeleCam);
 		// Création du tableau
@@ -198,7 +200,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		scrollPane.setBounds(80,250,320,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
-		getContentPane().add(scrollPane);
+		getContentPane().add(scrollPane);*/
 
 		setVisible(true);	
 		
@@ -273,14 +275,23 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 
 	public void itemStateChanged(ItemEvent arg0) {
+		// Chargement du volume pour la destination selectionnée
+		DonneesPrep selectionnee=listeDonneesPrep.exists((String)destinations.getSelectedItem());
+		
+		// On réaffiche les volumes
+		ct.remove(this.labelVolume);
+		this.labelVolume=new JLabel(selectionnee.getVolume().toString());
+		this.labelVolume.setBounds(230,100,100,20);
+		ct.add(this.labelVolume);
+		
+		ct.remove(this.labelCharge);
+		this.labelCharge=new JLabel(selectionnee.getCharge().toString());
+		this.labelCharge.setBounds(230,150,100,20);
+		ct.add(this.labelCharge);
+		
+		
+		ct.repaint();
+		
 		
 	}
-	
-	
-	/*public static void main(String[] args) {
-		
-		Prep_Fenetre_princ p = new Prep_Fenetre_princ(new Utilisateur("login2", "motDePasse2", new Integer(Utilisateur.PREPARATIOIN), "dfsfdfds", "fsdsfddfs", "fsdfdsfdsfdss", "9481", "vill2e", "mail2", "69686696"));
-		//JFrame p1 = new preparateur();
-
-	}*/
 }
