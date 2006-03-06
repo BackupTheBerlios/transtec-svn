@@ -41,33 +41,21 @@ public class AccesBDDPreparation extends AccesBDD{
 		return liste;
 	}
 	
-	public Preparation rechercher(Integer idPreparation) throws SQLException{
-		AccesBDDCamion bddCamion=new AccesBDDCamion();
-		Vector listeCamions=new Vector();
+	public void ajouter(Preparation aAjouter) throws SQLException{
+		PreparedStatement ajout =connecter().prepareStatement(
+				"INSERT INTO preparation "
+				+ " (idPreparateur,idDestination,idCamion,Origine,Etat,Volume)" // Paramètre de la table
+				+ " VALUES (?,?,?,?,?,?)"); 
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Preparation WHERE idPreparation=?");
-		recherche.setInt(1, idPreparation.intValue());
-		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
-		resultat.next();
-		Preparation preparation=new Preparation(
-				null, 
-				new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("idDestination"))), 
-				new Integer(resultat.getInt("Volume")),
-				null);
+		ajout.setInt(1, aAjouter.getUtilisateur().getId().intValue());
+		ajout.setInt(2, aAjouter.getDestination().getId().intValue());
+		ajout.setInt(3, aAjouter.getCamion().getId().intValue());
+		ajout.setInt(4, aAjouter.getOrigine().getId().intValue());
+		ajout.setInt(5, aAjouter.getEtat().intValue());
+		ajout.setInt(6, aAjouter.getVolumeColis().intValue());
 		
-		recherche=connecter().prepareStatement("SELECT * FROM Prep_camions WHERE idPreparation=?");
-		recherche.setInt(1, idPreparation.intValue());
-		resultat=recherche.executeQuery();
-		
-		while(resultat.next())	listeCamions.add(bddCamion.rechercher(new Integer(resultat.getInt("idCamion"))));
-		
-		preparation.setListeCamion(listeCamions);
-		
-		resultat.close();	// Fermeture requête SQL
-		recherche.close();	// Fermeture requête SQL
+		ajout.executeUpdate();	// Execution de la requête SQL
+		ajout.close();	// Fermeture requête SQL
 		deconnecter();
-		
-		return preparation;		
 	}
-	
 }

@@ -1,17 +1,15 @@
 package donnees;
 
-import java.util.Vector;
-
 public class Preparation {
-	private Integer id;
 	private Utilisateur utilisateur;
 	private Entrepot destination, origine;
-	private Integer volumeChargement;//en cm3
+	private Integer volumeChargement;
 	private Camion camion;
 	private Camion aCharger;
 	private Integer VolumeColis;
+	private Integer etat;
 	
-	public Preparation(Utilisateur utilisateur, Entrepot destination, Entrepot origine, Integer volumeChargement, Camion camion){
+	public Preparation(Utilisateur utilisateur, Entrepot destination, Entrepot origine, Integer volumeChargement, Camion camion, Integer etat){
 		this.utilisateur=utilisateur;
 		this.origine=origine;
 		this.destination=destination;
@@ -19,6 +17,7 @@ public class Preparation {
 		this.camion=camion;
 		this.aCharger=null;
 		this.VolumeColis=new Integer(0);
+		this.etat=etat;
 	}
 	
 	public Utilisateur getUtilisateur(){
@@ -33,8 +32,12 @@ public class Preparation {
 		return this.volumeChargement;
 	}
 	
-	public Camion getListeCamion(){
+	public Camion getCamion(){
 		return this.camion;
+	}
+	
+	public Entrepot getOrigine(){
+		return this.origine;
 	}
 	
 	public void setDestination(Entrepot destination){
@@ -68,6 +71,10 @@ public class Preparation {
 	
 	public Integer getVolumeColis(){
 		return this.VolumeColis;
+	}
+	
+	public Integer getEtat(){
+		return this.etat;
 	}
 	
 	public void initializeChargement(){
