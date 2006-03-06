@@ -64,8 +64,8 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 		
 		//Ajout des fleches
-		ImageIcon flech_gauche_droite = new ImageIcon("flech_gauche_droite.gif");
-		ImageIcon flech_droite_gauche = new ImageIcon("flech_droite_gauche.gif");
+		ImageIcon flech_gauche_droite = new ImageIcon("images/icones/bas.gif");
+		ImageIcon flech_droite_gauche = new ImageIcon("images/icones/haut.gif");
 		
 		//Insertion des icones dans les boutons
 		gauche_droite.setIcon(flech_gauche_droite);
@@ -174,7 +174,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 			
 		}*/
 		
-		 try{
+		/* try{
 			    Vector listeObj=lister.listerDest(cam.getDestination().getId());
 			    for(int i=0;i<listeObj.size();i++){
 			    	donnees2.addElement(((Colis)listeObj.get(i)).toVector());
@@ -182,7 +182,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	        }
 	        catch(SQLException e){
 	        	
-	        }
+	        }*/
 	        
 		
 //********************************************************************************************************	
