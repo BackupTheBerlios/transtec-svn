@@ -53,14 +53,14 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		pwd1.setBounds(480,427,150,20);
 		contenu.add(pwd1);
 		
-		valider = new JButton(new ImageIcon("images/login/boutonbleu.png"));
-		valider.setBounds(500,480,12,14);
+		valider = new JButton(new ImageIcon("images/login/valider.png"));
+		valider.setBounds(520,465,48,51);
 		valider.setBorder(null);
 		valider.setOpaque(false);
-		valider.setBackground(null);
+		valider.setContentAreaFilled(false);
 		valider.setMargin(null);
 		valider.setRolloverEnabled(false);
-		valider.setPressedIcon(new ImageIcon("images/login/boutonjaune.png"));
+		valider.setPressedIcon(new ImageIcon("images/login/valideronclick.png"));
 		contenu.add(valider);
 		valider.addActionListener(this);			
 	}
