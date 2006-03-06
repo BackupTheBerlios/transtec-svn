@@ -4,13 +4,7 @@ import ihm.ModeleTable;
 import ihm.TableSorter;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
@@ -18,7 +12,6 @@ import javax.swing.*;
 import accesBDD.AccesBDDPreparation;
 
 import donnees.Camion;
-import donnees.Entrepot;
 import donnees.Preparation;
 import donnees.Utilisateur;
 
@@ -46,7 +39,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		Container ct = this.getContentPane();
 		
 		// On sauve l'objet
-		this.preparation=preparation;
+//		this.preparation=preparation;
 		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
@@ -214,7 +207,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Object source = e.getSource();
 		ligneActive = tab_cam.getSelectedRow();
 		
@@ -281,13 +273,11 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 
 	public void itemStateChanged(ItemEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	
 	/*public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Prep_Fenetre_princ p = new Prep_Fenetre_princ(new Utilisateur("login2", "motDePasse2", new Integer(Utilisateur.PREPARATIOIN), "dfsfdfds", "fsdsfddfs", "fsdfdsfdsfdss", "9481", "vill2e", "mail2", "69686696"));
 		//JFrame p1 = new preparateur();

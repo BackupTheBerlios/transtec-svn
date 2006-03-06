@@ -5,17 +5,12 @@ import ihm.TableSorter;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Timestamp;
 import java.util.Vector;
 
 import javax.swing.*;
 import donnees.Utilisateur;
 import donnees.Camion;
-import donnees.Colis;
-import donnees.Chargement;
 import accesBDD.AccesBDDColis;
-import accesBDD.AccesBDDChargement;
-import java.sql.SQLException;
 
 
 public class Prep_Gerer_chargement extends JFrame implements ActionListener{
