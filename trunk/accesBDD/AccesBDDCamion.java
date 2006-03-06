@@ -29,15 +29,18 @@ public class AccesBDDCamion extends AccesBDD{
 		//----- Insertion d'un camion dans la BDD -----//
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO camions "
-				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination)" // Paramètre de la table
-				+ " VALUES (?,?,?,?,?,?)"); 
+				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination,Hauteur,Largeur,Profondeur)" // Paramètre de la table
+				+ " VALUES (?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getDisponibilite().intValue());
-		ajout.setInt(3,aAjouter.getVolume().intValue());
+		ajout.setFloat(3,aAjouter.getVolume().floatValue());
 		ajout.setString(4, aAjouter.getNumero());
 		ajout.setInt(5, aAjouter.getOrigine().getId().intValue());
 		ajout.setInt(6, aAjouter.getDestination().getId().intValue());
+		ajout.setFloat(7,aAjouter.getHauteur().floatValue());
+		ajout.setFloat(8, aAjouter.getLargeur().floatValue());
+		ajout.setFloat(9, aAjouter.getProfondeur().floatValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
@@ -69,7 +72,10 @@ public class AccesBDDCamion extends AccesBDD{
 					new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
-					new Integer(resultat.getInt("Volume")), 
+					new Float(resultat.getFloat("Largeur")), 
+					new Float(resultat.getFloat("Hauteur")),
+					new Float(resultat.getFloat("Profondeur")),
+					new Float(resultat.getFloat("Volume")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
 		}
@@ -95,7 +101,10 @@ public class AccesBDDCamion extends AccesBDD{
 					new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
-					new Integer(resultat.getInt("Volume")), 
+					new Float(resultat.getFloat("Largeur")), 
+					new Float(resultat.getFloat("Hauteur")),
+					new Float(resultat.getFloat("Profondeur")),
+					new Float(resultat.getFloat("Volume")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
 		}
@@ -123,7 +132,10 @@ public class AccesBDDCamion extends AccesBDD{
 					new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
-					new Integer(resultat.getInt("Volume")), 
+					new Float(resultat.getFloat("Largeur")), 
+					new Float(resultat.getFloat("Hauteur")),
+					new Float(resultat.getFloat("Profondeur")),
+					new Float(resultat.getFloat("Volume")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
 					destination));
 		}
@@ -138,14 +150,18 @@ public class AccesBDDCamion extends AccesBDD{
 	public void modifier(Camion aModifier) throws SQLException{
 		//----- Modification d'une personne à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
-				"UPDATE camions SET Immatriculation=?, Etat=?, Volume=?, Origine=?, Destination=? "
+				"UPDATE camions SET Immatriculation=?, Etat=?, Volume=?, Origine=?, Destination=?, Largeur=?, Hauteur=?, Profondeur=? "
 				+"WHERE idCamions=?");
 		modifie.setString(1, aModifier.getNumero());
 		modifie.setInt(2, aModifier.getDisponibilite().intValue());
-		modifie.setInt(3, aModifier.getVolume().intValue());
+		modifie.setFloat(3, aModifier.getVolume().floatValue());
 		modifie.setInt(4, aModifier.getOrigine().getId().intValue());
 		modifie.setInt(5, aModifier.getDestination().getId().intValue());
-		modifie.setInt(6, aModifier.getId().intValue());
+		modifie.setFloat(6, aModifier.getLargeur().floatValue());
+		modifie.setFloat(7, aModifier.getHauteur().floatValue());
+		modifie.setFloat(8, aModifier.getProfondeur().floatValue());
+		modifie.setInt(9, aModifier.getId().intValue());
+		
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -167,7 +183,10 @@ public class AccesBDDCamion extends AccesBDD{
 			trouvee=new Camion(new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
-					new Integer(resultat.getString("Volume")), 
+					new Float(resultat.getFloat("Largeur")), 
+					new Float(resultat.getFloat("Hauteur")),
+					new Float(resultat.getFloat("Profondeur")),
+					new Float(resultat.getFloat("Volume")),
 					bddLoc.rechercher(new Integer(resultat.getInt("Origine"))),
 					bddLoc.rechercher(new Integer(resultat.getInt("Destination"))));
 		}

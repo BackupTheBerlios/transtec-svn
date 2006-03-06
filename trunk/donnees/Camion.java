@@ -11,10 +11,8 @@ public class Camion implements Comparable {
 	private Integer id;
 	private String numero;
 	private Integer disponibilite;
-	private Integer largeur, hauteur, profondeur;
-	private Integer volume;// en cm3
-	private Entrepot origine;
-	private Entrepot destination;
+	private Float largeur, hauteur, profondeur, volume;
+	private Entrepot origine, destination;
 
 	// Constantes décrivant la disponibilité du camion
 	public final static int DISPONIBLE = 0;
@@ -23,7 +21,21 @@ public class Camion implements Comparable {
 
 	// Constructeur avec tous les paramètres
 	public Camion(Integer id, String numero, Integer disponibilite,
-			Integer largeur, Integer hauteur, Integer profondeur,Integer volume, Entrepot origine, Entrepot destination) {
+			Float largeur, Float hauteur, Float profondeur, Entrepot origine, Entrepot destination) {
+		this.id = id;
+		this.numero = numero;
+		this.disponibilite = disponibilite;
+		this.largeur=largeur;
+		this.hauteur=hauteur;
+		this.profondeur=profondeur;
+		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());
+		this.origine = origine;
+		this.destination = destination;
+	}
+	
+	// Constructeur avec tous les paramètres même volume
+	public Camion(Integer id, String numero, Integer disponibilite,
+			Float largeur, Float hauteur, Float profondeur, Float volume, Entrepot origine, Entrepot destination) {
 		this.id = id;
 		this.numero = numero;
 		this.disponibilite = disponibilite;
@@ -36,14 +48,14 @@ public class Camion implements Comparable {
 	}
 
 	// Constructeur n'utilisant pas l'ID
-	public Camion(String numero, Integer disponibilite, Integer largeur, Integer hauteur, Integer profondeur,Integer volume,
+	public Camion(String numero, Integer disponibilite, Float largeur, Float hauteur, Float profondeur,
 			Entrepot origine, Entrepot destination) {
 		this.numero = numero;
 		this.disponibilite = disponibilite;
 		this.largeur=largeur;
 		this.hauteur=hauteur;
 		this.profondeur=profondeur;
-		this.volume = volume;
+		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());
 		this.origine = origine;
 		this.destination = destination;
 	}
@@ -58,10 +70,10 @@ public class Camion implements Comparable {
 		this.id = (Integer) v.get(0);
 		this.numero = (String) v.get(1);
 		this.disponibilite = stringToConst((String) v.get(2));
-		this.largeur=(Integer) v.get(3);
-		this.hauteur=(Integer) v.get(4);
-		this.profondeur=(Integer) v.get(5);
-		this.volume = (Integer) v.get(6);
+		this.largeur=(Float) v.get(3);
+		this.hauteur=(Float) v.get(4);
+		this.profondeur=(Float) v.get(5);
+		this.volume = (Float) v.get(6);
 		this.origine = (Entrepot) v.get(7);
 		this.destination = (Entrepot) v.get(8);
 	}
@@ -104,11 +116,6 @@ public class Camion implements Comparable {
 		this.disponibilite = disponibilite;
 	}
 
-	// ----- Récupération du volume du camion (en m3) -----//
-	public void setVolume(Integer volume) {
-		this.volume = volume;
-	}
-
 	// ----- Insérer l'entrepôt de destination -----//
 	public void setDestination(Entrepot destination) {
 		this.destination = destination;
@@ -136,8 +143,8 @@ public class Camion implements Comparable {
 		return this.disponibilite;
 	}
 
-	// ----- Récupération du volume du camion (en m3) -----//
-	public Integer getVolume() {
+	// ----- Récupération du volume du camion -----//
+	public Float getVolume() {
 		return this.volume;
 	}
 
@@ -151,15 +158,18 @@ public class Camion implements Comparable {
 		return this.origine;
 	}
 	
-	public Integer getHauteur(){
+	//----- Récupération de la hauteur de la remorque -----//
+	public Float getHauteur(){
 		return this.hauteur;
 	}
 	
-	public Integer getLargeur(){
+//	----- Récupération de la largeur de la remorque -----//
+	public Float getLargeur(){
 		return this.largeur;
 	}
 	
-	public Integer getProfondeur(){
+//	----- Récupération de la profondeur de la remorque -----//
+	public Float getProfondeur(){
 		return this.profondeur;
 	}
 
