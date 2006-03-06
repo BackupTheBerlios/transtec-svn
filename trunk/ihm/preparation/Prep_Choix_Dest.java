@@ -19,7 +19,10 @@ import javax.swing.*;
 import donnees.Preparation;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDPreparation;
-
+/*
+ * Classe permettant d'afficher la fenêtre pour que le préparateur choisisse la destination par laquelle il préfère
+ * commencer
+ */
 public class Prep_Choix_Dest extends JFrame implements ActionListener{
 	private Vector donnees_preparation = new Vector();
 	private ModeleTable modelePrep;
@@ -29,7 +32,7 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 	private Utilisateur utilisateur=null;
 	
 	public Prep_Choix_Dest(Utilisateur utilisateur){
-		//Constructeur de la fenetre
+		//Constructeur de la fenêtre
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		Container ct = this.getContentPane();
 		
@@ -85,13 +88,16 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		//Création de la première ligne
 		Vector nomColonnes_preparation = new Vector();
 		nomColonnes_preparation.add("idPreparation");
+		nomColonnes_preparation.add("Utilisateur");
+		nomColonnes_preparation.add("Origine");
 		nomColonnes_preparation.add("Destination");
-		nomColonnes_preparation.add("Etat de la préparation");
+		nomColonnes_preparation.add("Camion");
 		nomColonnes_preparation.add("Volume");
+		nomColonnes_preparation.add("Etat");
 		
 		//Remplissage du tableau
 		try{
-			donnees_preparation=new AccesBDDPreparation().listerDestAPreparer(utilisateur.getId());
+			donnees_preparation=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
 		}
 		catch(SQLException e){
 			
@@ -111,6 +117,8 @@ public class Prep_Choix_Dest extends JFrame implements ActionListener{
 		tab_preparation.setOpaque(false);
 		tab_preparation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tab_preparation.removeColumn(tab_preparation.getColumnModel().getColumn(0));
+		tab_preparation.removeColumn(tab_preparation.getColumnModel().getColumn(0));
+		tab_preparation.removeColumn(tab_preparation.getColumnModel().getColumn(2));
 		
 		//Construction du JScrollPane
 		JScrollPane scrollPane = new JScrollPane(tab_preparation);

@@ -4,35 +4,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 import java.sql.SQLException;
-import donnees.Entrepot;
-import donnees.Preparation;
 
+import donnees.Preparation;
+import donnees.Utilisateur;
+/*
+ * Classe permettant l'accès à la table préparation, lien entre le superviseur et le préparateur
+ */
 public class AccesBDDPreparation extends AccesBDD{
-	public final static int A_FAIRE=0;
-	public final static int EN_COURS=1;
+	
 	
 	public AccesBDDPreparation(){
 		super();
 	}
-	// Ne pas oublier l'état A RAJOUTER
-	public Vector listerDestAPreparer(Integer idPreparateur) throws SQLException{
+	
+	public Vector listerDestAPreparer(Utilisateur preparateur) throws SQLException{
 		Vector liste=new Vector();
+		Preparation courante=null;
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
-		Entrepot entrepot=null;
-				
+						
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Preparation WHERE idPreparateur=?");
-		recherche.setInt(1, idPreparateur.intValue());
+		recherche.setInt(1, preparateur.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			Vector elem=new Vector();
-			elem.add(new Integer(resultat.getInt("idPreparation")));
-			entrepot=bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination")));
-			elem.add(entrepot.getLocalisation().getVille());
-			if(resultat.getInt("Etat")==A_FAIRE)	elem.add("A faire");
-			else	elem.add("En cours");
-			elem.add(new Integer(resultat.getInt("Volume")));
-			liste.add(elem);
+			courante=new Preparation(
+					new Integer(resultat.getInt("idPreparation")),
+					preparateur,
+					bddEntrepot.rechercher(resultat.getInt("Origine")),
+					bddEntrepot.rechercher(resultat.getInt("idDestination")), 
+					new Float(resultat.getFloat("Volume")),
+					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
+					new Integer(resultat.getInt("Etat")));
+			liste.add(courante.toVector());
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -41,21 +44,60 @@ public class AccesBDDPreparation extends AccesBDD{
 		return liste;
 	}
 	
-	public void ajouter(Preparation aAjouter) throws SQLException{
+	public Integer ajouter(Preparation aAjouter) throws SQLException{
+		//----- Recherche de l'identifiant le plus grand -----//
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
+		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
+		resultat.next();	// Renvoie le plus grand ID
+		
+		aAjouter.setId(new Integer(resultat.getInt(1)+1)); // Incrementation du dernier ID et mettre dans l'objet
+		resultat.close();	// Fermeture requête SQL
+		rechercheMaxID.close();	// Fermeture requête SQL
+		
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO preparation "
-				+ " (idPreparateur,idDestination,idCamion,Origine,Etat,Volume)" // Paramètre de la table
-				+ " VALUES (?,?,?,?,?,?)"); 
+				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume)" // Paramètre de la table
+				+ " VALUES (?,?,?,?,?,?,?)"); 
 		
-		ajout.setInt(1, aAjouter.getUtilisateur().getId().intValue());
-		ajout.setInt(2, aAjouter.getDestination().getId().intValue());
-		ajout.setInt(3, aAjouter.getCamion().getId().intValue());
-		ajout.setInt(4, aAjouter.getOrigine().getId().intValue());
-		ajout.setInt(5, aAjouter.getEtat().intValue());
-		ajout.setInt(6, aAjouter.getVolumeColis().intValue());
+		ajout.setInt(1, aAjouter.getId().intValue());
+		ajout.setInt(2, aAjouter.getUtilisateur().getId().intValue());
+		ajout.setInt(3, aAjouter.getDestination().getId().intValue());
+		ajout.setInt(4, aAjouter.getCamion().getId().intValue());
+		ajout.setInt(5, aAjouter.getOrigine().getId().intValue());
+		ajout.setInt(6, aAjouter.getEtat().intValue());
+		ajout.setFloat(7, aAjouter.getVolume().floatValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
 		deconnecter();
+		
+		return aAjouter.getId();
+	}
+	
+	public Preparation rechercher(Integer aChercher) throws SQLException{
+		Preparation trouvee=null;
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM preparation WHERE idPreparation=?");
+		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé la préparation
+			trouvee=new Preparation(
+					aChercher,
+					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("idPreparateur"))),
+					bddEntrepot.rechercher(resultat.getInt("Origine")),
+					bddEntrepot.rechercher(resultat.getInt("idDestination")), 
+					new Float(resultat.getFloat("Volume")),
+					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
+					new Integer(resultat.getInt("Etat")));
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
 	}
 }
