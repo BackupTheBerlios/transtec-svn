@@ -39,6 +39,7 @@ CREATE TABLE chargement (
   `DateCreation` datetime NOT NULL default '0000-00-00 00:00:00',
   `Users_idUsers` int(11) NOT NULL default '0',
   `CodeBarre` varchar(15) default NULL,
+  Etat INTEGER(1),
   PRIMARY KEY  (`idChargement`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Chargement_FKIndex2` (`Camions_idCamions`)
@@ -48,8 +49,8 @@ CREATE TABLE chargement (
 -- Contenu de la table `chargement`
 -- 
 
-INSERT INTO `chargement` (`idChargement`, `Camions_idCamions`, `NbColis`, `VolChargement`, `DateCreation`, `Users_idUsers`, `CodeBarre`) VALUES (0, 1, 6, 200, '2006-02-19 00:00:00', 1, '987654321');
-INSERT INTO `chargement` (`idChargement`, `Camions_idCamions`, `NbColis`, `VolChargement`, `DateCreation`, `Users_idUsers`, `CodeBarre`) VALUES (1, 2, 3, 200, '2006-02-17 00:00:00', 1, '123456789');
+INSERT INTO `chargement` (`idChargement`, `Camions_idCamions`, `NbColis`, `VolChargement`, `DateCreation`, `Users_idUsers`, `CodeBarre`,Etat ) VALUES (0, 1, 6, 200, '2006-02-19 00:00:00', 1, '987654321',1);
+INSERT INTO `chargement` (`idChargement`, `Camions_idCamions`, `NbColis`, `VolChargement`, `DateCreation`, `Users_idUsers`, `CodeBarre`,Etat ) VALUES (1, 2, 3, 200, '2006-02-17 00:00:00', 1, '123456789',1);
 
 -- --------------------------------------------------------
 
