@@ -314,6 +314,7 @@ INSERT INTO `preparation` (`idPreparation`, `idPreparateur`, `idDestination`, `i
 /* La table de routage */
 
 CREATE TABLE routage (
+  idRoutage INTEGER(11) NOT NULL,
   Origine INTEGER(11) NOT NULL,
   Destination INTEGER(11) NOT NULL,
   PlatInter INTEGER(11),
