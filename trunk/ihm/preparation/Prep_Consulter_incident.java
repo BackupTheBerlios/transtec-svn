@@ -8,8 +8,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Timestamp;
-//import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -19,9 +17,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-
-//import donnees.Colis;
-import donnees.Incident;
 
 
 public class Prep_Consulter_incident extends JFrame implements ActionListener {

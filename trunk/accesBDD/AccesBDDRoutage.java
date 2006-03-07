@@ -3,7 +3,6 @@ package accesBDD;
 import java.sql.*;
 import java.util.Vector;
 
-import donnees.Camion;
 import donnees.Route;
 
 /*
