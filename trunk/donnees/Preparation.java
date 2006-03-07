@@ -10,10 +10,23 @@ public class Preparation {
 	private Float volume;
 	private Camion camion;
 	private Integer etat;
+	private Integer idChargement;
 	
 	// Constantes décrivant l'état d'une préparation
 	public final static int A_FAIRE=0;
 	public final static int EN_COURS=1;
+	
+//	 Constructeur utilisant tous les paramètres
+	public Preparation(Integer id, Utilisateur utilisateur, Entrepot origine, Entrepot destination, Float volume, Camion camion, Integer etat, Integer idChargement){
+		this.id=id;
+		this.utilisateur=utilisateur;
+		this.origine=origine;
+		this.destination=destination;
+		this.volume=volume;
+		this.camion=camion;
+		this.etat=etat;
+		this.idChargement=idChargement;
+	}
 	
 	// Constructeur utilisant tous les paramètres
 	public Preparation(Integer id, Utilisateur utilisateur, Entrepot origine, Entrepot destination, Float volume, Camion camion, Integer etat){
@@ -106,6 +119,15 @@ public class Preparation {
 		return this.etat;
 	}
 	
+	public Integer getIdChargement(){
+		return this.idChargement;
+	}
+	
+	public void setIdChargement(Integer idChargement){
+		this.idChargement=idChargement;
+	}
+
+	
 	
 	/****** Redéfinition de méthodes génériques ******/
 	
@@ -116,6 +138,4 @@ public class Preparation {
 		
 		return s;
 	}
-	
-
 }
