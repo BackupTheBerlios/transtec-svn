@@ -29,12 +29,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private JLabel labelVolume;	// Volume de la destination	
 	private JLabel labelCharge;	// Volume déjà chargé pour la destination
 	private Vector colonnesTable=new Vector();	// Colonnes du tableau de camions
-	private Vector donnees_cam = new Vector();
-	private ModeleTable modeleCam;
-	private JTable tab_cam;
-	private int ligneActive;
-	private TableSorter sorter;
-	private Preparation preparation=null;
+	private Vector tableData = new Vector();	// Données pour remplir le camion
+	private ModeleTable tableMod;	// Modèle de tableau de camions
+	private JTable table;	// Tableau de camions
+	private TableSorter tableSorter;	// Ordonnancement pour le tableau de camions
 	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
 	private Container ct;	// Conatiner des éléments d'affichage
 	
@@ -149,63 +147,58 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		colonnesTable.add("Chargement en cours");
 		
 		if(listeDonneesPrep.getListe()!=null){
+			// Première destination
+			DonneesPrep premiereLigne=(DonneesPrep)listeDonneesPrep.getListe().get(0);
+			
 			// Affichage du volume
-			this.labelVolume = new JLabel(((DonneesPrep)listeDonneesPrep.getListe().get(0)).getVolume().toString());
+			this.labelVolume = new JLabel(premiereLigne.getVolume().toString());
 			this.labelVolume.setBounds(230,100,100,20);
 			ct.add(this.labelVolume);
 			
 			// Affichage du volume déjà chargé
-			this.labelCharge = new JLabel(((DonneesPrep)listeDonneesPrep.getListe().get(0)).getCharge().toString());	
+			this.labelCharge = new JLabel(premiereLigne.getCharge().toString());	
 			this.labelCharge.setBounds(230,150,100,20);
 			ct.add(this.labelCharge);
-		}
+			
+			// On remplit les lignes du tableau
+			tableData=premiereLigne.getListeCamionChargement();
+		}		
 		
 		// Création du tableau de camions
-		
-
-		
-		
-		
-		
-		
-	
-		
-		
-		/*try{
-			donnees_cam=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
-		}
-		catch(SQLException e){
-			
-		}*/
-		donnees_cam=new Vector();
-		
-		
-//Création du tableau
-        modeleCam = new ModeleTable(colonnesTable,donnees_cam);
+		tableMod = new ModeleTable(colonnesTable,tableData);
 		// Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter = new TableSorter(modeleCam);
+		tableSorter = new TableSorter(tableMod);
 		// Création du tableau
-		tab_cam = new JTable(sorter);
+		table = new JTable(tableSorter);
 		// initialisation du Sorter
-		sorter.setTableHeader(tab_cam.getTableHeader());
+		tableSorter.setTableHeader(table.getTableHeader());
      
 		//Aspect du tableau
-		tab_cam.setAutoCreateColumnsFromModel(true);
-		tab_cam.setOpaque(false);
-		tab_cam.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
-		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
-		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(0));
-		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(1));
-		tab_cam.removeColumn(tab_cam.getColumnModel().getColumn(2));
+		table.setAutoCreateColumnsFromModel(true);
+		table.setOpaque(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		// Suppression de certaines colonnes
+		table.removeColumn(table.getColumnModel().getColumn(0));
+		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
 		
 		//Construction du JScrollPane
-		JScrollPane scrollPane = new JScrollPane(tab_cam);
-		tab_cam.setPreferredScrollableViewportSize(new Dimension(300,150));
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setPreferredScrollableViewportSize(new Dimension(300,150));
 		scrollPane.setBounds(80,250,320,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
+		
+		// Fin de création du tableau
+
+		
+		
 
 		setVisible(true);	
 		
@@ -215,7 +208,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		ligneActive = tab_cam.getSelectedRow();
+		int ligneActive = table.getSelectedRow();
 		
 		
 		if (source == creer_chargement) {
@@ -223,8 +216,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			if (ligneActive != -1){
 				//On récupère les données de la ligne du tablea
 				//dispose();
-				preparation.initializeChargement();
-				preparation.setCamionACharger(new Camion((Vector) modeleCam.getRow(ligneActive)));
 				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
 				fen1.setVisible(true);
 			}
@@ -237,10 +228,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			//Si une ligne est selectionnée
 			if (ligneActive != -1){
 				//On récupère les données de la ligne du tableau
-				Vector cVect = (Vector) modeleCam.getRow(ligneActive);
+				Vector cVect = (Vector) tableMod.getRow(ligneActive);
 				//dispose();
 //				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement(cVect,this.preparation.getUtilisateur() );
+				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321");
 				fen1.setVisible(true);
 			}
 			else{
@@ -274,7 +265,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		else if (source == incident){
 			Prep_Consulter_incident cons = new Prep_Consulter_incident();
 			cons.setVisible(true);
-		}	
+		}
 	}
 
 
@@ -295,6 +286,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		ct.add(this.labelCharge);
 		
 		
+		// Mise à jour du tableau
+		for(int i=0;i<tableMod.getRowCount();i++)
+			tableMod.removeRow(i);	
+		for(int i=0;i<selectionnee.getListeCamionChargement().size();i++)
+			tableMod.addRow(selectionnee.getListeCamionChargement().get(i));
+		tableMod.fireTableDataChanged();
+		table.updateUI();
+		
+		// On met à jour le container
 		ct.repaint();
 		
 		

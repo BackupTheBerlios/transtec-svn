@@ -5,23 +5,27 @@ import ihm.TableSorter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.*;
+
+import donnees.Chargement;
 import donnees.Utilisateur;
 import donnees.Camion;
+import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 
 
 public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	
 	private JTable tab1;
-	private JTable tab2;
+	private JTable tableChargement;
 	private ModeleTable modeleColis1;
-	private ModeleTable modeleColis2;
+	private ModeleTable modChargement;
 	private Vector nomColonnes = new Vector();
 	private Vector donnees1 = new Vector();
-	private Vector donnees2 = new Vector();
+	private Vector donneesColisChargement = new Vector();
 	private int ligneActive;
 	private JButton gauche_droite = new JButton();
 	private JButton droite_gauche = new JButton();
@@ -30,20 +34,10 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	private TableSorter sorter2;
 	private JButton valider = new JButton("Valider");
 	
-	public Prep_Gerer_chargement(Vector cVect, Utilisateur utilisateur){
-		
+	public Prep_Gerer_chargement(String codeBarreChargement){
 		//Constructeur de la fenetre
 		super(" - Preparateur");
 		Container ct = this.getContentPane();
-		
-
-
-		
-		//Déclaration d'un nouvel objet Camion permettant d'utiliser le vecteur entré en parametre
-		
-		cam = new Camion(cVect);
-	
-		////System.out.println("le camion " + cam.)
 		
 		//Création du menu
 		JMenuBar menuBar = new JMenuBar();
@@ -158,46 +152,39 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		scrollPane1.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane1);
 		
-//**********************************************APPEL A LA BDD*****************************************
-//On cherche dans la BDD tous les colis pour une destination qui ne possede pas de chargement		
-		 //Création des lignes objets
-		/*try{
-			AccesBDDColis bddColis=new AccesBDDColis();
-			Vector v=bddColis.listerDest(1);
+		// Recherche du chargement
+		try{
+			AccesBDDChargement bddChargement=new AccesBDDChargement();
+			Chargement chargement=bddChargement.rechercher(codeBarreChargement);
+			Vector colisChargement=bddChargement.listerColis(chargement.getId());
+			
+			// Transformation pour l'affichage dans le tableau
+			for(int i=0;i<listeColisChargement.size();i++){
+				Colis courant=colisChargement.get(i);
+				donneesColisChargement.add(courant.)
+			}
 		}
 		catch(SQLException e){
 			
-		}*/
+		}
 		
-		/* try{
-			    Vector listeObj=lister.listerDest(cam.getDestination().getId());
-			    for(int i=0;i<listeObj.size();i++){
-			    	donnees2.addElement(((Colis)listeObj.get(i)).toVector());
-	            }
-	        }
-	        catch(SQLException e){
-	        	
-	        }*/
-	        
-		
-//********************************************************************************************************	
 		//Création du deuxième tableau (colis libres)
-		 modeleColis2 = new ModeleTable(nomColonnes,donnees2);
+		modChargement = new ModeleTable(nomColonnes,donneesColisChargement);
 		// Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter2 = new TableSorter(modeleColis2);
+		sorter2 = new TableSorter(modChargement);
 		// Création du tableau
-		tab2 = new JTable(sorter2);
+		tableChargement = new JTable(sorter2);
 		// initialisation du Sorter
-		sorter2.setTableHeader(tab2.getTableHeader());
+		sorter2.setTableHeader(tableChargement.getTableHeader());
 			
 		//Aspect du tableau
-		tab2.createDefaultColumnsFromModel();
-		tab2.setOpaque(false);
-		tab2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableChargement.createDefaultColumnsFromModel();
+		tableChargement.setOpaque(false);
+		tableChargement.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//Construction du JScrollPane
-		JScrollPane scrollPane2 = new JScrollPane(tab2);
-		tab2.setPreferredScrollableViewportSize(new Dimension(600,150));
+		JScrollPane scrollPane2 = new JScrollPane(tableChargement);
+		tableChargement.setPreferredScrollableViewportSize(new Dimension(600,150));
 		scrollPane2.setBounds(80,300,600,150);
 		scrollPane2.setOpaque(false);
 		scrollPane2.getViewport().setOpaque(false);
@@ -218,34 +205,34 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				// On récupère les données de la ligne du tableau
 				Vector vec = (Vector) modeleColis1.getRow(ligneActive);
 				//On ajoute au deuxième tableau
-				modeleColis2.addRow(vec);
-				modeleColis2.fireTableDataChanged();
+				modChargement.addRow(vec);
+				modChargement.fireTableDataChanged();
 				//On supprime du premier
 				modeleColis1.removeRow(ligneActive);
 				modeleColis1.fireTableDataChanged();
 				//Mise à jour des tableaux
 				tab1.updateUI();
-				tab2.updateUI();
+				tableChargement.updateUI();
 			}
 		}
 		//Action liée au bouton droite_gauche
 		else if(source == droite_gauche){
 			// On récupère le numéro de la ligne sélectionnée
-			ligneActive = tab2.getSelectedRow();
+			ligneActive = tableChargement.getSelectedRow();
 				
 			// Si une ligne est effectivement sélectionnée, on peut la modifier
 			if(ligneActive != -1){
 				//On récupère les données de la ligne du tableau
-				Vector vec = (Vector) modeleColis2.getRow(ligneActive);
+				Vector vec = (Vector) modChargement.getRow(ligneActive);
 				//On ajoute au premier tableau
 				modeleColis1.addRow(vec);
 				modeleColis1.fireTableDataChanged();
 				//On supprime du deuxième
-				modeleColis2.removeRow(ligneActive);
-				modeleColis2.fireTableDataChanged();
+				modChargement.removeRow(ligneActive);
+				modChargement.fireTableDataChanged();
 				//Mise à jour des tableaux
 				tab1.updateUI();
-				tab2.updateUI();
+				tableChargement.updateUI();
 			}
 		}
 		else if(source == valider){
