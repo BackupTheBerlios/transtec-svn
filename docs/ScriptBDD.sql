@@ -298,6 +298,7 @@ CREATE TABLE `preparation` (
   `Origine` int(10),
   `Etat` int(10) unsigned NOT NULL default '0',
   `Volume` FLOAT NOT NULL default '0',
+  Chargement int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idPreparation`),
   KEY `Incidents_FKIndex1` (`idPreparateur`),
   KEY `Incidents_FKIndex2` (`idDestination`)
