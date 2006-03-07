@@ -105,4 +105,17 @@ public class Preparation {
 	public Integer getEtat(){
 		return this.etat;
 	}
+	
+	
+	/****** Redéfinition de méthodes génériques ******/
+	
+	// Affichage d'une préparation
+	public String toString(){
+		String s = new String();
+		s = "{"+ destination +" | "+ utilisateur +" | "+ volume +"}";
+		
+		return s;
+	}
+	
+
 }

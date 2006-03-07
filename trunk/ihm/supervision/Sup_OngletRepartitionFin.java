@@ -3,47 +3,36 @@ package ihm.supervision;
 import ihm.ModeleTable;
 
 import java.awt.*;
-import java.awt.event.*;
 
-import java.util.EventObject;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableCellEditor;
 import javax.swing.DefaultCellEditor;
-import javax.swing.event.*;
-
-import accesBDD.AccesBDDCamion;
-import accesBDD.AccesBDDColis;
-import accesBDD.AccesBDDPreparation;
-import accesBDD.AccesBDDUtilisateur;
 
 import donnees.Camion;
 import donnees.Utilisateur;
 import donnees.Preparation;
+import donnees.Destination;
 
 public class Sup_OngletRepartitionFin extends JPanel{
 	
+	JTextField texteVolume = new JTextField();
 	private JTable tabPreparations;
 	private JScrollPane scrollPanePreparations;
 	private ModeleTable modeleTabPreparations;
-	
-	private Vector listePreparateurs,listeDestinations,listeVolumesDestinations,listeCamions;
-	
-	private AccesBDDCamion tableCamions = new AccesBDDCamion();
-	private AccesBDDColis tableColis = new AccesBDDColis();
-	private AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
-	private AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur();
-
-	private JComboBox comboPreparateurs,comboDestinations;
-
 	private Vector nomColonnesPreparations = new Vector();
 	private Vector donneesPreparations = new Vector();
+	private Sup_OngletRepartition parent;
 
-	public Sup_OngletRepartitionFin(){
+	public Sup_OngletRepartitionFin(Sup_OngletRepartition parent){
 		super();
 		
+		// Récupération du pointeur vers le panel père
+		this.parent = parent;
+		
+		// Mise en forme
 		setLayout(new GridLayout(1,1));
 		setOpaque(false);
 		
@@ -55,9 +44,37 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		nomColonnesPreparations.add("Préparateur");
 		nomColonnesPreparations.add("Volume Tot. (cm3)");
 		
+		try{
+			// On récupère les camions disponibles de la base de données et on les affiche
+			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE);
+			
+			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
+			parent.listeVolumesDestinations = parent.tableColis.calculVolumesDestinations();
+			
+			// On récupère les préparateurs
+			parent.listePreparateurs = parent.tableUtilisateurs.listerParType(Utilisateur.PREPARATION);
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
+		// On construit le Vector de données du tableau des préparations
+		for(int i=0;i<parent.listeCamions.size();i++){
+			Vector ligne = new Vector();
+			ligne.add(new Integer(0));
+			ligne.add(parent.listeCamions.get(i));
+			ligne.add(new String("Choisir..."));
+			ligne.add(((Camion)parent.listeCamions.get(i)).getVolume());
+			ligne.add(new String("Choisir..."));
+			ligne.add(new Integer(0));
+			
+			// On ajoute la ligne aux données du tableau temporaire
+			donneesPreparations.add(ligne);
+		}
+		
 		// Création du modèle de tableau à l'aide des en-têtes de colonnes et des données 
 		modeleTabPreparations = new ModeleTable(nomColonnesPreparations,donneesPreparations){			
-			// Ajout de cette méthode pour pouvoir afficher la ComboBox
+			// Ajout de cette méthode pour pouvoir afficher les ComboBox
 			public boolean isCellEditable(int row, int col) {
 				// Les colonnes contenant les ComboBox et le volume sont éditables
 				if (col==2 || col==3 || col==4) {
@@ -71,10 +88,23 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		// Création du tableau
 		tabPreparations = new JTable(modeleTabPreparations);
 		
+		tabPreparations.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(texteVolume));
+
+		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
+		
+		// On place une liste de choix dans la colonne des préparateurs
+	    TableColumn col3 = tabPreparations.getColumnModel().getColumn(3);
+	    col3.setCellEditor(new MyComboBoxEditor(parent.listePreparateurs));
+	    col3.setCellRenderer(new MyComboBoxRenderer(parent.listePreparateurs));
+
+		// On place une liste de choix dans la colonne des destinations
+	    TableColumn col1 = tabPreparations.getColumnModel().getColumn(1);
+	    col1.setCellEditor(new MyComboBoxEditor(parent.listeVolumesDestinations));
+	    col1.setCellRenderer(new MyComboBoxRenderer(parent.listeVolumesDestinations));
+
 		// On crée les colonnes du tableau selon le modèle
 		tabPreparations.setAutoCreateColumnsFromModel(true);
 		tabPreparations.setOpaque(false);
-		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
 		
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		scrollPanePreparations = new JScrollPane(tabPreparations);
@@ -94,62 +124,6 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		add(scrollPanePreparations);
 	}
 	
-	// Configuration du tableau des préparations pour que ces dernières soient créées manuellement
-	public void affTabPreparationsSansAlgo(){
-		try{
-			// On récupère les camions disponibles de la base de données et on les affiche
-			listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
-			
-			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
-			listeVolumesDestinations = tableColis.calculVolumesDestinations();
-			
-			// On récupère les préparateurs
-			listePreparateurs = tableUtilisateurs.listerParType(Utilisateur.PREPARATION);
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		
-		// On construit le Vector de données du tableau des préparations
-		for(int i=0;i<listeCamions.size();i++){
-			Vector ligne = new Vector();
-			ligne.add(new Integer(0));
-			ligne.add(listeCamions.get(i));
-			ligne.add(new String("Choisir..."));
-			ligne.add(((Camion)listeCamions.get(i)).getVolume());
-			ligne.add(new String("Choisir..."));
-			ligne.add(new Integer(0));
-			
-			// On ajoute la ligne aux données du tableau temporaire
-			donneesPreparations.add(ligne);
-		}
-		
-		JTextField texteVolume = new JTextField();
-		tabPreparations.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(texteVolume));
-		
-		// On place une liste de choix dans la colonne des préparateurs
-		comboPreparateurs = new JComboBox(listePreparateurs);
-		
-		comboRenderer rendPreparateurs = new comboRenderer(listePreparateurs);
-		tabPreparations.getColumnModel().getColumn(3).setCellRenderer(rendPreparateurs);
-		
-		comboEditor editPreparateurs = new comboEditor(listePreparateurs);
-		tabPreparations.getColumnModel().getColumn(3).setCellEditor(editPreparateurs);
-		
-		// On place une liste de choix dans la colonne des destinations
-		comboDestinations = new JComboBox(listeVolumesDestinations);
-		
-		comboRenderer rendDestinations = new comboRenderer(listeVolumesDestinations);
-		tabPreparations.getColumnModel().getColumn(1).setCellRenderer(rendDestinations);
-		
-		comboEditor editDestinations = new comboEditor(listeVolumesDestinations);
-		tabPreparations.getColumnModel().getColumn(1).setCellEditor(editDestinations);
-		
-		// Prise en compte et affichage des modifications dans le tableau
-		modeleTabPreparations.fireTableDataChanged();
-		tabPreparations.updateUI();	
-	}
-	
 	public void publierPreparations(){
 		Vector v;
 		Vector liste = new Vector();
@@ -160,112 +134,60 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		// Extraction du contenu des lignes du tableau pour en créer des préparations
 		for(int i=0;i<modeleTabPreparations.getRowCount();i++){
 			// On extrait la ligne courante du tableau
-			v = (Vector)modeleTabPreparations.getRow(0);
+			v = (Vector)modeleTabPreparations.getRow(i);
 			
 			/*******/
 			System.out.println(v);
 			/*******/
 			
 			// On crée un objet Preparation à partir de la ligne du tableau
-			Preparation p = new Preparation(v);
+			Preparation p = new Preparation(
+								(Utilisateur)v.get(4),
+								((Camion)v.get(1)).getOrigine(),
+								((Destination)v.get(2)).getEntrepot(),
+								(Float)v.get(3),
+								(Camion)v.get(1),
+								new Integer(0));
 			
 			// On ajoute la préparation à la liste
 			liste.add(p);
 		}
-	}
+		/*******/
+		//System.out.println(liste);
+		/*******/
+	}	
 	
 	
 	/****** Classes utilisées localement ******/
 	
 	// Classe dérivant de JComboBox et permettant d'afficher une liste
-	//	de sélection dans une cellule de JTable
-	private class comboRenderer extends JComboBox implements TableCellRenderer {		
-		public comboRenderer(Vector v) {
-			super(v);
-		}		
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
-			if (isSelected) {
-				setForeground(table.getSelectionForeground());
-				super.setBackground(table.getSelectionBackground());
-			} else {
-				setForeground(table.getForeground());
-				setBackground(table.getBackground());
-			} 
-			
-			setSelectedItem(value);
-			return this;
-		} 		
-	}
-	
+	// de sélection dans une cellule de JTable
+	public class MyComboBoxRenderer extends JComboBox implements TableCellRenderer {
+        public MyComboBoxRenderer(Vector items) {
+            super(items);
+        }
+    
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+            if (isSelected) {
+                setForeground(table.getSelectionForeground());
+                super.setBackground(table.getSelectionBackground());
+            } else {
+                setForeground(table.getForeground());
+                setBackground(table.getBackground());
+            }
+    
+            // Select the current value
+            setSelectedItem(value);
+            return this;
+        }
+    }
+    
 	// Classe dérivant de JComboBox et permettant d'afficher une liste
-	//	de sélection dans une cellule de JTable
-	private class comboEditor extends JComboBox implements TableCellEditor {		
-		protected EventListenerList listenerList = new EventListenerList();
-		protected ChangeEvent changeEvent = new ChangeEvent(this);
-		
-		public comboEditor(Vector v) {
-			super(v);
-			addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					fireEditingStopped();
-				} 
-			});
-		}
-		
-		public void addCellEditorListener(CellEditorListener listener) {
-			listenerList.add(CellEditorListener.class, listener);
-		} 
-		
-		public void removeCellEditorListener(CellEditorListener listener) {
-			listenerList.remove(CellEditorListener.class, listener);
-		} 
-		
-		protected void fireEditingStopped() {
-			CellEditorListener listener;
-			Object[] listeners = listenerList.getListenerList();
-			for (int i = 0; i < listeners.length; i++) {
-				if (listeners[i] == CellEditorListener.class) {
-					listener = (CellEditorListener) listeners[i + 1];
-					listener.editingStopped(changeEvent);
-				} 
-			} 
-		} 
-		
-		protected void fireEditingCanceled() {
-			CellEditorListener listener;
-			Object[] listeners = listenerList.getListenerList();
-			for (int i = 0; i < listeners.length; i++) {
-				if (listeners[i] == CellEditorListener.class) {
-					listener = (CellEditorListener) listeners[i + 1];
-					listener.editingCanceled(changeEvent);
-				} 
-			} 
-		} 
-		
-		public void cancelCellEditing() {
-			fireEditingCanceled();
-		} 
-		
-		public boolean stopCellEditing() {
-			fireEditingStopped();
-			return true;
-		} 
-		
-		public boolean isCellEditable(EventObject event) {
-			return true;
-		} 
-		
-		public boolean shouldSelectCell(EventObject event) {
-			return true;
-		} 
-		
-		public Object getCellEditorValue() {
-			return getSelectedItem();
-		}
-		
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column){
-			setSelectedItem(value);
-			return this;
-		}		
-	}
+	// de sélection dans une cellule de JTable
+	public class MyComboBoxEditor extends DefaultCellEditor {
+        public MyComboBoxEditor(Vector items) {
+            super(new JComboBox(items));
+        }
+    }
 }

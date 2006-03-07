@@ -2,8 +2,14 @@ package ihm.supervision;
 
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.*;
+import java.util.Vector;
+
+import accesBDD.AccesBDDCamion;
+import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDPreparation;
+import accesBDD.AccesBDDUtilisateur;
+import algos.*;
 
 public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JLabel titre;
@@ -16,16 +22,21 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JPanel panBoutons;
 	private JButton boutSuite = new JButton("Suite  >");
 	private JButton boutRetour = new JButton("<  Retour");
-	
+	protected Vector listePreparateurs,listeVolumesDestinations,listeCamions;	
+	protected AccesBDDCamion tableCamions = new AccesBDDCamion();
+	protected AccesBDDColis tableColis = new AccesBDDColis();
+	protected AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
+	protected AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur();
+
 	private final static int DEBUT = 0;
 	private final static int CHOIX = 1;
 	private final static int FIN = 2;
-	
+
 	public final static int AUCUN = 0;
 	public final static int RADIN = 1;
 	public final static int PERENOEL = 2;
 
-	private int ecranActuel = DEBUT;	
+	private int ecranActuel = DEBUT;
 
 	public Sup_OngletRepartition(){
 		// Mise en forme initiale
@@ -48,14 +59,14 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		add(panTitre);
 
 		// Création du panel de début
-		panDonneesDebut = new Sup_OngletRepartitionDebut();
-		
+		panDonneesDebut = new Sup_OngletRepartitionDebut(this);
+
 		// Création du panel de choix
 		panDonneesChoix = new Sup_OngletRepartitionChoix();
 
 		// Création du panel de fin
-		panDonneesFin = new Sup_OngletRepartitionFin();
-		
+		panDonneesFin = new Sup_OngletRepartitionFin(this);
+
 		// Création du panel à contenu variable
 		panDonnees = new JPanel(new CardLayout(10,10));
 		panDonnees.add(panDonneesDebut,"Disponibilités");
@@ -71,17 +82,17 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		panBoutons.setOpaque(false);
 		panBoutons.setLayout(new BoxLayout(panBoutons,BoxLayout.X_AXIS));
 		panBoutons.setBorder(BorderFactory.createEmptyBorder(40, 50, 20, 50));
-		
+
 		// Bouton Retour
 		boutRetour.setSize(100,20);
 		boutRetour.setAlignmentX(Box.LEFT_ALIGNMENT);
 		boutRetour.addActionListener(this);
 		boutRetour.setVisible(false);
 		panBoutons.add(boutRetour);
-		
+
 		// Espace entre les boutons
 		panBoutons.add(Box.createRigidArea(new Dimension(100,0)));
-		
+
 		// Bouton Suite
 		boutSuite.setSize(100,20);
 		boutSuite.setAlignmentX(Box.RIGHT_ALIGNMENT);
@@ -90,7 +101,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		
 		panBoutons.setAlignmentY(Box.BOTTOM_ALIGNMENT);
 		add(panBoutons);
-		}
+	}
 	
 	// Répartition des chargements à l'aide de l'algorithme sélectionné
 	private void repartirChargements(){
@@ -98,7 +109,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		// On récupère l'algorithme choisi
 		switch(panDonneesChoix.choixAlgoRadio()){
 		case AUCUN:
-			panDonneesFin.affTabPreparationsSansAlgo();
+			//panDonneesFin.affTabPreparationsSansAlgo();
 			break;
 			
 		case RADIN:
@@ -106,7 +117,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			break;
 			
 		case PERENOEL:
-			
+			PereNoel.calculer(listeCamions,listeVolumesDestinations);
 			break;
 			
 		}

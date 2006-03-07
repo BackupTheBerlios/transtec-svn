@@ -20,10 +20,12 @@ public final class PereNoel {
 		if(listeCamions.size()>0 && listeDestinations.size()>0){
 			
 			// On trie les listes de camions et destinations par volume.
-			Collections.sort(listeDestinations,ORDRE_VOLUME);
-			Collections.sort(listeCamions);
-			//TODO : 	VERIFIER ORDRE DE TRI !!!
-			//			TRIER SELON TRANSIT OU NON
+			Collections.sort(listeDestinations,ORDRE_VOLUME_DEST);
+			Collections.reverse(listeDestinations);
+			Collections.sort(listeCamions,ORDRE_VOLUME_CAMION);
+			Collections.reverse(listeCamions);
+			
+			//TODO : 	TRIER SELON TRANSIT OU NON
 			
 			// On boucle sur les camions
 			for(int indiceCamions=0;indiceCamions<listeCamions.size();indiceCamions++){
@@ -50,11 +52,11 @@ public final class PereNoel {
 			System.out.println("ERREUR\nClasse PereNoel : liste vide !");
 		}
 		
-		return ret;
+		return listeCamions;
 	}
 	
 	// Comparateur sur les Destinations, utilisant leur Volume
-	public static final Comparator ORDRE_VOLUME = new Comparator(){
+	private static final Comparator ORDRE_VOLUME_DEST = new Comparator(){
 		public int compare(Object o1, Object o2){
 			int ret;
 			
@@ -63,6 +65,21 @@ public final class PereNoel {
 			
 			// On renvoie le résultat de la comparaison des volumes
 			ret = d1.getVolume().compareTo(d2.getVolume());
+			
+			return ret;
+		}
+	};	
+	
+	// Comparateur sur les Camions, utilisant leur Volume
+	private static final Comparator ORDRE_VOLUME_CAMION = new Comparator(){
+		public int compare(Object o1, Object o2){
+			int ret;
+			
+			Camion c1 = (Camion) o1;
+			Camion c2 = (Camion) o2;
+			
+			// On renvoie le résultat de la comparaison des volumes
+			ret = c1.getVolume().compareTo(c2.getVolume());
 			
 			return ret;
 		}

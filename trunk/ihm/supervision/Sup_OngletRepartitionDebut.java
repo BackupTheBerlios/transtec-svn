@@ -9,9 +9,6 @@ import java.util.Vector;
 
 import javax.swing.*;
 
-import accesBDD.AccesBDDCamion;
-import accesBDD.AccesBDDColis;
-
 import donnees.Camion;
 import donnees.Destination;
 
@@ -26,14 +23,14 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 	private Vector donneesDestinations = new Vector();
 	private Vector nomColonnesCamions = new Vector();
 	private Vector donneesCamions = new Vector();
-	private Vector listeDestinations,listeVolumesDestinations,listeCamions;	
-	private AccesBDDCamion tableCamions = new AccesBDDCamion();
-	private AccesBDDColis tableColis = new AccesBDDColis();
-
+	private Sup_OngletRepartition parent;
 	
 	// Constructeur	
-	public Sup_OngletRepartitionDebut() {
-		super();		
+	public Sup_OngletRepartitionDebut(Sup_OngletRepartition parent) {
+		super();
+		
+		// Récupération du pointeur vers le panel père
+		this.parent = parent;
 		
 		// Mise en forme
 		setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
@@ -62,10 +59,10 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		
 		try{
 			// On récupère les camions disponibles de la base de données et on les affiche
-			listeCamions = tableCamions.listerParEtat(Camion.DISPONIBLE);
+			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE);
 			
-			for(int i=0;i<listeCamions.size();i++){
-				donneesCamions.addElement(((Camion)listeCamions.get(i)).toVector());
+			for(int i=0;i<parent.listeCamions.size();i++){
+				donneesCamions.addElement(((Camion)parent.listeCamions.get(i)).toVector());
 			}
 		}
 		catch(Exception e){
@@ -120,10 +117,10 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		
 		try{
 			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
-			listeVolumesDestinations = tableColis.calculVolumesDestinations();
+			parent.listeVolumesDestinations = parent.tableColis.calculVolumesDestinations();
 			
-			for(int i=0;i<listeVolumesDestinations.size();i++){
-				donneesDestinations.addElement(((Destination)listeVolumesDestinations.get(i)).toVector());
+			for(int i=0;i<parent.listeVolumesDestinations.size();i++){
+				donneesDestinations.addElement(((Destination)parent.listeVolumesDestinations.get(i)).toVector());
 			}
 		}
 		catch(Exception e){
