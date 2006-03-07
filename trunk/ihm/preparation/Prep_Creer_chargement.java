@@ -45,8 +45,10 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
+import donnees.Camion;
 import donnees.Chargement;
 import donnees.Colis;
+import donnees.Entrepot;
 import donnees.Preparation;
 import donnees.Utilisateur;
 
@@ -61,9 +63,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Canvas3D camion3D;
 	private deplacementColis deplacement=new deplacementColis(ajouter);
 	private float echelle=0;
-	AffichageColisDynamique zoneColis3D=null;
+	private AffichageColisDynamique zoneColis3D=null;
+	private Chargement chargement;
 		
-	public Prep_Creer_chargement(Utilisateur utilisateur) {
+	public Prep_Creer_chargement(Utilisateur utilisateur, Camion camion) {
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		
 		Vector nomColonnes = new Vector();
@@ -126,7 +129,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		// Acces BDD pour récupération liste des colis pour la destination donnée
 		AccesBDDColis bddColis=new AccesBDDColis();
-		try{
+		/*try{
 			Vector listeColisBDD=bddColis.listerDest(preparation.getDestination().getId());
 			for(int i=0;i<listeColisBDD.size();i++){
 				listeColis.addElement(((Colis)listeColisBDD.get(i)).toVector());
@@ -135,7 +138,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		}
 		catch(SQLException SQLe){
 			
-		}
+		}*/
 		
 		//Création du tableau listant les colis pour la destination
 		
@@ -306,6 +309,14 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    //Ajout au container
 	    ct.add(camion3D);
 	    
+	    //PROVISOIRE POUR TESTS
+	    try{
+	    	chargement=new AccesBDDChargement().rechercher("987654321");
+	    }
+	    catch(SQLException e){
+	    	
+	    }
+	    
 		setVisible(true);
 	}
 		
@@ -339,7 +350,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		// Ajouter un colis dans le camion
 		else if(source==ajouter){
-			/*ligneActive = listeColisTab.getSelectedRow();
+			ligneActive = listeColisTab.getSelectedRow();
 			if (ligneActive != -1){
 				//On ajoute au chargement la ligne selectionnée
 				listeChargementMod.addRow(listeColisMod.getRow(ligneActive));
@@ -347,7 +358,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				if(listeColisTab.getRowCount()>1)
 					colisSuiv=new Colis((Vector)listeColisMod.getRow(ligneActive+1));
 				else	colisSuiv=null;
-				preparation.ajouterVolumeColis(colis.getVolume());
+				// Ajout du volume
+				this.chargement.ajouterVolumeColis(new Float(colis.getVolume().intValue()));
 				listeChargementMod.fireTableDataChanged();
 				//On supprime de la liste des colis
 				listeColisMod.removeRow(ligneActive);
@@ -365,17 +377,18 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}*/
+			}
 		}
 		
 		// Supprimer un colis dans le camion
 		else if(source==supprimer){
-			/*ligneActive = listeChargementTab.getSelectedRow();
+			ligneActive = listeChargementTab.getSelectedRow();
 			if (ligneActive != -1){
 				// On ajoute à la liste des colis
 				listeColisMod.addRow(listeChargementMod.getRow(ligneActive));
 				colis=new Colis((Vector)listeChargementMod.getRow(ligneActive));
-				preparation.soustraireVolumeColis(colis.getVolume());
+				// Soustraction du volume
+				this.chargement.soustraireVolumeColis(new Float(colis.getVolume().intValue()));
 				listeColisMod.fireTableDataChanged();
 				//On supprime du chargement
 				listeChargementMod.removeRow(ligneActive);
@@ -386,7 +399,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}*/
+			}
 		}
 		
 		// Annulation de la création d'un chargement

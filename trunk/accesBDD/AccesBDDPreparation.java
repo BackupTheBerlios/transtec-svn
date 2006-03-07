@@ -32,7 +32,8 @@ public class AccesBDDPreparation extends AccesBDD{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
-					new Integer(resultat.getInt("Etat")));
+					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("Chargement")));
 			liste.add(courante);
 		}
 		
@@ -54,7 +55,7 @@ public class AccesBDDPreparation extends AccesBDD{
 		
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO preparation "
-				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume)" // Paramètre de la table
+				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume,Chargement)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1, aAjouter.getId().intValue());
@@ -64,6 +65,7 @@ public class AccesBDDPreparation extends AccesBDD{
 		ajout.setInt(5, aAjouter.getOrigine().getId().intValue());
 		ajout.setInt(6, aAjouter.getEtat().intValue());
 		ajout.setFloat(7, aAjouter.getVolume().floatValue());
+		ajout.setInt(8, aAjouter.getId().intValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
@@ -89,7 +91,8 @@ public class AccesBDDPreparation extends AccesBDD{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
-					new Integer(resultat.getInt("Etat")));
+					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("Chargement")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -99,5 +102,16 @@ public class AccesBDDPreparation extends AccesBDD{
 		return trouvee;
 	}
 	
-	
+	// Permet d'affecter un chargement temporaire à une préparation
+	public void ajouterChargementTemp(Integer idPreparation, Integer idChargement) throws SQLException{
+		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
+		
+		modifier.setInt(1, idChargement.intValue());
+		modifier.setInt(2, idPreparation.intValue());
+		
+		modifier.executeUpdate();
+		
+		modifier.close();	// Fermeture requête SQL
+		deconnecter();
+	}
 }

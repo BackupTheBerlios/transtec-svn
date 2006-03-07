@@ -17,10 +17,10 @@ public class DonneesPrep {
 		this.listeCamionChargement=new Vector();
 	}
 	
-	public void ajouterCamion(Camion aAjouter, Float volume){
+	public void ajouterCamion(Camion aAjouter, Float volume, Integer idChargement){
 		Vector courant=aAjouter.toVector();
 		courant.add(volume.toString());
-		courant.add("");
+		courant.add(idChargement.intValue());
 		this.volume+=volume;
 		this.listeCamionChargement.add(courant);
 	}
@@ -39,5 +39,50 @@ public class DonneesPrep {
 	
 	public Vector getListeCamionChargement(){
 		return this.listeCamionChargement;
+	}
+	
+	// Donne le camion à partir de l'idCamion
+	public Camion getCamion(Integer idCamion){
+		Camion camion=null;
+		Vector courant=null;
+		
+		for(int i=0;i<this.listeCamionChargement.size();i++){
+			courant=(Vector)this.listeCamionChargement.get(i);
+			if(idCamion.intValue()==((Integer)courant.get(0)).intValue()){
+				camion=new Camion(courant);
+				i=this.listeCamionChargement.size();
+			}
+		}
+		return camion;
+	}
+	
+	//Donne le volume à partir de l'idCamion
+	public Float getVolume(Integer idCamion){
+		Float volume=null;
+		Vector courant=null;
+		
+		for(int i=0;i<this.listeCamionChargement.size();i++){
+			courant=(Vector)this.listeCamionChargement.get(i);
+			if(idCamion.intValue()==((Integer)courant.get(0)).intValue()){
+				volume=new Float(courant.get(9).toString());
+				i=this.listeCamionChargement.size();
+			}
+		}
+		return volume;
+	}
+	
+	//Donne l'id du chargement provisoire avec l'id du camion
+	public Integer getIdChargement(Integer idCamion){
+		Integer idChargement=null;
+		Vector courant=null;
+		
+		for(int i=0;i<this.listeCamionChargement.size();i++){
+			courant=(Vector)this.listeCamionChargement.get(i);
+			if(idCamion.intValue()==((Integer)courant.get(0)).intValue()){
+				idChargement=(Integer)courant.get(10);
+				i=this.listeCamionChargement.size();
+			}
+		}
+		return idChargement;
 	}
 }

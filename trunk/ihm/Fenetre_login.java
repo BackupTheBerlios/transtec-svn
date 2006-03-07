@@ -25,7 +25,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		setUndecorated(true);
 		
 		// Création du Panel principal
-		contenu = new panelContenu();
+		contenu = new PanelContenu("images/login/bg.png");
 		contenu.setOpaque(false);
 		contenu.setLayout(null);
 		setContentPane(contenu);
@@ -145,7 +145,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	
 	private Utilisateur u;
 	private AccesBDDUtilisateur bdd;
-	private panelContenu contenu;
+	private PanelContenu contenu;
 	private JLabel label_login,label_pwd,label_quitter;
 	private JTextField login;
 	private JPasswordField pwd1;
@@ -156,30 +156,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		fen1.setVisible(true);	
 	}	
 	
-	// Classe dérivée de JPanel correspondant au panel principal de la fenêtre de login 
-	class panelContenu extends JPanel{		
-		public panelContenu(){
-			super();
-		}
-		
-		// Permet de définir une image de fond
-		public void paintComponent(Graphics g){
-				ImageIcon img = new ImageIcon("images/login/bg.png");
-				g.drawImage(img.getImage(), 0, 0, null);
-				super.paintComponent(g);
-		}	
-	}
 	
-	// Bouton personnalisé composé d'une image uniquement
-	class Bouton extends JButton{
-		public Bouton(String cheminImage, String cheminImageOnClick){
-			super();
-			this.setIcon(new ImageIcon(cheminImage));
-			this.setBorder(null);
-			this.setContentAreaFilled(false);
-			this.setMargin(null);
-			this.setRolloverEnabled(false);
-			this.setPressedIcon(new ImageIcon(cheminImageOnClick));
-		}
-	}
+	
+	
 }

@@ -36,12 +36,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
 	private Container ct;	// Conatiner des éléments d'affichage
 	DonneesPrep selectionnee;
+	Utilisateur u;
 	
 	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		
 		//Constructeur de la fenetre
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		ct = this.getContentPane();
+		
+		u=utilisateur;
 		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
@@ -217,8 +220,9 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			if (ligneActive != -1){
 				//On récupère les données de la ligne du tablea
 				//dispose();
-				//Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
-				//fen1.setVisible(true);
+				// PROVISOIRE
+				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(u,this.listeDonneesPrep.camion);
+				fen1.setVisible(true);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
