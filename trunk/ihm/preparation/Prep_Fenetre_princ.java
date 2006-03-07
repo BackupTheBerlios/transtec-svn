@@ -35,6 +35,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private TableSorter tableSorter;	// Ordonnancement pour le tableau de camions
 	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
 	private Container ct;	// Conatiner des éléments d'affichage
+	DonneesPrep selectionnee;
 	
 	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		
@@ -148,20 +149,20 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		
 		if(listeDonneesPrep.getListe()!=null){
 			// Première destination
-			DonneesPrep premiereLigne=(DonneesPrep)listeDonneesPrep.getListe().get(0);
+			this.selectionnee=(DonneesPrep)listeDonneesPrep.getListe().get(0);
 			
 			// Affichage du volume
-			this.labelVolume = new JLabel(premiereLigne.getVolume().toString());
+			this.labelVolume = new JLabel(this.selectionnee.getVolume().toString());
 			this.labelVolume.setBounds(230,100,100,20);
 			ct.add(this.labelVolume);
 			
 			// Affichage du volume déjà chargé
-			this.labelCharge = new JLabel(premiereLigne.getCharge().toString());	
+			this.labelCharge = new JLabel(this.selectionnee.getCharge().toString());	
 			this.labelCharge.setBounds(230,150,100,20);
 			ct.add(this.labelCharge);
 			
 			// On remplit les lignes du tableau
-			tableData=premiereLigne.getListeCamionChargement();
+			tableData=this.selectionnee.getListeCamionChargement();
 		}		
 		
 		// Création du tableau de camions
@@ -216,8 +217,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			if (ligneActive != -1){
 				//On récupère les données de la ligne du tablea
 				//dispose();
-				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
-				fen1.setVisible(true);
+				//Prep_Creer_chargement fen1 = new Prep_Creer_chargement(preparation);
+				//fen1.setVisible(true);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -231,7 +232,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				Vector cVect = (Vector) tableMod.getRow(ligneActive);
 				//dispose();
 //				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321");
+				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321", 7, this.selectionnee.getVolume());
 				fen1.setVisible(true);
 			}
 			else{
@@ -272,7 +273,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 	public void itemStateChanged(ItemEvent arg0) {
 		// Chargement du volume pour la destination selectionnée
-		DonneesPrep selectionnee=listeDonneesPrep.exists((String)destinations.getSelectedItem());
+		selectionnee=listeDonneesPrep.exists((String)destinations.getSelectedItem());
 		
 		// On réaffiche les volumes
 		ct.remove(this.labelVolume);

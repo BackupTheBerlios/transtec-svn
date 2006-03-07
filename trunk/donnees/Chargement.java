@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 //----- Classe regroupant tous les attributs d'un chargement, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
 public class Chargement {
+	public final static int EN_COURS=0;
+	public final static int EFFECTUE=1;
+	
 	private Integer id;
 	private Camion camion;
 	private Integer nbColis;
@@ -12,6 +15,7 @@ public class Chargement {
 	private Utilisateur utilisateur;
 	private Timestamp date;
 	private String codeBarre;
+	private int etat;
 	
 	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
 		this.camion=camion;
@@ -20,6 +24,7 @@ public class Chargement {
 		this.utilisateur=utilisateur;
 		this.date=date;
 		this.codeBarre=codeBarre;
+		this.etat=EN_COURS;
 	}
 	
 	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
@@ -30,6 +35,7 @@ public class Chargement {
 		this.utilisateur=utilisateur;
 		this.date=date;
 		this.codeBarre=codeBarre;
+		this.etat=EN_COURS;
 	}
 	public Chargement(){
 	}
@@ -72,5 +78,34 @@ public class Chargement {
 	//----- Récupération du code barre -----//
 	public String getCodeBarre(){
 		return this.codeBarre;
+	}
+	
+	//----- Récupération de l'état du chargement -----//
+	public int getEtat(){
+		return this.etat;
+	}
+	
+	//----- Insérer une nouvelle date -----//
+	public void setDate(Timestamp date){
+		this.date=date;
+	}
+	
+	//----- Ajouter un volume de colis et incrémentation de nombre de colis -----//
+	public String ajouterVolumeColis(Float aAjouter){
+		this.volChargement=new Integer(this.volChargement.intValue()+aAjouter.intValue());
+		this.nbColis=new Integer(this.nbColis.intValue()+1);
+		return this.volChargement.toString();
+	}
+	
+	//----- Soustraire un volume de colis et décrémentation du nombre de colis -----//
+	public String soustraireVolumeColis(Float aAjouter){
+		this.volChargement=new Integer(this.volChargement.intValue()-aAjouter.intValue());
+		this.nbColis=new Integer(this.nbColis.intValue()-1);
+		return this.volChargement.toString();
+	}
+	
+	//----- Mettre l'état à effectué -----//
+	public void validerEtat(){
+		this.etat=EFFECTUE;
 	}
 }

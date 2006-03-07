@@ -165,20 +165,26 @@ public class AccesBDDChargement extends AccesBDD{
 		return chargement;
 	}
 	
-	public static void main(String arg[]){
-		/*AccesBDDChargement test=new AccesBDDChargement();
-		ConnecteurSQL connecteur = new ConnecteurSQL();
-		Timestamp date=new Timestamp(10);
-		Chargement aAjouter = new Chargement(new Integer(0),new Integer(1),1,new Integer(1),date);
-		Chargement aAjouter2 = new Chargement(new Integer(0),new Integer(2),1,new Integer(1),date);
-		try{
-			test.ajouter(aAjouter,connecteur);
-			test.ajouter(aAjouter2,connecteur);
-			test.supprimer(aAjouter, connecteur);
-			Vector list=test.listerColis(aAjouter2, connecteur);
-		}
-		catch(SQLException e){
-			System.out.println(e.getMessage());
-		}*/
+	public void valider(Chargement aModifier) throws SQLException{
+		//----- Modification de la localisation à partir de l'id -----//
+		PreparedStatement modifie=connecter().prepareStatement(
+				"UPDATE chargement SET "
+				+"NbColis=?,VolChargement=?,DateCreation=?,Etat=? "
+				+"WHERE idChargement=?");
+		
+		
+		modifie.setInt(1,aModifier.getNbColis().intValue());
+		modifie.setInt(2,aModifier.getVolChargement().intValue());
+		modifie.setTimestamp(3,aModifier.getDate());
+		modifie.setInt(4,aModifier.getEtat());
+		modifie.setInt(5,aModifier.getId().intValue());
+		
+
+		modifie.executeUpdate();	// Exécution de la requête SQL
+		
+		//Recherche dans personne has_colis, mais est-ce nécéssaire
+						
+		modifie.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 }

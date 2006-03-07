@@ -268,6 +268,47 @@ public class AccesBDDColis extends AccesBDD{
 		return liste;
 	}
 	
+	//----- Lister les colis pouvant être chargé par destination -----//
+	public Vector colisACharger(Integer idEntrepot) throws SQLException{
+		Vector liste=new Vector();
+		AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
+		AccesBDDModelesColis bddModele=new AccesBDDModelesColis();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+				
+		// Préparation de la requête SQL
+		PreparedStatement recherche=connecter().prepareStatement(
+				"SELECT * FROM colis WHERE Destination =? "
+				+"AND idColis NOT IN (SELECT idColis FROM chargement_colis)");
+		recherche.setInt(1, idEntrepot.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		while(resultat.next()){
+			liste.add(new Colis(
+					new Integer(resultat.getInt("idColis")),
+					resultat.getString("Code_barre"),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Expediteur"))),
+					bddPersonne.rechercher(new Integer(resultat.getInt("Destinataire"))),
+					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("Createur"))),
+					new Integer(resultat.getInt("Poids")),
+					resultat.getTimestamp("DateDepot"),
+					new Integer(resultat.getInt("Fragilite")),
+					bddModele.rechercher(new Integer(resultat.getInt("ModelesColis_idModelesColis"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
+					resultat.getString("Valeur"),
+					new Integer(resultat.getInt("Volume"))));
+		}
+				
+		// Fermeture des connexions
+		resultat.close();
+		recherche.close();
+		deconnecter();
+		
+		return liste;
+	}
+	
 	//----- TESTS OKAY -----//
 	/*public static void main(String arg[]){
 		AccesBDDColis test=new AccesBDDColis();

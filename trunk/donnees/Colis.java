@@ -65,20 +65,19 @@ public class Colis {
 	// Constructeur utilisant un Vector
 	public Colis(Vector v){
 		this.id=(Integer)v.get(0);
-		this.entrepot=(Entrepot)v.get(1);
-		this.code_barre=(String)v.get(2);
-		this.expediteur=(Personne)v.get(3);
-		this.destinataire=(Personne)v.get(4);
-		this.origine=(Entrepot)v.get(5);
-		this.destination=(Entrepot)v.get(6);
-		this.entrepot=(Entrepot)v.get(7);
-		this.utilisateur=(Utilisateur)v.get(8);
-		this.poids=(Integer)v.get(9);
-		this.date_envoi=(Timestamp)v.get(10);
-		this.fragilite=stringToConst((String)v.get(11));
-		this.modele=(ModeleColis)v.get(12);
+		this.code_barre=(String)v.get(1);
+		this.expediteur=(Personne)v.get(2);
+		this.destinataire=(Personne)v.get(3);
+		this.origine=(Entrepot)v.get(4);
+		this.destination=(Entrepot)v.get(5);
+		this.entrepot=(Entrepot)v.get(6);
+		this.utilisateur=(Utilisateur)v.get(7);
+		this.poids=(Integer)v.get(8);
+		this.date_envoi=(Timestamp)v.get(9);
+		this.fragilite=stringToConst((String)v.get(10));
+		this.modele=(ModeleColis)v.get(11);
 		//ModeleColis m=new ModeleColis(FormeToConst((String)v.get(10)),ModeleToConst((String)v.get(11)));
-		this.valeur_declaree=(String)v.get(13);	
+		this.valeur_declaree=(String)v.get(12);	
 		this.volume=(Integer)v.get(14);	
 	}
 
@@ -86,7 +85,6 @@ public class Colis {
 		Vector v = new Vector();
 
 		v.add(id);
-		v.add(entrepot);
 		v.add(code_barre);
 		v.add(expediteur);
 		v.add(destinataire);
