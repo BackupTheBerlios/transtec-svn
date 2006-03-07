@@ -48,6 +48,7 @@ import accesBDD.AccesBDDColis;
 import donnees.Chargement;
 import donnees.Colis;
 import donnees.Preparation;
+import donnees.Utilisateur;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private JButton creer=new JButton("Créer"), ajouter=new JButton(),supprimer=new JButton(), annuler=new JButton("Annuler");
@@ -62,8 +63,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private float echelle=0;
 	AffichageColisDynamique zoneColis3D=null;
 		
-	public Prep_Creer_chargement(Preparation preparation) {
-		super(preparation.getUtilisateur().getPersonne().getNom()+" "+preparation.getUtilisateur().getPersonne().getPrenom()+" - Preparateur");
+	public Prep_Creer_chargement(Utilisateur utilisateur) {
+		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
@@ -318,7 +319,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		// Création d'un chargement à l'état en cours
 		if(source == creer){
 			// A changer code barre
-			Chargement chargement=new Chargement(
+			/*Chargement chargement=new Chargement(
 					preparation.getCamionACharger(), 
 					new Integer(listeChargementMod.getRowCount()), 
 					preparation.getVolumeColis(),
@@ -332,13 +333,13 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			}
 			catch(SQLException e){
 				
-			}
+			}*/
 			dispose();
 		}
 		
 		// Ajouter un colis dans le camion
 		else if(source==ajouter){
-			ligneActive = listeColisTab.getSelectedRow();
+			/*ligneActive = listeColisTab.getSelectedRow();
 			if (ligneActive != -1){
 				//On ajoute au chargement la ligne selectionnée
 				listeChargementMod.addRow(listeColisMod.getRow(ligneActive));
@@ -364,12 +365,12 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}
+			}*/
 		}
 		
 		// Supprimer un colis dans le camion
 		else if(source==supprimer){
-			ligneActive = listeChargementTab.getSelectedRow();
+			/*ligneActive = listeChargementTab.getSelectedRow();
 			if (ligneActive != -1){
 				// On ajoute à la liste des colis
 				listeColisMod.addRow(listeChargementMod.getRow(ligneActive));
@@ -385,7 +386,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}
+			}*/
 		}
 		
 		// Annulation de la création d'un chargement
