@@ -15,6 +15,9 @@ import donnees.Camion;
 import donnees.Preparation;
 import donnees.Utilisateur;
 
+/*
+ * Classe permettant d'afficher la fenêtre principale de préparation propre à chaque préparateur
+ */
 
 public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemListener{
 	JButton gerer_chargement = new JButton("<html>gérer le<br>chargement</html>");
@@ -24,8 +27,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	JButton creer_chargement=new JButton("<HTML>Créer un<br>chargement (3D)");
 	private JComboBox destinations;	// Liste des destinations
 	private JLabel labelVolume;	// Volume de la destination	
-	private JLabel labelCharge;
-	private Vector nomColonnes_cam = new Vector();
+	private JLabel labelCharge;	// Volume déjà chargé pour la destination
+	private Vector colonnesTable=new Vector();	// Colonnes du tableau de camions
 	private Vector donnees_cam = new Vector();
 	private ModeleTable modeleCam;
 	private JTable tab_cam;
@@ -40,9 +43,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		//Constructeur de la fenetre
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		ct = this.getContentPane();
-		
-		// On sauve l'objet
-//		this.preparation=preparation;
 		
 		//Comportement lors de la fermeture
 		WindowListener l = new WindowAdapter() {
@@ -135,6 +135,19 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		labelCharge.setBounds(110,150,100,20);
 		ct.add(labelCharge);
 		
+		// Inititialisation des colonnes du tableau de camions
+		colonnesTable.add("idCamion");
+		colonnesTable.add("Immatriculation");
+		colonnesTable.add("Disponibilité");
+		colonnesTable.add("Largeur");
+		colonnesTable.add("Hauteur");
+		colonnesTable.add("Profondeur");
+		colonnesTable.add("Volume");
+		colonnesTable.add("Origine");
+		colonnesTable.add("Destination");
+		colonnesTable.add("Volume à charger");
+		colonnesTable.add("Chargement en cours");
+		
 		if(listeDonneesPrep.getListe()!=null){
 			// Affichage du volume
 			this.labelVolume = new JLabel(((DonneesPrep)listeDonneesPrep.getListe().get(0)).getVolume().toString());
@@ -147,24 +160,16 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			ct.add(this.labelCharge);
 		}
 		
+		// Création du tableau de camions
+		
 
 		
 		
 		
 		
 		
+	
 		
-		//Création de la première ligne
-		nomColonnes_cam.add("idPreparation");
-		nomColonnes_cam.add("Utilisateur");
-		nomColonnes_cam.add("Origine");
-		nomColonnes_cam.add("Origine");
-		nomColonnes_cam.add("Destination");
-		nomColonnes_cam.add("Destination");
-		nomColonnes_cam.add("Camion");
-		nomColonnes_cam.add("Camion");
-		nomColonnes_cam.add("Volume");
-		nomColonnes_cam.add("Etat");
 		
 		/*try{
 			donnees_cam=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
@@ -172,11 +177,11 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		catch(SQLException e){
 			
 		}*/
-		donnees_cam=null;
+		donnees_cam=new Vector();
 		
 		
 //Création du tableau
-        /*modeleCam = new ModeleTable(nomColonnes_cam,donnees_cam);
+        modeleCam = new ModeleTable(colonnesTable,donnees_cam);
 		// Création du TableSorter qui permet de réordonner les lignes à volonté
 		sorter = new TableSorter(modeleCam);
 		// Création du tableau
@@ -200,7 +205,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		scrollPane.setBounds(80,250,320,150);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
-		getContentPane().add(scrollPane);*/
+		getContentPane().add(scrollPane);
 
 		setVisible(true);	
 		
