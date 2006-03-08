@@ -69,6 +69,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	public Prep_Creer_chargement(Utilisateur utilisateur, Camion camion) {
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		
+		
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
 		

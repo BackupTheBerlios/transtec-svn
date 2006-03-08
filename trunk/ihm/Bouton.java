@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 //Bouton personnalisé composé d'une image uniquement
-class Bouton extends JButton{
+public class Bouton extends JButton{
 	public Bouton(String cheminImage, String cheminImageOnClick){
 		super();
 		this.setIcon(new ImageIcon(cheminImage));

@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 //Classe dérivée de JPanel correspondant au panel principal de la fenêtre de login 
-class PanelContenu extends JPanel{
+public class PanelContenu extends JPanel{
 	private String chemin;
 	
 	public PanelContenu(String cheminBackground){
