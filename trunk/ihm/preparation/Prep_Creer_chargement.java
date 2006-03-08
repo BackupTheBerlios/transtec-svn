@@ -336,6 +336,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			// On met à jour la date
 			this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
 			try{
+				// Mettre le chargement ds préparation encor !!!!! A AFIRE ABSOLUMENT
 				bddChargement.ajouter(this.chargement);
 				for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
 				bddChargement.AjouterColis(chargement, aCharger);
