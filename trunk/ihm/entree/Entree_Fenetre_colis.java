@@ -1,6 +1,7 @@
 package ihm.entree;
 
 import ihm.*;
+
 import java.sql.*;
 import java.util.*;
 
@@ -25,11 +26,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		};
 		addWindowListener(l);
 		utilisateur  = u;
+		setUndecorated(true);
 		setTitle(u.getPersonne().getNom() +" "+ u.getPersonne().getPrenom()  + " - Entrée");
-		setBounds(72,24,900,720);
+		setSize(1024,768);
 		//login = u.getLogin();
 		//création de la barre de menus
-		barreMenus = new JMenuBar();
+		/*barreMenus = new JMenuBar();
 		setJMenuBar(barreMenus);
 		//création du menu fichier;
 		fichier = new JMenu("Fichier");
@@ -47,10 +49,13 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		barreMenus.add(etiquette);
 		creation = new JMenuItem("Création");
 		etiquette.add(creation);
-		creation.addActionListener(this);
+		creation.addActionListener(this);*/
 		charg = new Chargement();
 		charg = null;
 		liste_chargement = new Vector();
+	
+		
+		
 	
 		create_graphique(); //appel la fonction de la création graphique
 	
@@ -61,10 +66,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 	//fonction permettant de créer l'interface graphique de la fenetre
 	public void create_graphique(){
+		contenu=new FenetreType(utilisateur, "images/entree/bg_entrée1.png");
+		//contenu = getContentPane();
+		//contenu.setLayout(new FlowLayout());
 		
-		contenu = getContentPane();
+		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
-		
+		getContentPane().setLayout(null);
+	
 		contenu1 = getContentPane();
 		contenu1.setLayout(new FlowLayout());
 		
@@ -183,7 +192,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		donnees_exp.setWrapStyleWord(true);
 		contenu.add(donnees_exp);
 		donnees_exp.setEnabled(false);
-		valider_colis = new JButton("Envoyer en zone de stockage");
+		//valider_colis = new JButton("Envoyer en zone de stockage");
+		valider_colis = new Bouton("images/entree/bouton_zone_stockage.png","images/entree/bouton_zone_stockage.png");
 		contenu.add(valider_colis);
 		valider_colis.addActionListener(this);
 		
@@ -1404,7 +1414,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
 	private JButton modif_infos,incident_automatique,select_personne,voir_incident,annuler,create_etiquette,create_incident,valider_colis;
 	private JTextArea donnees_dest,donnees_exp;
-	private Container contenu,contenu1 ;
+	private Container contenu1;//,contenu1 ;
+	private FenetreType contenu;
 	private int create;
 	private static final int pos_x = 220 , pos_x1 = 350;
 	private Vector nomColonnes,nomColonnes1;
