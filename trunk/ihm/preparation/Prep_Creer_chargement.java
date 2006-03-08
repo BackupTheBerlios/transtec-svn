@@ -67,15 +67,12 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private AffichageColisDynamique zoneColis3D=null;
 	private Chargement chargement;
 		
-	public Prep_Creer_chargement(Utilisateur utilisateur, Camion camion) {
+	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot) {
 		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
 		
 		
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
-		
-		// Initialisation de la preparation pour la classe
-		this.preparation=preparation;
 		
 		Container ct = this.getContentPane();
 		
@@ -131,8 +128,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		// Acces BDD pour récupération liste des colis pour la destination donnée
 		AccesBDDColis bddColis=new AccesBDDColis();
-		/*try{
-			Vector listeColisBDD=bddColis.listerDest(preparation.getDestination().getId());
+		try{
+			Vector listeColisBDD=bddColis.colisACharger(entrepot.getId());
 			for(int i=0;i<listeColisBDD.size();i++){
 				listeColis.addElement(((Colis)listeColisBDD.get(i)).toVector());
 				if(i==0)	premierColisAAfficher=(Colis)listeColisBDD.get(i);
@@ -140,7 +137,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		}
 		catch(SQLException SQLe){
 			
-		}*/
+		}
 		
 		//Création du tableau listant les colis pour la destination
 		

@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
 
+import accesBDD.AccesBDDEntrepot;
+
 import donnees.Utilisateur;
 
 /*
@@ -203,11 +205,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 			else{
 				if(source==this.creerChargement){
-					//On récupère les données de la ligne du tablea
-					//dispose();
-					// PROVISOIRE
-					Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur,this.listeDonneesPrep.camion);
+					dispose();
+					try{
+					Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur, new AccesBDDEntrepot().rechercher(new Integer(7)));
 					fen1.setVisible(true);
+					}
+					catch(SQLException er){
+						
+					}
+					
 				}
 				
 				// Modification d'un ancien chargement

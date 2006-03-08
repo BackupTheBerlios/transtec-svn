@@ -26,7 +26,6 @@ public class ListeDonneesPrep {
 			if(i==0 || exists==-1){
 				courante=new DonneesPrep(tmp_prep.getDestination());
 				courante.ajouterCamion(tmp_prep.getCamion(),tmp_prep.getVolume(), tmp_prep.getIdChargement());
-				this.camion=tmp_prep.getCamion();
 				liste.add(courante);
 			}
 			else

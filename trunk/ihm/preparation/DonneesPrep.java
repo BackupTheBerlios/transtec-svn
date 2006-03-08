@@ -70,19 +70,4 @@ public class DonneesPrep {
 		}
 		return volume;
 	}
-	
-	//Donne l'id du chargement provisoire avec l'id du camion
-	public Integer getIdChargement(Integer idCamion){
-		Integer idChargement=null;
-		Vector courant=null;
-		
-		for(int i=0;i<this.listeCamionChargement.size();i++){
-			courant=(Vector)this.listeCamionChargement.get(i);
-			if(idCamion.intValue()==((Integer)courant.get(0)).intValue()){
-				idChargement=(Integer)courant.get(10);
-				i=this.listeCamionChargement.size();
-			}
-		}
-		return idChargement;
-	}
 }
