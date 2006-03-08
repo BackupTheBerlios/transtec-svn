@@ -2,7 +2,6 @@ package ihm.preparation;
 
 import ihm.Fenetre_login;
 import ihm.ModeleTable;
-import ihm.PanelContenu;
 import ihm.PreparateurContainer;
 import ihm.TableSorter;
 import ihm.Bouton;
@@ -14,10 +13,6 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
 
-import accesBDD.AccesBDDPreparation;
-
-import donnees.Camion;
-import donnees.Preparation;
 import donnees.Utilisateur;
 
 /*
@@ -33,7 +28,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private JTable table;	// Tableau de camions
 	private TableSorter tableSorter;	// Ordonnancement pour le tableau de camions
 	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
-	DonneesPrep selectionnee;
+	private DonneesPrep selectionnee;
 	private Utilisateur utilisateur;
 	private PreparateurContainer contenu;	// Container des éléments d'affichage
 	private Bouton deconnexion, creerChargement, gererChargement, genererPlan, imprimerEtiquette, incident;	// Boutons du menu
@@ -176,7 +171,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		//Construction du JScrollPane
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setPreferredScrollableViewportSize(new Dimension(300,150));
-		scrollPane.setBounds(48, 372, 738, 353);
+		scrollPane.setBounds(48, 372, 737, 353);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
@@ -201,64 +196,46 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			Fenetre_login login=new Fenetre_login();
 			login.setVisible(true);
 		}
-		int ligneActive = table.getSelectedRow();
-		// Création d'un nouveau chargement pour la destination selectionnée
-		if(source==this.creerChargement){
-			//Si une ligne est selectionnée
-			if (ligneActive != -1){
-				//On récupère les données de la ligne du tablea
-				//dispose();
-				// PROVISOIRE
-				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur,this.listeDonneesPrep.camion);
-				fen1.setVisible(true);
-			}
-			else{
+		else{
+			int ligneActive = table.getSelectedRow();
+			// Création d'un nouveau chargement pour la destination selectionnée
+			if(ligneActive==-1)
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		
-		// Modification d'un ancien chargement
-		else if(source==this.gererChargement) {
-			//Si une ligne est selectionnée
-			if (ligneActive != -1){
-				//On récupère les données de la ligne du tableau
-				Vector cVect = (Vector) tableMod.getRow(ligneActive);
-				//dispose();
-//				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-				Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321", 7, this.selectionnee.getVolume());
-				fen1.setVisible(true);
-			}
 			else{
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				if(source==this.creerChargement){
+					//On récupère les données de la ligne du tablea
+					//dispose();
+					// PROVISOIRE
+					Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur,this.listeDonneesPrep.camion);
+					fen1.setVisible(true);
+				}
+				
+				// Modification d'un ancien chargement
+				else if(source==this.gererChargement) {
+					//On récupère les données de la ligne du tableau
+					Vector cVect = (Vector) tableMod.getRow(ligneActive);
+					//dispose();
+	//				ATTENTION:On passe un vecteur comme argument et pas un objet camion
+					Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321", 7, this.selectionnee.getVolume());
+					fen1.setVisible(true);
+				}
+				
+				// Création du plan de chargement
+				else if(source==this.genererPlan){
+					Prep_Plan_chargement plan = new Prep_Plan_chargement();
+					plan.setVisible(true);
+				}
+				
+				// Imprimer une étiquette
+				else if(source==this.imprimerEtiquette)
+						JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
+				
+				// Afficher les incidents
+				else if(source==this.incident){
+					Prep_Consulter_incident cons = new Prep_Consulter_incident();
+					cons.setVisible(true);
+				}
 			}
-		}
-		
-		// Création du plan de chargement
-		else if(source==this.genererPlan){
-			//Si une ligne est selectionnée
-			if (ligneActive != -1){
-				Prep_Plan_chargement plan = new Prep_Plan_chargement();
-				plan.setVisible(true);
-			}
-			else{
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		
-		// Imprimer une étiquette
-		else if(source==this.imprimerEtiquette){
-			//Si une ligne est selectionnée
-			if (ligneActive != -1){
-				JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
-			}
-			
-			else JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-		}
-		
-		// Afficher les incidents
-		else if(source==this.incident){
-			Prep_Consulter_incident cons = new Prep_Consulter_incident();
-			cons.setVisible(true);
 		}
 	}
 
