@@ -27,6 +27,7 @@ import javax.media.j3d.QuadArray;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TransparencyAttributes;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -223,7 +224,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Arriere plan
 	    Background background = new Background(1, 1, 1);
-	    background.setColor(new Color3f(new Color(238,238,238)));
+	    background.setColor(new Color3f(new Color(230,255,255)));
 	    background.setApplicationBounds(new BoundingBox());
 	    branche.addChild(background);
 	    
@@ -233,27 +234,30 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    Point3f benne[]=tailleBenne(2.55f, 4, 12);
 	    
 	    //Les couleurs des 4 faces visibles du cube
-	    Color4f color1 = new Color4f(Color.blue);
-	    Color4f color2 = new Color4f(200,200,200,1.0f);
+//	  Les couleurs des 4 faces visibles du cube
+	    Color4f color1 = new Color4f(Color.darkGray);
+	    Color4f color2 = new Color4f(Color.gray);
+	    Color4f color3 = new Color4f(Color.lightGray);
 	    
-	  
 	    // Construction de l'objet geometrique QuadArray constitue de 16
 	    // points
-	    QuadArray quadArray = new QuadArray(16, QuadArray.COORDINATES | QuadArray.COLOR_4);
+	    QuadArray quadArray = new QuadArray(20, QuadArray.COORDINATES | QuadArray.COLOR_4);
 	    // Tableau des points constituant les 4 faces (quadrilateres) qui
 	    // sont visibles
 	    quadArray.setCoordinates(0, new Point3f[] {
 	    /* face 1 */             benne[0],benne[1],benne[2],benne[3],
 	    /* face 2 */             benne[4],benne[5],benne[6],benne[7],
 	    /* face 3 */             benne[8],benne[9],benne[10],benne[11],
-	    /* face 4 */             benne[12],benne[13],benne[14],benne[15]
+	    /* face 4 */             benne[12],benne[13],benne[14],benne[15],
+	    /* face 5 */             benne[16],benne[17],benne[18],benne[19]                                                             
 	    });
 	    // Tableau des couleurs des 4 sommets de chaque face
 	    quadArray.setColors(0, new Color4f[] {
-	    /* couleur face 1 */ color2, color2, color2, color2,
-	    /* couleur face 2 */ color1, color1, color1, color1,
-	    /* couleur face 3 */ color1, color1, color1, color1,
-	    /* couleur face 4 */ color1, color1, color1, color1
+	    	/* couleur face 1 */ color1, color1, color1, color1,
+	    	/* couleur face 2 */ color1, color1, color1, color1,
+	    	/* couleur face 3 */ color3, color3, color3, color3,
+	    	/* couleur face 4 */ color2, color2, color2, color2,
+	    	/* couleur face 5 */ color1, color1, color1, color1
 	    });
 //******************************************************************************************//	    
 	   
@@ -264,30 +268,34 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Echelle
 	    echelle.setScale(1);
 	    // Rotation
-	    rotation.rotY(-0.4f);
+	    rotation.rotY(-0.8f);
 	    
 	    //Nouvel objet
 	    TransformGroup objSpin1 = new TransformGroup(echelle);
 	    TransformGroup objSpin2 = new TransformGroup(rotation);
 	    
 	    //Affichage du camion
+	    TransparencyAttributes transparence=new TransparencyAttributes();
+	    transparence.setTransparency(0.5f);
+	    transparence.setTransparencyMode(TransparencyAttributes.NICEST);
+	    
 	    PolygonAttributes pol = new PolygonAttributes();
-	    pol.setPolygonMode(PolygonAttributes.POLYGON_LINE);
 	    pol.setCullFace(PolygonAttributes.CULL_NONE);
 	    
 	    //Création d'une apparence
 	    Appearance apparence=new Appearance();
 	    apparence.setPolygonAttributes(pol);
+	    apparence.setTransparencyAttributes(transparence);
 	    
 	    //Création du shade3D
 	    Shape3D shape = new Shape3D();
 	    shape.setGeometry(quadArray);
 	    shape.setAppearance(apparence);
 	   
-	    CollisionDetector cd=new CollisionDetector(shape);
+	 /*   CollisionDetector cd=new CollisionDetector(shape);
 		BoundingBox bounds1;
 	    bounds1 = new BoundingBox(new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f));
-	    cd.setSchedulingBounds(bounds1);
+	    cd.setSchedulingBounds(bounds1);*/
 	    
 	    //Ajout de l'objet crée
 	    objSpin1.addChild(objSpin2);
@@ -452,7 +460,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    DirectionalLight lumiereDir=new DirectionalLight();
 	    AmbientLight lumiere=new AmbientLight();
 	    lumiereDir.setColor(new Color3f(Color.cyan));
-	    lumiere.setInfluencingBounds(new BoundingBox());
+	    lumiere.setInfluencingBounds(new BoundingBox(new Point3d(-2,-2,-2),new Point3d(2,2,2)));
 	    lumiereDir.setInfluencingBounds(new BoundingBox());
 	    
 	    // Couleur du cube
@@ -469,13 +477,17 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    Box b = new Box(profondeur, hauteur, largeur, apparence);
 	    CollisionDetector cd=new CollisionDetector(b);
 		BoundingBox bounds1;
-	    bounds1 = new BoundingBox(new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f));
+	    bounds1 = new BoundingBox(new Point3d(-2f, -2f, -2f),new Point3d(-1f, -1f, -1f)/*new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f)*/);
+	    Point3d p1 = new Point3d();
+	    bounds1.getLower(p1);
+	    Point3d p2 = new Point3d();
+	    bounds1.getUpper(p2);
 	    cd.setSchedulingBounds(bounds1);
 	    
 	    //CollisionDetector cd1=new CollisionDetector(b);
 		BoundingBox bounds2;
 	    bounds2 = new BoundingBox(new Point3d(-0.1f, -0.1f, -0.1f),new Point3d(0.1f, 0.1f, 0.1f));
-	    cd.setSchedulingBounds(bounds2);
+	   // cd.setSchedulingBounds(bounds2);
 	    
 	    //Construction du cube
 	    objSpin1.addChild(objSpin2);
@@ -498,7 +510,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	
 	// Calcul de l'échelle pour le camion et donne les point pour le dessin de la benne
 	private Point3f[] tailleBenne(float profondeur, float hauteur, float largeur){
-		Point3f benne[]=new Point3f[16];
+		Point3f benne[]=new Point3f[20];
 		this.echelle=1.1f;
 		float tmp_profondeur=profondeur, tmp_hauteur=hauteur, tmp_largeur=largeur;
 		
@@ -513,10 +525,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		tmp_profondeur/=2;
 		
 		// Face 1
-		benne[0]=new Point3f(-tmp_largeur, tmp_hauteur, tmp_profondeur);
-		benne[1]=new Point3f(tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[0]=new Point3f(-tmp_largeur, -tmp_hauteur, -tmp_profondeur);
+		benne[1]=new Point3f(-tmp_largeur, -tmp_hauteur, tmp_profondeur);
 		benne[2]=new Point3f(tmp_largeur, -tmp_hauteur, tmp_profondeur);
-		benne[3]=new Point3f(-tmp_largeur, -tmp_hauteur, tmp_profondeur);
+		benne[3]=new Point3f(tmp_largeur, -tmp_hauteur, -tmp_profondeur);
 		// Face 2
 		benne[4]=new Point3f(tmp_largeur, tmp_hauteur, tmp_profondeur);
 		benne[5]=new Point3f(tmp_largeur, tmp_hauteur, -tmp_profondeur);
@@ -532,6 +544,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		benne[13]=new Point3f(-tmp_largeur, tmp_hauteur, -tmp_profondeur);
 		benne[14]=new Point3f(-tmp_largeur, -tmp_hauteur, -tmp_profondeur);
 		benne[15]=new Point3f(-tmp_largeur, -tmp_hauteur, tmp_profondeur);
+	    //Face 5
+		benne[16] = new Point3f(-tmp_largeur, tmp_hauteur, -tmp_profondeur);
+		benne[17] = new Point3f(-tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[18] = new Point3f(tmp_largeur, tmp_hauteur, tmp_profondeur);
+		benne[19] = new Point3f( tmp_largeur, tmp_hauteur, -tmp_profondeur);
 		
 		return benne;
 	}

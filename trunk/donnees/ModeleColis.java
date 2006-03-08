@@ -70,17 +70,17 @@ public class ModeleColis {
 		switch(forme.intValue()){
 		// Cas d'un pavé
 		case CUBE:
-			vol = Integer.valueOf(hauteur.intValue()*hauteur.intValue()*hauteur.intValue());
+			vol = Integer.valueOf(null, hauteur.intValue()*hauteur.intValue()*hauteur.intValue());
 			break;
 			
 		case PAVE:
 
-			vol = Integer.valueOf(largeur.intValue()*hauteur.intValue()*profondeur.intValue());
+			vol = Integer.valueOf(null, largeur.intValue()*hauteur.intValue()*profondeur.intValue());
 			break;
 			
 		// Cas d'un cylindre
 		case CYLINDRE:
-			vol = Integer.valueOf((int)Math.round(hauteur.intValue()*Math.PI*Math.pow((double)(largeur.intValue()/2.0),2.0)));
+			vol = Integer.valueOf(null, (int)Math.round(hauteur.intValue()*Math.PI*Math.pow((double)(largeur.intValue()/2.0),2.0)));
 			break;		
 		}
 		

@@ -47,27 +47,27 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		// Ajout des bouton sur la fenêtre
 		this.deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion.png");
 		this.deconnexion.setBounds(866, 37, 98, 17);
-		add(this.deconnexion);
+		this.contenu.add(this.deconnexion);
 		this.deconnexion.addActionListener(this);
 		this.creerChargement=new Bouton("images/icones/creerChargement.png","images/icones/creerChargement.png");
 		this.creerChargement.setBounds(802, 270, 139, 48);
-		add(this.creerChargement);
+		this.contenu.add(this.creerChargement);
 		this.creerChargement.addActionListener(this);
 		this.gererChargement=new Bouton("images/icones/gererChargement.png","images/icones/gererChargement.png");
 		this.gererChargement.setBounds(802, 338, 143, 45);
-		add(this.gererChargement);
+		this.contenu.add(this.gererChargement);
 		this.gererChargement.addActionListener(this);
 		this.genererPlan=new Bouton("images/icones/genererPlan.png","images/icones/genererPlan.png");
 		this.genererPlan.setBounds(802, 403, 158, 29);
-		add(this.genererPlan);
+		this.contenu.add(this.genererPlan);
 		this.gererChargement.addActionListener(this);
 		this.imprimerEtiquette=new Bouton("images/icones/imprimerEtiquette.png","images/icones/imprimerEtiquette.png");
 		this.imprimerEtiquette.setBounds(802, 452, 121, 40);
-		add(this.imprimerEtiquette);
+		this.contenu.add(this.imprimerEtiquette);
 		this.imprimerEtiquette.addActionListener(this);
 		this.incident=new Bouton("images/icones/incident.png","images/icones/incident.png");
 		this.incident.setBounds(802, 512, 162, 42);
-		add(this.incident);
+		this.contenu.add(this.incident);
 		this.incident.addActionListener(this);
 		
 		// On garde en mémoire l'utilisateur
@@ -216,8 +216,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 					Vector cVect = (Vector) tableMod.getRow(ligneActive);
 					//dispose();
 	//				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-					Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321", 7, this.selectionnee.getVolume());
-					fen1.setVisible(true);
+					//Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321", 7, this.selectionnee.getVolume());
+					//fen1.setVisible(true);
 				}
 				
 				// Création du plan de chargement

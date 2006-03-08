@@ -20,7 +20,7 @@ public class DonneesPrep {
 	public void ajouterCamion(Camion aAjouter, Float volume, Integer idChargement){
 		Vector courant=aAjouter.toVector();
 		courant.add(volume.toString());
-		courant.add(idChargement.intValue());
+		courant.add(idChargement);
 		this.volume=new Float(volume.floatValue()+this.volume.floatValue());
 		this.listeCamionChargement.add(courant);
 	}
