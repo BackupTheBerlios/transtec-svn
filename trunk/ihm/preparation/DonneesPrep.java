@@ -21,7 +21,7 @@ public class DonneesPrep {
 		Vector courant=aAjouter.toVector();
 		courant.add(volume.toString());
 		courant.add(idChargement.intValue());
-		this.volume+=volume;
+		this.volume=new Float(volume.floatValue()+this.volume.floatValue());
 		this.listeCamionChargement.add(courant);
 	}
 	

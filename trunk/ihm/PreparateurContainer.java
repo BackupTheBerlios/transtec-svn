@@ -1,5 +1,6 @@
 package ihm;
 
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
@@ -10,11 +11,9 @@ import donnees.Utilisateur;
 
 public class PreparateurContainer extends JPanel{
 	private Utilisateur utilisateur;
-	private Bouton deconnexion;
-	public PreparateurContainer(Utilisateur utilisateur, Bouton deconnexion){
+	public PreparateurContainer(Utilisateur utilisateur){
 		super();
 		this.utilisateur=utilisateur;
-		this.deconnexion=deconnexion;
 	}
 	
 	// Permet de définir une image de fond
@@ -25,12 +24,11 @@ public class PreparateurContainer extends JPanel{
 			setLayout(null);
 			
 			// Mise en place des paramètres par défaut
+			Font font=new Font("Verdana", Font.BOLD, 13);
 			JLabel labelUtilisateur=new JLabel(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Préparateur");
-			labelUtilisateur.setBounds(73,76,200,20);
+			labelUtilisateur.setBounds(73,70,300,20);
+			labelUtilisateur.setFont(font);
 			add(labelUtilisateur);
-			this.deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion.png");
-			this.deconnexion.setBounds(866, 65, 100, 50);
-			add(this.deconnexion);
 			super.paintComponent(g);
 	}	
 }

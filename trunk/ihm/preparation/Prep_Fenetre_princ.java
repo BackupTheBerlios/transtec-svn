@@ -1,5 +1,6 @@
 package ihm.preparation;
 
+import ihm.Fenetre_login;
 import ihm.ModeleTable;
 import ihm.PanelContenu;
 import ihm.PreparateurContainer;
@@ -24,12 +25,6 @@ import donnees.Utilisateur;
  */
 
 public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemListener{
-	JButton gerer_chargement = new JButton("<html>gérer le<br>chargement</html>");
-	JButton generer_le_plan = new JButton("<html>générer le<br>plan de chargement</html>");
-	JButton imprimer_etiquette = new JButton("<html>imprimer<br>étiquette</html>");
-	JButton incident = new JButton("<html>incidents<br>archivés</html>");
-	JButton creer_chargement=new JButton("<HTML>Créer un<br>chargement (3D)");
-	private JComboBox destinations;	// Liste des destinations
 	private JLabel labelVolume;	// Volume de la destination	
 	private JLabel labelCharge;	// Volume déjà chargé pour la destination
 	private Vector colonnesTable=new Vector();	// Colonnes du tableau de camions
@@ -39,105 +34,98 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private TableSorter tableSorter;	// Ordonnancement pour le tableau de camions
 	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
 	DonneesPrep selectionnee;
-	Utilisateur u;
-	private PreparateurContainer contenu;	// Conatiner des éléments d'affichage
-	private Bouton deconnexion;
+	private Utilisateur utilisateur;
+	private PreparateurContainer contenu;	// Container des éléments d'affichage
+	private Bouton deconnexion, creerChargement, gererChargement, genererPlan, imprimerEtiquette, incident;	// Boutons du menu
+	private JComboBox destinations;	// Liste des destinations
 	
 	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		// Création graphique de la fenêtre
 		setTitle("Préparation");
 		setSize(1024,768);
 		setUndecorated(true);
-		
-		contenu=new PreparateurContainer(utilisateur, deconnexion);
-		//contenu = new PanelContenu("images/preparation/fenetre_princBackground.png");
-		//contenu.setOpaque(false);
-		//contenu.setLayout(null);
+		contenu=new PreparateurContainer(utilisateur);
 		setContentPane(contenu);
+		contenu.setLayout(new FlowLayout());
+		getContentPane().setLayout(null);
 		
+		// Ajout des bouton sur la fenêtre
+		this.deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion.png");
+		this.deconnexion.setBounds(866, 37, 98, 17);
+		add(this.deconnexion);
+		this.deconnexion.addActionListener(this);
+		this.creerChargement=new Bouton("images/icones/creerChargement.png","images/icones/creerChargement.png");
+		this.creerChargement.setBounds(802, 270, 139, 48);
+		add(this.creerChargement);
+		this.creerChargement.addActionListener(this);
+		this.gererChargement=new Bouton("images/icones/gererChargement.png","images/icones/gererChargement.png");
+		this.gererChargement.setBounds(802, 338, 143, 45);
+		add(this.gererChargement);
+		this.gererChargement.addActionListener(this);
+		this.genererPlan=new Bouton("images/icones/genererPlan.png","images/icones/genererPlan.png");
+		this.genererPlan.setBounds(802, 403, 158, 29);
+		add(this.genererPlan);
+		this.gererChargement.addActionListener(this);
+		this.imprimerEtiquette=new Bouton("images/icones/imprimerEtiquette.png","images/icones/imprimerEtiquette.png");
+		this.imprimerEtiquette.setBounds(802, 452, 121, 40);
+		add(this.imprimerEtiquette);
+		this.imprimerEtiquette.addActionListener(this);
+		this.incident=new Bouton("images/icones/incident.png","images/icones/incident.png");
+		this.incident.setBounds(802, 512, 162, 42);
+		add(this.incident);
+		this.incident.addActionListener(this);
 		
-
-		u=utilisateur;
+		// On garde en mémoire l'utilisateur
+		this.utilisateur=utilisateur;
 		
-		//Comportement lors de la fermeture
-		WindowListener l = new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				System.exit(0);
-			}
-		};
-		addWindowListener(l);		
-		
+		// Recherche des informations propre à l'utilisateur dans la BDD
 		try{
-			listeDonneesPrep=new ListeDonneesPrep(utilisateur);
+			listeDonneesPrep=new ListeDonneesPrep(this.utilisateur);
 		}
 		catch(SQLException e){
 			
 		}
 		
+		// Création de la police pour les affichages de texte
+		Font font=new Font("Verdana", Font.BOLD, 12);
 		
-		// Choix de la destination
+		// Ajout des champs dans la fenêtre
 		destinations = new JComboBox(listeDonneesPrep.combo());
-		//destinations=new JComboBox();
 		destinations.setEditable(false);
-		destinations.setBounds(65,37,200,20);
+		destinations.setBounds(60,270,200,20);
 		contenu.add(destinations);
 		destinations.addItemListener(this);
-		
-		//Création des icones
-		ImageIcon icone_cam = new ImageIcon("images/icones/camion.gif");
-		ImageIcon icone_plan = new ImageIcon("images/icones/plan.gif");
-		ImageIcon icone_eti = new ImageIcon("images/icones/etiquette.gif");
-		ImageIcon icone_inc = new ImageIcon("images/icones/incident.gif");
-		
-		//Insertion des icones dans les boutons
-		gerer_chargement.setIcon(icone_cam);
-		generer_le_plan.setIcon(icone_plan);
-		imprimer_etiquette.setIcon(icone_eti);
-		incident.setIcon(icone_inc);
-		
-		//Declaration du layout
-		///contenu = getContentPane();
-		contenu.setLayout(new FlowLayout());
-		getContentPane().setLayout(null);
-		
-		//Création de la police
-		Font font;
-		font = new Font("Verdana", Font.BOLD, 15);
-		
-		//Insertion des boutons
-	
-		creer_chargement.setBounds(520,10,250,50);
-		creer_chargement.setFont(font);
-		contenu.add(creer_chargement);
-		creer_chargement.addActionListener(this);
-		
-		gerer_chargement.setBounds(520,70,250,50);
-		gerer_chargement.setFont(font);
-		contenu.add(gerer_chargement);
-		gerer_chargement.addActionListener(this);
-		
-		generer_le_plan.setBounds(520,130,250,50);
-		generer_le_plan.setFont(font);
-		contenu.add(generer_le_plan);
-		generer_le_plan.addActionListener(this);
-		
-		imprimer_etiquette.setBounds(520,190,250,50);
-		imprimer_etiquette.setFont(font);
-		contenu.add(imprimer_etiquette);
-		imprimer_etiquette.addActionListener(this);
-		
-		incident.setBounds(520,380,250,50);
-		incident.setFont(font);
-		contenu.add(incident);
-		incident.addActionListener(this);
-		
 		// Affichage des zones textes
 		JLabel labelVolume = new JLabel("Volume");
-		labelVolume.setBounds(110,100,100,20);
+		labelVolume.setBounds(60,305,100,20);
+		labelVolume.setFont(font);
 		contenu.add(labelVolume);
 		JLabel labelCharge = new JLabel("Chargé");
-		labelCharge.setBounds(110,150,100,20);
-		contenu.add(labelCharge);
+		labelCharge.setBounds(60,340,100,20);
+		labelCharge.setFont(font);
+		contenu.add(labelCharge);	
+		
+		
+		// On rempli les variable dynamique et on l'ajoute au container
+		if(listeDonneesPrep.getListe()!=null){
+			// Première destination
+			this.selectionnee=(DonneesPrep)listeDonneesPrep.getListe().get(0);
+			
+			// Affichage du volume
+			this.labelVolume = new JLabel(this.selectionnee.getVolume().toString());
+			this.labelVolume.setBounds(150,305,100,20);
+			this.labelVolume.setFont(font);
+			contenu.add(this.labelVolume);
+			
+			// Affichage du volume déjà chargé
+			this.labelCharge = new JLabel(this.selectionnee.getCharge().toString());	
+			this.labelCharge.setBounds(150,340,100,20);
+			this.labelCharge.setFont(font);
+			contenu.add(this.labelCharge);
+			
+			// On remplit les lignes du tableau
+			tableData=this.selectionnee.getListeCamionChargement();
+		}
 		
 		// Inititialisation des colonnes du tableau de camions
 		colonnesTable.add("idCamion");
@@ -152,23 +140,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		colonnesTable.add("Volume à charger");
 		colonnesTable.add("Chargement en cours");
 		
-		if(listeDonneesPrep.getListe()!=null){
-			// Première destination
-			this.selectionnee=(DonneesPrep)listeDonneesPrep.getListe().get(0);
-			
-			// Affichage du volume
-			this.labelVolume = new JLabel(this.selectionnee.getVolume().toString());
-			this.labelVolume.setBounds(230,100,100,20);
-			contenu.add(this.labelVolume);
-			
-			// Affichage du volume déjà chargé
-			this.labelCharge = new JLabel(this.selectionnee.getCharge().toString());	
-			this.labelCharge.setBounds(230,150,100,20);
-			contenu.add(this.labelCharge);
-			
-			// On remplit les lignes du tableau
-			tableData=this.selectionnee.getListeCamionChargement();
-		}
+		
+		//Comportement lors de la fermeture
+		/*WindowListener l = new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		};
+		addWindowListener(l);	*/	
+		
 		
 		// Création du tableau de camions
 		tableMod = new ModeleTable(colonnesTable,tableData);
@@ -196,7 +176,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		//Construction du JScrollPane
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setPreferredScrollableViewportSize(new Dimension(300,150));
-		scrollPane.setBounds(80,250,320,150);
+		scrollPane.setBounds(48, 372, 738, 353);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
@@ -214,24 +194,31 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+		
+		// On revient à la fenêtre de login
+		if(source==this.deconnexion){
+			dispose();
+			Fenetre_login login=new Fenetre_login();
+			login.setVisible(true);
+		}
 		int ligneActive = table.getSelectedRow();
-		
-		
-		if (source == creer_chargement) {
+		// Création d'un nouveau chargement pour la destination selectionnée
+		if(source==this.creerChargement){
 			//Si une ligne est selectionnée
 			if (ligneActive != -1){
 				//On récupère les données de la ligne du tablea
 				//dispose();
 				// PROVISOIRE
-				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(u,this.listeDonneesPrep.camion);
+				Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur,this.listeDonneesPrep.camion);
 				fen1.setVisible(true);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		//Selection de "Gérer le chargement"
-		if (source == gerer_chargement) {
+		
+		// Modification d'un ancien chargement
+		else if(source==this.gererChargement) {
 			//Si une ligne est selectionnée
 			if (ligneActive != -1){
 				//On récupère les données de la ligne du tableau
@@ -246,8 +233,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			}
 		}
 		
-		//Selection de "Générer le plan"
-		else if (source == generer_le_plan){
+		// Création du plan de chargement
+		else if(source==this.genererPlan){
 			//Si une ligne est selectionnée
 			if (ligneActive != -1){
 				Prep_Plan_chargement plan = new Prep_Plan_chargement();
@@ -258,8 +245,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			}
 		}
 		
-		//Selection de "Imprimer étiquette"
-		else if (source == imprimer_etiquette){
+		// Imprimer une étiquette
+		else if(source==this.imprimerEtiquette){
 			//Si une ligne est selectionnée
 			if (ligneActive != -1){
 				JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
@@ -268,8 +255,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			else JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 		}
 		
-		//Selection de "Consulter les incidents"
-		else if (source == incident){
+		// Afficher les incidents
+		else if(source==this.incident){
 			Prep_Consulter_incident cons = new Prep_Consulter_incident();
 			cons.setVisible(true);
 		}
