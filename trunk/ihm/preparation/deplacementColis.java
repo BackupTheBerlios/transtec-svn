@@ -1,5 +1,7 @@
 package ihm.preparation;
 
+import ihm.Bouton;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -13,7 +15,7 @@ public class deplacementColis implements KeyListener{
 	private Transform3D translation=null;
 	private TransformGroup objSpin3=null;
 	
-	public deplacementColis(JButton aEcouter){
+	public deplacementColis(Bouton aEcouter){
 		aEcouter.addKeyListener(this);
 	}
 	

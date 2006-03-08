@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.*;
 
+import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDEntrepot;
 
 import donnees.Utilisateur;
@@ -180,11 +181,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		
 		// Fin de création du tableau
 
-		
-		
-
-		setVisible(true);	
-		
+		setVisible(true);
 	}
 	
 
@@ -206,8 +203,15 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			else{
 				if(source==this.creerChargement){
 					dispose();
-					Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur, this.selectionnee.getDestination());
-					fen1.setVisible(true);
+					try{
+						Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur, 
+								this.selectionnee.getDestination(),
+								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)));
+						fen1.setVisible(true);
+					}
+					catch(SQLException SQLE){
+						
+					}
 				}
 				
 				// Modification d'un ancien chargement

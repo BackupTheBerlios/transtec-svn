@@ -1,11 +1,12 @@
 package ihm.preparation;
 
 import ihm.preparation.CollisionDetector;
+import ihm.Bouton;
+import ihm.FenetreType;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -28,8 +29,6 @@ import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -44,6 +43,7 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 import donnees.Camion;
@@ -54,63 +54,55 @@ import donnees.Preparation;
 import donnees.Utilisateur;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
-	private JButton creer=new JButton("Créer"), ajouter=new JButton(),supprimer=new JButton(), annuler=new JButton("Annuler");
+	private Bouton valider, annuler, ajouter, retirer;
+	//private JButton creer=new JButton("Créer"), ajouter=new JButton(),supprimer=new JButton(), annuler=new JButton("Annuler");
 	private ModeleTable listeColisMod, listeChargementMod;
 	private TableSorter sorter_colis, sorter_chargement;
 	private JTable listeColisTab, listeChargementTab;
 	private Vector listeColis= new Vector(), donnees = new Vector();
-	private Preparation preparation=null;
 	private BranchGroup scene;
 	private Canvas3D camion3D;
-	private deplacementColis deplacement=new deplacementColis(ajouter);
+	private deplacementColis deplacement;
 	private float echelle=0;
 	private AffichageColisDynamique zoneColis3D=null;
 	private Chargement chargement;
+	private Utilisateur utilisateur;
 		
-	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot) {
-		super(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Preparateur");
+	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion) {
+		// Création graphique de la fenêtre
+		setTitle("Créer Chargement");
+		setSize(1024,768);
+		setUndecorated(true);
+		FenetreType fenetre=new FenetreType(utilisateur,"images/preparation/fenetre_creerBackground.png");
+		setContentPane(fenetre);
+		fenetre.setLayout(new FlowLayout());
+		getContentPane().setLayout(null);
 		
+		// Ajout des bouton sur la fenêtre
+		this.retirer=new Bouton("images/icones/retirer.png","images/icones/retirer.png");
+		this.retirer.setBounds(193, 702, 95, 44);
+		fenetre.add(this.retirer);
+		this.retirer.addActionListener(this);
+		this.ajouter=new Bouton("images/icones/ajouter.png","images/icones/ajouter.png");
+		this.ajouter.setBounds(302, 702, 95, 44);
+		fenetre.add(this.ajouter);
+		this.ajouter.addActionListener(this);
+		this.valider=new Bouton("images/icones/valider.png","images/icones/valider.png");
+		this.valider.setBounds(550, 702, 108, 44);
+		fenetre.add(this.valider);
+		this.valider.addActionListener(this);
+		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler.png");
+		this.annuler.setBounds(675, 702, 108, 44);
+		fenetre.add(this.annuler);
+		this.annuler.addActionListener(this);
 		
+		// Mémorisation de l'utilisateur
+		this.utilisateur=utilisateur;
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
 		
-		Container ct = this.getContentPane();
+	
 		
-		// Taille de la fenêtre
-		setSize(800,600);
-		setBounds(20,100,1240,680);
-		
-		ct = getContentPane();
-		ct.setLayout(new FlowLayout());
-		getContentPane().setLayout(null);
-		
-		// Création des icônes
-		ImageIcon icone_ajouter=new ImageIcon("images/icones/flech_gauche_droite.gif");
-		ImageIcon icone_supprimer=new ImageIcon("images/icones/flech_droite_gauche.gif");
-		
-		// Insertion des icônes dans les boutons
-		ajouter.setIcon(icone_ajouter);
-		supprimer.setIcon(icone_supprimer);
-		
-		// Affichage du bouton "Créer"
-		creer.setBounds(345,540,100,40);
-	    ct.add(creer);
-	    creer.addActionListener(this);
-	    
-	    // Affichage du bouton "Annuler"
-	    annuler.setBounds(525, 540, 100, 40);
-	    ct.add(annuler);
-	    annuler.addActionListener(this);
-	    
-	    // Affichage du bouton "->"
-	   	ajouter.setBounds(460,100,55,40);
-	    ct.add(ajouter);
-	    ajouter.addActionListener(this);
-	    
-	    // Affichage du bouton "<-"
-	    supprimer.setBounds(460, 180, 55, 40);
-	    ct.add(supprimer);
-	    supprimer.addActionListener(this);
 	    
 	    // Création de la première ligne
 		nomColonnes.add("Id");
@@ -162,13 +154,13 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
-		scrollPane.setBounds(20,360,400,150);
+		scrollPane.setBounds(55,570,232,120);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
-		zoneColis3D=new AffichageColisDynamique(ct, listeColisMod, listeColisTab);
+		zoneColis3D=new AffichageColisDynamique(fenetre, listeColisMod, listeColisTab);
 		// Le premier colis de la liste que l'on affiche
 		zoneColis3D.Initialisation(premierColisAAfficher);
 		// Ecoute de la souris par rapport au tableau
@@ -197,7 +189,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
 		JScrollPane scrollPane_chargement = new JScrollPane(listeChargementTab);
 		listeChargementTab.setPreferredScrollableViewportSize(new Dimension(400,150));
-		scrollPane_chargement.setBounds(555,360,650,150);
+		scrollPane_chargement.setBounds(305,570,660,120);
 		scrollPane_chargement.setOpaque(false);
 		scrollPane_chargement.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane_chargement);
@@ -205,7 +197,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				
 		// Creation de la zone 3D correspondant au camion
 		camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    camion3D.setBounds(555,20,650,300);
+	    camion3D.setBounds(305,255,660,300);
 	    
 	    
 	    
@@ -313,16 +305,16 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    simpleU.addBranchGraph(this.scene);
 	    
 	    //Ajout au container
-	    ct.add(camion3D);
+	    fenetre.add(camion3D);
 	    
-	    //PROVISOIRE POUR TESTS
-	    try{
-	    	chargement=new AccesBDDChargement().rechercher("987654321");
-	    }
-	    catch(SQLException e){
-	    	
-	    }
-	    
+	    // Création d'un nouveau chargement
+	    this.chargement=new Chargement(
+	    		camion,
+	    		new Integer(0),
+	    		new Integer(0),
+	    		this.utilisateur,
+	    		new Timestamp(System.currentTimeMillis()),
+	    		"PB A VOIR APRES");
 		setVisible(true);
 	}
 		
@@ -330,32 +322,33 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		AccesBDDChargement bddChargement=new AccesBDDChargement();
 		Vector aCharger=new Vector();
 		Object source = ev.getSource();
-		int ligneActive;
 		Colis colis=null, colisSuiv=null;
+		int ligneActive;
+		
+		// Annulation de la création d'un chargement
+		if(source==this.annuler){
+			dispose();
+			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+		}
 		
 		// Création d'un chargement à l'état en cours
-		if(source == creer){
-			// A changer code barre
-			/*Chargement chargement=new Chargement(
-					preparation.getCamionACharger(), 
-					new Integer(listeChargementMod.getRowCount()), 
-					preparation.getVolumeColis(),
-					preparation.getUtilisateur(),
-					new Timestamp(System.currentTimeMillis()),
-					"42465fssdfsddf");
+		else if(source==this.valider){
+			// On met à jour la date
+			this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
 			try{
-				bddChargement.ajouter(chargement);
+				bddChargement.ajouter(this.chargement);
 				for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
 				bddChargement.AjouterColis(chargement, aCharger);
 			}
 			catch(SQLException e){
 				
-			}*/
+			}
 			dispose();
+			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
 		}
 		
 		// Ajouter un colis dans le camion
-		else if(source==ajouter){
+		else if(source==this.ajouter){
 			ligneActive = listeColisTab.getSelectedRow();
 			if (ligneActive != -1){
 				//On ajoute au chargement la ligne selectionnée
@@ -382,12 +375,12 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
 			}
 			else{
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans les colis disponibles","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		
 		// Supprimer un colis dans le camion
-		else if(source==supprimer){
+		else if(source==this.retirer){
 			ligneActive = listeChargementTab.getSelectedRow();
 			if (ligneActive != -1){
 				// On ajoute à la liste des colis
@@ -404,13 +397,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				listeChargementTab.updateUI();
 			}
 			else{
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans le chargement","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 			}
-		}
-		
-		// Annulation de la création d'un chargement
-		else if(source==annuler){
-			dispose();			
 		}
 	}
 	
@@ -446,6 +434,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	
 	    
 	    // Déplacement du colis
+	    this.deplacement=new deplacementColis(ajouter);
 	    deplacement.objetADeplacer(objSpin3, translation);
 
 	    // Arrière plan de la scène 3D

@@ -106,7 +106,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	public void Initialisation(Colis colis){
 		// Zone 3D de la liste des colis
 	    canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
-	    canvas3D.setBounds(20,20,400,300);
+	    canvas3D.setBounds(55,255,232,300);
 	    	    
 	    // Creation d'un objet SimpleUniverse
 	    SimpleUniverse simpleU = new SimpleUniverse(canvas3D);
