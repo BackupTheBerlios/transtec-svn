@@ -206,14 +206,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			else{
 				if(source==this.creerChargement){
 					dispose();
-					try{
-					Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur, new AccesBDDEntrepot().rechercher(new Integer(7)));
+					Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur, this.selectionnee.getDestination());
 					fen1.setVisible(true);
-					}
-					catch(SQLException er){
-						
-					}
-					
 				}
 				
 				// Modification d'un ancien chargement
