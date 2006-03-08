@@ -2,7 +2,7 @@ package ihm.preparation;
 
 import ihm.Fenetre_login;
 import ihm.ModeleTable;
-import ihm.PreparateurContainer;
+import ihm.FenetreType;
 import ihm.TableSorter;
 import ihm.Bouton;
 
@@ -30,7 +30,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
 	private DonneesPrep selectionnee;
 	private Utilisateur utilisateur;
-	private PreparateurContainer contenu;	// Container des éléments d'affichage
+	private FenetreType contenu;	// Container des éléments d'affichage
 	private Bouton deconnexion, creerChargement, gererChargement, genererPlan, imprimerEtiquette, incident;	// Boutons du menu
 	private JComboBox destinations;	// Liste des destinations
 	
@@ -39,7 +39,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		setTitle("Préparation");
 		setSize(1024,768);
 		setUndecorated(true);
-		contenu=new PreparateurContainer(utilisateur, "images/preparation/fenetre_princBackground.png");
+		contenu=new FenetreType(utilisateur, "images/preparation/fenetre_princBackground.png");
 		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
@@ -248,12 +248,12 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		// On réaffiche les volumes
 		contenu.remove(this.labelVolume);
 		this.labelVolume=new JLabel(selectionnee.getVolume().toString());
-		this.labelVolume.setBounds(230,100,100,20);
+		this.labelVolume.setBounds(150,305,100,20);
 		contenu.add(this.labelVolume);
 		
 		contenu.remove(this.labelCharge);
 		this.labelCharge=new JLabel(selectionnee.getCharge().toString());
-		this.labelCharge.setBounds(230,150,100,20);
+		this.labelCharge.setBounds(150,340,100,20);
 		contenu.add(this.labelCharge);
 		
 		// Mise à jour du tableau

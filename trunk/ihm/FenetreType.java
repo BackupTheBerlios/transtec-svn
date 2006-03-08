@@ -9,10 +9,10 @@ import javax.swing.JPanel;
 
 import donnees.Utilisateur;
 
-public class PreparateurContainer extends JPanel{
+public class FenetreType extends JPanel{
 	private Utilisateur utilisateur;
 	private String cheminImage;
-	public PreparateurContainer(Utilisateur utilisateur, String cheminImage){
+	public FenetreType(Utilisateur utilisateur, String cheminImage){
 		super();
 		this.utilisateur=utilisateur;
 		this.cheminImage=cheminImage;
