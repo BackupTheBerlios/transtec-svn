@@ -11,21 +11,23 @@ import donnees.Utilisateur;
 
 public class PreparateurContainer extends JPanel{
 	private Utilisateur utilisateur;
-	public PreparateurContainer(Utilisateur utilisateur){
+	private String cheminImage;
+	public PreparateurContainer(Utilisateur utilisateur, String cheminImage){
 		super();
 		this.utilisateur=utilisateur;
+		this.cheminImage=cheminImage;
 	}
 	
 	// Permet de définir une image de fond
 	public void paintComponent(Graphics g){
-			ImageIcon img = new ImageIcon("images/preparation/fenetre_princBackground.png");
+			ImageIcon img = new ImageIcon(this.cheminImage);
 			g.drawImage(img.getImage(), 0, 0, null);
 			setOpaque(false);
 			setLayout(null);
 			
 			// Mise en place des paramètres par défaut
 			Font font=new Font("Verdana", Font.BOLD, 13);
-			JLabel labelUtilisateur=new JLabel(utilisateur.getPersonne().getNom()+" "+utilisateur.getPersonne().getPrenom()+" - Préparateur");
+			JLabel labelUtilisateur=new JLabel(utilisateur.toTitre());
 			labelUtilisateur.setBounds(73,70,300,20);
 			labelUtilisateur.setFont(font);
 			add(labelUtilisateur);

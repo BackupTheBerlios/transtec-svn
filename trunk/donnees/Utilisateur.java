@@ -138,6 +138,10 @@ public class Utilisateur implements Comparable{
 	public String toString(){
 		return new String(personne.getNom()+" "+personne.getPrenom());
 	}
+	
+	public String toTitre(){
+		return new String(personne.getNom()+" "+personne.getPrenom()+" - "+this.constToString(this.type));
+	}
 
 
 	/****** Méthodes privées de conversion des constantes ******/

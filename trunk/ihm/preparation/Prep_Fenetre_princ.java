@@ -39,14 +39,14 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		setTitle("Préparation");
 		setSize(1024,768);
 		setUndecorated(true);
-		contenu=new PreparateurContainer(utilisateur);
+		contenu=new PreparateurContainer(utilisateur, "images/preparation/fenetre_princBackground.png");
 		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
 		// Ajout des bouton sur la fenêtre
 		this.deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion.png");
-		this.deconnexion.setBounds(866, 37, 98, 17);
+		this.deconnexion.setBounds(866, 50, 98, 17);
 		this.contenu.add(this.deconnexion);
 		this.deconnexion.addActionListener(this);
 		this.creerChargement=new Bouton("images/icones/creerChargement.png","images/icones/creerChargement.png");
