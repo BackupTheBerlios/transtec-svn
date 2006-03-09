@@ -114,4 +114,44 @@ public class AccesBDDPreparation extends AccesBDD{
 		modifier.close();	// Fermeture requête SQL
 		deconnecter();
 	}
+	
+	public void retirerChargementTemp(Integer idPreparation) throws SQLException{
+		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
+		
+		modifier.setInt(1, 0);
+		modifier.setInt(2, idPreparation.intValue());
+		
+		modifier.executeUpdate();
+		
+		modifier.close();	// Fermeture requête SQL
+		deconnecter();
+	}
+	
+	public Preparation rechercherAvecChargement(Integer aChercher) throws SQLException{
+		Preparation trouvee=null;
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM preparation WHERE Chargement=?");
+		recherche.setInt(1, aChercher.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){	// S'il a trouvé la préparation
+			trouvee=new Preparation(
+					new Integer(resultat.getInt("idPreparation")),
+					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("idPreparateur"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
+					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
+					new Float(resultat.getFloat("Volume")),
+					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
+					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("Chargement")));
+		}
+		
+		resultat.close();	// Fermeture requête SQL
+		recherche.close();	// Fermeture requête SQL
+		deconnecter();
+		
+		return trouvee;
+	}
 }

@@ -292,7 +292,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				this.creerChargement.setEnabled(true);
 			else	// La préparation a déjà un chargement
 				this.creerChargement.setEnabled(false);
-			// Mettre les cas pour les autres boutons
+			// Bloquer quand chargement validé
 		}
 	}
 

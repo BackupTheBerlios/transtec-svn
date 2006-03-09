@@ -18,6 +18,7 @@ import donnees.Colis;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDPreparation;
 
 
 public class Prep_Gerer_chargement extends JFrame implements ActionListener{
@@ -306,7 +307,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				bddChargement.AjouterColis(this.chargement, nouvCharg);
 				
 				// Mise à jour des infos concernant le chargement
-				bddChargement.valider(this.chargement);
+				bddChargement.valider(this.chargement, new AccesBDDPreparation().rechercherAvecChargement(this.chargement.getId()));
 			}
 			catch(SQLException e){
 				

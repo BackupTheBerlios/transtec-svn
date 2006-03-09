@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Chargement;
 import donnees.Colis;
+import donnees.Preparation;
 
 
 //----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes opérations nécessaire sur la table -----//
@@ -195,7 +196,7 @@ public class AccesBDDChargement extends AccesBDD{
 	}
 	
 	// Permet de valider un chargement ATTENTION LE SORTIR DE LA PREP DANS CE CAS
-	public void valider(Chargement aModifier) throws SQLException{
+	public void valider(Chargement aModifier, Preparation preparation) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE chargement SET "
@@ -209,12 +210,12 @@ public class AccesBDDChargement extends AccesBDD{
 		modifie.setInt(4,aModifier.getEtat());
 		modifie.setInt(5,aModifier.getId().intValue());
 		
-
 		modifie.executeUpdate();	// Exécution de la requête SQL
-		
-		//Recherche dans personne has_colis, mais est-ce nécéssaire
 						
 		modifie.close();	// Fermeture requête SQL
 		deconnecter();
+		
+		// On enlève également el chargement temporaire temporaire
+		new AccesBDDPreparation().retirerChargementTemp(preparation.getId());
 	}
 }
