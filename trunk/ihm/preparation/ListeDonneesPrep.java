@@ -12,7 +12,6 @@ import donnees.Utilisateur;
 public class ListeDonneesPrep {
 	private Vector liste=new Vector();
 	private String listeDest[];
-	public Camion camion;
 	
 	public ListeDonneesPrep(Utilisateur utilisateur) throws SQLException{
 		Vector listePrep=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
@@ -25,11 +24,11 @@ public class ListeDonneesPrep {
 			exists=destExists(tmp_prep.getDestination().getLocalisation().getVille());
 			if(i==0 || exists==-1){
 				courante=new DonneesPrep(tmp_prep.getDestination());
-				courante.ajouterCamion(tmp_prep.getCamion(),tmp_prep.getVolume(), tmp_prep.getIdChargement(), tmp_prep.getId());
+				courante.ajouterCamion(tmp_prep);
 				liste.add(courante);
 			}
 			else
-				((DonneesPrep)liste.get(exists)).ajouterCamion(tmp_prep.getCamion(), tmp_prep.getVolume(), tmp_prep.getIdChargement(), tmp_prep.getId());
+				((DonneesPrep)liste.get(exists)).ajouterCamion(tmp_prep);
 		}
 		
 		listeDest=new String[liste.size()];

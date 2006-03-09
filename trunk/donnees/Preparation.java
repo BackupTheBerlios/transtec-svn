@@ -10,14 +10,14 @@ public class Preparation {
 	private Float volume;
 	private Camion camion;
 	private Integer etat;
-	private Integer idChargement;
+	private Integer idChargementEnCours, idChargement;
 	
 	// Constantes décrivant l'état d'une préparation
 	public final static int A_FAIRE=0;
 	public final static int EN_COURS=1;
 	
 //	 Constructeur utilisant tous les paramètres
-	public Preparation(Integer id, Utilisateur utilisateur, Entrepot origine, Entrepot destination, Float volume, Camion camion, Integer etat, Integer idChargement){
+	public Preparation(Integer id, Utilisateur utilisateur, Entrepot origine, Entrepot destination, Float volume, Camion camion, Integer etat, Integer idChargementEnCours, Integer idChargement){
 		this.id=id;
 		this.utilisateur=utilisateur;
 		this.origine=origine;
@@ -25,6 +25,7 @@ public class Preparation {
 		this.volume=volume;
 		this.camion=camion;
 		this.etat=etat;
+		this.idChargementEnCours=idChargementEnCours;
 		this.idChargement=idChargement;
 	}
 	
@@ -117,6 +118,14 @@ public class Preparation {
 	
 	public Integer getEtat(){
 		return this.etat;
+	}
+	
+	public Integer getIdChargementEnCours(){
+		return this.idChargementEnCours;
+	}
+	
+	public void setIdChargementEnCours(Integer idChargementEnCours){
+		this.idChargementEnCours=idChargementEnCours;
 	}
 	
 	public Integer getIdChargement(){

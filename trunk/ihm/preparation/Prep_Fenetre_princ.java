@@ -6,7 +6,6 @@ import ihm.FenetreType;
 import ihm.TableSorter;
 import ihm.Bouton;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -85,12 +84,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		// Création de la police pour les affichages de texte
 		Font font=new Font("Verdana", Font.BOLD, 12);
 		
-		// Ajout des champs dans la fenêtre
-		destinations = new JComboBox(listeDonneesPrep.combo());
-		destinations.setEditable(false);
-		destinations.setBounds(60,270,200,20);
-		fenetre.add(destinations);
-		destinations.addItemListener(this);
 		// Affichage des zones textes
 		JLabel labelVolume = new JLabel("Volume");
 		labelVolume.setBounds(60,305,100,20);
@@ -113,10 +106,14 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		colonnesTable.add("Destination");
 		colonnesTable.add("Volume à charger");
 		colonnesTable.add("Chargement en cours");
+		colonnesTable.add("Chargement Validé");
 		
 		
 		// On rempli les variable dynamique et on l'ajoute au container
-		if(listeDonneesPrep.getListe()!=null){	// Si le préparateur à des préparations à effectuer
+		if(listeDonneesPrep.getListe().size()!=0){	// Si le préparateur à des préparations à effectuer
+			// Ajout des destinations
+			destinations = new JComboBox(listeDonneesPrep.combo());
+			
 			// Première destination
 			this.selectionnee=(DonneesPrep)listeDonneesPrep.getListe().get(0);
 			
@@ -137,14 +134,19 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		}
 		else{	//Si le préparateur n'a pas de préparation
 			tableData=new Vector();
+			destinations = new JComboBox();
+			destinations.setEnabled(false);
 			// On vérouille les bouton
 			this.creerChargement.setEnabled(false);
 			this.gererChargement.setEnabled(false);
 			this.genererPlan.setEnabled(false);
 			this.imprimerEtiquette.setEnabled(false);
 		}
-			
-
+		// Création de la combo box des destinations
+		destinations.setEditable(false);
+		destinations.setBounds(60,270,200,20);
+		fenetre.add(destinations);
+		destinations.addItemListener(this);
 		// Création du tableau de camions
 		tableMod = new ModeleTable(colonnesTable,tableData);
 		// Création du TableSorter qui permet de réordonner les lignes à volonté

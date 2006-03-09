@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import donnees.Camion;
 import donnees.Entrepot;
+import donnees.Preparation;
 
 public class DonneesPrep {
 	private Entrepot destination;
@@ -17,12 +18,13 @@ public class DonneesPrep {
 		this.listeCamionChargement=new Vector();
 	}
 	
-	public void ajouterCamion(Camion aAjouter, Float volume, Integer idChargement, Integer idPreparation){
-		Vector courant=aAjouter.toVector();
-		courant.add(volume.toString());
-		courant.add(idChargement);
-		courant.add(idPreparation);
-		this.volume=new Float(volume.floatValue()+this.volume.floatValue());
+	public void ajouterCamion(Preparation preparation){
+		Vector courant=preparation.getCamion().toVector();
+		courant.add(preparation.getVolume().toString());
+		courant.add(preparation.getIdChargementEnCours());
+		courant.add(preparation.getIdChargement());
+		courant.add(preparation.getId());
+		this.volume=new Float(preparation.getVolume().floatValue()+this.volume.floatValue());
 		this.listeCamionChargement.add(courant);
 	}
 	

@@ -33,6 +33,7 @@ public class AccesBDDPreparation extends AccesBDD{
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("ChargementEnCours")),
 					new Integer(resultat.getInt("Chargement")));
 			liste.add(courante);
 		}
@@ -55,7 +56,7 @@ public class AccesBDDPreparation extends AccesBDD{
 		
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO preparation "
-				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume,Chargement)" // Paramètre de la table
+				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume,ChargementEnCours,Chargement)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1, aAjouter.getId().intValue());
@@ -65,7 +66,8 @@ public class AccesBDDPreparation extends AccesBDD{
 		ajout.setInt(5, aAjouter.getOrigine().getId().intValue());
 		ajout.setInt(6, aAjouter.getEtat().intValue());
 		ajout.setFloat(7, aAjouter.getVolume().floatValue());
-		ajout.setInt(8, aAjouter.getId().intValue());
+		ajout.setInt(8, aAjouter.getIdChargementEnCours().intValue());
+		ajout.setInt(9, aAjouter.getIdChargement().intValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
@@ -92,6 +94,7 @@ public class AccesBDDPreparation extends AccesBDD{
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("ChargementEnCours")),
 					new Integer(resultat.getInt("Chargement")));
 		}
 		
@@ -104,7 +107,7 @@ public class AccesBDDPreparation extends AccesBDD{
 	
 	// Permet d'affecter un chargement temporaire à une préparation
 	public void ajouterChargementTemp(Integer idPreparation, Integer idChargement) throws SQLException{
-		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
+		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET ChargementEnCours=? WHERE idPreparation=?");
 		
 		modifier.setInt(1, idChargement.intValue());
 		modifier.setInt(2, idPreparation.intValue());
@@ -116,7 +119,7 @@ public class AccesBDDPreparation extends AccesBDD{
 	}
 	
 	public void retirerChargementTemp(Integer idPreparation) throws SQLException{
-		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
+		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET ChargementEnCours=? WHERE idPreparation=?");
 		
 		modifier.setInt(1, 0);
 		modifier.setInt(2, idPreparation.intValue());
@@ -127,11 +130,11 @@ public class AccesBDDPreparation extends AccesBDD{
 		deconnecter();
 	}
 	
-	public Preparation rechercherAvecChargement(Integer aChercher) throws SQLException{
+	public Preparation rechercherAvecChargementTemp(Integer aChercher) throws SQLException{
 		Preparation trouvee=null;
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM preparation WHERE Chargement=?");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM preparation WHERE ChargementEnCours=?");
 		recherche.setInt(1, aChercher.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -145,6 +148,7 @@ public class AccesBDDPreparation extends AccesBDD{
 					new Float(resultat.getFloat("Volume")),
 					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")),
+					new Integer(resultat.getInt("ChargementEnCours")),
 					new Integer(resultat.getInt("Chargement")));
 		}
 		
