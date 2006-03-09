@@ -25,11 +25,11 @@ public class ListeDonneesPrep {
 			exists=destExists(tmp_prep.getDestination().getLocalisation().getVille());
 			if(i==0 || exists==-1){
 				courante=new DonneesPrep(tmp_prep.getDestination());
-				courante.ajouterCamion(tmp_prep.getCamion(),tmp_prep.getVolume(), tmp_prep.getIdChargement());
+				courante.ajouterCamion(tmp_prep.getCamion(),tmp_prep.getVolume(), tmp_prep.getIdChargement(), tmp_prep.getId());
 				liste.add(courante);
 			}
 			else
-				((DonneesPrep)liste.get(exists)).ajouterCamion(tmp_prep.getCamion(), tmp_prep.getVolume(), tmp_prep.getIdChargement());
+				((DonneesPrep)liste.get(exists)).ajouterCamion(tmp_prep.getCamion(), tmp_prep.getVolume(), tmp_prep.getIdChargement(), tmp_prep.getId());
 		}
 		
 		listeDest=new String[liste.size()];

@@ -165,6 +165,7 @@ public class AccesBDDChargement extends AccesBDD{
 		return chargement;
 	}
 	
+	// Permet de valider un chargement ATTENTION LE SORTIR DE LA PREP DANS CE CAS
 	public void valider(Chargement aModifier) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(

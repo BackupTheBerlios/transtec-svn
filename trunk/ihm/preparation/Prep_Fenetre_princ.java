@@ -14,7 +14,6 @@ import java.util.Vector;
 import javax.swing.*;
 
 import accesBDD.AccesBDDCamion;
-import accesBDD.AccesBDDEntrepot;
 
 import donnees.Utilisateur;
 
@@ -48,7 +47,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		getContentPane().setLayout(null);
 		
 		// Ajout des bouton sur la fenêtre
-		this.deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion.png");
+		this.deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion_inv.png");
 		this.deconnexion.setBounds(866, 50, 98, 17);
 		this.contenu.add(this.deconnexion);
 		this.deconnexion.addActionListener(this);
@@ -204,10 +203,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				if(source==this.creerChargement){
 					dispose();
 					try{
-						Prep_Creer_chargement fen1 = new Prep_Creer_chargement(this.utilisateur, 
+						new Prep_Creer_chargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
-								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)));
-						fen1.setVisible(true);
+								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(11)).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						

@@ -46,6 +46,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDPreparation;
 import donnees.Camion;
 import donnees.Chargement;
 import donnees.Colis;
@@ -55,7 +56,6 @@ import donnees.Utilisateur;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Bouton valider, annuler, ajouter, retirer;
-	//private JButton creer=new JButton("Créer"), ajouter=new JButton(),supprimer=new JButton(), annuler=new JButton("Annuler");
 	private ModeleTable listeColisMod, listeChargementMod;
 	private TableSorter sorter_colis, sorter_chargement;
 	private JTable listeColisTab, listeChargementTab;
@@ -68,7 +68,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private Chargement chargement;
 	private Utilisateur utilisateur;
 		
-	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion) {
+	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
 		// Création graphique de la fenêtre
 		setTitle("Créer Chargement");
 		setSize(1024,768);
@@ -336,10 +336,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			// On met à jour la date
 			this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
 			try{
-				// Mettre le chargement ds préparation encor !!!!! A AFIRE ABSOLUMENT
-				bddChargement.ajouter(this.chargement);
+				this.chargement.setId(bddChargement.ajouter(this.chargement));
 				for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
 				bddChargement.AjouterColis(chargement, aCharger);
+				new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
 			}
 			catch(SQLException e){
 				
