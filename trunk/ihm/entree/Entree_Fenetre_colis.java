@@ -33,7 +33,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 		//Création de la police pour les affichages de texte
 		font=new Font("Verdana", Font.BOLD, 12);
-		
+		contenu=new FenetreType(utilisateur, "images/entree/bg_entrée1.png");
 		create_graphique(); //appel la fonction de la création graphique
 	
 		informations_colis1();// appel de la fonction qui demande le code barre	
@@ -44,7 +44,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	public void create_graphique(){
 		
 		// on change l'image de fond
-		contenu=new FenetreType(utilisateur, "images/entree/bg_entrée1.png");
+		
 		
 		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
@@ -210,30 +210,30 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		//valider_colis = new JButton("Envoyer en zone de stockage");
 		//Bouton de validation du colis en zone de stockage
-		valider_colis = new Bouton("images/entree/bouton_zone_stockage.png","images/entree/bouton_zone_stockage.png");
+		valider_colis = new Bouton("images/entree/bouton_zone_stockage.png","images/entree/bouton_zone_stockage_appuyer.png");
 		contenu.add(valider_colis);
 		valider_colis.addActionListener(this);
 		
         //Bouton pour modifier les informations du colis
-		modif_infos = new Bouton("images/entree/bouton_modifier.png","images/entree/bouton_modifier.png");
+		modif_infos = new Bouton("images/entree/bouton_modifier.png","images/entree/bouton_modifier_appuyer.png");
 		contenu.add(modif_infos);
 		modif_infos.setBounds(pos_x + 560,260,160,40);
 		modif_infos.addActionListener(this);
 		
         //Bouton pour créer un incident sur un colis non trouvé dans le chargement		
 		//incident_automatique = new JButton("Incident");
-		incident_automatique = new Bouton("images/entree/bouton_creerincident.png","images/entree/bouton_creerincident.png");
+		incident_automatique = new Bouton("images/entree/bouton_creerincident.png","images/entree/bouton_creerincident_appuyer.png");
 		contenu.add(incident_automatique);
 		incident_automatique.setBounds(610,585,160,25);
 		incident_automatique.addActionListener(this);
 		
 		//Bouton pour créer une étiquette du colis
-		create_etiquette = new Bouton("images/entree/bouton_etiquette.png","images/entree/bouton_etiquette.png");
+		create_etiquette = new Bouton("images/entree/bouton_etiquette.png","images/entree/bouton_etiquette_appuyer.png");
 		contenu.add(create_etiquette);
 		create_etiquette.addActionListener(this);
 		
 		//Bouton pour sélectionner une personne en tant que destinataire ou expéditeur du colis
-		select_personne = new JButton("Sélection des personnes");
+		select_personne = new Bouton("images/entree/bouton_selection_personnes.png","images/entree/bouton_selection_personnes_appuyer.png");
 		contenu.add(select_personne);
 		select_personne.addActionListener(this);
 		
@@ -258,7 +258,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(label_liste_incidents);*/
 		
 		//Bouton d'annulation de vérification ou de création de colis
-		annuler = new Bouton("images/entree/bouton_annuler.png","images/entree/bouton_annuler.png");
+		annuler = new Bouton("images/entree/bouton_annuler.png","images/entree/bouton_annuler_appuyer.png");
 		annuler.setBounds(pos_x+565,520,160,40);
 		contenu.add(annuler);
 		annuler.addActionListener(this);
@@ -371,7 +371,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(scrollPane1);
 		
 		//Bouton permettant de voir les informations sur l'incident
-		voir_incident = new Bouton("images/entree/bouton_voirincident.png","images/entree/bouton_voirincident.png");
+		voir_incident = new Bouton("images/entree/bouton_voirincident.png","images/entree/bouton_voirincident_appuyer.png");
 		voir_incident.setBounds(610,460,160,25);
 		contenu.add(voir_incident);
 		voir_incident.addActionListener(this);
@@ -526,6 +526,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on vérifie un colis
 		else
 		{
+			contenu=new FenetreType(utilisateur, "images/entree/bg_entrée1.png");
+			setContentPane(contenu);
+			contenu.setLayout(new FlowLayout());
+			getContentPane().setLayout(null);
+			create_graphique();
+			if (charg !=null){
+				ajout_chargement();
+			}
 			create = 1;
 			// on affiche toutes les infos sur le colis
 			code_barre.setEnabled(false);
@@ -629,6 +637,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	}
 	public void informations_vierge()
 	{
+		contenu=new FenetreType(utilisateur, "images/entree/bg_entrée4.png");
+		setContentPane(contenu);
+		contenu.setLayout(new FlowLayout());
+		getContentPane().setLayout(null);
+		create_graphique();
+		if (charg !=null){
+			ajout_chargement();
+		}
 		//initialisation des variables
 		int de;
 		String id="";
@@ -659,93 +675,94 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//On affiche le bouton permettant de choisir la personne
 		select_personne.setVisible(true);
 		//on déplace les objets dans la fenetre
-		select_personne.setBounds(pos_x+240,157,180,20);
-		label_dest.setBounds(pos_x+120,160,150,15);
+		select_personne.setBounds(pos_x + 575,260,160,40);
+		
+		label_dest.setBounds(pos_x + 20,380,175,15);
 		label_exp.setBounds(pos_x+470,160,150,15);
 		donnees_dest.setVisible(false);
 		donnees_exp.setVisible(false);
 		
 		//Label du nom du destinataire
 		label_nom_dest = new JLabel("Nom :");
-		label_nom_dest.setBounds(pos_x,190,50,15);
+		label_nom_dest.setBounds(pos_x + 20,410,175,15);
 		label_nom_dest.setFont(font);
 		contenu.add(label_nom_dest);
 		
 		//Nom du destinataire
 		nom_dest = new JTextField(15);
-		nom_dest.setBounds(pos_x + 40,187,100,20);
+		nom_dest.setBounds(pos_x + 90,407,205,20);
 		nom_dest.setFont(font);
 		contenu.add(nom_dest);
 		
 		//Label du prénom du destinataire
 		label_prenom_dest = new JLabel("Prénom :");
-		label_prenom_dest.setBounds(pos_x+150,190,60,15);
+		label_prenom_dest.setBounds(pos_x + 20,435,175,15);
 		label_prenom_dest.setFont(font);
 		contenu.add(label_prenom_dest);
 
 		//Prénom du destinataire
 		prenom_dest = new JTextField(15);
-		prenom_dest.setBounds(pos_x + 210,187,100,20);
+		prenom_dest.setBounds(pos_x + 90,432,205,20);
 		prenom_dest.setFont(font);
 		contenu.add(prenom_dest);
 		
 		//Label de l'adresse du destinataire
 		label_adresse_dest= new JLabel("Adresse :");
-		label_adresse_dest.setBounds(pos_x,220,60,15);
+		label_adresse_dest.setBounds(pos_x + 20,460,175,15);
 		label_adresse_dest.setFont(font);
 		contenu.add(label_adresse_dest);
 
 		//Adresse du destinataire
 		adresse_dest = new JTextField(15);
-		adresse_dest.setBounds(pos_x + 60,217,250,20);
+		adresse_dest.setBounds(pos_x + 90,457,205,20);
 		adresse_dest.setFont(font);
 		contenu.add(adresse_dest);
 		
 		//Label du CP du destinataire
-		label_cp_dest= new JLabel("Code Postal :");
-		label_cp_dest.setBounds(pos_x,250,90,15);
+		label_cp_dest= new JLabel("CP :");
+		label_cp_dest.setBounds(pos_x + 20,485,175,15);
 		label_cp_dest.setFont(font);
 		contenu.add(label_cp_dest);
 
 		//CP du destinataire
 		cp_dest = new JTextField(15);
-		cp_dest.setBounds(pos_x + 80,247,60,20);
+		cp_dest.setBounds(pos_x + 90,482,205,20);
 		cp_dest.setFont(font);
 		contenu.add(cp_dest);
 		
 		//Label de la ville du destinataire
-		label_ville_dest= new JLabel(" Ville :");
-		label_ville_dest.setBounds(pos_x+150,250,60,15);
+		label_ville_dest= new JLabel("Ville :");
+		label_ville_dest.setBounds(pos_x + 20,510,175,15);
 		label_ville_dest.setFont(font);
 		contenu.add(label_ville_dest);
 
 		//Ville du destinataire
 		ville_dest = new JTextField(15);
-		ville_dest.setBounds(pos_x + 190,247,120,20);
+		ville_dest.setBounds(pos_x + 90,507,205,20);
 		ville_dest.setFont(font);
 		contenu.add(ville_dest);
 		
 		//Label de l'email du destinataire
 		label_email_dest= new JLabel("Email :");
-		label_email_dest.setBounds(pos_x,280,60,15);
+		label_email_dest.setBounds(pos_x + 20,535,175,15);
 		label_email_dest.setFont(font);
 		contenu.add(label_email_dest);
 	
 		//Email du destinataire
 		email_dest = new JTextField(15);
-		email_dest.setBounds(pos_x + 40,277,270,20);
+		email_dest.setBounds(pos_x + 90,532,205,20);
 		email_dest.setFont(font);
 		contenu.add(email_dest);
 		
 		//Label du tel du destinataire
-		label_tel_dest= new JLabel("Telephone :");
-		label_tel_dest.setBounds(pos_x,310,80,15);
+		label_tel_dest= new JLabel("Tel :");
+		label_tel_dest.setBounds(pos_x + 20,560,175,15);
 		label_tel_dest.setFont(font);
 		contenu.add(label_tel_dest);
 
 		//tel du destinataire
 		tel_dest = new JTextField(15);
-		tel_dest.setBounds(pos_x + 70,307,100,20);
+		tel_dest.setBounds(pos_x + 90,557,205,20);
 		tel_dest.setFont(font);
 		contenu.add(tel_dest);
 		
@@ -835,9 +852,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		
 		//On positionne tous les boutons
-		valider_colis.setBounds(pos_x + 220,340,210,25);
-		create_etiquette.setBounds(pos_x + 330,370,100,25);
-		annuler.setBounds(pos_x + 220,370,100,25);
+		//valider_colis.setBounds(pos_x + 220,340,210,25);
+		//create_etiquette.setBounds(pos_x + 330,370,100,25);
+		//annuler.setBounds(pos_x + 220,370,100,25);
 		modif_infos.setVisible(false);
 	
 		//on dégrise différente infos sur le colis pour permettre à l'utilisateur de changer les infos
@@ -1136,7 +1153,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					entrepot = new Entrepot();
 					entrepot = rechercher_entrepot(cp_entrepot);
 				
-			
+				
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis();
 					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,entrepot,entrepot,"0",modele.calculerVolume());
@@ -1335,6 +1352,11 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on veut annuler le colis en cours
 		if (source == annuler)
 		{
+			contenu=new FenetreType(utilisateur, "images/entree/bg_entrée1.png");
+			setContentPane(contenu);
+			contenu.setLayout(new FlowLayout());
+			getContentPane().setLayout(null);
+			create_graphique();
 			informations_colis1();
 		}
 		
