@@ -239,7 +239,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		//label du chargement du camion
 		label_camion = new JLabel("");
-		label_camion.setBounds(pos_x,410,390,15);
+		label_camion.setBounds(pos_x+120,590,390,15);
 		contenu.add(label_camion);
 		
 		//Bouton permettant de créer un incident sur le colis
@@ -263,22 +263,33 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		contenu.add(annuler);
 		annuler.addActionListener(this);
 		
+		deconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion_inv.png");
+		deconnexion.setBounds(866, 50, 98, 17);
+		contenu.add(this.deconnexion);
+		deconnexion.addActionListener(this);
+		
 		
 		//création du tableau des colis présents dans le chargement
 		nomColonnes = new Vector();
 		nomColonnes.add("id");
-        nomColonnes.add("entrepot");
-        nomColonnes.add("Code barre");
-        nomColonnes.add("expediteur");
-        nomColonnes.add("destinataire");
-        nomColonnes.add("destination");
+		nomColonnes.add("Code barre");
+		nomColonnes.add("expediteur");
+	    nomColonnes.add("destinataire");
+	    nomColonnes.add("Origine");
+	    nomColonnes.add("destination");
+	    nomColonnes.add("entrepot");
         nomColonnes.add("utilisateur");
         nomColonnes.add("Poids");
         nomColonnes.add("Date d'envoi");
         nomColonnes.add("Fragilité");
+        nomColonnes.add("Modèle");
         nomColonnes.add("Forme");
         nomColonnes.add("Modèle");
         nomColonnes.add("valeur_declaree");
+        nomColonnes.add("Volume");
+        
+    	
+	
            
         donnees = new Vector();
 		modeleTabColis = new ModeleTable(nomColonnes,donnees);
@@ -299,12 +310,16 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		//supression des colonnes inutiles
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(0));
-		tabColis.removeColumn(tabColis.getColumnModel().getColumn(0));
+		//tabColis.removeColumn(tabColis.getColumnModel().getColumn(0));
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
 		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
-		tabColis.removeColumn(tabColis.getColumnModel().getColumn(6));
+		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
+		tabColis.removeColumn(tabColis.getColumnModel().getColumn(1));
+		tabColis.removeColumn(tabColis.getColumnModel().getColumn(3));
+		tabColis.removeColumn(tabColis.getColumnModel().getColumn(3));
+		tabColis.removeColumn(tabColis.getColumnModel().getColumn(5));
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		JScrollPane scrollPane = new JScrollPane(tabColis);
 
@@ -370,7 +385,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		int j=0;
 		for (int i =1; i< 6;i++){
 			AffichageImage image = new AffichageImage("images/colis/face"+i+".JPG");
-			image.setBounds(35,100+(j*90),100,75);
+			image.setBounds(85,270+(j*90),100,75);
 			j++;
 			contenu.add(image);
 		}
@@ -637,7 +652,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		code_barre.setEnabled(false);
 		date_envoie.setEnabled(false);
 		scrollPane1.setVisible(false);
-		label_liste_incidents.setVisible(false);
+		//label_liste_incidents.setVisible(false);
 		voir_incident.setVisible(false);
 		create_incident.setVisible(false);
 		
@@ -842,7 +857,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		try {
 			liste_chargement = test.listerColis(charg.getId());
 			nombre_colis = liste_chargement.size();
-			label_camion.setText("Liste des colis présents dans le chargement : " + charg.getCodeBarre() +" (" + nombre_colis +" colis)");
+			label_camion.setText(charg.getCodeBarre() +" (" + nombre_colis +" colis)");
 			
 	           //On ajoute les incidents dans le tableau 
 	          for(int i=0;i<liste_chargement.size();i++){
@@ -1003,6 +1018,11 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
+		if(source==this.deconnexion){
+			dispose();
+			Fenetre_login login=new Fenetre_login();
+			login.setVisible(true);
+		}
 		//Si l'utilisateur veut se déloguer
 		if (source ==se_deloguer) {
 			
@@ -1510,7 +1530,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JTextField tel_exp,email_exp,ville_exp,adresse_exp,cp_exp,nom_exp,prenom_exp,tel_dest,email_dest,ville_dest,adresse_dest,cp_dest,nom_dest,prenom_dest,hauteur,profondeur,largeur,date_envoie,poids,code_barre;
 	private String[] formes={"cube","pavé","cylindre"}, modele={"modèle1","modèle2","modèle3","personalisé"},fragilite={"trés fragile","fragile","pas fragile"};
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
-	private JButton modif_infos,incident_automatique,select_personne,voir_incident,annuler,create_etiquette,create_incident,valider_colis;
+	private JButton deconnexion,modif_infos,incident_automatique,select_personne,voir_incident,annuler,create_etiquette,create_incident,valider_colis;
 	private JTextArea donnees_dest,donnees_exp;
 	//private Container contenu1;//,contenu1 ;
 	private FenetreType contenu;
