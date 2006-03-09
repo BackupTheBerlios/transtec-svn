@@ -39,7 +39,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		JPanel contenu = new JPanel(){
 			// Permet de définir une image de fond
 			public void paintComponent(Graphics g)	{
-				ImageIcon img = new ImageIcon("images/supervision/bg.png");
+				ImageIcon img = new ImageIcon("images/supervision/bg_superviseur.png");
 				g.drawImage(img.getImage(), 0, 0, null);
 				super.paintComponent(g);
 			}
@@ -79,7 +79,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 
 		// Ajout des onglets à la fenêtre
 		contenu.setLayout(null);
-		onglets.setBounds(50,204,740,515);
+		onglets.setBounds(50,181,740,515);
 		onglets.setOpaque(false);
 		//onglets.setBackground(new Color(0,0,0,0));
 		//onglets.setForeground(new Color(0,0,0,0));

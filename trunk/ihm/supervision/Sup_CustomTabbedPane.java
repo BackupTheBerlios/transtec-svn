@@ -1,13 +1,19 @@
 package ihm.supervision;
 
+import javax.swing.ImageIcon;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 
 public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
-	
+
 	protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected)
 	{
-		g.setColor(Color.BLACK);
+/*		g.setColor(new Color(0,0,0,0));
+		g.drawLine(x, y, x, y + h);
+		g.drawLine(x + w , y, x + w, y + h);*/
+
+		
+		/*		g.setColor(Color.BLACK);
 		g.drawLine(x, y, x, y + h);
 		g.drawLine(x, y, x + w - (h / 2), y);
 		g.drawLine(x + w - (h / 2), y, x + w + (h / 2), y + h);
@@ -20,12 +26,18 @@ public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
 	
 			g.setColor(shadow);
 			g.drawLine(x + w - (h / 2), y + 1, x + w + (h / 2)-1, y + h);
-		}
+		}*/
 	}
 
 	protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected)
 	{
-		Polygon shape = new Polygon();
+		ImageIcon img = new ImageIcon("images/supervision/onglet.png");
+		ImageIcon img_onclick = new ImageIcon("images/supervision/onglet_onclick.png");
+		
+		if(isSelected) g.drawImage(img_onclick.getImage(), x, y, null);
+		else g.drawImage(img.getImage(), x, y, null);
+
+		/*Polygon shape = new Polygon();
 	
 		shape.addPoint(x, y + h);
 		shape.addPoint(x, y);
@@ -42,7 +54,7 @@ public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
 		}
 	
 		g.setColor(tabPane.getBackground());
-		g.fillPolygon(shape);
+		g.fillPolygon(shape);*/
 	}
 
 	
@@ -53,25 +65,25 @@ public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
 
 	protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight)
 	{
-		int vHeight = fontHeight;
+		/*int vHeight = fontHeight;
 		if (vHeight % 2 > 0)
 		{
 			vHeight += 1;
-		}
-		return vHeight;
+		}*/
+		return 27;//vHeight;
 	}
 	
 	protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics)
 	{
-		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + metrics.getHeight();
+		return 121;//super.calculateTabWidth(tabPlacement, tabIndex, metrics) + metrics.getHeight();
 	}
 
 	protected void installDefaults()
 	{
 		super.installDefaults();
-		tabAreaInsets.left = 4;
+		tabAreaInsets.left = 0;
 		selectedTabPadInsets = new Insets(0, 0, 0, 0);
-		tabInsets = selectedTabPadInsets;
+		tabInsets = new Insets(0, 0, 0, 0);
 	}
 
 	protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected)
@@ -90,7 +102,7 @@ public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
 	}*/
 	protected void paintContentBorderTopEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h)
 	{
-		Rectangle selectedRect = selectedIndex < 0 ? null : getTabBounds(selectedIndex, calcRect);
+		/*		Rectangle selectedRect = selectedIndex < 0 ? null : getTabBounds(selectedIndex, calcRect);
 	
 		selectedRect.width = selectedRect.width + (selectedRect.height / 2) - 1;
 	
@@ -106,7 +118,7 @@ public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
 		g.drawLine(selectedRect.x + selectedRect.width + 2, y + 1, x + w, y + 1);
 	
 		g.setColor(shadow);
-		g.drawLine(selectedRect.x + selectedRect.width, y, selectedRect.x + selectedRect.width + 1, y + 1);
+		g.drawLine(selectedRect.x + selectedRect.width, y, selectedRect.x + selectedRect.width + 1, y + 1);*/
 	}
 
 	protected void paintContentBorderRightEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h)
@@ -126,7 +138,7 @@ public class Sup_CustomTabbedPane extends BasicTabbedPaneUI{
 
 	protected Insets getContentBorderInsets(int tabPlacement)
 	{
-		return new Insets(2, 0, 0, 0);
+		return new Insets(0, 0, 0, 0);
 	}
 
 
