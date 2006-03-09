@@ -71,14 +71,9 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		contenu.add(valider);
 		valider.addActionListener(this);		
 		
-		// Label lié au bouton "quitter"
-		label_quitter = new JLabel("Quitter");
-		label_quitter.setBounds(38,738,50,15);
-		contenu.add(label_quitter);
-		
 		// Bouton permettant de quitter l'application
-		quitter = new Bouton("images/login/quitter.png","images/login/quitteronclick.png");
-		quitter.setBounds(10,735,22,22);
+		quitter = new Bouton("images/icones/deconnexion.png","images/icones/deconnexion_inv.png");
+		quitter.setBounds(10,735,98,17);
 		contenu.add(quitter);
 		quitter.addActionListener(this);
 	}
@@ -145,7 +140,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	private Utilisateur u;
 	private AccesBDDUtilisateur bdd;
 	private PanelContenu contenu;
-	private JLabel label_login,label_pwd,label_quitter;
+	private JLabel label_login,label_pwd;
 	private JTextField login;
 	private JPasswordField pwd1;
 	private JButton valider,quitter;

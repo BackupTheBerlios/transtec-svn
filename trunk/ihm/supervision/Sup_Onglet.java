@@ -4,6 +4,7 @@ import ihm.ModeleTable;
 import ihm.TableSorter;
 
 import javax.swing.*;
+
 import java.util.Vector;
 import java.awt.*;
 
@@ -24,12 +25,21 @@ public class Sup_Onglet extends JPanel{
 		// Mise en forme initiale
 		setOpaque(false);
 		setLayout(null);
-		
+		setBorder(null);
+				
 		// Titre de l'onglet
 		JLabel titre = new JLabel(s);
 		titre.setBounds(10,10,200,20);
-		add(titre);		
+		//add(titre);		
 	}
+	
+	// Permet de définir une image de fond
+	public void paintComponent(Graphics g)	{
+		ImageIcon img = new ImageIcon("images/supervision/bg_onglet.png");
+		g.drawImage(img.getImage(), 0, 0, null);
+		super.paintComponent(g);
+	}
+
 	
 	public void construireTableau(){
 		
@@ -58,7 +68,7 @@ public class Sup_Onglet extends JPanel{
 		table.setPreferredScrollableViewportSize(new Dimension(750,350));
 
 		// On place le tableau
-		scrollPane.setBounds(10,40,730,500);
+		scrollPane.setBounds(0,0,730,300);
 
 		// On définit le tableau transparent
 		scrollPane.setOpaque(false);

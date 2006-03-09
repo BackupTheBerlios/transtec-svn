@@ -39,7 +39,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		JPanel contenu = new JPanel(){
 			// Permet de définir une image de fond
 			public void paintComponent(Graphics g)	{
-				ImageIcon img = new ImageIcon("images/supervision/bg_superviseur.png");
+				ImageIcon img = new ImageIcon("images/supervision/bg.png");
 				g.drawImage(img.getImage(), 0, 0, null);
 				super.paintComponent(g);
 			}
@@ -61,34 +61,9 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		// On enlève les barres d'état
 		setUndecorated(true);
 
-		// Construction de la barre de menu
-		menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		// Section Fichier
-		menuFichier = new JMenu("Fichier");
-		quitter = new JMenuItem("Quitter");
-		quitter.addActionListener(this);
-		menuFichier.add(quitter);
-		menuBar.add(menuFichier);
-
-		// Section Poste (choix : Superviseur, Préparateur ou Entrée)
-		/*JMenu menuPoste = new JMenu("Poste");
-		menuPoste.add("Superviseur");
-		menuPoste.add("Préparateur");
-		menuPoste.add("Entrée");		
-		menuBar.add(menuPoste);*/
-
-		// Section Gestion (choix : Entrepôts)
-		JMenu menuGestion = new JMenu("Gestion");
-		entrepots = new JCheckBoxMenuItem("Entrepôts");
-		entrepots.setState(false);
-		entrepots.addActionListener(this);
-		menuGestion.add(entrepots);
-		menuBar.add(menuGestion);
-
 		// Onglets : création et assemblage
 		onglets = new JTabbedPane(SwingConstants.TOP);
+		onglets.setUI(new Sup_CustomTabbedPane());
 		ongletCamion = new Sup_OngletCamion();
 //		ongletCamion.setOpaque(false);
 		ongletRepartition = new Sup_OngletRepartition();
@@ -104,9 +79,11 @@ public class Sup_Interface extends JFrame implements ActionListener{
 
 		// Ajout des onglets à la fenêtre
 		contenu.setLayout(null);
-		onglets.setBounds(40,210,750,520);
+		onglets.setBounds(50,204,740,515);
 		onglets.setOpaque(false);
-		onglets.setBackground(new Color(0,0,0,0));
+		//onglets.setBackground(new Color(0,0,0,0));
+		//onglets.setForeground(new Color(0,0,0,0));
+		onglets.setBorder(null);
 		contenu.add(onglets);
 		
 		//Ajout du bouton de déconnexion
