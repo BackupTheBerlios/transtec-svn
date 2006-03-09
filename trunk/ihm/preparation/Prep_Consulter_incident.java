@@ -20,7 +20,6 @@ import javax.swing.ListSelectionModel;
 
 
 public class Prep_Consulter_incident extends JFrame implements ActionListener {
-
 	private Vector nomColonnes = new Vector();
 	private Vector donnees = new Vector();
 	private ModeleTable modeleInc;
