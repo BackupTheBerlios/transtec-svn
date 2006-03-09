@@ -20,23 +20,15 @@ public class Sup_Onglet extends JPanel{
 	protected Vector donnees = new Vector();
 	protected int ligneActive;
 	
-	
-	// Permet de définir une image de fond
-/*	public void paintComponent(Graphics g)	{
-		ImageIcon img = new ImageIcon("images/new.jpg");
-		g.drawImage(img.getImage(), 0, 0, null);
-		super.paintComponent(g);
-	}*/
-	
 	public Sup_Onglet(String s){	
-		//Mise en forme initiale
+		// Mise en forme initiale
 		setOpaque(false);
 		setLayout(null);
 		
-		//Titre de l'onglet
+		// Titre de l'onglet
 		JLabel titre = new JLabel(s);
 		titre.setBounds(10,10,200,20);
-		add(titre);
+		add(titre);		
 	}
 	
 	public void construireTableau(){
@@ -63,10 +55,10 @@ public class Sup_Onglet extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(table);
 
 		// On définit les dimensions du tableau
-		table.setPreferredScrollableViewportSize(new Dimension(980,350));
+		table.setPreferredScrollableViewportSize(new Dimension(750,350));
 
 		// On place le tableau
-		scrollPane.setBounds(10,40,960,500);
+		scrollPane.setBounds(10,40,730,500);
 
 		// On définit le tableau transparent
 		scrollPane.setOpaque(false);
@@ -107,8 +99,6 @@ public class Sup_Onglet extends JPanel{
 	// Ajouter une ligne au tableau
 	public void ajouterLigne(Vector v){
 		
-		// OBTENIR UN NOUVEL ID APRES ACCES A LA BDD
-		
 		// Ajout de la ligne
 		modeleTab.addRow(v);
 		
@@ -135,8 +125,6 @@ public class Sup_Onglet extends JPanel{
 		Sup_Interface o = (Sup_Interface)this.getParent().getParent().getParent().getParent().getParent();
 		o.setEnabled(b);
 		
-		if(b){
-			o.requestFocus();
-		}
+		if(b) o.requestFocus();
 	}
 }

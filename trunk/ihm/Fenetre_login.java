@@ -4,7 +4,6 @@ import ihm.entree.Entree_Fenetre_colis;
 import ihm.preparation.Prep_Fenetre_princ;
 import ihm.supervision.Sup_Interface;
 
-import java.awt.*;
 import java.awt.event.*; 
 
 import javax.swing.*;

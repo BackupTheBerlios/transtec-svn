@@ -1,6 +1,9 @@
 package ihm.supervision;
 
+import ihm.Bouton;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.awt.*;
 
@@ -20,13 +23,40 @@ public class Sup_Interface extends JFrame implements ActionListener{
 	private Sup_OngletRoutage ongletRoutage;
 	private Sup_OngletUtilisateur ongletUtilisateur;
 	private Sup_OngletEntrepot ongletEntrepot = new Sup_OngletEntrepot();
+	private Bouton boutonDeconnexion;
 	
 	// Constructeur : nécessite un utilisateur en paramètre
 	public Sup_Interface(Utilisateur u) {
 		super(u.getPersonne().getPrenom()+" "+u.getPersonne().getNom()+" - Superviseur");
 
+		// On enlève les barres d'état
+		setUndecorated(true);
+
 		// Taille de la fenêtre
 		setSize(1024,768);
+		
+		// Panel recevant le contenu de la fenêtre
+		JPanel contenu = new JPanel(){
+			// Permet de définir une image de fond
+			public void paintComponent(Graphics g)	{
+				ImageIcon img = new ImageIcon("images/supervision/bg_superviseur.png");
+				g.drawImage(img.getImage(), 0, 0, null);
+				super.paintComponent(g);
+			}
+		};
+		
+		// On place contenu comme Panel principal
+		setContentPane(contenu);
+		
+		// On active la transparence pour que l'arrière plan soit visible
+		contenu.setOpaque(false);
+		
+		// Affichage du titre
+		Font font=new Font("Verdana", Font.BOLD, 13);
+		JLabel labelUtilisateur=new JLabel(u.toTitre());
+		labelUtilisateur.setBounds(73,70,300,20);
+		labelUtilisateur.setFont(font);
+		contenu.add(labelUtilisateur);
 		
 		// On enlève les barres d'état
 		setUndecorated(true);
@@ -60,6 +90,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		// Onglets : création et assemblage
 		onglets = new JTabbedPane(SwingConstants.TOP);
 		ongletCamion = new Sup_OngletCamion();
+//		ongletCamion.setOpaque(false);
 		ongletRepartition = new Sup_OngletRepartition();
 		ongletIncident = new Sup_OngletIncident();
 		ongletRoutage = new Sup_OngletRoutage();
@@ -69,59 +100,38 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		onglets.addTab("Incidents",null,ongletIncident,"Gérer les incidents : mise à jour, consultation des archives, ...");
 		onglets.addTab("Table de routage",null,ongletRoutage,"Gérer les tables de routage");
 		onglets.addTab("Utilisateurs",null,ongletUtilisateur,"Gérer la liste des utilisateurs : informations personnelles, droits, ...");
+		onglets.addTab("Entrepôts",null,ongletEntrepot,"Gérer la liste des entrepôts");
 
 		// Ajout des onglets à la fenêtre
-		getContentPane().setLayout(new GridLayout(1, 1)); 
-		getContentPane().add(onglets);
-
-		// Comportement lors de la fermeture de la fenêtre
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contenu.setLayout(null);
+		onglets.setBounds(40,210,750,520);
+		onglets.setOpaque(false);
+		onglets.setBackground(new Color(0,0,0,0));
+		contenu.add(onglets);
 		
+		//Ajout du bouton de déconnexion
+		boutonDeconnexion=new Bouton("images/icones/deconnexion.png","images/icones/deconnexion_inv.png");
+		boutonDeconnexion.setBounds(866, 50, 98, 17);
+		contenu.add(boutonDeconnexion);
+		boutonDeconnexion.addActionListener(this);
+
 		// Affichage de la fenêtre
 		setVisible(true);
-	}
+	}	
 
 	// Gestion des actions de l'utilisateur
 	public void actionPerformed(ActionEvent ev){
 		Object source = ev.getSource();
 		
-		// Si l'utilisateur a cliqué sur Quitter, on retourne à l'invite de login
-		if(source==quitter){
-//			dispose();
+		// Si l'utilisateur a cliqué sur Déconnexion, on retourne à l'invite de login
+		if(source==boutonDeconnexion){
 //			JFrame fenlogin = new Fenetre_login();
 //			fenlogin.setVisible(true);
+//			dispose();
 			System.exit(0);
-		}
-
-		// S'il a cliqué sur Entrepôts, on s'occupe de l'onglet de gestion des entrepôts
-		else if(source==entrepots){
-			afficherOngletEntrepots();
 		}
 	}
 	
-	// Affichage de l'onglet de gestion des entrepôts
-	public void afficherOngletEntrepots(){
-		// Si l'onglet n'est pas affiché, on l'affiche et on se positionne dessus
-		if(!ongletEntrepot.isDisplayable()){
-			// Ajout de l'onglet
-			onglets.addTab("Entrepôts",null,ongletEntrepot,"Gérer la liste des entrepôts");
-			
-			// Positionnement sur l'onglet
-			onglets.setSelectedComponent(ongletEntrepot);
-			
-			// Activation de la checkbox de la barre de menu
-			entrepots.setState(true);
-		}
-		// S'il est affiché on le masque
-		else{
-			// Suppression de l'onglet
-			onglets.removeTabAt(onglets.indexOfComponent(ongletEntrepot));
-			
-			// Désactivation de la checkbox de la barre de menu
-			entrepots.setState(false);
-		}
-	}
-
 	// Fonction principale de l'interface Superviseur
 	public static void main(String [] args){
 		Utilisateur uTest = new Utilisateur(new Integer(-1),"rochef","pass",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");

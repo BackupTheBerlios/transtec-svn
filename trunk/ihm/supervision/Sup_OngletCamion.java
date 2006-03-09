@@ -15,12 +15,12 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 
 	public Sup_OngletCamion(){
 		super("Gestion des camions");
-		
-		//Mise en forme initiale
+				
+		// Mise en forme initiale
 		setOpaque(false);
 		setLayout(null);
 
-		//Liste des camions : noms des colonnes.
+		// Liste des camions : noms des colonnes.
 		nomColonnes.add("ID");
         nomColonnes.add("Numéro");
         nomColonnes.add("Disponibilité");
@@ -45,7 +45,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
         
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
-
+		
 		// Bouton Ajouter
 		boutAjouter.addActionListener(this);
 
@@ -55,7 +55,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 		// Bouton Supprimer
 		boutSupprimer.addActionListener(this);
 	}
-
+	
 	public void actionPerformed(ActionEvent ev){
 		Object source = ev.getSource();
 
