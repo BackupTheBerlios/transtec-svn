@@ -80,7 +80,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 			
 		}
 		this.volumeMax=volumeMax;
-		this.volumeChargement=this.chargement.getVolChargement().floatValue();
+		this.volumeChargement=new Float(this.chargement.getVolChargement().floatValue());
 		
 		// Affichage du chargement traité
 		JLabel labelChargement=new JLabel("Chargement n°"+this.chargement.getCodeBarre());
@@ -120,7 +120,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
         Vector donneesColis = new Vector();
         // Recherche des colis pouvant être chargés
 		try{
-			Vector colisNonCharge=new AccesBDDColis().colisACharger(idDestination.intValue());
+			Vector colisNonCharge=new AccesBDDColis().colisACharger(idDestination);
 			
 			// Transformation pour l'affichage dans le tableau
 			for(int i=0;i<colisNonCharge.size();i++)
@@ -241,7 +241,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				
 				// On remet à jour le volume
 				this.fenetre.remove(this.labelVolumeChargement);
-				this.labelVolumeChargement=new JLabel(this.chargement.ajouterVolumeColis(new Float(new Colis(vec).getVolume())));
+				this.labelVolumeChargement=new JLabel(this.chargement.ajouterVolumeColis(new Float(new Colis(vec).getVolume().intValue())));
 				this.labelVolumeChargement.setBounds(440,30,200,20);
 				this.fenetre.add(this.labelVolumeChargement);
 				this.fenetre.repaint();
@@ -270,7 +270,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				
 				// On remet à jour le volume
 				this.fenetre.remove(this.labelVolumeChargement);
-				this.labelVolumeChargement=new JLabel(this.chargement.soustraireVolumeColis(new Float(new Colis(vec).getVolume())));
+				this.labelVolumeChargement=new JLabel(this.chargement.soustraireVolumeColis(new Float(new Colis(vec).getVolume().intValue())));
 				this.labelVolumeChargement.setBounds(440,30,200,20);
 				fenetre.add(this.labelVolumeChargement);
 				this.fenetre.repaint();

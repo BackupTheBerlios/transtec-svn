@@ -29,7 +29,7 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		setSize(1024,768);
 		
 		// On enlève les barres d'état
-//		setUndecorated(true);
+		setUndecorated(true);
 
 		// Construction de la barre de menu
 		menuBar = new JMenuBar();

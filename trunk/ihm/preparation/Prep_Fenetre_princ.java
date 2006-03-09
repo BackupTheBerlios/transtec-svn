@@ -82,7 +82,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		catch(SQLException e){
 			
 		}
-		
 		// Création de la police pour les affichages de texte
 		Font font=new Font("Verdana", Font.BOLD, 12);
 		
