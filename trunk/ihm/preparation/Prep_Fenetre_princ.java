@@ -215,12 +215,12 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				
 				// Modification d'un ancien chargement
 				else if(source==this.gererChargement) {
-					//On récupère les données de la ligne du tableau
-					Vector cVect = (Vector) tableMod.getRow(ligneActive);
-					//dispose();
-	//				ATTENTION:On passe un vecteur comme argument et pas un objet camion
-					//Prep_Gerer_chargement fen1 = new Prep_Gerer_chargement("987654321", 7, this.selectionnee.getVolume());
-					//fen1.setVisible(true);
+					dispose();					
+					new Prep_Gerer_chargement(
+							this.utilisateur,
+							(Integer)((Vector)tableMod.getRow(ligneActive)).get(10), 
+							this.selectionnee.getDestination().getId(), 
+							this.selectionnee.getVolume()).setVisible(true);
 				}
 				
 				// Création du plan de chargement

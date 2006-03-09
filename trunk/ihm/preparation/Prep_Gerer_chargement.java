@@ -1,5 +1,7 @@
 package ihm.preparation;
 
+import ihm.Bouton;
+import ihm.FenetreType;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
@@ -13,6 +15,7 @@ import javax.swing.*;
 
 import donnees.Chargement;
 import donnees.Colis;
+import donnees.Utilisateur;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 
@@ -23,27 +26,54 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	private ModeleTable modColis;
 	private ModeleTable modChargement;
 	private Vector nomColonnes = new Vector();
-	private JButton bas = new JButton();
-	private JButton haut = new JButton();
 	private TableSorter sorter1;
 	private TableSorter sorter2;
-	private JButton valider = new JButton("Valider");
-	private JButton annuler=new JButton("Annuler");
 	private Chargement chargement;
 	private JLabel labelVolumeChargement,labelVolumeMax;
 	private Float volumeChargement, volumeMax;	// Ne sert plus
 	private Vector listeColis=null;
-	private Container ct;
+	private FenetreType fenetre;
+	private Bouton ajouter, retirer, valider, annuler;
+	private Utilisateur utilisateur;
 	
-	public Prep_Gerer_chargement(String codeBarreChargement, Integer idDestination, Float volumeMax){
-		//Constructeur de la fenetre
-		super(" - Preparateur");
-		ct = this.getContentPane();
+	public Prep_Gerer_chargement(Utilisateur utilisateur, Integer idChargement, Integer idDestination, Float volumeMax){
+		// Création graphique de la fenêtre
+		setTitle("Modification du chargement");
+		setSize(1024,768);
+		setUndecorated(true);
+		fenetre=new FenetreType(utilisateur, "images/preparation/fenetre_gererBackground.png");
+		setContentPane(fenetre);
+		fenetre.setLayout(new FlowLayout());
+		getContentPane().setLayout(null);
 		
-		// Récupération de la fenêtre précédente
+		// Ajout des bouton sur la fenêtre
+		this.ajouter=new Bouton("images/icones/ajouter_haut.png","images/icones/ajouter_haut.png");
+		this.ajouter.setBounds(810, 270, 109, 44);
+		this.fenetre.add(this.ajouter);
+		this.ajouter.addActionListener(this);
+		this.retirer=new Bouton("images/icones/retirer_bas.png","images/icones/retirer_bas.png");
+		this.retirer.setBounds(810, 329, 109, 44);
+		this.fenetre.add(this.retirer);
+		this.retirer.addActionListener(this);
+		this.valider=new Bouton("images/icones/valider.png","images/icones/valider.png");
+		this.valider.setBounds(810, 485, 108, 43);
+		this.fenetre.add(this.valider);
+		this.valider.addActionListener(this);
+		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler.png");
+		this.annuler.setBounds(810, 543, 108, 43);
+		this.fenetre.add(this.annuler);
+		this.annuler.addActionListener(this);
+		
+		// Création d'un police pour l'affichage des différents textes
+		Font font=new Font("Verdana", Font.BOLD, 12);
+		
+		// On mémorise
+		this.utilisateur=utilisateur;
+		
+		// Recherche du chargement
 		AccesBDDChargement bddChargement=new AccesBDDChargement();
 		try{
-			this.chargement=bddChargement.rechercher(codeBarreChargement);
+			this.chargement=bddChargement.rechercher(idChargement);
 		}
 		catch(SQLException e){
 			
@@ -51,65 +81,24 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		this.volumeMax=volumeMax;
 		this.volumeChargement=this.chargement.getVolChargement().floatValue();
 		
-		//taille de la fenêtre
-		setSize(800,600);
-		setBounds(200,100,800,600);
-		
-		//Declaration du layout
-		ct = getContentPane();
-		ct.setLayout(new FlowLayout());
-		getContentPane().setLayout(null);
-		
-		//Ajout des flèches
-		ImageIcon iconeBas = new ImageIcon("images/icones/bas.gif");
-		ImageIcon iconeHaut = new ImageIcon("images/icones/haut.gif");
-		
-		//Insertion des icones dans les boutons
-		bas.setIcon(iconeBas);
-		haut.setIcon(iconeHaut);
-		
-		//Ajout du bouton gauche_droite
-		 bas.setBounds(325,240,33,29);
-	     ct.add(bas);
-	     bas.addActionListener(this);
-	     
-	     //Ajout du bouton droite_gauche
-		 haut.setBounds(405,240,33,29);
-	     ct.add(haut);
-	     haut.addActionListener(this);
-	     
-	     // Bouton valider
-	     valider.setBounds(400,450,80,40);
-		 ct.add(valider);
-		 valider.addActionListener(this);
-		 
-		 // Boutin annuler
-		 annuler.setBounds(520,450,80,40);
-		 ct.add(annuler);
-		 annuler.addActionListener(this);
-		
-		//Ajout des zones de texte
+		// Affichage du chargement traité
+		JLabel labelChargement=new JLabel("Chargement n°"+this.chargement.getCodeBarre());
+		labelChargement.setBounds(60, 227, 200, 20);
+		labelChargement.setFont(font);
+		this.fenetre.add(labelChargement);
+		// Affichage des volumes
 		JLabel labelInfo1= new JLabel("Volume chargé max :");
-		labelInfo1.setBounds(80,30,200,20);
-		ct.add(labelInfo1);
+		labelInfo1.setBounds(380,227,200,20);
+		fenetre.add(labelInfo1);
 		this.labelVolumeMax=new JLabel(this.volumeMax.toString());
-		this.labelVolumeMax.setBounds(200,30,200,20);
-		ct.add(this.labelVolumeMax);
+		this.labelVolumeMax.setBounds(510,227,200,20);
+		fenetre.add(this.labelVolumeMax);
 		JLabel labelInfo2= new JLabel("Volume chargé : ");
-		labelInfo2.setBounds(320,30,200,20);
-		ct.add(labelInfo2);
+		labelInfo2.setBounds(570,227,200,20);
+		fenetre.add(labelInfo2);
 		this.labelVolumeChargement=new JLabel(this.volumeChargement.toString());
-		this.labelVolumeChargement.setBounds(440,30,200,20);
-		ct.add(this.labelVolumeChargement);
-		
-		JLabel txt = new JLabel("Colis libres ");
-		txt.setBounds(80,10,200,20);
-		ct.add(txt);
-		
-		JLabel txt1 = new JLabel("Colis chargés");
-		txt1.setBounds(80,280,200,20);
-		ct.add(txt1);
-		
+		this.labelVolumeChargement.setBounds(670,227,200,20);
+		fenetre.add(this.labelVolumeChargement);
 		
 		// Crétaion des colonnes
         nomColonnes.add("Id");
@@ -168,7 +157,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		//Construction du JScrollPane
 		JScrollPane scrollPane1 = new JScrollPane(tableColis);
 		tableColis.setPreferredScrollableViewportSize(new Dimension(800,150));
-		scrollPane1.setBounds(80,50,600,150);
+		scrollPane1.setBounds(52,504,729,222);
 		scrollPane1.setOpaque(false);
 		scrollPane1.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane1);
@@ -218,10 +207,12 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		//Construction du JScrollPane
 		JScrollPane scrollPane2 = new JScrollPane(tableChargement);
 		tableChargement.setPreferredScrollableViewportSize(new Dimension(600,150));
-		scrollPane2.setBounds(80,300,600,150);
+		scrollPane2.setBounds(52,253,729,209);
 		scrollPane2.setOpaque(false);
 		scrollPane2.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane2);
+		
+		setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent ev) {
@@ -229,7 +220,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		Object source = ev.getSource();
 		
 		// Action liée au bouton gauche_droite
-		if(source == bas){
+		if(source==this.ajouter){
 			// On récupère le numéro de la ligne sélectionnée
 			ligneActive = tableColis.getSelectedRow();
 			
@@ -248,17 +239,17 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				tableChargement.updateUI();
 				
 				// On remet à jour le volume
-				this.ct.remove(this.labelVolumeChargement);
+				this.fenetre.remove(this.labelVolumeChargement);
 				this.labelVolumeChargement=new JLabel(this.chargement.ajouterVolumeColis(new Float(new Colis(vec).getVolume())));
 				this.labelVolumeChargement.setBounds(440,30,200,20);
-				ct.add(this.labelVolumeChargement);
-				this.ct.repaint();
+				this.fenetre.add(this.labelVolumeChargement);
+				this.fenetre.repaint();
 			}
 			else
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 		}
 		//Action liée au bouton droite_gauche
-		else if(source == haut){
+		else if(source==this.retirer){
 			// On récupère le numéro de la ligne sélectionnée
 			ligneActive = tableChargement.getSelectedRow();
 				
@@ -277,14 +268,14 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				tableChargement.updateUI();
 				
 				// On remet à jour le volume
-				this.ct.remove(this.labelVolumeChargement);
+				this.fenetre.remove(this.labelVolumeChargement);
 				this.labelVolumeChargement=new JLabel(this.chargement.soustraireVolumeColis(new Float(new Colis(vec).getVolume())));
 				this.labelVolumeChargement.setBounds(440,30,200,20);
-				ct.add(this.labelVolumeChargement);
-				this.ct.repaint();
+				fenetre.add(this.labelVolumeChargement);
+				this.fenetre.repaint();
 			}
 		}
-		else if(source == valider){
+		else if(source==this.valider){
 			Vector nouvCharg=new Vector();
 			AccesBDDChargement bddChargement=new AccesBDDChargement();
 			
@@ -322,8 +313,11 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 			}
 			dispose();
 		}
-		else if(source==annuler){
+		
+		// Annulation de l'opération de modification du chargement
+		else if(source==this.annuler){
 			dispose();
+			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
 		}
 	}
 }

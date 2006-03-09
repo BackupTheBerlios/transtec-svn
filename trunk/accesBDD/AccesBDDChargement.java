@@ -165,6 +165,35 @@ public class AccesBDDChargement extends AccesBDD{
 		return chargement;
 	}
 	
+	public Chargement rechercher(Integer idChargement) throws SQLException{
+		Chargement chargement=null;
+		AccesBDDCamion bddCamion=new AccesBDDCamion();
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement WHERE idChargement=?");
+		recherche.setInt(1, idChargement.intValue());
+		
+		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
+		
+		if(resultat.next()){
+			chargement=new Chargement(
+				new Integer(resultat.getInt("idChargement")),
+				bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
+				new Integer(resultat.getInt("NbColis")),
+				new Integer(resultat.getInt("VolChargement")),
+				bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
+				resultat.getTimestamp("DateCreation"),
+				resultat.getString("CodeBarre"));
+			
+		}
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
+		
+		return chargement;
+	}
+	
 	// Permet de valider un chargement ATTENTION LE SORTIR DE LA PREP DANS CE CAS
 	public void valider(Chargement aModifier) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//

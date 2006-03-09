@@ -43,7 +43,6 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
-import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPreparation;
@@ -51,7 +50,6 @@ import donnees.Camion;
 import donnees.Chargement;
 import donnees.Colis;
 import donnees.Entrepot;
-import donnees.Preparation;
 import donnees.Utilisateur;
 
 public class Prep_Creer_chargement extends JFrame implements ActionListener{
