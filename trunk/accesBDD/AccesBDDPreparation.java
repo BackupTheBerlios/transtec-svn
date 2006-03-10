@@ -158,4 +158,17 @@ public class AccesBDDPreparation extends AccesBDD{
 		
 		return trouvee;
 	}
+	
+	// Permet de garder enmémoire pour la préparation le chargement
+	public void ajouterChargement(Integer idPreparation, Integer idChargement) throws SQLException{
+		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
+		
+		modifier.setInt(1, idChargement.intValue());
+		modifier.setInt(2, idPreparation.intValue());
+		
+		modifier.executeUpdate();
+		
+		modifier.close();	// Fermeture requête SQL
+		deconnecter();
+	}
 }

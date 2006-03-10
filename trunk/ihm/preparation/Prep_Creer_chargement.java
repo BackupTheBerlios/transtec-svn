@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.media.j3d.AmbientLight;
@@ -305,6 +306,10 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    //Ajout au container
 	    fenetre.add(camion3D);
 	    
+	    // Creation d'un code barre de chargement avec la fonction random
+	    String codeBarre="";
+	    codeBarre+=new Random().nextInt(10);
+
 	    // Création d'un nouveau chargement
 	    this.chargement=new Chargement(
 	    		camion,
@@ -312,7 +317,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    		new Integer(0),
 	    		this.utilisateur,
 	    		new Timestamp(System.currentTimeMillis()),
-	    		"PB A VOIR APRES");
+	    		codeBarre);
 		setVisible(true);
 	}
 		
@@ -337,6 +342,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				this.chargement.setId(bddChargement.ajouter(this.chargement));
 				for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
 				bddChargement.AjouterColis(chargement, aCharger);
+				// On crée le chargement temporaire
 				new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
 			}
 			catch(SQLException e){

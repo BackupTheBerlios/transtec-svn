@@ -213,7 +213,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 						new Prep_Creer_chargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
 								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
-								(Integer)((Vector)tableMod.getRow(ligneActive)).get(11)).setVisible(true);
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(12)).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						
@@ -242,7 +242,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				
 				// Afficher les incidents
 				else if(source==this.incident){
-					Prep_Consulter_incident cons = new Prep_Consulter_incident();
+					Prep_Consulter_incident cons = new Prep_Consulter_incident(this.utilisateur);
 					cons.setVisible(true);
 				}
 			}
@@ -289,11 +289,12 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		int ligneActive = table.getSelectedRow();
 		if(ligneActive!=-1){
 			Vector ligne=(Vector)this.tableMod.getRow(ligneActive);
+			// On bloque le bouton créer si pour la préparation un chargement a déjà été créé auparavant
 			if(((Integer)ligne.get(10)).equals(new Integer(0)))
 				this.creerChargement.setEnabled(true);
 			else	// La préparation a déjà un chargement
 				this.creerChargement.setEnabled(false);
-			// Bloquer quand chargement validé
+			
 		}
 	}
 

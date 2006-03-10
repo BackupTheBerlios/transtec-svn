@@ -215,7 +215,10 @@ public class AccesBDDChargement extends AccesBDD{
 		modifie.close();	// Fermeture requête SQL
 		deconnecter();
 		
+		AccesBDDPreparation bddPreparation=new AccesBDDPreparation();
 		// On enlève également el chargement temporaire temporaire
-		new AccesBDDPreparation().retirerChargementTemp(preparation.getId());
+		bddPreparation.retirerChargementTemp(preparation.getId());
+		// on ajoute le chargement dans la colonne chargement effectué
+		bddPreparation.ajouterChargement(preparation.getId(), aModifier.getId());
 	}
 }
