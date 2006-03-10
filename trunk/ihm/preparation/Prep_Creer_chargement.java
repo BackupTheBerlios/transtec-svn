@@ -78,19 +78,19 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 		
 		// Ajout des bouton sur la fenêtre
-		this.retirer=new Bouton("images/icones/retirer.png","images/icones/retirer.png");
+		this.retirer=new Bouton("images/icones/retirer.png","images/icones/retirer_inv.png");
 		this.retirer.setBounds(193, 702, 95, 44);
 		fenetre.add(this.retirer);
 		this.retirer.addActionListener(this);
-		this.ajouter=new Bouton("images/icones/ajouter.png","images/icones/ajouter.png");
+		this.ajouter=new Bouton("images/icones/ajouter.png","images/icones/ajouter_inv.png");
 		this.ajouter.setBounds(302, 702, 95, 44);
 		fenetre.add(this.ajouter);
 		this.ajouter.addActionListener(this);
-		this.valider=new Bouton("images/icones/valider.png","images/icones/valider.png");
+		this.valider=new Bouton("images/icones/valider.png","images/icones/valider_inv.png");
 		this.valider.setBounds(550, 702, 108, 44);
 		fenetre.add(this.valider);
 		this.valider.addActionListener(this);
-		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler.png");
+		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
 		this.annuler.setBounds(675, 702, 108, 44);
 		fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);

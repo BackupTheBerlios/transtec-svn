@@ -48,19 +48,19 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 		
 		// Ajout des bouton sur la fenêtre
-		this.ajouter=new Bouton("images/icones/ajouter_haut.png","images/icones/ajouter_haut.png");
+		this.ajouter=new Bouton("images/icones/ajouter_haut.png","images/icones/ajouter_haut_inv.png");
 		this.ajouter.setBounds(810, 270, 109, 44);
 		this.fenetre.add(this.ajouter);
 		this.ajouter.addActionListener(this);
-		this.retirer=new Bouton("images/icones/retirer_bas.png","images/icones/retirer_bas.png");
+		this.retirer=new Bouton("images/icones/retirer_bas.png","images/icones/retirer_bas_inv.png");
 		this.retirer.setBounds(810, 329, 109, 44);
 		this.fenetre.add(this.retirer);
 		this.retirer.addActionListener(this);
-		this.valider=new Bouton("images/icones/valider.png","images/icones/valider.png");
+		this.valider=new Bouton("images/icones/valider.png","images/icones/valider_inv.png");
 		this.valider.setBounds(810, 485, 108, 43);
 		this.fenetre.add(this.valider);
 		this.valider.addActionListener(this);
-		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler.png");
+		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
 		this.annuler.setBounds(810, 543, 108, 43);
 		this.fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
@@ -307,7 +307,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				bddChargement.AjouterColis(this.chargement, nouvCharg);
 				
 				// Mise à jour des infos concernant le chargement
-				bddChargement.valider(this.chargement, new AccesBDDPreparation().rechercherAvecChargementTemp(this.chargement.getId()));
+				//bddChargement.valider(this.chargement, new AccesBDDPreparation().rechercherAvecChargementTemp(this.chargement.getId()));
 			}
 			catch(SQLException e){
 				

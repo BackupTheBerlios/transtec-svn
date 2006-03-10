@@ -50,23 +50,23 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		this.deconnexion.setBounds(866, 50, 98, 17);
 		this.fenetre.add(this.deconnexion);
 		this.deconnexion.addActionListener(this);
-		this.creerChargement=new Bouton("images/icones/creerChargement.png","images/icones/creerChargement.png");
+		this.creerChargement=new Bouton("images/icones/creerChargement.png","images/icones/creerChargement_inv.png");
 		this.creerChargement.setBounds(802, 270, 139, 48);
 		this.fenetre.add(this.creerChargement);
 		this.creerChargement.addActionListener(this);
-		this.gererChargement=new Bouton("images/icones/gererChargement.png","images/icones/gererChargement.png");
+		this.gererChargement=new Bouton("images/icones/gererChargement.png","images/icones/gererChargement_inv.png");
 		this.gererChargement.setBounds(802, 338, 143, 45);
 		this.fenetre.add(this.gererChargement);
 		this.gererChargement.addActionListener(this);
-		this.genererPlan=new Bouton("images/icones/genererPlan.png","images/icones/genererPlan.png");
+		this.genererPlan=new Bouton("images/icones/genererPlan.png","images/icones/genererPlan_inv.png");
 		this.genererPlan.setBounds(802, 403, 158, 29);
 		this.fenetre.add(this.genererPlan);
 		this.gererChargement.addActionListener(this);
-		this.imprimerEtiquette=new Bouton("images/icones/imprimerEtiquette.png","images/icones/imprimerEtiquette.png");
+		this.imprimerEtiquette=new Bouton("images/icones/imprimerEtiquette.png","images/icones/imprimerEtiquette_inv.png");
 		this.imprimerEtiquette.setBounds(802, 452, 121, 40);
 		this.fenetre.add(this.imprimerEtiquette);
 		this.imprimerEtiquette.addActionListener(this);
-		this.incident=new Bouton("images/icones/incident.png","images/icones/incident.png");
+		this.incident=new Bouton("images/icones/incident.png","images/icones/incident_inv.png");
 		this.incident.setBounds(802, 512, 162, 42);
 		this.fenetre.add(this.incident);
 		this.incident.addActionListener(this);
@@ -201,6 +201,11 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			Fenetre_login login=new Fenetre_login();
 			login.setVisible(true);
 		}
+		// Afficher les incidents
+		else if(source==this.incident){
+			dispose();
+			new Prep_Consulter_incident(this.utilisateur).setVisible(true);
+		}
 		else{
 			int ligneActive = table.getSelectedRow();
 			// Création d'un nouveau chargement pour la destination selectionnée
@@ -239,12 +244,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				// Imprimer une étiquette
 				else if(source==this.imprimerEtiquette)
 						JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
-				
-				// Afficher les incidents
-				else if(source==this.incident){
-					Prep_Consulter_incident cons = new Prep_Consulter_incident(this.utilisateur);
-					cons.setVisible(true);
-				}
 			}
 		}
 	}
