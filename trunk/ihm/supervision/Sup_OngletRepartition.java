@@ -1,6 +1,7 @@
 package ihm.supervision;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -41,22 +42,16 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	public Sup_OngletRepartition(){
 		// Mise en forme initiale
 		setOpaque(false);
-		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		setLayout(null);
 
 		// Titre de l'onglet
 		titre = new JLabel();
 		titre.setText("Disponibilités");
-		titre.setAlignmentX(Box.LEFT_ALIGNMENT);
 
 		// Panel d'en-tête
-		panTitre= new JPanel();
-		panTitre.setLayout(new BoxLayout(panTitre,BoxLayout.LINE_AXIS));
-		panTitre.add(titre);
-		panTitre.add(Box.createHorizontalGlue());
-		panTitre.setAlignmentY(Box.TOP_ALIGNMENT);
-		panTitre.setBorder(BorderFactory.createEmptyBorder(0, 10, 20, 50));
-		panTitre.setOpaque(false);
-		add(panTitre);
+		titre.setBounds(10,14,300,20);
+		titre.setFont(new Font("Verdana", Font.BOLD, 14));
+		add(titre);
 
 		// Création du panel de début
 		panDonneesDebut = new Sup_OngletRepartitionDebut(this);
@@ -69,23 +64,22 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 
 		// Création du panel à contenu variable
 		panDonnees = new JPanel(new CardLayout(10,10));
+		panDonnees.setBounds(1,37,738,483);
 		panDonnees.add(panDonneesDebut,"Disponibilités");
 		panDonnees.add(panDonneesChoix,"Choix d'un algorithme de répartition");
 		panDonnees.add(panDonneesFin,"Répartition");
-		panDonnees.setAlignmentY(Box.CENTER_ALIGNMENT);
 		panDonnees.setOpaque(false);
 		layoutPanDonnees = (CardLayout)panDonnees.getLayout();
 		add(panDonnees);
 		
 		// Mise en page du panel des boutons
 		panBoutons = new JPanel();
+		panBoutons.setBounds(748,37,177,360);
 		panBoutons.setOpaque(false);
-		panBoutons.setLayout(new BoxLayout(panBoutons,BoxLayout.X_AXIS));
-		panBoutons.setBorder(BorderFactory.createEmptyBorder(40, 50, 20, 50));
+		panBoutons.setLayout(null);
 
 		// Bouton Retour
-		boutRetour.setSize(100,20);
-		boutRetour.setAlignmentX(Box.LEFT_ALIGNMENT);
+		boutRetour.setBounds(10,320,80,20);
 		boutRetour.addActionListener(this);
 		boutRetour.setVisible(false);
 		panBoutons.add(boutRetour);
@@ -94,13 +88,18 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		panBoutons.add(Box.createRigidArea(new Dimension(100,0)));
 
 		// Bouton Suite
-		boutSuite.setSize(100,20);
-		boutSuite.setAlignmentX(Box.RIGHT_ALIGNMENT);
+		boutSuite.setBounds(100,320,80,20);
 		boutSuite.addActionListener(this);
 		panBoutons.add(boutSuite);
 		
-		panBoutons.setAlignmentY(Box.BOTTOM_ALIGNMENT);
 		add(panBoutons);
+	}
+	
+	// Permet de définir une image de fond
+	public void paintComponent(Graphics g)	{
+		ImageIcon img = new ImageIcon("images/supervision/bg_onglet.png");
+		g.drawImage(img.getImage(), 0, 0, null);
+		super.paintComponent(g);
 	}
 	
 	// Répartition des chargements à l'aide de l'algorithme sélectionné

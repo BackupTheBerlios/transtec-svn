@@ -65,7 +65,6 @@ public class Sup_Interface extends JFrame implements ActionListener{
 		onglets = new JTabbedPane(SwingConstants.TOP);
 		onglets.setUI(new Sup_CustomTabbedPane());
 		ongletCamion = new Sup_OngletCamion();
-//		ongletCamion.setOpaque(false);
 		ongletRepartition = new Sup_OngletRepartition();
 		ongletIncident = new Sup_OngletIncident();
 		ongletRoutage = new Sup_OngletRoutage();
@@ -79,10 +78,8 @@ public class Sup_Interface extends JFrame implements ActionListener{
 
 		// Ajout des onglets à la fenêtre
 		contenu.setLayout(null);
-		onglets.setBounds(50,181,740,515);
+		onglets.setBounds(51,191,926,541);
 		onglets.setOpaque(false);
-		//onglets.setBackground(new Color(0,0,0,0));
-		//onglets.setForeground(new Color(0,0,0,0));
 		onglets.setBorder(null);
 		contenu.add(onglets);
 		

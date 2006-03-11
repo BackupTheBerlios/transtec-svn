@@ -97,10 +97,10 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		scrollPaneCamions = new JScrollPane(tabCamions);
 		
 		// On définit les dimensions du tableau
-		tabCamions.setPreferredScrollableViewportSize(new Dimension(300,500));
+		tabCamions.setPreferredScrollableViewportSize(new Dimension(350,472));
 		
 		// On place le tableau
-		scrollPaneCamions.setMaximumSize(new Dimension(300,500));
+		scrollPaneCamions.setMaximumSize(new Dimension(350,472));
 		
 		// On définit le tableau transparent
 		scrollPaneCamions.setOpaque(false);
@@ -149,10 +149,10 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		scrollPaneDestinations = new JScrollPane(tabDestinations);
 		
 		// On définit les dimensions du tableau
-		tabDestinations.setPreferredScrollableViewportSize(new Dimension(300,500));
+		tabDestinations.setPreferredScrollableViewportSize(new Dimension(350,472));
 		
 		// On place le tableau
-		scrollPaneDestinations.setMaximumSize(new Dimension(300,500));
+		scrollPaneDestinations.setMaximumSize(new Dimension(350,472));
 		
 		// On définit le tableau transparent
 		scrollPaneDestinations.setOpaque(false);
@@ -161,8 +161,8 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		
 		// Ajout des tableaux au Panel de début
 		add(scrollPaneDestinations);
-		add(Box.createHorizontalGlue());
-		add(boutUpdate);
+		//add(Box.createHorizontalGlue());
+		//add(boutUpdate);
 		add(Box.createHorizontalGlue());
 		add(scrollPaneCamions);
 	}

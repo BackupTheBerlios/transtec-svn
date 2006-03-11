@@ -3,15 +3,15 @@ package ihm.supervision;
 import java.util.Vector;
 import java.sql.SQLException;
 import java.awt.event.*;
-import javax.swing.*;
 
+import ihm.Bouton;
 import donnees.Incident;
 import accesBDD.AccesBDDIncident;
 
 // Panneau de l'onglet de gestion des incidents
 public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 	
-	private JButton boutAfficher = boutAjouter;
+	private Bouton boutAfficher = boutAjouter;
 	private AccesBDDIncident tableIncidents = new AccesBDDIncident();
 	
 	public Sup_OngletIncident(){
@@ -46,12 +46,10 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 		construireTableau();
 
 		// Le Bouton Ajouter est transformé en bouton d'affichage
-		boutAfficher.setText("Détails");
 		boutAfficher.addActionListener(this);
 
 		// Bouton Modifier
 		boutModifier.addActionListener(this);
-		boutModifier.setText("Changer d'état");
 
 		// On cache le bouton Supprimer qui n'est pas utile ici
 		boutSupprimer.setVisible(false);

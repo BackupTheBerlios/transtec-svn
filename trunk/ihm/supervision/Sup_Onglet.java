@@ -2,9 +2,9 @@ package ihm.supervision;
 
 import ihm.ModeleTable;
 import ihm.TableSorter;
+import ihm.Bouton;
 
 import javax.swing.*;
-
 import java.util.Vector;
 import java.awt.*;
 
@@ -14,9 +14,9 @@ public class Sup_Onglet extends JPanel{
 	protected JTable table;
 	protected ModeleTable modeleTab;
 	protected TableSorter sorter;
-	protected JButton boutModifier = new JButton("Modifier");
-	protected JButton boutAjouter = new JButton("Ajouter");
-	protected JButton boutSupprimer = new JButton("Supprimer");
+	protected Bouton boutModifier;
+	protected Bouton boutAjouter;
+	protected Bouton boutSupprimer;
 	protected Vector nomColonnes = new Vector();
 	protected Vector donnees = new Vector();
 	protected int ligneActive;
@@ -29,8 +29,13 @@ public class Sup_Onglet extends JPanel{
 				
 		// Titre de l'onglet
 		JLabel titre = new JLabel(s);
-		titre.setBounds(10,10,200,20);
-		//add(titre);		
+		titre.setBounds(10,14,300,20);
+		titre.setFont(new Font("Verdana", Font.BOLD, 14));
+		add(titre);
+		
+		boutAjouter = new Bouton("images/supervision/bouton_ajouter.png","images/supervision/bouton_ajouter_appuyer.png");
+		boutModifier = new Bouton("images/supervision/bouton_modifier.png","images/supervision/bouton_modifier_appuyer.png");
+		boutSupprimer = new Bouton("images/supervision/bouton_annuler.png","images/supervision/bouton_annuler_appuyer.png");
 	}
 	
 	// Permet de définir une image de fond
@@ -65,10 +70,10 @@ public class Sup_Onglet extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(table);
 
 		// On définit les dimensions du tableau
-		table.setPreferredScrollableViewportSize(new Dimension(750,350));
+		table.setPreferredScrollableViewportSize(new Dimension(732,472));
 
 		// On place le tableau
-		scrollPane.setBounds(0,0,730,300);
+		scrollPane.setBounds(4,45,732,472);
 
 		// On définit le tableau transparent
 		scrollPane.setOpaque(false);
@@ -78,18 +83,15 @@ public class Sup_Onglet extends JPanel{
 		add(scrollPane);
 
 		// Bouton Ajouter
-		boutAjouter.setSize(100,20);
-		boutAjouter.setLocation(100,560);
+		boutAjouter.setBounds(770,60,111,50);
 		add(boutAjouter);
 
 		// Bouton Modifier
-		boutModifier.setSize(100,20);
-		boutModifier.setLocation(220,560);
+		boutModifier.setBounds(770,130,114,43);
 		add(boutModifier);
 
 		// Bouton Supprimer
-		boutSupprimer.setSize(100,20);
-		boutSupprimer.setLocation(340,560);
+		boutSupprimer.setBounds(770,193,108,41);
 		add(boutSupprimer);
 	}
 	
