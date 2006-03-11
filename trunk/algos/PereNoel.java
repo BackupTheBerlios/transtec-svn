@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import donnees.Camion;
 import donnees.Destination;
+import donnees.Preparation;
 
 
 // Classe permettant de répartir des camions selon des destinations en maximisant
@@ -42,7 +43,7 @@ public final class PereNoel {
 						cCourant.setDestination(dCourant.getEntrepot());
 						
 						// On ajoute ce camion à la liste
-						ret.add(cCourant);
+						ret.add(creerPrep(cCourant,dCourant));
 						
 						// Pour arrêter la boucle
 						indiceDest=listeDestinations.size();
@@ -66,13 +67,25 @@ public final class PereNoel {
 				cCourant.setDestination(dCourant.getEntrepot());
 				
 				// On ajoute ce camion à la liste
-				ret.add(cCourant);
+				ret.add(creerPrep(cCourant,dCourant));
 			}			
 		}
 		// Si l'une des deux listes est vide
 		else System.out.println("ERREUR\nClasse PereNoel : liste vide !");
 		
 		return ret;
+	}
+	
+	// Créer une préparation à partir d'un camion et d'une destination
+	private static Preparation creerPrep(Camion c, Destination d){
+		Preparation p = new Preparation();
+		
+		p.setDestination(d.getEntrepot());
+		float volume = Math.min(c.getVolume().floatValue(),d.getVolume().floatValue());
+		p.setVolume(new Float(volume));
+		p.setCamion(c);
+		
+		return p;
 	}
 	
 	// Comparateur sur les Destinations, utilisant leur Volume

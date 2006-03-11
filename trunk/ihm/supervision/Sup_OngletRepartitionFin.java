@@ -15,6 +15,7 @@ import donnees.Camion;
 import donnees.Utilisateur;
 import donnees.Preparation;
 import donnees.Destination;
+import donnees.Entrepot;
 
 public class Sup_OngletRepartitionFin extends JPanel{
 	
@@ -56,30 +57,60 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
-		}
+		}		
+	}
+	
+	// Construction du tableau des préparations
+	public void construireTableau(int algorithme){
 		
 		// On construit le Vector de données du tableau des préparations
-		for(int i=0;i<parent.listeCamions.size();i++){
-			Vector ligne = new Vector();
-			Destination dTemp = new Destination();
-			dTemp.getEntrepot().getLocalisation().setVille("choisir");
-			Utilisateur uTemp = new Utilisateur();		
-			uTemp.getPersonne().setNom("choisir");
-			uTemp.getPersonne().setPrenom("choisir");
-			
-			ligne.add(new Integer(0));
-			ligne.add(parent.listeCamions.get(i));
-			ligne.add(dTemp);
-			ligne.add(((Camion)parent.listeCamions.get(i)).getVolume());
-			ligne.add(uTemp);
-			ligne.add(new Integer(0));
-			
-			// On ajoute la ligne aux données du tableau temporaire
-			donneesPreparations.add(ligne);
+		
+		// Cas d'une répartition manuelle
+		if(algorithme == Sup_OngletRepartition.AUCUN){
+			for(int i=0;i<parent.listeCamions.size();i++){
+				Vector ligne = new Vector();
+				Utilisateur uTemp = new Utilisateur();		
+				uTemp.getPersonne().setNom("choisir");
+				uTemp.getPersonne().setPrenom("choisir");
+
+				Destination dTemp = new Destination();
+				dTemp.getEntrepot().getLocalisation().setVille("choisir");
+				Entrepot eTemp = dTemp.getEntrepot(); 
+				
+				ligne.add(new Integer(0));
+				ligne.add(parent.listeCamions.get(i));
+				ligne.add(eTemp);
+				ligne.add(((Camion)parent.listeCamions.get(i)).getVolume());
+				ligne.add(uTemp);
+				ligne.add(new Integer(0));
+				
+				// On ajoute la ligne aux données du tableau temporaire
+				donneesPreparations.add(ligne);
+			}
+		}
+		// cas d'une répartition assistée par un algorithme
+		else{
+			for(int i=0;i<parent.resultatAlgos.size();i++){
+				Vector ligne = new Vector();
+				Utilisateur uTemp = new Utilisateur();		
+				uTemp.getPersonne().setNom("choisir");
+				uTemp.getPersonne().setPrenom("choisir");
+				Preparation pCourante = (Preparation)parent.resultatAlgos.get(i); 
+				
+				ligne.add(new Integer(0));
+				ligne.add(pCourante.getCamion());
+				ligne.add(pCourante.getDestination());
+				ligne.add(pCourante.getVolume());
+				ligne.add(uTemp);
+				ligne.add(new Integer(0));
+				
+				// On ajoute la ligne aux données du tableau temporaire
+				donneesPreparations.add(ligne);
+			}
 		}
 		
 		// Création du modèle de tableau à l'aide des en-têtes de colonnes et des données 
-		modeleTabPreparations = new ModeleTable(nomColonnesPreparations,donneesPreparations){			
+		modeleTabPreparations = new ModeleTablePreparations(nomColonnesPreparations,donneesPreparations){			
 			// Ajout de cette méthode pour pouvoir afficher les ComboBox
 			public boolean isCellEditable(int row, int col) {
 				// Les colonnes contenant les ComboBox et le volume sont éditables
@@ -104,13 +135,21 @@ public class Sup_OngletRepartitionFin extends JPanel{
 	    col3.setCellRenderer(new MyComboBoxRenderer(parent.listePreparateurs));
 
 		// On place une liste de choix dans la colonne des destinations
+	    Vector listeString = new Vector();
+	    for(int i=0;i<parent.listeVolumesDestinations.size();i++){
+	    	listeString.add(((Destination)parent.listeVolumesDestinations.get(i)).getEntrepot().getLocalisation().getVille());
+	    }
+	    
+	    //JComboBox cb = new JComboBox(listeString);
+	    
 	    TableColumn col1 = tabPreparations.getColumnModel().getColumn(1);
-	    col1.setCellEditor(new MyComboBoxEditor(parent.listeVolumesDestinations));
-	    col1.setCellRenderer(new MyComboBoxRenderer(parent.listeVolumesDestinations));
+	    col1.setCellEditor(new MyComboBoxEditor(listeString));
+	    col1.setCellRenderer(new MyComboBoxRenderer(listeString));
 
 		// On crée les colonnes du tableau selon le modèle
 		tabPreparations.setAutoCreateColumnsFromModel(true);
 		tabPreparations.setOpaque(false);
+		tabPreparations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		scrollPanePreparations = new JScrollPane(tabPreparations);

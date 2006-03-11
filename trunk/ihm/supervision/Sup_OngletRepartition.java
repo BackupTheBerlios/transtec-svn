@@ -24,6 +24,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JButton boutSuite = new JButton("Suite  >");
 	private JButton boutRetour = new JButton("<  Retour");
 	protected Vector listePreparateurs,listeVolumesDestinations,listeCamions;	
+	protected Vector resultatAlgos;
 	protected AccesBDDCamion tableCamions = new AccesBDDCamion();
 	protected AccesBDDColis tableColis = new AccesBDDColis();
 	protected AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
@@ -108,7 +109,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		// On récupère l'algorithme choisi
 		switch(panDonneesChoix.choixAlgoRadio()){
 		case AUCUN:
-			//panDonneesFin.affTabPreparationsSansAlgo();
+			panDonneesFin.construireTableau(AUCUN);
 			break;
 			
 		case RADIN:
@@ -116,9 +117,9 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			break;
 			
 		case PERENOEL:
-			PereNoel.calculer(listeCamions,listeVolumesDestinations);
-			break;
-			
+			resultatAlgos = PereNoel.calculer(listeCamions,listeVolumesDestinations);
+			panDonneesFin.construireTableau(PERENOEL);
+			break;			
 		}
 	}
 	
@@ -148,6 +149,8 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 				
 				// Répartition des chargements à l'aide de l'algorithme choisi
 				repartirChargements();
+				
+				
 				break;
 				
 				// Ecran d'affichage final
