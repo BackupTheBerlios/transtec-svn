@@ -1,102 +1,88 @@
 package ihm.preparation;
 
-import ihm.ModeleTable;
-import ihm.TableSorter;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Vector;
+import ihm.Bouton;
+import ihm.FenetreType;
+import ihm.entree.AffichageImage;
 
 import javax.swing.*;
 
+import donnees.Utilisateur;
 
 public class Prep_Plan_chargement extends JFrame implements ActionListener{
-
-	private JTable tab;
-	private ModeleTable modeleColis;
-	private Vector nomColonnes = new Vector();
-	private Vector donnees = new Vector();
-	private int ligneActive;
-	private JButton quitter=new JButton("Quitter");
-	private TableSorter sorter;
-
+	private FenetreType fenetre;
+	private Bouton imprimer, annuler;
+	private Utilisateur utilisateur;
+	private Image image;
 	
-	public Prep_Plan_chargement() {
-		
-		super("ALBERT MUDA - Preparateur");
-		Container ct = this.getContentPane();
-		
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFichier = new JMenu("Fichier");
-		
-		// Taille de la fenêtre
-		setSize(800,600);
-		setBounds(0,0,1260,750);
-		
-		ct = getContentPane();
-		ct.setLayout(new FlowLayout());
+	public Prep_Plan_chargement(Utilisateur utilisateur) {
+		// Création graphique de la fenêtre
+		setTitle("Plan de chargement");
+		setSize(1024,768);
+		setUndecorated(true);
+		fenetre=new FenetreType(utilisateur,"images/preparation/fenetre_planBackground.png");
+		setContentPane(fenetre);
+		fenetre.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
-		// Affichage du bouton "Quitter"
-		quitter.setBounds(350,400,100,50);
-	    ct.add(quitter);
-	    quitter.addActionListener(this);
+		// Mémorisation de l'utilisateur
+		this.utilisateur=utilisateur;
 		
-	    // Création de la première ligne
-		nomColonnes.add("Ordre de chargement");
-        nomColonnes.add("Numéro Colis");
-        nomColonnes.add("Volume (m3)");
-        nomColonnes.add("Poids (kg)");
-        nomColonnes.add("Fragilité");
-        nomColonnes.add("Date d'entrée");
-
-//********************************************APPEL A LA BDD*************************************
-//Il faut afficher tous les colis présents dans le camion choisi    
-      /* Timestamp date=new Timestamp(12-12-1842);
-       Colis c = new Colis(new Integer(5),"24thghyuy654",new Integer(1), new Integer(2),new Integer(2),"52", date, new Integer(1),
-				new Integer(2), new Integer(2),"52445");
-		c.setId(new Integer(127));
-		//Vector v = new Vector(c.toVector());
-		//v.add(0,c.getId());
-		//donnees.addElement(v);*/
-
-//***********************************************************************************************		
+		// Mise en place du menu
+		this.imprimer=new Bouton("images/icones/imprimer.png","images/icones/imprimer_inv.png");
+		this.imprimer.setBounds(805, 265, 116, 46);
+		this.fenetre.add(this.imprimer);
+		this.imprimer.addActionListener(this);
+		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
+		this.annuler.setBounds(800, 331, 116, 46);
+		this.fenetre.add(this.annuler);
+		this.annuler.addActionListener(this);
 		
-		//Création du premier tableau
+		// Mise en place des vues
+		AffichageImage image = new AffichageImage("images/preparation/1.JPG");
+		image.setBounds(247,251,257,129);
+		this.fenetre.add(image);
 		
-		modeleColis = new ModeleTable(nomColonnes,donnees);
-		//Création du TableSorter qui permet de réordonner les lignes à volonté
-		sorter = new TableSorter(modeleColis);
-		// Création du tableau
-		tab = new JTable(sorter);
-		// initialisation du Sorter
-		sorter.setTableHeader(tab.getTableHeader());
-	
-		tab.setAutoCreateColumnsFromModel(true);
-		tab.setOpaque(false);
-		tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tab.removeColumn(tab.getColumnModel().getColumn(0));
-		JScrollPane scrollPane = new JScrollPane(tab);
-		tab.setPreferredScrollableViewportSize(new Dimension(400,150));
-		scrollPane.setBounds(700,50,500,150);
-		scrollPane.setOpaque(false);
-		scrollPane.getViewport().setOpaque(false);
-		getContentPane().add(scrollPane);
+		image = new AffichageImage("images/preparation/2.JPG");
+		image.setBounds(247,424,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage("images/preparation/3.JPG");
+		image.setBounds(247,597,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage("images/preparation/4.JPG");
+		image.setBounds(524,251,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage("images/preparation/5.JPG");
+		image.setBounds(524,424,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage("images/preparation/6.JPG");
+		image.setBounds(524,597,257,129);
+		this.fenetre.add(image);
+		
+		// Mise en place de la liste des colis pour le chargement
 		
 		setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent ev) {
-		
 		Object source = ev.getSource();
 		
-		//Sélection de "Quitter"
-		if(source == quitter){
+		if(source==this.imprimer){
+			//Impression
 			dispose();
-		}		
-	}
-	
-	public static void main(String[] args) {
-		Prep_Plan_chargement p = new Prep_Plan_chargement();
+			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+		}
+		else if(source==this.annuler){
+			dispose();
+			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+		}
 	}
 }

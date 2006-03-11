@@ -61,7 +61,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		this.genererPlan=new Bouton("images/icones/genererPlan.png","images/icones/genererPlan_inv.png");
 		this.genererPlan.setBounds(802, 403, 158, 29);
 		this.fenetre.add(this.genererPlan);
-		this.gererChargement.addActionListener(this);
+		this.genererPlan.addActionListener(this);
 		this.imprimerEtiquette=new Bouton("images/icones/imprimerEtiquette.png","images/icones/imprimerEtiquette_inv.png");
 		this.imprimerEtiquette.setBounds(802, 452, 121, 40);
 		this.fenetre.add(this.imprimerEtiquette);
@@ -237,10 +237,10 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 				
 				// Création du plan de chargement
 				else if(source==this.genererPlan){
-					Prep_Plan_chargement plan = new Prep_Plan_chargement();
-					plan.setVisible(true);
+					dispose();
+					new Prep_Plan_chargement(this.utilisateur).setVisible(true);
 				}
-				
+					
 				// Imprimer une étiquette
 				else if(source==this.imprimerEtiquette)
 						JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
