@@ -27,12 +27,12 @@ public final class PereNoel {
 			
 			//TODO : 	TRIER SELON TRANSIT OU NON
 			
-			// On boucle sur les camions
+			// On boucle sur les camions pour remplir ceux qui peuvent l'être totalement
 			for(int indiceCamions=0;indiceCamions<listeCamions.size();indiceCamions++){
 				
 				Camion cCourant = (Camion)listeCamions.get(indiceCamions);
 				
-				// On boucle sur les destinations pourle camion courant
+				// On boucle sur les destinations pour le camion courant
 				for(int indiceDest=0;indiceDest<listeDestinations.size();indiceDest++){
 					Destination dCourant = (Destination)listeDestinations.get(indiceDest);
 					
@@ -41,18 +41,38 @@ public final class PereNoel {
 						cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
 						cCourant.setDestination(dCourant.getEntrepot());
 						
+						// On ajoute ce camion à la liste
+						ret.add(cCourant);
+						
 						// Pour arrêter la boucle
 						indiceDest=listeDestinations.size();
 					}
 				}				
+			}
+			
+			// On retire les camions attribués de la liste des camions
+			for(int i=0;i<ret.size();i++){
+				listeCamions.remove(ret.get(i));
+			}
+			
+			// Les camions pouvant être totalement remplis le sont, on attribue 
+			//	maintenant le reste des colis aux camions restants
+			// On boucle sur les camions pour remplir ceux qui peuvent l'être totalement
+			for(int indice=0;indice<Math.min(listeCamions.size(),listeDestinations.size());indice++){				
+				Camion cCourant = (Camion)listeCamions.get(indice);
+				Destination dCourant = (Destination)listeDestinations.get(indice);
+				
+				cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
+				cCourant.setDestination(dCourant.getEntrepot());
+				
+				// On ajoute ce camion à la liste
+				ret.add(cCourant);
 			}			
 		}
 		// Si l'une des deux listes est vide
-		else{
-			System.out.println("ERREUR\nClasse PereNoel : liste vide !");
-		}
+		else System.out.println("ERREUR\nClasse PereNoel : liste vide !");
 		
-		return listeCamions;
+		return ret;
 	}
 	
 	// Comparateur sur les Destinations, utilisant leur Volume

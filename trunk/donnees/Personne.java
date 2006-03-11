@@ -51,7 +51,8 @@ public class Personne{
 
 	// Constructeur vide
 	public Personne(){
-		
+		nom = new String("");
+		prenom = new String("");
 	}
 	public Personne(Vector v){
 		this.id=(Integer)v.get(0);		

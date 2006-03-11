@@ -30,7 +30,7 @@ public class Entrepot {
 	
 	// Constructeur vide
 	public Entrepot(){
-		
+		localisation = new Localisation();
 	}
 	
 	// Constructeur utilisant un Vector

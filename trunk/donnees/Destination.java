@@ -20,7 +20,7 @@ public class Destination implements Comparable{
 
 	// Constructeur vide
 	public Destination(){
-		
+		entrepot = new Entrepot();
 	}
 	
 	// Transforme l'objet en un Vector

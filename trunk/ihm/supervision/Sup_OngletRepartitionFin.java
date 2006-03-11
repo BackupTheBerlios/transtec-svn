@@ -61,11 +61,17 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		// On construit le Vector de données du tableau des préparations
 		for(int i=0;i<parent.listeCamions.size();i++){
 			Vector ligne = new Vector();
+			Destination dTemp = new Destination();
+			dTemp.getEntrepot().getLocalisation().setVille("choisir");
+			Utilisateur uTemp = new Utilisateur();		
+			uTemp.getPersonne().setNom("choisir");
+			uTemp.getPersonne().setPrenom("choisir");
+			
 			ligne.add(new Integer(0));
 			ligne.add(parent.listeCamions.get(i));
-			ligne.add(new String("Choisir..."));
+			ligne.add(dTemp);
 			ligne.add(((Camion)parent.listeCamions.get(i)).getVolume());
-			ligne.add(new String("Choisir..."));
+			ligne.add(uTemp);
 			ligne.add(new Integer(0));
 			
 			// On ajoute la ligne aux données du tableau temporaire

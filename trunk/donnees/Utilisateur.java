@@ -39,7 +39,7 @@ public class Utilisateur implements Comparable{
 	
 	// Constructeur vide
 	public Utilisateur(){
-		
+		personne = new Personne();
 	}
 	
 	// Construction utilisant un Vector
