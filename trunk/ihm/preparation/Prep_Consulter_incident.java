@@ -2,8 +2,6 @@ package ihm.preparation;
 
 import ihm.Bouton;
 import ihm.FenetreType;
-import ihm.ModeleTable;
-import ihm.TableSorter;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -11,33 +9,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDIncident;
 
 import donnees.Colis;
-import donnees.Entrepot;
 import donnees.Incident;
-import donnees.ModeleColis;
-import donnees.Personne;
 import donnees.Utilisateur;
 
+/*
+ * Classe permettant de créer un incident associé à un colis entré par l'utilisateur via la saisie du code barre
+ */
 
 public class Prep_Consulter_incident extends JFrame implements ActionListener {
-	private Vector nomColonnes = new Vector();
-	private Vector donnees = new Vector();
-	private ModeleTable modeleInc;
-	private TableSorter sorter;
-	private JTable tab;
-	private JButton quitter = new JButton("Quitter");
 	private Bouton valider, annuler, rechercher;
 	private JTextField tfCodeBarreColis, tfOrigine, tfDestination, tfPoids;
 	private JTextField tfDate, tfFragilite, tfHauteur, tfLargeur, tfProfondeur, tfVolume, tfIncident;
@@ -50,7 +39,7 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 		setTitle("Créer Chargement");
 		setSize(1024,768);
 		setUndecorated(true);
-		fenetre=new FenetreType(utilisateur,"images/preparation/fenetre_creerBackground.png");
+		fenetre=new FenetreType(utilisateur,"images/preparation/fenetre_incidentBackground.png");
 		setContentPane(fenetre);
 		fenetre.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
