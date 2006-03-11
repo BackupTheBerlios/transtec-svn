@@ -10,7 +10,8 @@ public class Preparation {
 	private Float volume;
 	private Camion camion;
 	private Integer etat;
-	private Integer idChargementEnCours, idChargement;
+	private Integer idChargementEnCours;
+	private Integer idChargement;
 	
 	// Constantes décrivant l'état d'une préparation
 	public final static int A_FAIRE=0;
@@ -61,6 +62,11 @@ public class Preparation {
 		this.etat=(Integer)v.get(6);
 	}
 	
+	// Constructeur vide
+	public Preparation(){
+		this.etat = new Integer(A_FAIRE);
+	}
+	
 	// Permet de transformer un objet en un Vector
 	public Vector toVector(){
 		Vector v=new Vector();
@@ -76,68 +82,98 @@ public class Preparation {
 		return v;
 	}
 	
-	public void setDestination(Entrepot destination){
-		this.destination=destination;
-	}
 	
-	public void setVolumeChargement(Float volume){
-		this.volume=volume;
-	}
-	
-	public void setUtilisateur(Utilisateur utilisateur){
-		this.utilisateur=utilisateur;
-	}
-	
+	/****** Méthodes d'écriture ******/
+
+	//----- Insérer l'id de la préparation -----//
 	public void setId(Integer id){
 		this.id=id;
 	}
 
-	public Integer getId(){
-		return this.id;
+	//----- Insérer l'utilisateur -----//
+	public void setUtilisateur(Utilisateur utilisateur){
+		this.utilisateur=utilisateur;
 	}
 	
-	public Utilisateur getUtilisateur(){
-		return this.utilisateur;
+	//----- Insérer l'origine -----//
+	public void setOrigine(Entrepot origine){
+		this.origine=origine;
 	}
 	
-	public Entrepot getDestination(){
-		return this.destination;
+	//----- Insérer la destination -----//
+	public void setDestination(Entrepot destination){
+		this.destination=destination;
 	}
 	
-	public Float getVolume(){
-		return this.volume;
+	//----- Insérer le volume -----//
+	public void setVolume(Float volume){
+		this.volume=volume;
 	}
 	
-	public Camion getCamion(){
-		return this.camion;
+	//----- Insérer le camion -----//
+	public void setCamion(Camion camion){
+		this.camion=camion;
 	}
 	
-	public Entrepot getOrigine(){
-		return this.origine;
-	}
-	
-	public Integer getEtat(){
-		return this.etat;
-	}
-	
-	public Integer getIdChargementEnCours(){
-		return this.idChargementEnCours;
-	}
-	
+	//----- Insérer l'id du chargement en cours -----//
 	public void setIdChargementEnCours(Integer idChargementEnCours){
 		this.idChargementEnCours=idChargementEnCours;
 	}
 	
+	//----- Insérer l'id du chargement -----//
+	public void setIdChargement(Integer idChargement){
+		this.idChargement=idChargement;
+	}	
+	
+	
+	/****** Méthodes de lecture ******/
+	
+	//----- Récupération de l'id -----//
+	public Integer getId(){
+		return this.id;
+	}
+	
+	//----- Récupération de l'utilisateur -----//
+	public Utilisateur getUtilisateur(){
+		return this.utilisateur;
+	}
+	
+	//----- Récupération de l'origine -----//
+	public Entrepot getOrigine(){
+		return this.origine;
+	}
+	
+	//----- Récupération de la destination -----//
+	public Entrepot getDestination(){
+		return this.destination;
+	}
+	
+	//----- Récupération du volume -----//
+	public Float getVolume(){
+		return this.volume;
+	}
+	
+	//----- Récupération du camion -----//
+	public Camion getCamion(){
+		return this.camion;
+	}
+	
+	//----- Récupération de l'état -----//
+	public Integer getEtat(){
+		return this.etat;
+	}
+	
+	//----- Récupération de l'id du chargement en cours-----//
+	public Integer getIdChargementEnCours(){
+		return this.idChargementEnCours;
+	}
+	
+	//----- Récupération de l'id du chargement -----//
 	public Integer getIdChargement(){
 		return this.idChargement;
 	}
 	
-	public void setIdChargement(Integer idChargement){
-		this.idChargement=idChargement;
-	}
-
-	
-	
+		
 	/****** Redéfinition de méthodes génériques ******/
 	
 	// Affichage d'une préparation
