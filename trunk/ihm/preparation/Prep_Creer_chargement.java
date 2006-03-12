@@ -3,6 +3,7 @@ package ihm.preparation;
 import ihm.preparation.CollisionDetector;
 import ihm.Bouton;
 import ihm.FenetreType;
+import ihm.FenetreValidation;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
@@ -336,20 +337,24 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		// Création d'un chargement à l'état en cours
 		else if(source==this.valider){
-			// On met à jour la date
-			this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
-			try{
-				this.chargement.setId(bddChargement.ajouter(this.chargement));
-				for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
-				bddChargement.AjouterColis(chargement, aCharger);
-				// On crée le chargement temporaire
-				new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
+			FenetreValidation fenValide=new FenetreValidation("");
+			if(fenValide.getResultat()==true){
+				// On met à jour la date
+				this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
+				try{
+					this.chargement.setId(bddChargement.ajouter(this.chargement));
+					for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
+					bddChargement.AjouterColis(chargement, aCharger);
+					// On crée le chargement temporaire
+					new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
+				}
+				catch(SQLException e){
+					
+				}
+				dispose();
+				new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
 			}
-			catch(SQLException e){
-				
-			}
-			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			fenValide.fermer();
 		}
 		
 		// Ajouter un colis dans le camion

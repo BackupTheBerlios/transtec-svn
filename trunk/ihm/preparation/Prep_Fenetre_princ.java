@@ -1,5 +1,6 @@
 package ihm.preparation;
 
+import ihm.FenetreWarning;
 import ihm.Fenetre_login;
 import ihm.ModeleTable;
 import ihm.FenetreType;
@@ -210,7 +211,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			int ligneActive = table.getSelectedRow();
 			// Création d'un nouveau chargement pour la destination selectionnée
 			if(ligneActive==-1)
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				//JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				new FenetreWarning("");
 			else{
 				if(source==this.creerChargement){
 					dispose();

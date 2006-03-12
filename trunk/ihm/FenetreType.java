@@ -10,16 +10,29 @@ import javax.swing.JPanel;
 import donnees.Utilisateur;
 
 public class FenetreType extends JPanel{
-	private Utilisateur utilisateur;
+	private final static int GRANDE_FEN=0;
+	private final static int BOITE_DIALOG=1;
+	
+	private Utilisateur utilisateur=null;
 	private String cheminImage;
+	private int typeFentre;
+	
 	public FenetreType(Utilisateur utilisateur, String cheminImage){
 		super();
 		this.utilisateur=utilisateur;
 		this.cheminImage=cheminImage;
+		this.typeFentre=GRANDE_FEN;
+	}
+	
+	public FenetreType(String cheminImage){
+		super();
+		this.cheminImage=cheminImage;
+		this.typeFentre=BOITE_DIALOG;
 	}
 	
 	// Permet de définir une image de fond
 	public void paintComponent(Graphics g){
+		if(this.typeFentre==GRANDE_FEN){
 			ImageIcon img = new ImageIcon(this.cheminImage);
 			g.drawImage(img.getImage(), 0, 0, null);
 			setOpaque(false);
@@ -32,5 +45,12 @@ public class FenetreType extends JPanel{
 			labelUtilisateur.setFont(font);
 			add(labelUtilisateur);
 			super.paintComponent(g);
+		}
+		if(this.typeFentre==BOITE_DIALOG){
+			ImageIcon img = new ImageIcon(this.cheminImage);
+			g.drawImage(img.getImage(), 0, 0, null);
+			setOpaque(false);
+			setLayout(null);
+		}
 	}	
 }
