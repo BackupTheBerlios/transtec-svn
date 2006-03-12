@@ -5,14 +5,12 @@ import java.util.Vector;
 //----- Classe regroupant tous les attributs d'une destination (couple "Entrepôt + volume de colis")
 
 public class Destination implements Comparable{
-	private Integer id;
 	private Entrepot entrepot;
 	private Float volume;//en m3
 	private boolean transit;
 	
 	// Constructeur avec tous les paramètres
-	public Destination(Integer id, Entrepot entrepot, Float volume, boolean transit){
-		this.id=id;
+	public Destination(Entrepot entrepot, Float volume, boolean transit){
 		this.entrepot=entrepot;
 		this.volume=volume;
 		this.transit = transit;
@@ -29,9 +27,7 @@ public class Destination implements Comparable{
 
 		// ATTENTION l'ordre est très important !!
 		// l'ordre doit être :
-		// id, entrepot, volume
-
-		v.add(id);
+		// entrepot, volume
 		v.add(entrepot);
 		v.add(volume);
 
@@ -41,11 +37,6 @@ public class Destination implements Comparable{
 	
 	/****** Méthodes d'écriture ******/
 
-	//----- Insérer l'id -----//
-	public void setId(Integer id){
-		this.id=id;
-	}
-	
 	//----- Récupération de l'entrepôt -----//
 	public void setEntrepot(Entrepot entrepot){
 		this.entrepot=entrepot;
@@ -63,11 +54,6 @@ public class Destination implements Comparable{
 
 	
 	/****** Méthodes de lecture ******/
-	
-	//----- Récupération de l'id -----//
-	public Integer getId(){
-		return this.id;
-	}
 	
 	//----- Récupération de l'entrepôt -----//
 	public Entrepot getEntrepot(){
@@ -89,7 +75,7 @@ public class Destination implements Comparable{
 	
 	// Affichage d'une destination : on affiche sa ville
 	public String toString(){
-		return new String(entrepot.getLocalisation().getVille());
+		return new String(entrepot.getLocalisation().getVille()+" ("+entrepot.getLocalisation().getCodePostal()+")");
 	}
 	
 	// Comparaison de deux destinations selon leur ID
@@ -98,7 +84,7 @@ public class Destination implements Comparable{
 		
 		if(o instanceof Destination){
 			Destination destTmp=(Destination)o;
-			if(this.id.equals(destTmp.getId())) ret=true;			
+			if(this.entrepot.getId().equals(destTmp.getEntrepot().getId())) ret=true;			
 		}
 		
 		return ret;

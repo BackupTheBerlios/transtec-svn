@@ -111,7 +111,6 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		/********** Tableau des destinations **********/
 		
 		// Liste des destinations : noms des colonnes.
-		nomColonnesDestinations.add("ID");
 		nomColonnesDestinations.add("Destination");
 		nomColonnesDestinations.add("Volume");
 		
@@ -143,7 +142,7 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		tabDestinations.setAutoCreateColumnsFromModel(true);
 		tabDestinations.setOpaque(false);
 		tabDestinations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tabDestinations.removeColumn(tabDestinations.getColumnModel().getColumn(0));
+		//tabDestinations.removeColumn(tabDestinations.getColumnModel().getColumn(0));
 		
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		scrollPaneDestinations = new JScrollPane(tabDestinations);

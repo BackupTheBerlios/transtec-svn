@@ -252,9 +252,8 @@ public class AccesBDDColis extends AccesBDD{
 		
 		// Création d'une Destination la destination et le volume, puis ajout au Vector liste
 		while(resultat.next()){
-			couple = new Destination(new Integer(0),
-									bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
-//									On passe des cm3 aux m3 en divisant par 1 000 000
+			couple = new Destination(bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
+									// On passe des cm3 aux m3 en divisant par 1 000 000
 									new Float(resultat.getFloat("Volume")/1000000),
 									false);
 			liste.add(couple);

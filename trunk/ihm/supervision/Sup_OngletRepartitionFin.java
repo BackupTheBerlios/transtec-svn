@@ -137,17 +137,6 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		
 		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
 		
-		// On place une liste de choix dans la colonne des préparateurs
-	    JComboBox cbp = new JComboBox();
-
-	    TableColumn col3 = tabPreparations.getColumnModel().getColumn(3);
-	    col3.setCellEditor(new DefaultCellEditor(cbp));
-	    MyComboBoxRenderer col2Renderer = new MyComboBoxRenderer(parent.listePreparateurs);
-	    col3.setCellRenderer(col2Renderer);
-	    for(int i=0;i<parent.listePreparateurs.size();i++){
-	    	cbp.addItem(parent.listePreparateurs.get(i));
-	    }
-
 		// On place une liste de choix dans la colonne des destinations
 	    JComboBox cb = new JComboBox();
 	    
@@ -157,6 +146,17 @@ public class Sup_OngletRepartitionFin extends JPanel{
 	    col1.setCellRenderer(col1Renderer);
 	    for(int i=0;i<parent.listeVolumesDestinations.size();i++){
 	    	cb.addItem(parent.listeVolumesDestinations.get(i));
+	    }
+
+		// On place une liste de choix dans la colonne des préparateurs
+	    JComboBox cbp = new JComboBox();
+
+	    TableColumn col3 = tabPreparations.getColumnModel().getColumn(3);
+	    col3.setCellEditor(new DefaultCellEditor(cbp));
+	    MyComboBoxRenderer col2Renderer = new MyComboBoxRenderer(parent.listePreparateurs);
+	    col3.setCellRenderer(col2Renderer);
+	    for(int i=0;i<parent.listePreparateurs.size();i++){
+	    	cbp.addItem(parent.listePreparateurs.get(i));
 	    }
 
 		// On crée les colonnes du tableau selon le modèle
@@ -224,9 +224,9 @@ public class Sup_OngletRepartitionFin extends JPanel{
 	
 	// Classe dérivant de JComboBox et permettant d'afficher une liste
 	// de sélection dans une cellule de JTable
-	public class MyComboBoxRenderer extends JComboBox implements
-			TableCellRenderer {
-
+	public class MyComboBoxRenderer extends JComboBox implements TableCellRenderer {
+		
+		// Constructeur
 		public MyComboBoxRenderer(Vector items) {
 			for (int i = 0; i < items.size(); i++)
 				addItem(items.get(i));
@@ -248,7 +248,7 @@ public class Sup_OngletRepartitionFin extends JPanel{
 				setForeground(Color.black);
 			}
 
-			// Select the current value
+			// Afficher l'élément sélectionné
 			removeAllItems();
 			if (value != null) {
 				addItem(value);
@@ -257,78 +257,4 @@ public class Sup_OngletRepartitionFin extends JPanel{
 			return this;
 		}
 	}
-    
-	// Classe dérivant de JComboBox et permettant d'afficher une liste
-	// de sélection dans une cellule de JTable
-	/*public class comboEditor extends JComboBox implements TableCellEditor {
-		protected EventListenerList listenerList = new EventListenerList();
-
-		protected ChangeEvent changeEvent = new ChangeEvent(this);
-
-		public comboEditor(Vector v) {
-			super(v);
-			addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					fireEditingStopped();
-				}
-			});
-		}
-
-		public void addCellEditorListener(CellEditorListener listener) {
-			listenerList.add(CellEditorListener.class, listener);
-		}
-
-		public void removeCellEditorListener(CellEditorListener listener) {
-			listenerList.remove(CellEditorListener.class, listener);
-		}
-
-		protected void fireEditingStopped() {
-			CellEditorListener listener;
-			Object[] listeners = listenerList.getListenerList();
-			for (int i = 0; i < listeners.length; i++) {
-				if (listeners[i] == CellEditorListener.class) {
-					listener = (CellEditorListener) listeners[i + 1];
-					listener.editingStopped(changeEvent);
-				}
-			}
-		}
-
-		protected void fireEditingCanceled() {
-			CellEditorListener listener;
-			Object[] listeners = listenerList.getListenerList();
-			for (int i = 0; i < listeners.length; i++) {
-				if (listeners[i] == CellEditorListener.class) {
-					listener = (CellEditorListener) listeners[i + 1];
-					listener.editingCanceled(changeEvent);
-				}
-			}
-		}
-
-		public void cancelCellEditing() {
-			fireEditingCanceled();
-		}
-
-		public boolean stopCellEditing() {
-			fireEditingStopped();
-			return true;
-		}
-
-		public boolean isCellEditable(EventObject event) {
-			return true;
-		}
-
-		public boolean shouldSelectCell(EventObject event) {
-			return true;
-		}
-
-		public Object getCellEditorValue() {
-			return getSelectedItem();
-		}
-
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
-			setSelectedItem(value);
-			return this;
-		}
-	}*/
 }
