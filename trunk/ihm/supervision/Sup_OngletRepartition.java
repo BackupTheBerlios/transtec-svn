@@ -156,7 +156,8 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 				// Ecran d'affichage final
 			case FIN:
 				// On publie la liste des chargements répartis
-				panDonneesFin.publierPreparations();
+				if(panDonneesFin.verifierSaisie())
+					panDonneesFin.publierPreparations();
 				break;
 			}				
 		}

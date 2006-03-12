@@ -3,28 +3,28 @@ package ihm.supervision;
 import ihm.ModeleTable;
 
 import java.awt.*;
-import java.awt.event.*;
 
 import java.util.Vector;
-import java.util.EventObject;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableCellEditor;
 import javax.swing.DefaultCellEditor;
 
 import donnees.Camion;
 import donnees.Utilisateur;
 import donnees.Preparation;
 import donnees.Destination;
+import donnees.Entrepot;
 
 public class Sup_OngletRepartitionFin extends JPanel{
 	
 	public JTable tabPreparations;
 	private JScrollPane scrollPanePreparations;
 	private ModeleTable modeleTabPreparations;
+	private JComboBox comboDestinations,comboPreparateurs;
+	private MyComboBoxRenderer col1Renderer,col3Renderer;
+	private TableColumn col1,col3;
 	private Vector nomColonnesPreparations = new Vector();
 	public Vector donneesPreparations = new Vector();
 	private Sup_OngletRepartition parent;
@@ -52,7 +52,7 @@ public class Sup_OngletRepartitionFin extends JPanel{
 			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE);
 			
 			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
-			parent.listeVolumesDestinations = parent.tableColis.calculVolumesDestinations();
+			//parent.listeVolumesDestinations = parent.tableColis.calculVolumesDestinations();
 			
 			// On récupère les préparateurs
 			parent.listePreparateurs = parent.tableUtilisateurs.listerParType(Utilisateur.PREPARATION);
@@ -119,17 +119,6 @@ public class Sup_OngletRepartitionFin extends JPanel{
 					return false;
 				}
 			}
-			
-		    /*public Class getColumnClass(int c) {
-		    	Class ret;
-		    	
-		    	if(getColumnName(c).equals("Camion")) ret = Camion.class;
-		    	else if(getColumnName(c).equals("Destination")) ret = Destination.class;
-		    	else if(getColumnName(c).equals("Préparateur")) ret = Utilisateur.class;
-		    	else ret = getValueAt(0, c).getClass();
-		    	
-		        return ret;
-		    }*/
 		};
 		
 		// Création du tableau
@@ -138,26 +127,18 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
 		
 		// On place une liste de choix dans la colonne des destinations
-	    JComboBox cb = new JComboBox();
-	    
-	    TableColumn col1 = tabPreparations.getColumnModel().getColumn(1);
-	    col1.setCellEditor(new DefaultCellEditor(cb));
-	    MyComboBoxRenderer col1Renderer = new MyComboBoxRenderer(parent.listeVolumesDestinations);
+	    comboDestinations = new JComboBox(parent.listeVolumesDestinations);
+	    col1 = tabPreparations.getColumnModel().getColumn(1);
+	    col1.setCellEditor(new DefaultCellEditor(comboDestinations));
+	    col1Renderer = new MyComboBoxRenderer(parent.listeVolumesDestinations);
 	    col1.setCellRenderer(col1Renderer);
-	    for(int i=0;i<parent.listeVolumesDestinations.size();i++){
-	    	cb.addItem(parent.listeVolumesDestinations.get(i));
-	    }
 
 		// On place une liste de choix dans la colonne des préparateurs
-	    JComboBox cbp = new JComboBox();
-
-	    TableColumn col3 = tabPreparations.getColumnModel().getColumn(3);
-	    col3.setCellEditor(new DefaultCellEditor(cbp));
-	    MyComboBoxRenderer col2Renderer = new MyComboBoxRenderer(parent.listePreparateurs);
-	    col3.setCellRenderer(col2Renderer);
-	    for(int i=0;i<parent.listePreparateurs.size();i++){
-	    	cbp.addItem(parent.listePreparateurs.get(i));
-	    }
+	    comboPreparateurs = new JComboBox(parent.listePreparateurs);
+	    col3 = tabPreparations.getColumnModel().getColumn(3);
+	    col3.setCellEditor(new DefaultCellEditor(comboPreparateurs));
+	    col3Renderer = new MyComboBoxRenderer(parent.listePreparateurs);
+	    col3.setCellRenderer(col3Renderer);
 
 		// On crée les colonnes du tableau selon le modèle
 		tabPreparations.setAutoCreateColumnsFromModel(true);
@@ -189,7 +170,7 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		parent.resultatAlgos.removeAllElements();
 		
 		// On prend en compte toutes les modifications apportées aux cellules
-		Sup_OngletRepartition.traverseAllCells(tabPreparations);
+		//Sup_OngletRepartition.traverseAllCells(tabPreparations);
 		
 		// Extraction du contenu des lignes du tableau pour en créer des préparations
 		for(int i=0;i<modeleTabPreparations.getRowCount();i++){
@@ -202,7 +183,10 @@ public class Sup_OngletRepartitionFin extends JPanel{
 			
 			// On crée un objet Preparation à partir de la ligne du tableau
 			Preparation p = new Preparation();
-			p.setDestination(((Destination)v.get(2)).getEntrepot());
+			if(v.get(2) instanceof Entrepot) 
+				p.setDestination((Entrepot)v.get(2));
+			else if((v.get(2) instanceof Destination))
+				p.setDestination(((Destination)v.get(2)).getEntrepot());
 			p.setUtilisateur((Utilisateur)v.get(4));
 			p.setOrigine(((Camion)v.get(1)).getOrigine());
 			p.setVolume((Float)v.get(3));
@@ -217,7 +201,25 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		/*******/
 		//System.out.println(liste);
 		/*******/
-	}	
+	}
+	
+	// Fonction permettant de vérifier que tous les champs du tableau sont renseignés
+	public boolean verifierSaisie(){
+		boolean ret = true;
+		Vector v;
+		
+		for(int i=0;i<modeleTabPreparations.getRowCount();i++){
+			// On extrait la ligne courante du tableau
+			v = (Vector)modeleTabPreparations.getRow(i);
+			
+			// On crée un objet Preparation à partir de la ligne du tableau
+			if(!(v.get(2) instanceof Entrepot) && !(v.get(2) instanceof Destination))
+				ret=false;
+			else if(!(v.get(4) instanceof Utilisateur)) ret=false;
+		}	
+		
+		return ret;
+	}
 	
 	
 	/****** Classes utilisées localement ******/
