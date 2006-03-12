@@ -106,13 +106,13 @@ public class Entrepot {
 		return localisation.getVille();
 	}
 	
-	// Comparaison de deux entrepôts selon leur ID
+	// Comparaison de deux entrepôts selon leurs villes
 	public boolean equals(Object o){
 		boolean ret=false;
 		
 		if(o instanceof Entrepot){
 			Entrepot entTmp=(Entrepot)o;
-			if(this.id.equals(entTmp.getId())) ret=true;			
+			if(this.getLocalisation().getVille().equals(entTmp.getLocalisation().getVille())) ret=true;			
 		}
 		
 		return ret;

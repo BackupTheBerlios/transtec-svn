@@ -140,7 +140,7 @@ public class Utilisateur implements Comparable{
 	}
 	
 	public String toTitre(){
-		return new String(personne.getNom()+" "+personne.getPrenom()+" - "+this.constToString(this.type));
+		return new String(personne.getNom()+" "+personne.getPrenom()+" - "+constToString(type));
 	}
 
 

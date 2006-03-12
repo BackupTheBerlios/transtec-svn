@@ -24,7 +24,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JButton boutSuite = new JButton("Suite  >");
 	private JButton boutRetour = new JButton("<  Retour");
 	protected Vector listePreparateurs,listeVolumesDestinations,listeCamions;	
-	protected Vector resultatAlgos;
+	protected Vector resultatAlgos = new Vector();
 	protected AccesBDDCamion tableCamions = new AccesBDDCamion();
 	protected AccesBDDColis tableColis = new AccesBDDColis();
 	protected AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
@@ -36,7 +36,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 
 	public final static int AUCUN = 0;
 	public final static int RADIN = 1;
-	public final static int PERENOEL = 2;
+	public final static int PERE_NOEL = 2;
 
 	private int ecranActuel = DEBUT;
 
@@ -113,12 +113,12 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			break;
 			
 		case RADIN:
-			
+			panDonneesFin.construireTableau(RADIN);
 			break;
 			
-		case PERENOEL:
+		case PERE_NOEL:
 			resultatAlgos = PereNoel.calculer(listeCamions,listeVolumesDestinations);
-			panDonneesFin.construireTableau(PERENOEL);
+			panDonneesFin.construireTableau(PERE_NOEL);
 			break;			
 		}
 	}

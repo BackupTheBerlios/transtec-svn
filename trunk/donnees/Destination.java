@@ -89,7 +89,7 @@ public class Destination implements Comparable{
 	
 	// Affichage d'une destination : on affiche sa ville
 	public String toString(){
-		return entrepot.getLocalisation().getVille();
+		return new String(entrepot.getLocalisation().getVille());
 	}
 	
 	// Comparaison de deux destinations selon leur ID

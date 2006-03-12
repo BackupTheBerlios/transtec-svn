@@ -45,7 +45,7 @@ public class Sup_OngletRepartitionChoix extends JPanel{
 		
 		if(radioAucun.isSelected()) ret=Sup_OngletRepartition.AUCUN;
 		else if(radioRadin.isSelected()) ret=Sup_OngletRepartition.RADIN;
-		else if(radioPerenoel.isSelected()) ret=Sup_OngletRepartition.PERENOEL;
+		else if(radioPerenoel.isSelected()) ret=Sup_OngletRepartition.PERE_NOEL;
 
 		return ret;
 	}
