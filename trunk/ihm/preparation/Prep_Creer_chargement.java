@@ -12,11 +12,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
@@ -28,6 +32,8 @@ import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.QuadArray;
 import javax.media.j3d.Shape3D;
+import javax.media.j3d.Texture;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
@@ -43,6 +49,7 @@ import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import accesBDD.AccesBDDChargement;
@@ -463,14 +470,27 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    Material materiau=new Material();
 	    materiau.setAmbientColor(new Color3f(Color.blue));
 	    Appearance apparence=new Appearance();
-	    apparence.setMaterial(materiau);
+	    //apparence.setMaterial(materiau);
+	    
+//	  Texture
+	    try {
+			BufferedImage image = ImageIO.read(new File("images/preparation/paper_carton01.jpg"));
+			Texture texture = new TextureLoader(image).getTexture();
+			TextureAttributes textureAttributes = new TextureAttributes ();
+		    textureAttributes.setTextureMode (TextureAttributes.MODULATE);
+			apparence.setTexture(texture);
+			apparence.setTextureAttributes (textureAttributes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    // Ajout des paramètres à la scène
 	    branche.addChild(lumiere);
 	    branche.addChild(lumiereDir);
 	    branche.addChild(background);
 	    
-	    Box b = new Box(profondeur, hauteur, largeur, apparence);
+	    Box b = new Box(profondeur, hauteur, largeur,Box.GENERATE_TEXTURE_COORDS, apparence);
 	    CollisionDetector cd=new CollisionDetector(b);
 		BoundingBox bounds1;
 	    bounds1 = new BoundingBox(new Point3d(-2f, -2f, -2f),new Point3d(-1f, -1f, -1f)/*new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f)*/);
