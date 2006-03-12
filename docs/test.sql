@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Mar 10, 2006 at 01:58 PM
+-- Generation Time: Mar 12, 2006 at 11:43 AM
 -- Server version: 4.1.9
 -- PHP Version: 4.3.10
 -- 
@@ -292,6 +292,27 @@ INSERT INTO `personnes` VALUES (4, 6, 'Banal', 'EncorePlus', '01000100001', 'neu
 INSERT INTO `personnes` VALUES (7, 16, 'Jardin', 'Maurice', '0123456598', 'hortifleur@trantec.com');
 INSERT INTO `personnes` VALUES (6, 15, 'Lacombe', 'Julien', '0134651037', 'neutre@neutral.com');
 INSERT INTO `personnes` VALUES (5, 14, 'Sengler', 'nicolas', '0165654545', 'jj.chaubert@transtec.de');
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `planchargement`
+-- 
+
+CREATE TABLE `planchargement` (
+  `idChargement` int(10) default NULL,
+  `face` blob,
+  `arriere` blob,
+  `gauche` blob,
+  `droit` blob,
+  `dessus` blob,
+  `dessous` blob
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- 
+-- Dumping data for table `planchargement`
+-- 
+
 
 -- --------------------------------------------------------
 
