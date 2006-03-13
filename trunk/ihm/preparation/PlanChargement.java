@@ -2,35 +2,36 @@ package ihm.preparation;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import ihm.AffichageImage;
 import ihm.Bouton;
 import ihm.FenetreType;
 import ihm.ModeleTable;
 import ihm.TableSorter;
-import ihm.entree.AffichageImage;
 
 import javax.swing.*;
 
 import accesBDD.AccesBDDChargement;
+import accesBDD.AccesBDDPlan;
 
 import donnees.Colis;
 import donnees.Utilisateur;
 
-public class Prep_Plan_chargement extends JFrame implements ActionListener{
+public class PlanChargement extends JFrame implements ActionListener{
 	private FenetreType fenetre;
 	private Bouton imprimer, annuler;
 	private Utilisateur utilisateur;
-	private Image image;
 	private ModeleTable modColis;
 	private TableSorter sorter1;
 	private JTable tableColis;
 	
-	public Prep_Plan_chargement(Utilisateur utilisateur, Integer idChargement) {
+	public PlanChargement(Utilisateur utilisateur, Integer idChargement) {
 		// Création graphique de la fenêtre
 		setTitle("Plan de chargement");
 		setSize(1024,768);
@@ -53,30 +54,42 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		this.fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		
-		// Mise en place des vues
-		AffichageImage image = new AffichageImage("images/preparation/1.JPG");
-		image.setBounds(247,251,257,129);
-		this.fenetre.add(image);
 		
-		image = new AffichageImage("images/preparation/2.JPG");
-		image.setBounds(247,424,257,129);
-		this.fenetre.add(image);
+		try{
+			//	On recherche les fichiers dans la BDD
+			Blob fichiers[]=new AccesBDDPlan().rechercher(idChargement);
 		
-		image = new AffichageImage("images/preparation/3.JPG");
-		image.setBounds(247,597,257,129);
-		this.fenetre.add(image);
-		
-		image = new AffichageImage("images/preparation/4.JPG");
-		image.setBounds(524,251,257,129);
-		this.fenetre.add(image);
-		
-		image = new AffichageImage("images/preparation/5.JPG");
-		image.setBounds(524,424,257,129);
-		this.fenetre.add(image);
-		
-		image = new AffichageImage("images/preparation/6.JPG");
-		image.setBounds(524,597,257,129);
-		this.fenetre.add(image);
+			// Mise en place des vues
+			AffichageImage image = new AffichageImage(fichiers[AccesBDDPlan.DESSUS].getBinaryStream());
+			image.setBounds(247,251,257,129);
+			this.fenetre.add(image);
+			
+			image = new AffichageImage(fichiers[AccesBDDPlan.GAUCHE].getBinaryStream());
+			image.setBounds(247,424,257,129);
+			this.fenetre.add(image);
+			
+			image = new AffichageImage(fichiers[AccesBDDPlan.FACE].getBinaryStream());
+			image.setBounds(247,597,257,129);
+			this.fenetre.add(image);
+			
+			image = new AffichageImage(fichiers[AccesBDDPlan.DESSOUS].getBinaryStream());
+			image.setBounds(524,251,257,129);
+			this.fenetre.add(image);
+			
+			image = new AffichageImage(fichiers[AccesBDDPlan.DROITE].getBinaryStream());
+			image.setBounds(524,424,257,129);
+			this.fenetre.add(image);
+			
+			image = new AffichageImage(fichiers[AccesBDDPlan.ARRIERE].getBinaryStream());
+			image.setBounds(524,597,257,129);
+			this.fenetre.add(image);
+		}
+		catch(SQLException e){
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// Crétaion des colonnes
 		Vector nomColonnes=new Vector();

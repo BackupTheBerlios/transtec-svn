@@ -1,5 +1,7 @@
 package ihm.entree;
 
+import ihm.AffichageImage;
+
 import java.awt.*;
 import java.awt.event.*; 
 import javax.swing.*;
