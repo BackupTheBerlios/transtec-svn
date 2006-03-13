@@ -4,7 +4,6 @@ import ihm.ModeleTable;
 import ihm.TableSorter;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -12,9 +11,8 @@ import javax.swing.*;
 import donnees.Camion;
 import donnees.Destination;
 
-public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener {
+public class Sup_OngletRepartitionDebut extends JPanel {
 
-	private JButton boutUpdate = new JButton("Actualiser");
 	private JTable tabDestinations,tabCamions;
 	private JScrollPane scrollPaneCamions,scrollPaneDestinations;
 	private ModeleTable modeleTabCamions,modeleTabDestinations;
@@ -41,9 +39,6 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 	}
 	
 	private void creerContenu(){
-		// On lie une action au bouton de mise à jour
-		boutUpdate.addActionListener(this);
-		
 		/********** Tableau des camions **********/
 		
 		// Liste des camions : noms des colonnes.
@@ -161,26 +156,20 @@ public class Sup_OngletRepartitionDebut extends JPanel implements ActionListener
 		// Ajout des tableaux au Panel de début
 		add(scrollPaneDestinations);
 		//add(Box.createHorizontalGlue());
-		//add(boutUpdate);
 		add(Box.createHorizontalGlue());
 		add(scrollPaneCamions);
 	}
 
-
-	public void actionPerformed(ActionEvent ev) {
-		Object source = ev.getSource();
-
-		if(source==boutUpdate){
-			removeAll();
-			
-			nomColonnesDestinations.clear();
-			donneesDestinations.clear();
-			nomColonnesCamions.clear();
-			donneesCamions.clear();
-			
-			creerContenu();
-			
-			this.updateUI();
-		}
+	protected void updateTableaux(){
+		removeAll();
+		
+		nomColonnesDestinations.clear();
+		donneesDestinations.clear();
+		nomColonnesCamions.clear();
+		donneesCamions.clear();
+		
+		creerContenu();
+		
+		this.updateUI();		
 	}
 }

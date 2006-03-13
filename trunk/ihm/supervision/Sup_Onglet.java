@@ -35,7 +35,7 @@ public class Sup_Onglet extends JPanel{
 		
 		boutAjouter = new Bouton("images/supervision/bouton_ajouter.png","images/supervision/bouton_ajouter_appuyer.png");
 		boutModifier = new Bouton("images/supervision/bouton_modifier.png","images/supervision/bouton_modifier_appuyer.png");
-		boutSupprimer = new Bouton("images/supervision/bouton_annuler.png","images/supervision/bouton_annuler_appuyer.png");
+		boutSupprimer = new Bouton("images/supervision/bouton_supprimer.png","images/supervision/bouton_supprimer_appuyer.png");
 	}
 	
 	// Permet de définir une image de fond
@@ -91,7 +91,7 @@ public class Sup_Onglet extends JPanel{
 		add(boutModifier);
 
 		// Bouton Supprimer
-		boutSupprimer.setBounds(770,193,108,41);
+		boutSupprimer.setBounds(770,193,111,50);
 		add(boutSupprimer);
 	}
 	

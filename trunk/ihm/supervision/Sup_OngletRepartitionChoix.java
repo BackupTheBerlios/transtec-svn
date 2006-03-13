@@ -1,6 +1,5 @@
 package ihm.supervision;
 
-import java.awt.*;
 import javax.swing.*;
 
 public class Sup_OngletRepartitionChoix extends JPanel{
@@ -8,23 +7,25 @@ public class Sup_OngletRepartitionChoix extends JPanel{
 	private ButtonGroup groupeRadio;
 	private JRadioButton radioAucun,radioRadin,radioPerenoel;
 
-	public Sup_OngletRepartitionChoix(){
+	public Sup_OngletRepartitionChoix(/*Sup_OngletRepartition parent*/){
 		super();
-		
+
 		// Mise en page et taille du panel
-		setLayout(new GridLayout(3,1));
+		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		setOpaque(false);
-		setSize(new Dimension(600,200));
 		
 		// Création des boutons radios
-		radioAucun = new JRadioButton("Pas d'algorithme");
+		radioAucun = new JRadioButton(new ImageIcon("images/supervision/bouton_aucun_algo.png"));
+		radioAucun.setSelectedIcon(new ImageIcon("images/supervision/bouton_aucun_algo_appuyer.png"));
 		radioAucun.setOpaque(false);
 		radioAucun.setSelected(true);
 		
-		radioRadin = new JRadioButton("Minimisation des coûts (radin)");
+		radioRadin = new JRadioButton(new ImageIcon("images/supervision/bouton_algo_radin.png"));
+		radioRadin.setSelectedIcon(new ImageIcon("images/supervision/bouton_algo_radin_appuyer.png"));
 		radioRadin.setOpaque(false);
 		
-		radioPerenoel = new JRadioButton("Maximisation de la satisfaction (Père Noël)");
+		radioPerenoel = new JRadioButton(new ImageIcon("images/supervision/bouton_algo_noel.png"));
+		radioPerenoel.setSelectedIcon(new ImageIcon("images/supervision/bouton_algo_noel_appuyer.png"));
 		radioPerenoel.setOpaque(false);
 		
 		// Regroupement des boutons radio

@@ -10,6 +10,9 @@ import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPreparation;
 import accesBDD.AccesBDDUtilisateur;
+
+import ihm.Bouton;
+
 import algos.*;
 
 public class Sup_OngletRepartition extends JPanel implements ActionListener{
@@ -20,8 +23,10 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private Sup_OngletRepartitionChoix panDonneesChoix;
 	private Sup_OngletRepartitionFin panDonneesFin;
 	private JPanel panBoutons;
-	private JButton boutSuite = new JButton("Suite  >");
-	private JButton boutRetour = new JButton("<  Retour");
+	private Bouton boutSuite = new Bouton("images/supervision/bouton_suivant.png","images/supervision/bouton_suivant_appuyer.png");
+	private Bouton boutRetour = new Bouton("images/supervision/bouton_retour.png","images/supervision/bouton_retour_appuyer.png");
+	private Bouton boutUpdate = new Bouton("images/supervision/bouton_actualiser.png","images/supervision/bouton_actualiser_appuyer.png");
+	private Bouton boutPublier = new Bouton("images/supervision/bouton_publier.png","images/supervision/bouton_publier_appuyer.png");
 	protected Vector listePreparateurs,listeVolumesDestinations,listeCamions;	
 	protected Vector resultatAlgos = new Vector();
 	protected AccesBDDCamion tableCamions = new AccesBDDCamion();
@@ -79,18 +84,26 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 		panBoutons.setLayout(null);
 
 		// Bouton Retour
-		boutRetour.setBounds(10,320,80,20);
+		boutRetour.setBounds(10,280,65,50);
 		boutRetour.addActionListener(this);
 		boutRetour.setVisible(false);
 		panBoutons.add(boutRetour);
 
-		// Espace entre les boutons
-		panBoutons.add(Box.createRigidArea(new Dimension(100,0)));
-
 		// Bouton Suite
-		boutSuite.setBounds(100,320,80,20);
+		boutSuite.setBounds(100,280,65,50);
 		boutSuite.addActionListener(this);
 		panBoutons.add(boutSuite);
+		
+		// Bouton de mise à jour
+		boutUpdate.setBounds(10,20,111,50);
+		boutUpdate.addActionListener(this);
+		panBoutons.add(boutUpdate);
+		
+		// Bouton de publication
+		boutPublier.setBounds(10,20,111,50);
+		boutPublier.addActionListener(this);
+		boutPublier.setVisible(false);
+		panBoutons.add(boutPublier);
 		
 		add(panBoutons);
 	}
@@ -134,6 +147,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			case DEBUT:
 				ecranActuel++;
 				boutRetour.setVisible(true);
+				boutUpdate.setVisible(false);
 				layoutPanDonnees.next(panDonnees);
 				titre.setText("Choix d'un algorithme de répartition");
 				break;
@@ -141,8 +155,8 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 				// Ecran de choix d'algorithme
 			case CHOIX:
 				ecranActuel++;
-				boutSuite.setText("Publier");
-				//boutRetour.setEnabled(false);
+				boutPublier.setVisible(true);
+				boutSuite.setVisible(false);
 				layoutPanDonnees.next(panDonnees);
 				titre.setText("Répartition");
 				
@@ -154,9 +168,6 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 				
 				// Ecran d'affichage final
 			case FIN:
-				// On publie la liste des chargements répartis
-				if(panDonneesFin.verifierSaisie())
-					panDonneesFin.publierPreparations();
 				break;
 			}				
 		}
@@ -171,17 +182,27 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 			case CHOIX:
 				ecranActuel--;
 				boutRetour.setVisible(false);
+				boutUpdate.setVisible(true);
 				layoutPanDonnees.previous(panDonnees);
 				titre.setText("Disponibilités");
 				break;
 				// Ecran d'affichage final
 			case FIN:
 				ecranActuel--;
-				boutSuite.setText("Suite  >");
 				layoutPanDonnees.previous(panDonnees);
 				titre.setText("Choix d'un algorithme de répartition");
+				boutPublier.setVisible(false);
+				boutSuite.setVisible(true);
 				break;
 			}			
+		}
+		else if(source==boutUpdate){
+			panDonneesDebut.updateTableaux();
+		}
+		else if(source==boutPublier){
+			// On publie la liste des chargements répartis
+			if(panDonneesFin.verifierSaisie())
+				panDonneesFin.publierPreparations();
 		}
 	}
 	

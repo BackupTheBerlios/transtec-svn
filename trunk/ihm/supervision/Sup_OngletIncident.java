@@ -11,7 +11,7 @@ import accesBDD.AccesBDDIncident;
 // Panneau de l'onglet de gestion des incidents
 public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 	
-	private Bouton boutAfficher = boutAjouter;
+	private Bouton boutAfficher;
 	private AccesBDDIncident tableIncidents = new AccesBDDIncident();
 	
 	public Sup_OngletIncident(){
@@ -44,7 +44,14 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
-
+		
+		remove(boutAjouter);
+		
+		boutAfficher = new Bouton("images/supervision/bouton_afficher.png","images/supervision/bouton_afficher_appuyer.png");
+		boutAfficher.setBounds(770,60,111,50);
+		
+		add(boutAfficher);
+		
 		// Le Bouton Ajouter est transformé en bouton d'affichage
 		boutAfficher.addActionListener(this);
 
