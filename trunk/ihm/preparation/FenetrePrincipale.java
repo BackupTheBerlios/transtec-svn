@@ -230,7 +230,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		// Afficher les incidents
 		else if(source==this.incident){
 			dispose();
-			new Prep_Consulter_incident(this.utilisateur).setVisible(true);
+			new ConsulterIncident(this.utilisateur).setVisible(true);
 		}
 		else{
 			int ligneActive = table.getSelectedRow();

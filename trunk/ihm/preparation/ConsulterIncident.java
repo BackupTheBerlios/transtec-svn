@@ -35,7 +35,7 @@ import donnees.Utilisateur;
  * Classe permettant de créer un incident associé à un colis entré par l'utilisateur via la saisie du code barre
  */
 
-public class Prep_Consulter_incident extends JFrame implements ActionListener, MouseListener {
+public class ConsulterIncident extends JFrame implements ActionListener, MouseListener {
 	private Bouton envoyer, laisser, annuler, rechercher;
 	private JTextField tfCodeBarreColis, tfOrigine, tfDestination, tfPoids, tfValeur;
 	private JTextField tfDate, tfFragilite, tfHauteur, tfLargeur, tfProfondeur, tfVolume, tfIncident;
@@ -46,7 +46,7 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener, M
 	private TableSorter sorter1;
 	private JTable tableColis;
 	
-	public Prep_Consulter_incident(Utilisateur utilisateur) {
+	public ConsulterIncident(Utilisateur utilisateur) {
 		//	Création graphique de la fenêtre
 		setTitle("Créer Chargement");
 		setSize(1024,768);
@@ -270,10 +270,10 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener, M
 				new AccesBDDIncident().ajouter(new Incident(
 						this.colis,
 						new Timestamp(System.currentTimeMillis()),
-						new Integer(0),
+						new Integer(Incident.NON_TRAITE),
 						this.tfIncident.getText(),
 						this.utilisateur,
-						new Integer(11)));
+						new Integer(Incident.CHARGEMENT)));
 			}
 			catch(SQLException e){
 				
@@ -290,10 +290,10 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener, M
 				new AccesBDDIncident().ajouter(new Incident(
 						this.colis,
 						new Timestamp(System.currentTimeMillis()),
-						new Integer(0),
+						new Integer(Incident.NON_TRAITE),
 						this.tfIncident.getText(),
 						this.utilisateur,
-						new Integer(11)));
+						new Integer(Incident.CHARGEMENT)));
 			}
 			catch(SQLException e){
 				
@@ -312,7 +312,7 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener, M
 		Object source = e.getSource();
 		if(source==this.tableColis){
 			int ligneActive = tableColis.getSelectedRow();
-	//		 On récupère les données de la ligne du tableau
+			// On récupère les données de la ligne du tableau
 			Vector vec = (Vector) modColis.getRow(ligneActive);
 			Incident incident=new Incident(vec);
 			new VisionnerIncident(incident);
