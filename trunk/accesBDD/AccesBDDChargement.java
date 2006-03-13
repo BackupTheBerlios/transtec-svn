@@ -6,11 +6,10 @@ import java.sql.SQLException;
 import java.util.Vector;
 import donnees.Chargement;
 import donnees.Colis;
-import donnees.Preparation;
 
 
-//----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes opérations nécessaire sur la table -----//
-
+//----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes
+//		opérations nécessaire sur la table -----//
 public class AccesBDDChargement extends AccesBDD{
 	public AccesBDDChargement(){
 		super();
