@@ -457,7 +457,11 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	
 	    //Ferme le KeyListener du colis venant d'être placé
 	    if(deplacement != null){
+//	    	Ferme le KeyListener du colis venant d'être placé
 	    	deplacement.ArretEcoute();
+	    	
+//	    	Ajoute à la liste les coordonnées du colis venant d'être placé
+	    	
 	    }
 	    
 	    //Ajoute à la liste les coordonnées du colis venant d'être placé
@@ -465,7 +469,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    
 	    // Déplacement du colis
 	    deplacement=new deplacementColis(ajouter);
-	    deplacement.objetADeplacer(objSpin3, translation);
+	    deplacement.objetADeplacer(objSpin3, translation,profondeur,hauteur,largeur);
 
 	    // Arrière plan de la scène 3D
 	    Background background = new Background(1, 1, 1);
