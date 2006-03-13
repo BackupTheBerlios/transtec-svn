@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.DefaultCellEditor;
@@ -19,6 +21,7 @@ import donnees.Entrepot;
 
 public class Sup_OngletRepartitionFin extends JPanel{
 	
+	private Sup_VolumeReparti panelInfos;
 	public JTable tabPreparations;
 	private JScrollPane scrollPanePreparations;
 	private ModeleTable modeleTabPreparations;
@@ -36,8 +39,15 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		this.parent = parent;
 		
 		// Mise en forme
-		setLayout(new GridLayout(1,1));
+		setLayout(null);
 		setOpaque(false);
+		
+		// Création du panel d'informations
+		panelInfos = new Sup_VolumeReparti();
+		panelInfos.setBounds(580,50,135,115);
+
+		// Ajout du panel d'information au panel courant
+		add(panelInfos);
 		
 		// Liste des préparations : noms des colonnes.
 		nomColonnesPreparations.add("ID");
@@ -45,7 +55,6 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		nomColonnesPreparations.add("Destination");
 		nomColonnesPreparations.add("Volume");
 		nomColonnesPreparations.add("Préparateur");
-		nomColonnesPreparations.add("Volume Total");
 		
 		try{
 			// On récupère les camions disponibles de la base de données et on les affiche
@@ -83,7 +92,6 @@ public class Sup_OngletRepartitionFin extends JPanel{
 				ligne.add(new String("Choisir ..."));
 				ligne.add(((Camion)parent.listeCamions.get(i)).getVolume());
 				ligne.add(new String ("Choisir ..."));
-				ligne.add(new Integer(0));
 				
 				// On ajoute la ligne aux données du tableau temporaire
 				donneesPreparations.add(ligne);
@@ -101,7 +109,6 @@ public class Sup_OngletRepartitionFin extends JPanel{
 				ligne.add(pCourante.getDestination());
 				ligne.add(pCourante.getVolume());
 				ligne.add(new String ("Choisir ..."));
-				ligne.add(new Integer(0));
 				
 				// On ajoute la ligne aux données du tableau temporaire
 				donneesPreparations.add(ligne);
@@ -124,6 +131,12 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		// Création du tableau
 		tabPreparations = new JTable(modeleTabPreparations);
 		
+		// Création d'un listener pour guetter les changements de lignes
+	    SelectionListener listener = new SelectionListener(tabPreparations,modeleTabPreparations);
+	    tabPreparations.getSelectionModel().addListSelectionListener(listener);
+		tabPreparations.getColumnModel().getSelectionModel().addListSelectionListener(listener);
+		
+		// Suppression de la colonne des ID
 		tabPreparations.removeColumn(tabPreparations.getColumnModel().getColumn(0));
 		
 		// On place une liste de choix dans la colonne des destinations
@@ -149,15 +162,16 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		scrollPanePreparations = new JScrollPane(tabPreparations);
 		
 		// On définit les dimensions du tableau
-		tabPreparations.setPreferredScrollableViewportSize(new Dimension(300,500));
+		tabPreparations.setPreferredScrollableViewportSize(new Dimension(300,460));
 		
 		// On place le tableau
-		scrollPanePreparations.setMaximumSize(new Dimension(300,500));
+		scrollPanePreparations.setMaximumSize(new Dimension(300,460));
 		
 		// On définit le tableau transparent
 		scrollPanePreparations.setOpaque(false);
 		scrollPanePreparations.getViewport().setOpaque(false);
-		scrollPanePreparations.setAlignmentX(Box.RIGHT_ALIGNMENT);
+		scrollPanePreparations.setBounds(0,0,550,460);
+		//scrollPanePreparations.setAlignmentX(Box.RIGHT_ALIGNMENT);
 		
 		// Ajout du tableau au Panel
 		add(scrollPanePreparations);
@@ -259,4 +273,69 @@ public class Sup_OngletRepartitionFin extends JPanel{
 			return this;
 		}
 	}
+	
+    public class SelectionListener implements ListSelectionListener {
+		JTable table;
+
+		ModeleTable modele;
+
+		Vector v;
+
+		// It is necessary to keep the table since it is not possible
+		// to determine the table from the event's source
+		SelectionListener(JTable table, ModeleTable modele) {
+			this.table = table;
+			this.modele = modele;
+		}
+
+		public void valueChanged(ListSelectionEvent e) {
+			// If cell selection is enabled, both row and column change events
+			// are fired
+			if (e.getSource() == table.getSelectionModel() && table.getRowSelectionAllowed()) {
+				// Column selection changed
+				/*int first = e.getFirstIndex();
+				int last = e.getLastIndex();	*/			
+
+				// On récupère le contenu de la ligne sélectionnée
+				v = (Vector) modele.getRow(table.getSelectedRow());
+
+				// On affiche les informations liées à la ligne dans le panel d'information
+				String sDestination = new String("Indéfini");
+				String sVolTotal = new String("0");
+				Entrepot ent = new Entrepot();
+				Destination d;
+				
+				if(v.get(2) instanceof Entrepot){
+					ent = (Entrepot)v.get(2);
+					sDestination = ent.toString();
+				}
+				else if((v.get(2) instanceof Destination)){
+					ent = ((Destination)v.get(2)).getEntrepot();
+					sDestination = ent.toString();
+				}
+				
+				for(int i=0;i<parent.listeVolumesDestinations.size();i++){
+					d = (Destination)parent.listeVolumesDestinations.get(i);
+					if(d.getEntrepot().equals(ent)){
+						i = parent.listeVolumesDestinations.size();
+						sVolTotal = d.getVolume().toString();
+					}
+				}
+
+				panelInfos.setTextDestination(sDestination);
+				panelInfos.setTextVolReparti(((Float)v.get(3)).toString());
+				panelInfos.setTextVolTotal(sVolTotal);
+
+			}/* else if (e.getSource() == table.getColumnModel().getSelectionModel() && table.getColumnSelectionAllowed() ) {
+				// Row selection changed
+				int first = e.getFirstIndex();
+				int last = e.getLastIndex();
+			}
+
+			if (e.getValueIsAdjusting()) {
+				// The mouse button has not yet been released
+			}*/
+        }
+    }
+
 }

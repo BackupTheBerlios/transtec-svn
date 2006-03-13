@@ -103,7 +103,12 @@ public class Entrepot {
 	
 	// Affichage d'un entrepôt : on affiche sa ville
 	public String toString(){
-		return new String(localisation.getVille()+" ("+localisation.getCodePostal()+")");
+		String ret;
+		
+		if(localisation.getCodePostal()==null) ret = localisation.getVille();
+		else ret = localisation.getVille()+" ("+localisation.getCodePostal()+")";
+		
+		return ret;
 	}
 	
 	// Comparaison de deux entrepôts selon leurs villes

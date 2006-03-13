@@ -23,7 +23,8 @@ public class Localisation{
 	
 	// Constructeur vide
 	public Localisation(){
-		
+		this.ville = new String("");
+		this.codePostal = new String(""); 
 	}
 	
 	

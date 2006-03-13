@@ -15,6 +15,7 @@ public final class PereNoel {
 
 	// Fonction de répartition des camions
 	public final static Vector calculer(Vector listeCamions, Vector listeDestinations){
+		// Liste de Preparations qui sera retournée
 		Vector ret = new Vector();
 		
 		// On vérifie que les listes ne sont pas vides
@@ -53,7 +54,7 @@ public final class PereNoel {
 			
 			// On retire les camions attribués de la liste des camions
 			for(int i=0;i<ret.size();i++){
-				listeCamions.remove(ret.get(i));
+				listeCamions.remove(((Preparation)ret.get(i)).getCamion());
 			}
 			
 			// Les camions pouvant être totalement remplis le sont, on attribue 
@@ -73,6 +74,7 @@ public final class PereNoel {
 		// Si l'une des deux listes est vide
 		else System.out.println("ERREUR\nClasse PereNoel : liste vide !");
 		
+		// On renvoie la liste des Preparations créées
 		return ret;
 	}
 	

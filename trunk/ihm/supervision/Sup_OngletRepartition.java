@@ -187,7 +187,7 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	}
 	
 	// Permet de valider les mises à jour dans les cellules d'un tableau
-	public static void traverseAllCells(JTable table)
+/*	public static void traverseAllCells(JTable table)
 	{
 		table.setSurrendersFocusOnKeystroke(true);
 		for (int x = 0; x < table.getRowCount(); x++)
@@ -197,5 +197,5 @@ public class Sup_OngletRepartition extends JPanel implements ActionListener{
 				table.editCellAt(x ,y);
 			}
 		}
-	}
+	}*/
 }
