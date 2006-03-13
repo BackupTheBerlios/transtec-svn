@@ -2,18 +2,27 @@ package ihm.preparation;
 
 import ihm.Bouton;
 import ihm.FenetreType;
+import ihm.ModeleTable;
+import ihm.TableSorter;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDIncident;
@@ -26,13 +35,16 @@ import donnees.Utilisateur;
  * Classe permettant de créer un incident associé à un colis entré par l'utilisateur via la saisie du code barre
  */
 
-public class Prep_Consulter_incident extends JFrame implements ActionListener {
+public class Prep_Consulter_incident extends JFrame implements ActionListener, MouseListener {
 	private Bouton envoyer, laisser, annuler, rechercher;
 	private JTextField tfCodeBarreColis, tfOrigine, tfDestination, tfPoids, tfValeur;
 	private JTextField tfDate, tfFragilite, tfHauteur, tfLargeur, tfProfondeur, tfVolume, tfIncident;
 	private FenetreType fenetre;
 	private Colis colis;
 	private Utilisateur utilisateur;
+	private ModeleTable modColis;
+	private TableSorter sorter1;
+	private JTable tableColis;
 	
 	public Prep_Consulter_incident(Utilisateur utilisateur) {
 		//	Création graphique de la fenêtre
@@ -69,6 +81,7 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 		this.annuler.addActionListener(this);
 		this.tfCodeBarreColis=new JTextField("Insérer code barre");
 		this.tfCodeBarreColis.setBounds(78, 266, 150, 20);
+		this.tfCodeBarreColis.addMouseListener(this);
 		this.fenetre.add(this.tfCodeBarreColis);
 		
 		JLabel lOrigine=new JLabel("Origine ");
@@ -161,8 +174,46 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 		this.tfVolume.setEditable(false);
 		this.fenetre.add(this.tfVolume);
 		
-		// Eventuellment faire un tableau avec les anciens incidents
+		// Crétaion des colonnes
+		Vector nomColonnes=new Vector();
+        nomColonnes.add("Id");
+        nomColonnes.add("Colis");
+        nomColonnes.add("Date");
+        nomColonnes.add("Etat");
+        nomColonnes.add("Description");
+        nomColonnes.add("Utilisateur");
+        nomColonnes.add("Type");		
+        
+//      Création du tableau contenant les colis pouvant être chargé pour la destination
+        modColis = new ModeleTable(nomColonnes,new Vector());
+		//Création du TableSorter qui permet de réordonner les lignes à volonté
+		sorter1 = new TableSorter(modColis);
+		// Création du tableau
+		tableColis = new JTable(sorter1);
+		tableColis.addMouseListener(this);
+		// initialisation du Sorter
+		sorter1.setTableHeader(tableColis.getTableHeader());
 		
+		//Aspect du tableau
+		tableColis.setAutoCreateColumnsFromModel(true);
+		tableColis.setOpaque(false);
+		tableColis.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+
+		// On supprime les colonnes inutiles
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(2));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(2));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(2));
+		
+		//Construction du JScrollPane
+		JScrollPane scrollPane1 = new JScrollPane(tableColis);
+		tableColis.setPreferredScrollableViewportSize(new Dimension(800,150));
+		scrollPane1.setBounds(590,380,185,160);
+		scrollPane1.setOpaque(false);
+		scrollPane1.getViewport().setOpaque(false);
+		getContentPane().add(scrollPane1);
 		
 		// Mise en place des champs pour l'incident
 		this.tfIncident=new JTextField();
@@ -196,6 +247,18 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 				this.tfProfondeur.setText(this.colis.getModele().getProfondeur().toString());
 				this.tfVolume.setText(this.colis.getVolume().toString());
 				this.tfIncident.setEditable(true);
+				
+				// On recherche les incidents lié à ce colis
+				 try{
+		        	Vector liste=new AccesBDDIncident().lister_colis(this.colis.getId());
+		        	for(int i=0;i<liste.size();i++)
+		        		this.modColis.addRow(((Incident)liste.get(i)).toVector());
+		        	this.tableColis.updateUI();
+		        }
+		        catch(SQLException e){
+		        	
+		        }
+		        
 			}
 			else
 				JOptionPane.showMessageDialog(this,"Le colis n'existe pas!","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -243,6 +306,41 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		Object source = e.getSource();
+		if(source==this.tableColis){
+			int ligneActive = tableColis.getSelectedRow();
+	//		 On récupère les données de la ligne du tableau
+			Vector vec = (Vector) modColis.getRow(ligneActive);
+			Incident incident=new Incident(vec);
+			new VisionnerIncident(incident);
+		}
+		else if(source==this.tfCodeBarreColis){
+			this.tfCodeBarreColis.setText("");
+			this.tfCodeBarreColis.updateUI();
+		}
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
