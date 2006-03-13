@@ -1,16 +1,24 @@
 package ihm.preparation;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.Vector;
 
 import ihm.Bouton;
 import ihm.FenetreType;
+import ihm.ModeleTable;
+import ihm.TableSorter;
 import ihm.entree.AffichageImage;
 
 import javax.swing.*;
 
+import accesBDD.AccesBDDChargement;
+
+import donnees.Colis;
 import donnees.Utilisateur;
 
 public class Prep_Plan_chargement extends JFrame implements ActionListener{
@@ -18,8 +26,11 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 	private Bouton imprimer, annuler;
 	private Utilisateur utilisateur;
 	private Image image;
+	private ModeleTable modColis;
+	private TableSorter sorter1;
+	private JTable tableColis;
 	
-	public Prep_Plan_chargement(Utilisateur utilisateur) {
+	public Prep_Plan_chargement(Utilisateur utilisateur, Integer idChargement) {
 		// Création graphique de la fenêtre
 		setTitle("Plan de chargement");
 		setSize(1024,768);
@@ -67,7 +78,63 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		image.setBounds(524,597,257,129);
 		this.fenetre.add(image);
 		
-		// Mise en place de la liste des colis pour le chargement
+		// Crétaion des colonnes
+		Vector nomColonnes=new Vector();
+        nomColonnes.add("Id");
+        nomColonnes.add("Code barre");
+        nomColonnes.add("Expéditeur");
+        nomColonnes.add("Destinataire");
+        nomColonnes.add("Origine");
+        nomColonnes.add("Destination");
+        nomColonnes.add("Entrepot en Cours");
+        nomColonnes.add("Utilisateur");
+        nomColonnes.add("Poids");
+        nomColonnes.add("Date d'entrée");
+        nomColonnes.add("Fragilité");
+        nomColonnes.add("Modèle");
+        nomColonnes.add("Modèle");
+        nomColonnes.add("Valeur Déclarée");
+        nomColonnes.add("Volume");
+        nomColonnes.add("N°");
+       
+        Vector donneesColis=new Vector();
+        // Vector conteannt les infos de la BDD
+        try{
+        	Vector liste=new AccesBDDChargement().listerColis(idChargement);
+        	for(int i=0;i<liste.size();i++)
+        		donneesColis.add(((Colis)liste.get(i)).toVector());
+        }
+        catch(SQLException e){
+        	
+        }
+        
+        // Création du tableau contenant les colis appartenant au chargement
+        modColis = new ModeleTable(nomColonnes,donneesColis);
+		//Création du TableSorter qui permet de réordonner les lignes à volonté
+		sorter1 = new TableSorter(modColis);
+		// Création du tableau
+		tableColis = new JTable(sorter1);
+		// initialisation du Sorter
+		sorter1.setTableHeader(tableColis.getTableHeader());
+		
+		//Aspect du tableau
+		tableColis.setAutoCreateColumnsFromModel(true);
+		tableColis.setOpaque(false);
+		tableColis.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		// On supprime les colonnes inutiles
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		for(int i=0;i<13;i++)
+			tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
+		
+		
+		//Construction du JScrollPane
+		JScrollPane scrollPane1 = new JScrollPane(tableColis);
+		tableColis.setPreferredScrollableViewportSize(new Dimension(800,150));
+		scrollPane1.setBounds(56,251,174,477);
+		scrollPane1.setOpaque(false);
+		scrollPane1.getViewport().setOpaque(false);
+		getContentPane().add(scrollPane1);
 		
 		setVisible(true);
 	}

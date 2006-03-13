@@ -79,6 +79,7 @@ public class Colis {
 		ModeleColis m=new ModeleColis(FormeToConst((String)v.get(12)),ModeleToConst((String)v.get(13)));
 		this.valeur_declaree=(String)v.get(14);	
 		this.volume=(Integer)v.get(15);	
+		this.numeroDsCharg=(Integer)v.get(16);
 	}
 
 	public Vector toVector(){
@@ -97,9 +98,10 @@ public class Colis {
 		v.add(constToString(fragilite));
 		v.add(modele);
 		v.add(constToForme(modele.getForme()));
-		v.add(constToModele(modele.getModele()));
+		//v.add(constToModele(modele.getModele()));
 		v.add(valeur_declaree);
 		v.add(volume);
+		v.add(this.numeroDsCharg);
 		return v;
 	}
 	

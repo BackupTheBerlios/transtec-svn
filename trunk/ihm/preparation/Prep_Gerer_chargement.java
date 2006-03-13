@@ -18,8 +18,6 @@ import donnees.Colis;
 import donnees.Utilisateur;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
-import accesBDD.AccesBDDPreparation;
-
 
 public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	private JTable tableColis;
