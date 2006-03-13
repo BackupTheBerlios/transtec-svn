@@ -14,9 +14,11 @@ public class deplacementColis implements KeyListener{
 	private float xloc=0, yloc=0, zloc=0;
 	private Transform3D translation=null;
 	private TransformGroup objSpin3=null;
+	private Bouton b;
 	
 	public deplacementColis(Bouton aEcouter){
-		aEcouter.addKeyListener(this);
+		b = aEcouter;
+		b.addKeyListener(this);
 	}
 	
 	public void objetADeplacer(TransformGroup colis, Transform3D translation){
@@ -45,6 +47,10 @@ public class deplacementColis implements KeyListener{
 			translation.setTranslation(new Vector3f(xloc,yloc,zloc));
 			objSpin3.setTransform(translation);
 		}
+	}
+	
+	public void ArretEcoute(){
+		b.removeKeyListener(this);
 	}
 
 	public void keyReleased(KeyEvent arg0) {

@@ -264,7 +264,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Echelle
 	    echelle.setScale(1);
 	    // Rotation
-	    rotation.rotY(-0.8f);
+	    rotation.rotY(0.0f);
 	    
 	    //Nouvel objet
 	    TransformGroup objSpin1 = new TransformGroup(echelle);
@@ -437,7 +437,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Echelle
 	    echelle.setScale(1);
 	    // Rotation
-	    rotation.rotY(-0.4f);
+	    rotation.rotY(0.0f);
 	    // Translation
 	    Vector3f vector = new Vector3f( 0.5f, .0f, .0f);
 	    translation.setTranslation(vector);
@@ -455,9 +455,16 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
 	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
 	
+	    //Ferme le KeyListener du colis venant d'être placé
+	    if(deplacement != null){
+	    	deplacement.ArretEcoute();
+	    }
+	    
+	    //Ajoute à la liste les coordonnées du colis venant d'être placé
+	    
 	    
 	    // Déplacement du colis
-	    this.deplacement=new deplacementColis(ajouter);
+	    deplacement=new deplacementColis(ajouter);
 	    deplacement.objetADeplacer(objSpin3, translation);
 
 	    // Arrière plan de la scène 3D
@@ -485,7 +492,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 			TextureAttributes textureAttributes = new TextureAttributes ();
 		    textureAttributes.setTextureMode (TextureAttributes.MODULATE);
 			apparence.setTexture(texture);
-			apparence.setTextureAttributes (textureAttributes);
+			apparence.setTextureAttributes(textureAttributes);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -497,29 +504,20 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.addChild(background);
 	    
 	    Box b = new Box(profondeur, hauteur, largeur,Box.GENERATE_TEXTURE_COORDS, apparence);
-	    CollisionDetector cd=new CollisionDetector(b);
+	    /*CollisionDetector cd=new CollisionDetector(b);
 		BoundingBox bounds1;
-	    bounds1 = new BoundingBox(new Point3d(-2f, -2f, -2f),new Point3d(-1f, -1f, -1f)/*new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f)*/);
+	    bounds1 = new BoundingBox();
 	    Point3d p1 = new Point3d();
 	    bounds1.getLower(p1);
 	    Point3d p2 = new Point3d();
 	    bounds1.getUpper(p2);
-	    cd.setSchedulingBounds(bounds1);
-	    
-	    //CollisionDetector cd1=new CollisionDetector(b);
-		BoundingBox bounds2;
-	    bounds2 = new BoundingBox(new Point3d(-0.1f, -0.1f, -0.1f),new Point3d(0.1f, 0.1f, 0.1f));
-	   // cd.setSchedulingBounds(bounds2);
+	    cd.setSchedulingBounds(bounds1);*/
 	    
 	    //Construction du cube
 	    objSpin1.addChild(objSpin2);
 	    objSpin2.addChild(objSpin3);
 	    objSpin3.addChild(b);
-	    objSpin3.addChild(cd);
-	   // objSpin3.addChild(cd1);
-	    
-	    
-	    
+	    //objSpin3.addChild(cd);
 	    branche.addChild(objSpin1);
 	    
 	    // Ajout de la capacité à séparer la branche
