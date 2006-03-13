@@ -78,11 +78,11 @@ public class Prep_Plan_chargement extends JFrame implements ActionListener{
 		if(source==this.imprimer){
 			//Impression
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 		else if(source==this.annuler){
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 	}
 }

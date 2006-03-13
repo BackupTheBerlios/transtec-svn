@@ -339,7 +339,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		// Annulation de la création d'un chargement
 		if(source==this.annuler){
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 		
 		// Création d'un chargement à l'état en cours
@@ -365,7 +365,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 					
 				}
 				dispose();
-				new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+				new FenetrePrincipale(this.utilisateur).setVisible(true);
 			//}
 			//fenValide.fermer();
 		}

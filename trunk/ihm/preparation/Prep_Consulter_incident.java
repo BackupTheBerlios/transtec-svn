@@ -217,7 +217,7 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 			}
 				
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 		
 		// On associe au colis l'incident et on envoie en zone de stockage
@@ -237,11 +237,11 @@ public class Prep_Consulter_incident extends JFrame implements ActionListener {
 			}
 				
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 		else if(source==this.annuler){
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 	}
 

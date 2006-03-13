@@ -1,28 +1,37 @@
 package ihm.preparation;
 
+import ihm.Bouton;
+import ihm.FenetreType;
 import ihm.FenetreWarning;
 import ihm.Fenetre_login;
 import ihm.ModeleTable;
-import ihm.FenetreType;
 import ihm.TableSorter;
-import ihm.Bouton;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.Vector;
-import javax.swing.*;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
-
 import donnees.Utilisateur;
 
-/*
- * Classe permettant d'afficher la fenêtre principale de préparation propre à chaque préparateur
- */
-
-public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemListener, MouseListener{
+public class FenetrePrincipale extends JFrame implements ActionListener, ItemListener, MouseListener{
 	private JLabel labelVolume;	// Volume de la destination	
 	private JLabel labelCharge;	// Volume déjà chargé pour la destination
 	private Vector colonnesTable=new Vector();	// Colonnes du tableau de camions
@@ -38,7 +47,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private JComboBox destinations;	// Liste des destinations
 	private int ligneActive;
 	
-	public Prep_Fenetre_princ(Utilisateur utilisateur){
+	public FenetrePrincipale(Utilisateur utilisateur){
 		// Création graphique de la fenêtre
 		setTitle("Préparation");
 		setSize(1024,768);
@@ -393,4 +402,5 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		// TODO Auto-generated method stub
 		
 	}
+
 }

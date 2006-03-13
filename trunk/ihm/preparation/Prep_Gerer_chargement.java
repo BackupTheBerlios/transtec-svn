@@ -315,7 +315,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 		// Annulation de l'opération de modification du chargement
 		else if(source==this.annuler){
 			dispose();
-			new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 	}
 }
