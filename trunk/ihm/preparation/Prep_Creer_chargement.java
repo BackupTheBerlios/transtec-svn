@@ -335,7 +335,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		Object source = ev.getSource();
 		Colis colis=null, colisSuiv=null;
 		int ligneActive;
-		
+		System.out.println("TESTTTTTTT333333");
 		// Annulation de la création d'un chargement
 		if(source==this.annuler){
 			dispose();
@@ -344,13 +344,19 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		
 		// Création d'un chargement à l'état en cours
 		else if(source==this.valider){
-			FenetreValidation fenValide=new FenetreValidation("");
-			if(fenValide.getResultat()==true){
+			//FenetreValidation fenValide=new FenetreValidation("");
+			//if(fenValide.getResultat()==true){
+				Colis courant;
 				// On met à jour la date
 				this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
 				try{
 					this.chargement.setId(bddChargement.ajouter(this.chargement));
-					for(int i=0;i<listeChargementMod.getRowCount();i++)	aCharger.add(new Colis((Vector)listeChargementMod.getRow(i)));
+					for(int i=0;i<listeChargementMod.getRowCount();i++){
+						courant=new Colis((Vector)listeChargementMod.getRow(i));
+						// On ajoute l'ordre de chargement
+						courant.setNumeroDsCharg(new Integer(i+1));
+						aCharger.add(courant);
+					}
 					bddChargement.AjouterColis(chargement, aCharger);
 					// On crée le chargement temporaire
 					new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
@@ -360,8 +366,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 				}
 				dispose();
 				new Prep_Fenetre_princ(this.utilisateur).setVisible(true);
-			}
-			fenValide.fermer();
+			//}
+			//fenValide.fermer();
 		}
 		
 		// Ajouter un colis dans le camion

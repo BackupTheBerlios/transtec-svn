@@ -14,6 +14,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import accesBDD.AccesBDDCamion;
+import accesBDD.AccesBDDChargement;
 
 import donnees.Utilisateur;
 
@@ -116,6 +117,8 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		colonnesTable.add("Volume à charger");
 		colonnesTable.add("Chargement en cours");
 		colonnesTable.add("Chargement Validé");
+		colonnesTable.add("Etat du chargement");
+		colonnesTable.add("idPreparation");
 		
 		
 		// On rempli les variable dynamique et on l'ajoute au container
@@ -180,6 +183,9 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		table.removeColumn(table.getColumnModel().getColumn(1));
 		table.removeColumn(table.getColumnModel().getColumn(1));
 		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(2));
+		table.removeColumn(table.getColumnModel().getColumn(2));
+		table.removeColumn(table.getColumnModel().getColumn(3));
 		
 		//Construction du JScrollPane
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -219,16 +225,16 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 			int ligneActive = table.getSelectedRow();
 			// Création d'un nouveau chargement pour la destination selectionnée
 			if(ligneActive==-1)
-				//JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 				new FenetreWarning("");
 			else{
+				// création d'un chargement
 				if(source==this.creerChargement){
 					dispose();
 					try{
 						new Prep_Creer_chargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
 								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
-								(Integer)((Vector)tableMod.getRow(ligneActive)).get(12)).setVisible(true);
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(13)).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						
@@ -256,8 +262,28 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 						JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
 				
 				// Valider le chargement
-				else if(source==this.validerCharg)
-					dispose();
+				else if(source==this.validerCharg){
+					// Mise à jour dans la BDD
+					Integer idChargement=(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(10);
+					try{
+						AccesBDDChargement bddChargement=new AccesBDDChargement();
+						bddChargement.valider(
+								bddChargement.rechercher(idChargement),
+								(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(13));
+					}
+					catch(SQLException SQLE){						
+					}
+					// Mise à jour du tableau
+					this.tableMod.setValueAt(new Integer(0), ligneActive,10);
+					this.tableMod.setValueAt(idChargement, ligneActive,11);
+					this.tableMod.setValueAt("Validé", ligneActive,12);
+					this.table.updateUI();
+					// Mise à jour des boutons
+					this.gererChargement.setEnabled(false);
+					this.validerCharg.setEnabled(false);
+					this.imprimerEtiquette.setEnabled(true);
+					this.cloturerPrep.setEnabled(true);
+				}
 				
 				// Cloturer la préparation
 				else if(source==this.cloturerPrep)
@@ -284,7 +310,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		
 		// Mise à jour du tableau
 		for(int i=0;i<tableMod.getRowCount();i++)
-			tableMod.removeRow(i);	
+			tableMod.removeRow(i);
 		for(int i=0;i<selectionnee.getListeCamionChargement().size();i++)
 			tableMod.addRow(selectionnee.getListeCamionChargement().get(i));
 		tableMod.fireTableDataChanged();
@@ -295,6 +321,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		this.gererChargement.setEnabled(true);
 		this.genererPlan.setEnabled(true);
 		this.imprimerEtiquette.setEnabled(true);
+		this.validerCharg.setEnabled(true);
 		
 		// On met à jour le container
 		fenetre.repaint();
@@ -303,17 +330,42 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 
 	// Quand on clique sur le tableau
 	public void mouseClicked(MouseEvent arg0) {
-		int ligneActive = table.getSelectedRow();
+		this.ligneActive = table.getSelectedRow();
 		if(ligneActive!=-1){
 			Vector ligne=(Vector)this.tableMod.getRow(ligneActive);
-			// On bloque le bouton créer si pour la préparation un chargement a déjà été créé auparavant
-			if(((Integer)ligne.get(10)).equals(new Integer(0)))
+			// Cas où la préparation est vierge!
+			if(((Integer)ligne.get(10)).intValue()==0){
 				this.creerChargement.setEnabled(true);
-			else	// La préparation a déjà un chargement
-				this.creerChargement.setEnabled(false);
-			
+				this.genererPlan.setEnabled(false);
+				this.gererChargement.setEnabled(false);
+				this.validerCharg.setEnabled(false);
+				this.imprimerEtiquette.setEnabled(false);
+				this.cloturerPrep.setEnabled(false);
+			}
+			else{
+				// Cas où le chargement est en cours
+				if(((Integer)ligne.get(11)).intValue()==0){
+					this.creerChargement.setEnabled(false);
+					this.genererPlan.setEnabled(true);
+					this.gererChargement.setEnabled(true);
+					this.validerCharg.setEnabled(true);
+					this.imprimerEtiquette.setEnabled(false);
+					this.cloturerPrep.setEnabled(false);
+				}
+				// Cas où le chargement a été validé
+				else{
+					this.creerChargement.setEnabled(false);
+					this.genererPlan.setEnabled(true);
+					this.gererChargement.setEnabled(false);
+					this.validerCharg.setEnabled(false);
+					this.imprimerEtiquette.setEnabled(true);
+					this.cloturerPrep.setEnabled(true);
+				}
+			}
 		}
 	}
+	
+	private int ligneActive;
 
 
 

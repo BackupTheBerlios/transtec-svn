@@ -22,7 +22,7 @@ public class Colis {
 	private Integer fragilite;
 	private ModeleColis modele;/////////// A VOIR
 	private String valeur_declaree;
-	private Integer volume;
+	private Integer volume, numeroDsCharg;
 
 	// Constructeur vide
 	public Colis(){
@@ -275,5 +275,13 @@ public class Colis {
 	// Affichage d'un Colis : on affiche son code barre
 	public String toString(){
 		return code_barre;
+	}
+	
+	public void setNumeroDsCharg(Integer numeroDsCharg){
+		this.numeroDsCharg=numeroDsCharg;
+	}
+	
+	public Integer getNumeroDsCharg(){
+		return this.numeroDsCharg;
 	}
 }

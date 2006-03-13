@@ -305,9 +305,6 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 				
 				// Ajout des colis dans le chargement
 				bddChargement.AjouterColis(this.chargement, nouvCharg);
-				
-				// Mise à jour des infos concernant le chargement
-				//bddChargement.valider(this.chargement, new AccesBDDPreparation().rechercherAvecChargementTemp(this.chargement.getId()));
 			}
 			catch(SQLException e){
 				

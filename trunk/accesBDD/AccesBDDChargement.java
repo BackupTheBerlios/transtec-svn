@@ -103,6 +103,8 @@ public class AccesBDDChargement extends AccesBDD{
 	//----- Lister les colis présents dans un chargement -----//
 	public Vector listerColis(Integer idChargement) throws SQLException{
 		Vector liste=new Vector();
+		AccesBDDColis bddColis=new AccesBDDColis();
+		Colis courant;
 	
 		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());
@@ -110,7 +112,9 @@ public class AccesBDDChargement extends AccesBDD{
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
-			liste.add(new AccesBDDColis().rechercher(new Integer(resultat.getInt("idColis"))));
+			courant=bddColis.rechercher(new Integer(resultat.getInt("idColis")));
+			courant.setNumeroDsCharg(new Integer(resultat.getInt("Numero")));
+			liste.add(courant);
 		}
 		
 		recherche.close();
@@ -125,10 +129,11 @@ public class AccesBDDChargement extends AccesBDD{
 		PreparedStatement ajouter=null;
 		for(int i=0;i<listeColis.size();i++){
 			ajouter=connecter().prepareStatement("INSERT INTO Chargement_Colis "
-					+"(idChargement, idColis) "
-					+"VALUES (?,?)");
+					+"(idChargement, idColis, Numero) "
+					+"VALUES (?,?,?)");
 			ajouter.setInt(1, chargement.getId().intValue());
 			ajouter.setInt(2, ((Colis)listeColis.get(i)).getId().intValue());
+			ajouter.setInt(3, ((Colis)listeColis.get(i)).getNumeroDsCharg().intValue());
 			
 			ajouter.executeUpdate();
 		}
@@ -196,7 +201,7 @@ public class AccesBDDChargement extends AccesBDD{
 	}
 	
 	// Permet de valider un chargement ATTENTION LE SORTIR DE LA PREP DANS CE CAS
-	public void valider(Chargement aModifier, Preparation preparation) throws SQLException{
+	public void valider(Chargement aModifier, Integer idPreparation) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE chargement SET "
@@ -217,8 +222,8 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		AccesBDDPreparation bddPreparation=new AccesBDDPreparation();
 		// On enlève également el chargement temporaire temporaire
-		bddPreparation.retirerChargementTemp(preparation.getId());
+		bddPreparation.retirerChargementTemp(idPreparation);
 		// on ajoute le chargement dans la colonne chargement effectué
-		bddPreparation.ajouterChargement(preparation.getId(), aModifier.getId());
+		bddPreparation.ajouterChargement(idPreparation, aModifier.getId());
 	}
 }

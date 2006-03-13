@@ -23,6 +23,14 @@ public class DonneesPrep {
 		courant.add(preparation.getVolume().toString());
 		courant.add(preparation.getIdChargementEnCours());
 		courant.add(preparation.getIdChargement());
+		if(preparation.getIdChargementEnCours().intValue()!=0)
+			courant.add("En Cours");
+		else{
+			if(preparation.getIdChargement().intValue()!=0)
+				courant.add("Validé");
+			else
+				courant.add("A préparer");
+		}
 		courant.add(preparation.getId());
 		this.volume=new Float(preparation.getVolume().floatValue()+this.volume.floatValue());
 		this.listeCamionChargement.add(courant);
