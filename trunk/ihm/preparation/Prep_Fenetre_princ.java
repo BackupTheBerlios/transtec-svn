@@ -30,7 +30,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private ModeleTable tableMod;	// Modèle de tableau de camions
 	private JTable table;	// Tableau de camions
 	private TableSorter tableSorter;	// Ordonnancement pour le tableau de camions
-	private ListeDonneesPrep listeDonneesPrep;	// Liste associée à ce préparateur
+	private ListeDonneesPrep listeDonneesPrep, recopie;	// Liste associée à ce préparateur
 	private DonneesPrep selectionnee;
 	private Utilisateur utilisateur;
 	private FenetreType fenetre;	// Container des éléments d'affichage
@@ -88,6 +88,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		// Recherche des informations propre à l'utilisateur dans la BDD
 		try{
 			listeDonneesPrep=new ListeDonneesPrep(this.utilisateur);
+			this.recopie=new ListeDonneesPrep(this.utilisateur);
 		}
 		catch(SQLException e){
 			
@@ -296,7 +297,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	// Mise à jour de la fenêtre lorsque l'onchange la destination
 	public void itemStateChanged(ItemEvent arg0) {
 		// Chargement du volume pour la destination selectionnée
-		ListeDonneesPrep recopie=this.listeDonneesPrep;
 		selectionnee=listeDonneesPrep.exists((String)destinations.getSelectedItem());
 		
 		// On réaffiche les volumes
@@ -327,7 +327,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		
 		// On met à jour le container
 		fenetre.repaint();
-		this.listeDonneesPrep=recopie;
+		this.listeDonneesPrep=this.recopie;
 	}
 
 
