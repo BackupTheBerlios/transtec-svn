@@ -143,7 +143,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	private JLabel label_login,label_pwd;
 	private JTextField login;
 	private JPasswordField pwd1;
-	private JButton valider,quitter;
+	protected JButton valider,quitter;
 	
 	public static void main(String[] args) {
 		JFrame fen1 = new Fenetre_login();

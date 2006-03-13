@@ -14,7 +14,6 @@ import algos.*;
 
 public class Sup_OngletRepartition extends JPanel implements ActionListener{
 	private JLabel titre;
-	private JPanel panTitre;
 	private CardLayout layoutPanDonnees;
 	private JPanel panDonnees;
 	private Sup_OngletRepartitionDebut panDonneesDebut;

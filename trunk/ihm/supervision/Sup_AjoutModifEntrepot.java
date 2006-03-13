@@ -20,7 +20,7 @@ public class Sup_AjoutModifEntrepot extends JFrame implements ActionListener{
 	private JTextField textWarning = new JTextField(15);
 	
 	private JButton boutValider = new JButton();
-	private JButton boutAnnuler = new JButton("Annuler");
+	protected JButton boutAnnuler = new JButton("Annuler");
 	private Entrepot e;
 	private Localisation l;
 	private Sup_OngletEntrepot parent;

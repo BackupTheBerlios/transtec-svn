@@ -80,7 +80,7 @@ public class Sup_OngletEntrepot extends Sup_Onglet implements ActionListener{
 					Entrepot ent = new Entrepot(cVect);
 	
 					// On affiche l'invite de modification
-					Sup_AjoutModifEntrepot modifEntrepot = new Sup_AjoutModifEntrepot(ent,this,tableEntrepots);
+					new Sup_AjoutModifEntrepot(ent,this,tableEntrepots);
 					
 					// On bloque l'utilisateur sur le pop-up
 					setFenetreActive(false);
@@ -97,7 +97,7 @@ public class Sup_OngletEntrepot extends Sup_Onglet implements ActionListener{
 			// Ajout d'un entrepôt
 			if(source==boutAjouter){
 				// On affiche l'invite de saisie d'information
-				Sup_AjoutModifEntrepot ajoutEntrepot = new Sup_AjoutModifEntrepot(null,this,tableEntrepots);
+				new Sup_AjoutModifEntrepot(null,this,tableEntrepots);
 				
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);

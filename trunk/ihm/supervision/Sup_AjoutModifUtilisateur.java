@@ -30,7 +30,7 @@ public class Sup_AjoutModifUtilisateur extends JFrame implements ActionListener{
 	private JTextField textWarning = new JTextField(15);
 	
 	private JButton boutValider = new JButton();
-	private JButton boutAnnuler = new JButton("Annuler");
+	protected JButton boutAnnuler = new JButton("Annuler");
 	private Utilisateur u;
 	private Personne p;
 	private Localisation l;

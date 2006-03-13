@@ -77,7 +77,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 					Camion c = new Camion(cVect);
 	
 					// On affiche l'invite de modification
-					Sup_AjoutModifCamion modifCamion = new Sup_AjoutModifCamion(c,this,tableCamions);
+					new Sup_AjoutModifCamion(c,this,tableCamions);
 					
 					// On bloque l'utilisateur sur le pop-up
 					setFenetreActive(false);
@@ -94,7 +94,7 @@ public class Sup_OngletCamion extends Sup_Onglet implements ActionListener{
 			// Ajout d'un camion
 			if(source==boutAjouter){
 				// On affiche l'invite de saisie d'information
-				Sup_AjoutModifCamion ajoutCamion = new Sup_AjoutModifCamion(null,this,tableCamions);
+				new Sup_AjoutModifCamion(null,this,tableCamions);
 				
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);

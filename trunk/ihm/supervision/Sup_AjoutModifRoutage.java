@@ -19,7 +19,7 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 	private JTextField textDistance = new JTextField(15);
 	private JTextField textWarning = new JTextField(15);
 	private JButton boutValider = new JButton();
-	private JButton boutAnnuler = new JButton("Annuler");
+	protected JButton boutAnnuler = new JButton("Annuler");
 	private Route route;
 	private Sup_OngletRoutage parent;
 	private Vector vectOrigines = new Vector();
@@ -147,7 +147,7 @@ public class Sup_AjoutModifRoutage extends JFrame implements ActionListener{
 						parent.modifierLigne(this.getRoute().toVector());
 						
 						// Ecriture dans la base de données
-						tableRoutage.modifier(this.getRoute());
+						//tableRoutage.modifier(this.getRoute());
 					}
 				}
 				catch(Exception ex){

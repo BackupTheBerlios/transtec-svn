@@ -65,16 +65,16 @@ public class Sup_VolumeReparti extends JPanel{
 	// Methode permettant d'insérer un nom de destination
 	public void setTextDestination(String s){
 		texteDestination.setText(s);
-	};
+	}
 	
 	// Methode permettant d'insérer un volume réparti
 	public void setTextVolReparti(String s){
 		texteVolReparti.setText(s);
-	};
+	}
 	
 	// Methode permettant d'insérer un volume total
 	public void setTextVolTotal(String s){
 		texteVolTotal.setText(s);
-	};
+	}
 	
 }

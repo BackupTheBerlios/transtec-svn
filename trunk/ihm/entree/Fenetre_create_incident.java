@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 //import java.awt.event.*; 
 //import javax.swing.*;
 
-import java.util.*;
-import java.text.DateFormat;
+//import java.util.*;
+//import java.text.DateFormat;
 
 import donnees.*;
 import accesBDD.*;
@@ -37,7 +37,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		utilis = user;
 		incident = inc;
 		//création graphique
-		DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
+		//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 		fenetre1 = fenetre;
 		
 		setTitle("Création d'un incident");

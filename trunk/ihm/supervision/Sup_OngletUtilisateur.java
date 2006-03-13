@@ -91,7 +91,7 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 					Utilisateur u = new Utilisateur(cVect);
 
 					// On affiche l'invite de modification
-					Sup_AjoutModifUtilisateur modifUtilisateur = new Sup_AjoutModifUtilisateur(u,this,tableUtilisateurs);
+					new Sup_AjoutModifUtilisateur(u,this,tableUtilisateurs);
 
 					// On bloque l'utilisateur sur le pop-up
 					setFenetreActive(false);
@@ -112,7 +112,7 @@ public class Sup_OngletUtilisateur extends Sup_Onglet implements ActionListener{
 		// Ajout d'un utilisateur
 		if(source==boutAjouter){
 			// On affiche l'invite de saisie d'information
-			Sup_AjoutModifUtilisateur ajoutUtilisateur = new Sup_AjoutModifUtilisateur(null,this,tableUtilisateurs);
+			new Sup_AjoutModifUtilisateur(null,this,tableUtilisateurs);
 
 			// On bloque l'utilisateur sur le pop-up
 			setFenetreActive(false);

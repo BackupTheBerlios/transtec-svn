@@ -21,7 +21,7 @@ import donnees.Entrepot;
 
 public class Sup_OngletRepartitionFin extends JPanel{
 	
-	private Sup_VolumeReparti panelInfos;
+	protected Sup_VolumeReparti panelInfos;
 	public JTable tabPreparations;
 	private JScrollPane scrollPanePreparations;
 	private ModeleTable modeleTabPreparations;
@@ -30,7 +30,7 @@ public class Sup_OngletRepartitionFin extends JPanel{
 	private TableColumn col1,col3;
 	private Vector nomColonnesPreparations = new Vector();
 	public Vector donneesPreparations = new Vector();
-	private Sup_OngletRepartition parent;
+	protected Sup_OngletRepartition parent;
 
 	public Sup_OngletRepartitionFin(Sup_OngletRepartition parent){
 		super();
@@ -119,12 +119,13 @@ public class Sup_OngletRepartitionFin extends JPanel{
 		modeleTabPreparations = new ModeleTable(nomColonnesPreparations,donneesPreparations){			
 			// Ajout de cette méthode pour pouvoir afficher les ComboBox
 			public boolean isCellEditable(int row, int col) {
+				boolean ret = false;
+				
 				// Les colonnes contenant les ComboBox et le volume sont éditables
 				if (col==2 || col==3 || col==4) {
-					return true;
-				} else {
-					return false;
+					ret=true;
 				}
+				return ret;
 			}
 		};
 		

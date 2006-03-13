@@ -76,7 +76,10 @@ public class Colis {
 		this.date_envoi=(Timestamp)v.get(9);
 		this.fragilite=stringToConst((String)v.get(10));
 		this.modele=(ModeleColis)v.get(11);
+		
+		//A Supprimer ou à garder ?
 		ModeleColis m=new ModeleColis(FormeToConst((String)v.get(12)),ModeleToConst((String)v.get(13)));
+		
 		this.valeur_declaree=(String)v.get(14);	
 		this.volume=(Integer)v.get(15);	
 		this.numeroDsCharg=(Integer)v.get(16);

@@ -243,7 +243,7 @@ public class AccesBDDColis extends AccesBDD{
 	// Attention cas ou colis appartenant à un chargement pas encor géré!!!!!!
 	public Vector calculVolumesDestinations() throws SQLException{
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
-		Vector liste=new Vector(), listeColis=null;
+		Vector liste=new Vector();
 		Destination couple;
 
 		// Préparation de la requête SQL

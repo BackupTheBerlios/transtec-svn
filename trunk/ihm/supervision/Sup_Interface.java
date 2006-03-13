@@ -12,10 +12,6 @@ import donnees.Utilisateur;
 
 //  Fenêtre principale du Superviseur
 public class Sup_Interface extends JFrame implements ActionListener{
-	private JMenu menuFichier;
-	private JMenuItem quitter;
-	private JCheckBoxMenuItem entrepots;
-	private JMenuBar menuBar;
 	private JTabbedPane onglets;
 	private Sup_OngletCamion ongletCamion;
 	private Sup_OngletRepartition ongletRepartition;

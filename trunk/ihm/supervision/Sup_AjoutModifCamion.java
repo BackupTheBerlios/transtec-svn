@@ -26,7 +26,7 @@ public class Sup_AjoutModifCamion extends JFrame implements ActionListener{
 	private JComboBox comboDestination;
 	private JTextField textWarning = new JTextField(15);
 	private JButton boutValider = new JButton();
-	private JButton boutAnnuler = new JButton("Annuler");
+	protected JButton boutAnnuler = new JButton("Annuler");
 	private Camion camion;
 	private Sup_OngletCamion parent;
 	

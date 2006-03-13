@@ -103,7 +103,7 @@ public class Sup_OngletIncident extends Sup_Onglet implements ActionListener{
 			else if(source==boutAfficher){
 				
 				// On affiche les détails de l'incident dans une boite de dialogue
-				Sup_AffichageIncident fenAffIncident = new Sup_AffichageIncident(incid,this,tableIncidents);
+				new Sup_AffichageIncident(incid,this,tableIncidents);
 
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
