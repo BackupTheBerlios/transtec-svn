@@ -101,7 +101,7 @@ public class Colis {
 		v.add(constToString(fragilite));
 		v.add(modele);
 		v.add(constToForme(modele.getForme()));
-		//v.add(constToModele(modele.getModele()));
+		v.add(constToModele(modele.getModele()));
 		v.add(valeur_declaree);
 		v.add(volume);
 		v.add(this.numeroDsCharg);
