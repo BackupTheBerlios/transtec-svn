@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.swing.JButton;
 import javax.vecmath.Vector3f;
 
 public class deplacementColis implements KeyListener{

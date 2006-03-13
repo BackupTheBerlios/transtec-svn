@@ -1,10 +1,7 @@
 package ihm;
 
-import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

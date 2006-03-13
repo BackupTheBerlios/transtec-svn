@@ -1,9 +1,7 @@
 package ihm.preparation;
 
-import ihm.preparation.CollisionDetector;
 import ihm.Bouton;
 import ihm.FenetreType;
-import ihm.FenetreValidation;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
