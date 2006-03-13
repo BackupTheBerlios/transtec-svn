@@ -51,7 +51,7 @@ public class ListeDonneesPrep {
 	public DonneesPrep exists(String destination){
 		DonneesPrep trouvee=null;
 		for(int i=0;i<liste.size();i++){
-			if(((DonneesPrep)liste.get(i)).getDestination().getLocalisation().getVille().equals(destination)==true){
+			if(((DonneesPrep)liste.get(i)).getDestination().toString().equals(destination)==true){
 				trouvee=(DonneesPrep)liste.get(i);
 				i=liste.size();
 			}	

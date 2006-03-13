@@ -36,6 +36,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	private FenetreType fenetre;	// Container des éléments d'affichage
 	private Bouton deconnexion, creerChargement, gererChargement, genererPlan, imprimerEtiquette, incident, validerCharg, cloturerPrep;	// Boutons du menu
 	private JComboBox destinations;	// Liste des destinations
+	private int ligneActive;
 	
 	public Prep_Fenetre_princ(Utilisateur utilisateur){
 		// Création graphique de la fenêtre
@@ -295,6 +296,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 	// Mise à jour de la fenêtre lorsque l'onchange la destination
 	public void itemStateChanged(ItemEvent arg0) {
 		// Chargement du volume pour la destination selectionnée
+		ListeDonneesPrep recopie=this.listeDonneesPrep;
 		selectionnee=listeDonneesPrep.exists((String)destinations.getSelectedItem());
 		
 		// On réaffiche les volumes
@@ -325,6 +327,7 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		
 		// On met à jour le container
 		fenetre.repaint();
+		this.listeDonneesPrep=recopie;
 	}
 
 
@@ -365,10 +368,6 @@ public class Prep_Fenetre_princ extends JFrame implements ActionListener, ItemLi
 		}
 	}
 	
-	private int ligneActive;
-
-
-
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
