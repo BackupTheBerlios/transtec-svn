@@ -1,20 +1,21 @@
--- phpMyAdmin SQL Dump
--- version 2.6.1
--- http://www.phpmyadmin.net
--- 
--- Host: localhost
--- Generation Time: Mar 12, 2006 at 11:43 AM
--- Server version: 4.1.9
--- PHP Version: 4.3.10
--- 
--- Database: `transtec`
--- 
+Base de données transtec sur le serveur localhost 
+# phpMyAdmin SQL Dump
+# version 2.5.3
+# http://www.phpmyadmin.net
+#
+# Serveur: localhost
+# Généré le : Lundi 13 Mars 2006 à 15:08
+# Version du serveur: 4.0.15
+# Version de PHP: 4.3.3
+# 
+# Base de données: `transtec`
+# 
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `camions`
--- 
+#
+# Structure de la table `camions`
+#
 
 CREATE TABLE `camions` (
   `idCamions` int(10) unsigned NOT NULL default '0',
@@ -30,24 +31,24 @@ CREATE TABLE `camions` (
   PRIMARY KEY  (`idCamions`),
   KEY `Colis_FKIndex1` (`Origine`),
   KEY `Colis_FKIndex2` (`Destination`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `camions`
--- 
+#
+# Contenu de la table `camions`
+#
 
-INSERT INTO `camions` VALUES (1, '1013TW78', 1, 10, 100, 10, 19, 10, 0, 0);
-INSERT INTO `camions` VALUES (2, '2356AQH76', 2, 10, 100, 10, 29, 10, 3, 1);
-INSERT INTO `camions` VALUES (3, '2356ASU45', 0, 10, 100, 10, 64, 10, 0, 0);
-INSERT INTO `camions` VALUES (4, '652GFD75', 0, 10, 111, 10, 30, 10, 0, 0);
-INSERT INTO `camions` VALUES (5, '1012TW78', 1, 10, 100, 10, 250, 10, 1, 2);
-INSERT INTO `camions` VALUES (6, '1312VS69', 1, 10, 100, 10, 350, 10, 3, 2);
+INSERT INTO `camions` VALUES (1, '1013TW78', 1, '10', '100', '10', '19', '10', 0, 0);
+INSERT INTO `camions` VALUES (2, '2356AQH76', 2, '10', '100', '10', '29', '10', 3, 1);
+INSERT INTO `camions` VALUES (3, '2356ASU45', 0, '10', '100', '10', '64', '10', 0, 0);
+INSERT INTO `camions` VALUES (4, '652GFD75', 0, '10', '111', '10', '30', '10', 0, 0);
+INSERT INTO `camions` VALUES (5, '1012TW78', 1, '10', '100', '10', '250', '10', 1, 2);
+INSERT INTO `camions` VALUES (6, '1312VS69', 1, '10', '100', '10', '350', '10', 3, 2);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `chargement`
--- 
+#
+# Structure de la table `chargement`
+#
 
 CREATE TABLE `chargement` (
   `idChargement` int(10) unsigned NOT NULL default '0',
@@ -61,40 +62,39 @@ CREATE TABLE `chargement` (
   PRIMARY KEY  (`idChargement`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Chargement_FKIndex2` (`Camions_idCamions`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `chargement`
--- 
+#
+# Contenu de la table `chargement`
+#
 
-INSERT INTO `chargement` VALUES (0, 1, 6, 200, '2006-02-19 00:00:00', 1, '987654321', 1);
+INSERT INTO `chargement` VALUES (0, 1, 6, '200', '2006-02-19 00:00:00', 1, '987654321', 1);
+INSERT INTO `chargement` VALUES (1, 2, 3, '200', '2006-02-17 00:00:00', 1, '123456789', 1);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `chargement_colis`
--- 
+#
+# Structure de la table `chargement_colis`
+#
 
 CREATE TABLE `chargement_colis` (
   `idChargement` int(10) unsigned NOT NULL default '0',
   `idColis` int(10) unsigned NOT NULL default '0',
   KEY `Incidents_FKIndex1` (`idChargement`),
   KEY `Chargement_FKIndex2` (`idColis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `chargement_colis`
--- 
+#
+# Contenu de la table `chargement_colis`
+#
 
-INSERT INTO `chargement_colis` VALUES (0, 6);
-INSERT INTO `chargement_colis` VALUES (0, 7);
-INSERT INTO `chargement_colis` VALUES (0, 8);
+INSERT INTO `chargement_colis` VALUES (1, 1);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `colis`
--- 
+#
+# Structure de la table `colis`
+#
 
 CREATE TABLE `colis` (
   `idColis` int(10) unsigned NOT NULL default '0',
@@ -115,11 +115,11 @@ CREATE TABLE `colis` (
   KEY `Colis_FKIndex1` (`ModelesColis_idModelesColis`),
   KEY `Colis_FKIndex2` (`Destination`),
   KEY `users_FKIndex3` (`Createur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `colis`
--- 
+#
+# Contenu de la table `colis`
+#
 
 INSERT INTO `colis` VALUES (8, 15, 3, 5, 1, 1, 4, 1, '225300223', 5, '2006-03-05 13:44:21', '0', 0, 615250);
 INSERT INTO `colis` VALUES (9, 17, 3, 1, 5, 1, 4, 1, '786086629', 12, '2006-03-05 13:45:59', '0', 0, 125);
@@ -131,11 +131,11 @@ INSERT INTO `colis` VALUES (3, 6, 3, 7, 5, 1, 4, 1, '355987463', 11, '2006-02-21
 INSERT INTO `colis` VALUES (2, 10, 3, 6, 5, 1, 4, 1, '218245514', 23, '2006-02-21 23:12:53', '0', 2, 340929);
 INSERT INTO `colis` VALUES (1, 8, 3, 4, 2, 1, 9, 1, '866312927', 18, '2006-02-21 23:11:46', '0', 1, 3142);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `entrepots`
--- 
+#
+# Structure de la table `entrepots`
+#
 
 CREATE TABLE `entrepots` (
   `idEntrepots` int(10) unsigned NOT NULL default '0',
@@ -143,11 +143,11 @@ CREATE TABLE `entrepots` (
   `Telephone` char(15) default NULL,
   PRIMARY KEY  (`idEntrepots`),
   KEY `Entrepots_FKIndex1` (`Localisation_idLocalisation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `entrepots`
--- 
+#
+# Contenu de la table `entrepots`
+#
 
 INSERT INTO `entrepots` VALUES (1, 1, '0565487887');
 INSERT INTO `entrepots` VALUES (2, 2, '0165322356');
@@ -160,11 +160,11 @@ INSERT INTO `entrepots` VALUES (5, 5, '0365214896');
 INSERT INTO `entrepots` VALUES (4, 4, '0496587463');
 INSERT INTO `entrepots` VALUES (3, 3, '0147963215');
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `incidents`
--- 
+#
+# Structure de la table `incidents`
+#
 
 CREATE TABLE `incidents` (
   `idIncidents` int(10) unsigned NOT NULL auto_increment,
@@ -177,23 +177,23 @@ CREATE TABLE `incidents` (
   PRIMARY KEY  (`idIncidents`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Incidents_FKIndex2` (`Colis_idColis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) TYPE=MyISAM AUTO_INCREMENT=6 ;
 
--- 
--- Dumping data for table `incidents`
--- 
+#
+# Contenu de la table `incidents`
+#
 
 INSERT INTO `incidents` VALUES (5, 3, 3, 'un probleme avec le carton ouvert', '2006-02-21 23:21:35', 10, 1);
 INSERT INTO `incidents` VALUES (4, 1, 3, 'il faut mieux jeter le colis', '2006-02-21 23:21:08', 10, 1);
 INSERT INTO `incidents` VALUES (3, 1, 3, 'le colis est foutu', '2006-02-21 23:20:33', 10, 2);
-INSERT INTO `incidents` VALUES (2, 1, 3, 'un autre coin vient de s''abimer', '2006-02-21 23:20:21', 10, 0);
+INSERT INTO `incidents` VALUES (2, 1, 3, 'un autre coin vient de s\'abimer', '2006-02-21 23:20:21', 10, 0);
 INSERT INTO `incidents` VALUES (1, 1, 3, 'Il y a un coin abim? sur le colis', '2006-02-21 23:20:06', 10, 2);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `localisation`
--- 
+#
+# Structure de la table `localisation`
+#
 
 CREATE TABLE `localisation` (
   `idLocalisation` int(10) unsigned NOT NULL default '0',
@@ -201,11 +201,11 @@ CREATE TABLE `localisation` (
   `CodePostal` char(15) default NULL,
   `Ville` char(50) default NULL,
   PRIMARY KEY  (`idLocalisation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `localisation`
--- 
+#
+# Contenu de la table `localisation`
+#
 
 INSERT INTO `localisation` VALUES (1, '2 rue du Poitoux', '64000', 'Pau');
 INSERT INTO `localisation` VALUES (2, '19 avenue Foch', '94300', 'Rungis');
@@ -225,11 +225,11 @@ INSERT INTO `localisation` VALUES (9, '4 rue de la grande arm', '91000', 'Evry')
 INSERT INTO `localisation` VALUES (8, '4 rue de la montagne', '27000', 'Evreux');
 INSERT INTO `localisation` VALUES (7, '98 rue de la place', '51000', 'Lille');
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `modelescolis`
--- 
+#
+# Structure de la table `modelescolis`
+#
 
 CREATE TABLE `modelescolis` (
   `idModelesColis` int(10) unsigned NOT NULL default '0',
@@ -240,11 +240,11 @@ CREATE TABLE `modelescolis` (
   `Profondeur` int(10) unsigned default NULL,
   `Diametre` int(10) unsigned default NULL,
   PRIMARY KEY  (`idModelesColis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `modelescolis`
--- 
+#
+# Contenu de la table `modelescolis`
+#
 
 INSERT INTO `modelescolis` VALUES (1, 0, 0, 20, 20, 20, 0);
 INSERT INTO `modelescolis` VALUES (2, 0, 1, 40, 40, 40, 0);
@@ -264,11 +264,11 @@ INSERT INTO `modelescolis` VALUES (13, 0, 3, 18, 0, 0, 0);
 INSERT INTO `modelescolis` VALUES (12, 1, 3, 18, 45, 5, 0);
 INSERT INTO `modelescolis` VALUES (11, 2, 3, 41, 23, 19, 0);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `personnes`
--- 
+#
+# Structure de la table `personnes`
+#
 
 CREATE TABLE `personnes` (
   `idPersonnes` int(10) unsigned NOT NULL default '0',
@@ -279,11 +279,11 @@ CREATE TABLE `personnes` (
   `Email` char(50) default NULL,
   PRIMARY KEY  (`idPersonnes`),
   KEY `Personnes_FKIndex1` (`Localisation_idLocalisation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `personnes`
--- 
+#
+# Contenu de la table `personnes`
+#
 
 INSERT INTO `personnes` VALUES (1, 3, 'Chaubert', 'Jean-Jacques', '0165654545', 'jj.chaubert@transtec.de');
 INSERT INTO `personnes` VALUES (2, 4, 'Toumou', 'Raymong', '0124466224', 'r.dumou@wanadoo.fr');
@@ -293,32 +293,11 @@ INSERT INTO `personnes` VALUES (7, 16, 'Jardin', 'Maurice', '0123456598', 'horti
 INSERT INTO `personnes` VALUES (6, 15, 'Lacombe', 'Julien', '0134651037', 'neutre@neutral.com');
 INSERT INTO `personnes` VALUES (5, 14, 'Sengler', 'nicolas', '0165654545', 'jj.chaubert@transtec.de');
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `planchargement`
--- 
-
-CREATE TABLE `planchargement` (
-  `idChargement` int(10) default NULL,
-  `face` blob,
-  `arriere` blob,
-  `gauche` blob,
-  `droit` blob,
-  `dessus` blob,
-  `dessous` blob
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- 
--- Dumping data for table `planchargement`
--- 
-
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `preparation`
--- 
+#
+# Structure de la table `preparation`
+#
 
 CREATE TABLE `preparation` (
   `idPreparation` int(10) unsigned NOT NULL default '0',
@@ -333,38 +312,38 @@ CREATE TABLE `preparation` (
   PRIMARY KEY  (`idPreparation`),
   KEY `Incidents_FKIndex1` (`idPreparateur`),
   KEY `Incidents_FKIndex2` (`idDestination`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `preparation`
--- 
+#
+# Contenu de la table `preparation`
+#
 
-INSERT INTO `preparation` VALUES (1, 3, 7, 1, 1, 0, 60, 0, 0);
-INSERT INTO `preparation` VALUES (2, 3, 3, 1, 1, 0, 450, 0, 0);
+INSERT INTO `preparation` VALUES (1, 3, 7, 1, 1, 0, '60', 0, 0);
+INSERT INTO `preparation` VALUES (2, 3, 3, 1, 1, 0, '450', 0, 0);
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `routage`
--- 
+#
+# Structure de la table `routage`
+#
 
 CREATE TABLE `routage` (
   `Origine` int(11) NOT NULL default '0',
   `Destination` int(11) NOT NULL default '0',
   `PlatInter` int(11) default NULL,
   `Distance` float default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `routage`
--- 
+#
+# Contenu de la table `routage`
+#
 
 
--- --------------------------------------------------------
+# --------------------------------------------------------
 
--- 
--- Table structure for table `users`
--- 
+#
+# Structure de la table `users`
+#
 
 CREATE TABLE `users` (
   `idUsers` int(10) unsigned NOT NULL default '0',
@@ -374,15 +353,15 @@ CREATE TABLE `users` (
   `Type_2` smallint(5) unsigned default NULL,
   PRIMARY KEY  (`idUsers`),
   KEY `Users_FKIndex1` (`Personnes_idPersonnes`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) TYPE=MyISAM;
 
--- 
--- Dumping data for table `users`
--- 
+#
+# Contenu de la table `users`
+#
 
 INSERT INTO `users` VALUES (1, 1, 'user1', 'user1', 0);
 INSERT INTO `users` VALUES (2, 2, 'user2', 'user2', 0);
 INSERT INTO `users` VALUES (3, 3, 'user3', 'user3', 1);
 INSERT INTO `users` VALUES (4, 4, 'user4', 'user4', 2);
 INSERT INTO `users` VALUES (5, 3, 'user5', 'user5', 1);
-        
+    
