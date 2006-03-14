@@ -72,6 +72,8 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private AffichageColisDynamique zoneColis3D=null;
 	private Chargement chargement;
 	private Utilisateur utilisateur;
+	private int ligneActive;
+	private Vector dimension_colis = new Vector();
 		
 	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
 		// Création graphique de la fenêtre
@@ -248,7 +250,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    // Tableau des couleurs des 4 sommets de chaque face
 	    quadArray.setColors(0, new Color4f[] {
 	    	/* couleur face 1 */ color1, color1, color1, color1,
-	    	/* couleur face 2 */ color1, color1, color1, color1,
+	    	/* couleur face 2 */ color2, color2, color2, color2,
 	    	/* couleur face 3 */ color3, color3, color3, color3,
 	    	/* couleur face 4 */ color2, color2, color2, color2,
 	    	/* couleur face 5 */ color1, color1, color1, color1
@@ -332,8 +334,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		Vector aCharger=new Vector();
 		Object source = ev.getSource();
 		Colis colis=null, colisSuiv=null;
-		int ligneActive;
-		System.out.println("TESTTTTTTT333333");
+		//System.out.println("TESTTTTTTT333333");
 		// Annulation de la création d'un chargement
 		if(source==this.annuler){
 			dispose();
@@ -453,22 +454,6 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_WRITE);
 	    objSpin3.setCapability(TransformGroup.ALLOW_PICKABLE_READ);
 	
-	    //Ferme le KeyListener du colis venant d'être placé
-	    if(deplacement != null){
-//	    	Ferme le KeyListener du colis venant d'être placé
-	    	deplacement.ArretEcoute();
-	    	
-//	    	Ajoute à la liste les coordonnées du colis venant d'être placé
-	    	
-	    }
-	    
-	    //Ajoute à la liste les coordonnées du colis venant d'être placé
-	    
-	    
-	    // Déplacement du colis
-	    deplacement=new deplacementColis(ajouter);
-	    deplacement.objetADeplacer(objSpin3, translation,profondeur,hauteur,largeur);
-
 	    // Arrière plan de la scène 3D
 	    Background background = new Background(1, 1, 1);
 	    background.setColor(new Color3f(new Color(238,238,238)));
@@ -481,15 +466,13 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    lumiere.setInfluencingBounds(new BoundingBox(new Point3d(-2,-2,-2),new Point3d(2,2,2)));
 	    lumiereDir.setInfluencingBounds(new BoundingBox());
 	    
-	    // Couleur du cube
-	    Material materiau=new Material();
-	    materiau.setAmbientColor(new Color3f(Color.blue));
+	    // Création d'une apparence
 	    Appearance apparence=new Appearance();
-	    //apparence.setMaterial(materiau);
 	    
-//	  Texture
+	    //Texture
 	    try {
-			BufferedImage image = ImageIO.read(new File("images/preparation/paper_carton01.jpg"));
+	    	int numero = this.listeChargementTab.getRowCount();
+			BufferedImage image = ImageIO.read(new File("images/preparation/Textures/paper_carton" + numero + ".png"));
 			Texture texture = new TextureLoader(image).getTexture();
 			TextureAttributes textureAttributes = new TextureAttributes ();
 		    textureAttributes.setTextureMode (TextureAttributes.MODULATE);
@@ -506,20 +489,23 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	    branche.addChild(background);
 	    
 	    Box b = new Box(profondeur, hauteur, largeur,Box.GENERATE_TEXTURE_COORDS, apparence);
-	    /*CollisionDetector cd=new CollisionDetector(b);
-		BoundingBox bounds1;
-	    bounds1 = new BoundingBox();
-	    Point3d p1 = new Point3d();
-	    bounds1.getLower(p1);
-	    Point3d p2 = new Point3d();
-	    bounds1.getUpper(p2);
-	    cd.setSchedulingBounds(bounds1);*/
+	    
+	    //Ferme le KeyListener du colis venant d'être placé
+	    if(deplacement != null){
+	    	//Ferme le KeyListener du colis venant d'être placé
+	    	deplacement.ArretEcoute();
+	    	//Ajoute à la liste les coordonnées du colis venant d'être placé
+	    	Ajout_colis_present(deplacement.GetX(),deplacement.GetY(),deplacement.GetZ(),deplacement.GetProfondeur(),deplacement.GetHauteur(),deplacement.GetLargeur());
+	    }
+	    
+	    //Déplacement du colis
+	    deplacement=new deplacementColis(ajouter,0.9f, 0.3f, 0.5f,dimension_colis);
+	    deplacement.objetADeplacer(objSpin3,translation,b);
 	    
 	    //Construction du cube
 	    objSpin1.addChild(objSpin2);
 	    objSpin2.addChild(objSpin3);
 	    objSpin3.addChild(b);
-	    //objSpin3.addChild(cd);
 	    branche.addChild(objSpin1);
 	    
 	    // Ajout de la capacité à séparer la branche
@@ -573,5 +559,15 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 		benne[19] = new Point3f( tmp_largeur, tmp_hauteur, -tmp_profondeur);
 		
 		return benne;
+	}
+	
+	public void Ajout_colis_present(float x,float y,float z,float prof,float haut,float large){
+		float[] tab = new float[5];
+		tab[0] = x-prof;
+		tab[1] = x+prof;
+		tab[2] = z-large;
+		tab[3] = z+large;
+		tab[4] = y+haut;
+		dimension_colis.addElement(tab);
 	}
 }
