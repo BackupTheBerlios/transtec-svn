@@ -61,10 +61,11 @@ public class AccesBDDCamion extends AccesBDD{
 	}
 	
 	//----- Lister les camions -----//
-	public Vector lister() throws SQLException{
+	public Vector lister(Entrepot entActuel) throws SQLException{
 		Vector liste=new Vector();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Origine=?");
+		recherche.setInt(1, entActuel.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
@@ -87,12 +88,12 @@ public class AccesBDDCamion extends AccesBDD{
 	}
 	
 	//----- Liste les camions en fonction de leur état
-	public Vector listerParEtat(int etat) throws SQLException{
+	public Vector listerParEtat(int etat,Entrepot entActuel) throws SQLException{
 		Vector liste=new Vector();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Etat=?");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Etat=? AND Origine=?");
 		recherche.setInt(1, etat);
-		
+		recherche.setInt(2, entActuel.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){

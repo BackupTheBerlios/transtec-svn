@@ -1,7 +1,7 @@
 package ihm.supervision;
 
-import java.awt.*;
 import java.util.Vector;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -11,7 +11,7 @@ import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDEntrepot;
 
 // Invite d'ajout/modification d'un camion
-public class AjoutModifCamion extends JFrame implements ActionListener{
+public class AjoutModifCamion extends AjoutModif implements ActionListener{
 	
 	private final static String [] TITRES = {"Disponible" , "En réparation" , "En livraison"};
 	private Vector vectOrigines = new Vector();
@@ -24,9 +24,6 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 	private JTextField textProfondeur = new JTextField(15);
 	private JComboBox comboOrigine;
 	private JComboBox comboDestination;
-	private JTextField textWarning = new JTextField(15);
-	private JButton boutValider = new JButton();
-	protected JButton boutAnnuler = new JButton("Annuler");
 	private Camion camion;
 	private OngletCamion parent;
 	
@@ -35,25 +32,17 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 	
 	//Constructeur
 	public AjoutModifCamion(Camion c, OngletCamion parent, AccesBDDCamion tableCamions){
-		super("");
+		super();
 		
-		//Comportement lors de la fermeture
-		WindowListener l = new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				boutAnnuler.doClick();
-			}
-		};
-		addWindowListener(l);
-
 		// On indique le titre de la fenêtre selon le cas de figure : modification ou ajout
 		if(c!=null){
-			setTitle("Modification d'un camion");
-			boutValider.setText("Modifier");
+			boutModifier.addActionListener(this);
+			panneauBoutons.add(boutModifier);
 			camion = c;
 		}
 		else{
-			setTitle("Ajout d'un camion");
-			boutValider.setText("Ajouter");
+			boutAjouter.addActionListener(this);
+			panneauBoutons.add(boutAjouter);
 			camion = new Camion();
 		}
 		
@@ -75,7 +64,7 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 		comboDestination = new JComboBox(vectDestinations);
 		
 		// Titres des informations à saisir
-		JPanel panneauLabels = new JPanel(new GridLayout(7,1,5,5));
+		panneauLabels.setLayout(new GridLayout(7,1,5,5));
 		panneauLabels.add(new JLabel("Numéro :"));
 		panneauLabels.add(new JLabel("Disponibilité :"));
 		panneauLabels.add(new JLabel("Largeur :"));
@@ -85,7 +74,7 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 		panneauLabels.add(new JLabel("Destination :"));
 		
 		// Champs de saisie des informations
-		JPanel panneauSaisie = new JPanel(new GridLayout(7,1,5,5));
+		panneauSaisie.setLayout(new GridLayout(7,1,5,5));
 		panneauSaisie.add(textNumero);
 		panneauSaisie.add(comboDispo);
 		panneauSaisie.add(textLargeur);
@@ -94,34 +83,9 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 		panneauSaisie.add(comboOrigine);
 		panneauSaisie.add(comboDestination);
 		
-		// Boutons d'actions : Valider/Modifier et Annuler
-		JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
-		boutValider.addActionListener(this);
+		// Bouton Annuler
 		boutAnnuler.addActionListener(this);
-		panneauBoutons.add(boutValider);
 		panneauBoutons.add(boutAnnuler);
-		
-		// Champ d'avertissement en cas de saisie incomplète
-		JPanel panneauWarning = new JPanel(new GridLayout(1,1,5,5));
-		textWarning.setEditable(false);
-		textWarning.setForeground(Color.RED);
-		textWarning.setHorizontalAlignment(JTextField.CENTER);
-		textWarning.setBorder(BorderFactory.createLineBorder(Color.black));
-		panneauWarning.add(textWarning);
-
-		// Panel regroupant les labels et les champs de saisie
-		JPanel panneauHaut = new JPanel(new BorderLayout(5,5));
-		panneauHaut.add(panneauLabels,BorderLayout.WEST);
-		panneauHaut.add(panneauSaisie,BorderLayout.CENTER);
-
-		// On ajoute tous les panneaux secondaires au panneau principal
-		getContentPane().setLayout(new BorderLayout(20,20));
-		getContentPane().add(panneauHaut,BorderLayout.NORTH);
-		getContentPane().add(panneauBoutons,BorderLayout.CENTER);
-		getContentPane().add(panneauWarning,BorderLayout.SOUTH);
-		
-		// On rajoute un peu d'espace autour des panneaux
-		((JComponent)getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Si on est dans le cas d'une modification
 		if(c!= null){
@@ -156,11 +120,11 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 		Object source = e.getSource();
 
 		// Validation
-		if(source==boutValider){
+		if(source==boutAjouter || source==boutModifier){
 			if(verifChamps()){
 				try{
 					// Cas d'un ajout de camion
-					if(boutValider.getText().equals("Ajouter")){
+					if(source==boutAjouter){
 						// Ecriture dans la base de données
 						camion.setId(tableCamions.ajouter(this.getCamion()));
 	
@@ -243,11 +207,5 @@ public class AjoutModifCamion extends JFrame implements ActionListener{
 		else ret = true;
 
 		return ret;
-	}
-
-	// Ajoute un message d'erreur à la boite de dialogue si un champs est mal renseigné
-	private void setWarning(String s){
-		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
-		textWarning.updateUI();
 	}
 }

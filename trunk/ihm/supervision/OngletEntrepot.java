@@ -28,17 +28,8 @@ public class OngletEntrepot extends Onglet implements ActionListener{
         nomColonnes.add("Ville");
         nomColonnes.add("Téléphone");
 
-        try{
-	        // On récupère les entrepôt de la base de données et on les affiche
-	        Vector listeEntrepots = tableEntrepots.lister();
-	        
-	        for(int i=0;i<listeEntrepots.size();i++){
-	        	donnees.addElement(((Entrepot)listeEntrepots.get(i)).toVector());
-	        }       
-        }
-        catch(SQLException e){
-        	System.out.println(e.getMessage());
-        }
+        // Construction du vector de données
+        listerEntrepots();
         
  		// Construction du tableau et des fonctions qui lui sont associées
 		construireTableau();
@@ -57,6 +48,9 @@ public class OngletEntrepot extends Onglet implements ActionListener{
 
 		// Bouton Supprimer
 		boutSupprimer.addActionListener(this);
+		
+		// Bouton Mise à jour
+		boutUpdate.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent ev){
@@ -102,9 +96,47 @@ public class OngletEntrepot extends Onglet implements ActionListener{
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);
 			}
+			// Mise à jour de la liste
+			else if(source==boutUpdate){
+				
+				// Suppression du tableau
+				remove(scrollPane);
+				
+				// On vide la liste des éléments du tableau
+				donnees.removeAllElements();				
+				
+				// Reconstruction de la liste à afficher
+				listerEntrepots();
+
+		        // Reconstruction du tableau
+		        construireTableau();
+		        
+				// On cache les colonnes désirées
+				table.removeColumn(table.getColumnModel().getColumn(0));
+				
+		        // Mise à jour de la fenêtre
+		        updateUI();
+			}
+
 		}
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	// Méthode remplissant le Vector de données du tableau par lecture dans la base de données
+	private void listerEntrepots(){
+        try{
+	        // On récupère les entrepôt de la base de données
+	        Vector listeEntrepots = tableEntrepots.lister();
+	        
+	        // On les place dans le Vector de données
+	        for(int i=0;i<listeEntrepots.size();i++){
+	        	donnees.addElement(((Entrepot)listeEntrepots.get(i)).toVector());
+	        }       
+        }
+        catch(SQLException e){
+        	System.out.println(e.getMessage());
+        }		
 	}
 }

@@ -11,19 +11,18 @@ import donnees.Incident;
 
 
 // Invite de modification d'un incident
-public class AjoutModifIncident extends JFrame implements ActionListener{
+public class AjoutModifIncident extends AjoutModif implements ActionListener{
 	
 	protected final static String [] ETATS = {"Non traité" , "En cours" , "Traîté"};
 	
 	protected JTextField textColis = new JTextField(20);
 	protected JTextField textDate = new JTextField(20);
 	protected JComboBox comboEtat = new JComboBox(ETATS);
-	protected JTextArea textDescription = new JTextArea(20,5);
+	protected JTextArea textDescription = new JTextArea(10,2);
 	protected JTextField textUtilisateur = new JTextField(20);
 	protected JTextField textType = new JTextField(20);
-	protected JTextField textWarning = new JTextField();	
-	protected JButton boutModifier = new JButton("Modifier");
-	protected JButton boutAnnuler = new JButton("Annuler");
+	private JPanel panDescription = new JPanel();
+	private JPanel panneauInter = new JPanel();
 
 	protected Incident incid;
 	protected OngletIncident parent;
@@ -32,18 +31,7 @@ public class AjoutModifIncident extends JFrame implements ActionListener{
 	
 	//Constructeur avec paramètres
 	public AjoutModifIncident(Incident incid, OngletIncident parent, AccesBDDIncident tableIncidents){
-		super("");
-		
-		//Comportement lors de la fermeture
-		WindowListener l = new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				boutAnnuler.doClick();
-			}
-		};
-		addWindowListener(l);
-
-		// On indique le titre de la fenêtre
-		setTitle("Modification d'un incident");
+		super();
 		
 		// On récupère les variables saisies en paramètres
 		this.incid = incid;
@@ -51,121 +39,53 @@ public class AjoutModifIncident extends JFrame implements ActionListener{
 		this.tableIncidents = tableIncidents;
 		
 		// On définit la mise en forme
-		getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+		panneauHaut.setLayout(new BoxLayout(panneauHaut,BoxLayout.Y_AXIS));
+		panneauHaut.removeAll();
 		
-		// On rajoute un peu d'espace autour des panneaux
-		((JComponent)getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		// Titres des informations à saisir
+		panneauLabels.setLayout(new GridLayout(5,1,5,5));
+		panneauLabels.add(new JLabel("Colis :"));
+		panneauLabels.add(new JLabel("Date :"));
+		panneauLabels.add(new JLabel("Etat :"));
+		panneauLabels.add(new JLabel("Utilisateur :"));
+		panneauLabels.add(new JLabel("Type :"));
 		
-		// Ligne du colis
-		JPanel panColis = new JPanel();
-		panColis.setLayout(new BoxLayout(panColis,BoxLayout.X_AXIS));
-		JLabel labelColis = new JLabel("Colis :");
-		labelColis.setAlignmentX(Box.LEFT_ALIGNMENT);
-		textColis.setAlignmentX(Box.RIGHT_ALIGNMENT);
-		textColis.setMaximumSize(new Dimension(100,20));
-		panColis.add(labelColis);
-		panColis.add(Box.createHorizontalGlue());
-		panColis.add(Box.createRigidArea(new Dimension(10, 0)));
-		panColis.add(textColis);
-				
-		// Ligne de la date
-		JPanel panDate = new JPanel();
-		panDate.setLayout(new BoxLayout(panDate,BoxLayout.LINE_AXIS));
-		JLabel labelDate = new JLabel("Date :");
-		labelDate.setAlignmentX(Box.LEFT_ALIGNMENT);
-		textDate.setAlignmentX(Box.RIGHT_ALIGNMENT);
-		textDate.setMaximumSize(new Dimension(100,20));
-		panDate.add(labelDate);
-		panDate.add(Box.createHorizontalGlue());
-		panDate.add(Box.createRigidArea(new Dimension(10, 0)));
-		panDate.add(textDate);
+		// Champs de saisie des informations
+		panneauSaisie.setLayout(new GridLayout(5,1,5,5));
+		panneauSaisie.add(textColis);
+		panneauSaisie.add(textDate);
+		panneauSaisie.add(comboEtat);
+		panneauSaisie.add(textUtilisateur);		
+		panneauSaisie.add(textType);
 		
-		// Ligne de l'état
-		JPanel panEtat = new JPanel();
-		panEtat.setLayout(new BoxLayout(panEtat,BoxLayout.LINE_AXIS));
-		JLabel labelEtat = new JLabel("Etat :");
-		labelEtat.setAlignmentX(Component.LEFT_ALIGNMENT);
-		comboEtat.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		comboEtat.setMaximumSize(new Dimension(100,20));
-		panEtat.add(labelEtat);
-		panEtat.add(Box.createHorizontalGlue());
-		panEtat.add(Box.createRigidArea(new Dimension(10, 0)));
-		panEtat.add(comboEtat);
+		// Panel regroupant les labels et les champs de saisie
+		panneauInter.setLayout(new BoxLayout(panneauInter,BoxLayout.X_AXIS));
+		panneauInter.setOpaque(false);
+		panneauInter.add(panneauLabels);
+		panneauInter.add(panneauSaisie);
+		panneauInter.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		// Ligne de la description
-		JPanel panDescription = new JPanel();
+		// Panel contenant uniquement la zone de description
+		textDescription.setPreferredSize(new Dimension(50,50));
+		panDescription.setOpaque(false);
 		panDescription.setLayout(new BoxLayout(panDescription,BoxLayout.Y_AXIS));
 		JLabel labelDescription = new JLabel("Description :");
-		labelDescription.setAlignmentX(Box.LEFT_ALIGNMENT);
-		textDescription.setLineWrap(true);
-		textDescription.setWrapStyleWord(true);
-		JScrollPane areaScrollPane = new JScrollPane(textDescription);
-        areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        areaScrollPane.setPreferredSize(new Dimension(160, 150));
-        areaScrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
-        panDescription.add(labelDescription);
-		panDescription.add(Box.createRigidArea(new Dimension(0, 5)));
-		panDescription.add(areaScrollPane);
+		labelDescription.setAlignmentX(Component.LEFT_ALIGNMENT);
+		textDescription.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panDescription.add(labelDescription);
+		panDescription.add(textDescription);
+		panDescription.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		// Ligne de l'utilisateur
-		JPanel panUtilisateur = new JPanel();
-		panUtilisateur.setLayout(new BoxLayout(panUtilisateur,BoxLayout.LINE_AXIS));
-		JLabel labelUtilisateur = new JLabel("Utilisateur :");
-		labelUtilisateur.setAlignmentX(Box.LEFT_ALIGNMENT);
-		textUtilisateur.setAlignmentX(Box.RIGHT_ALIGNMENT);
-		textUtilisateur.setMaximumSize(new Dimension(100,20));
-		panUtilisateur.add(labelUtilisateur);
-		panUtilisateur.add(Box.createHorizontalGlue());
-		panUtilisateur.add(Box.createRigidArea(new Dimension(10, 0)));
-		panUtilisateur.add(textUtilisateur);
+		// Panneau regroupant les zones de saisies
+		panneauHaut.add(panneauInter);
+		panneauHaut.add(panDescription);
 		
-		// Ligne du type
-		JPanel panType = new JPanel();
-		panType.setLayout(new BoxLayout(panType,BoxLayout.X_AXIS));
-		JLabel labelType = new JLabel("Type :");
-		labelType.setAlignmentX(Box.LEFT_ALIGNMENT);
-		textType.setAlignmentX(Box.RIGHT_ALIGNMENT);
-		textType.setMaximumSize(new Dimension(100,20));
-		panType.add(labelType);
-		panType.add(Box.createHorizontalGlue());
-		panType.add(Box.createRigidArea(new Dimension(10,10)));
-		panType.add(textType);
-		
-		// Boutons d'actions : Valider/Modifier et Annuler
-		JPanel panBoutons = new JPanel();
-		panBoutons.setLayout(new BoxLayout(panBoutons,BoxLayout.X_AXIS));
+		// boutons Modifier et Annuler
 		boutModifier.addActionListener(this);
 		boutAnnuler.addActionListener(this);
-		panBoutons.add(boutModifier);
-		panBoutons.add(Box.createRigidArea(new Dimension(20, 0)));
-		panBoutons.add(boutAnnuler);
+		panneauBoutons.add(boutModifier);
+		panneauBoutons.add(boutAnnuler);
 		
-		// Champ d'avertissement en cas de saisie incomplète
-		JPanel panWarning = new JPanel();
-		panWarning.setLayout(new BoxLayout(panWarning,BoxLayout.LINE_AXIS));
-		textWarning.setEditable(false);
-		textWarning.setForeground(Color.RED);
-		//textWarning.setHorizontalAlignment(JTextField.CENTER);
-		textWarning.setBorder(BorderFactory.createLineBorder(Color.black));
-		panWarning.add(textWarning);
-
-		
-		// On ajoute tous les panneaux secondaires au panneau principal
-		getContentPane().add(panColis);
-		getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		getContentPane().add(panDate);
-		getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		getContentPane().add(panEtat);
-		getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		getContentPane().add(panDescription);
-		getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		getContentPane().add(panUtilisateur);
-		getContentPane().add(panType);
-		getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		getContentPane().add(panBoutons);
-		getContentPane().add(Box.createRigidArea(new Dimension(0,10)));
-		getContentPane().add(panWarning);
-
 		if(incid != null){
 			// On initialise les champs texte
 			textColis.setText(incid.getColis().getCode_barre().toString());
@@ -248,11 +168,5 @@ public class AjoutModifIncident extends JFrame implements ActionListener{
 		else ret = true;
 
 		return ret;
-	}
-
-	// Ajoute un message d'erreur à la boite de dialogue si un champs est mal renseigné
-	private void setWarning(String s){
-		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
-		textWarning.updateUI();
 	}
 }

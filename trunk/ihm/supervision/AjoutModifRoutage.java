@@ -11,15 +11,13 @@ import donnees.Entrepot;
 import donnees.Route;
 
 // Invite d'ajout/modification d'un camion
-public class AjoutModifRoutage extends JFrame implements ActionListener{
+public class AjoutModifRoutage extends AjoutModif implements ActionListener{
 	
 	private JComboBox comboOrigine;
 	private JComboBox comboDestination;
 	private JComboBox comboIntermed;
 	private JTextField textDistance = new JTextField(15);
-	private JTextField textWarning = new JTextField(15);
-	private JButton boutValider = new JButton();
-	protected JButton boutAnnuler = new JButton("Annuler");
+
 	private Route route;
 	private OngletRoutage parent;
 	private Vector vectOrigines = new Vector();
@@ -30,25 +28,17 @@ public class AjoutModifRoutage extends JFrame implements ActionListener{
 	
 	//Constructeur
 	public AjoutModifRoutage(Route r, OngletRoutage parent, AccesBDDRoutage tableRoutage){
-		super("");
+		super();
 		
-		//Comportement lors de la fermeture
-		WindowListener l = new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				boutAnnuler.doClick();
-			}
-		};
-		addWindowListener(l);
-
 		// On indique le titre de la fenêtre selon le cas de figure : modification ou ajout
 		if(r!=null){
-			setTitle("Modification d'une route");
-			boutValider.setText("Modifier");
+			boutModifier.addActionListener(this);
+			panneauBoutons.add(boutModifier);
 			route = r;
 		}
 		else{
-			setTitle("Ajout d'une route");
-			boutValider.setText("Ajouter");
+			boutAjouter.addActionListener(this);
+			panneauBoutons.add(boutAjouter);
 			route = new Route();
 		}
 		
@@ -72,44 +62,22 @@ public class AjoutModifRoutage extends JFrame implements ActionListener{
 		comboIntermed = new JComboBox(vectIntermed);
 	
 		// Titres des informations à saisir
-		JPanel panneauLabels = new JPanel(new GridLayout(4,1,5,5));
+		panneauLabels.setLayout(new GridLayout(4,1,5,5));
 		panneauLabels.add(new JLabel("Origine :"));
 		panneauLabels.add(new JLabel("Destination :"));
 		panneauLabels.add(new JLabel("Intermédiaire :"));
 		panneauLabels.add(new JLabel("Distance :"));
 		
 		// Champs de saisie des informations
-		JPanel panneauSaisie = new JPanel(new GridLayout(4,1,5,5));
+		panneauSaisie.setLayout(new GridLayout(4,1,5,5));
 		panneauSaisie.add(comboOrigine);
 		panneauSaisie.add(comboDestination);
 		panneauSaisie.add(comboIntermed);
 		panneauSaisie.add(textDistance);
 		
-		// Boutons d'actions : Valider/Modifier et Annuler
-		JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
-		boutValider.addActionListener(this);
+		// Bouton Annuler
 		boutAnnuler.addActionListener(this);
-		panneauBoutons.add(boutValider);
 		panneauBoutons.add(boutAnnuler);
-		
-		// Champ d'avertissement en cas de saisie incomplète
-		JPanel panneauWarning = new JPanel(new GridLayout(1,1,5,5));
-		textWarning.setEditable(false);
-		textWarning.setForeground(Color.RED);
-		textWarning.setHorizontalAlignment(JTextField.CENTER);
-		textWarning.setBorder(BorderFactory.createLineBorder(Color.black));
-		panneauWarning.add(textWarning);
-
-		// Panel regroupant les labels et les champs de saisie
-		JPanel panneauHaut = new JPanel(new BorderLayout(5,5));
-		panneauHaut.add(panneauLabels,BorderLayout.WEST);
-		panneauHaut.add(panneauSaisie,BorderLayout.CENTER);
-
-		// On ajoute tous les panneaux secondaires au panneau principal
-		getContentPane().setLayout(new BorderLayout(20,20));
-		getContentPane().add(panneauHaut,BorderLayout.NORTH);
-		getContentPane().add(panneauBoutons,BorderLayout.CENTER);
-		getContentPane().add(panneauWarning,BorderLayout.SOUTH);
 
 		// Si on est dans le cas d'une modification
 		if(r!= null){
@@ -130,11 +98,11 @@ public class AjoutModifRoutage extends JFrame implements ActionListener{
 		Object source = e.getSource();
 
 		// Validation
-		if(source==boutValider){
+		if(source==boutAjouter || source==boutModifier){
 			if(verifChamps()){
 				try{
 					// Cas d'un ajout de route
-					if(boutValider.getText().equals("Ajouter")){
+					if(source==boutAjouter){
 						// Ecriture dans la base de données
 						route.setId(tableRoutage.ajouter(this.getRoute()));
 	
@@ -198,11 +166,5 @@ public class AjoutModifRoutage extends JFrame implements ActionListener{
 		else ret = true;
 
 		return ret;
-	}
-
-	// Ajoute un message d'erreur à la boite de dialogue si un champs est mal renseigné
-	private void setWarning(String s){
-		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
-		textWarning.updateUI();
 	}
 }

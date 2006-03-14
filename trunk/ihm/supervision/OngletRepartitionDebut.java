@@ -54,7 +54,7 @@ public class OngletRepartitionDebut extends JPanel {
 		
 		try{
 			// On récupère les camions disponibles de la base de données et on les affiche
-			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE/*,parent.entActuel.getId()*/);
+			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE,parent.entActuel);
 			
 			for(int i=0;i<parent.listeCamions.size();i++){
 				donneesCamions.addElement(((Camion)parent.listeCamions.get(i)).toVector());
@@ -160,16 +160,21 @@ public class OngletRepartitionDebut extends JPanel {
 		add(scrollPaneCamions);
 	}
 
+	// Fonction permettant de mettre à jour les tableaux
 	protected void updateTableaux(){
+		// Suppression de tout le contenu
 		removeAll();
 		
-		nomColonnesDestinations.clear();
-		donneesDestinations.clear();
-		nomColonnesCamions.clear();
-		donneesCamions.clear();
+		// On vide tous les vector de données et d'en-têtes
+		nomColonnesDestinations.removeAllElements();
+		donneesDestinations.removeAllElements();
+		nomColonnesCamions.removeAllElements();
+		donneesCamions.removeAllElements();
 		
+		// On recrée le contenu
 		creerContenu();
 		
+		// On met à jour le Panel
 		this.updateUI();		
 	}
 }

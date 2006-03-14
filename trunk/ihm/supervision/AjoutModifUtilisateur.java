@@ -1,7 +1,7 @@
 package ihm.supervision;
 
-import java.awt.*;
 import java.sql.*;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -12,7 +12,7 @@ import donnees.Localisation;
 
 
 // Invite d'ajout/modification d'un utilisateur
-public class AjoutModifUtilisateur extends JFrame implements ActionListener{
+public class AjoutModifUtilisateur extends AjoutModif  implements ActionListener{
 
 	protected final static String [] ETATS = {"Entrée" , "Préparation" , "Supervision"};
 	
@@ -27,10 +27,6 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 	private JTextField textMail = new JTextField(15);
 	private JTextField textTelephone = new JTextField(15);
 	
-	private JTextField textWarning = new JTextField(15);
-	
-	private JButton boutValider = new JButton();
-	protected JButton boutAnnuler = new JButton("Annuler");
 	private Utilisateur u;
 	private Personne p;
 	private Localisation l;
@@ -40,27 +36,19 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 	
 	//Constructeur
 	public AjoutModifUtilisateur(Utilisateur u, OngletUtilisateur parent, AccesBDDUtilisateur tableUtilisateurs){
-		super("");
+		super();
 		
-		//Comportement lors de la fermeture
-		WindowListener l = new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				boutAnnuler.doClick();
-			}
-		};
-		addWindowListener(l);
-
 		// On indique le titre de la fenêtre selon le cas de figure : modification ou ajout
 		if(u!=null){
-			setTitle("Modification d'un utilisateur");
-			boutValider.setText("Modifier");
+			boutModifier.addActionListener(this);
+			panneauBoutons.add(boutModifier);
 			this.u = u;
 			this.p = u.getPersonne();
 			this.l = p.getLocalisation();
 		}
 		else{
-			setTitle("Ajout d'un utilisateur");
-			boutValider.setText("Ajouter");
+			boutAjouter.addActionListener(this);
+			panneauBoutons.add(boutAjouter);
 			this.u = new Utilisateur();
 			this.p = new Personne();
 			this.l = new Localisation();
@@ -71,10 +59,10 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 		this.parent = parent;
 	
 		// Titres des informations à saisir
-		JPanel panneauLabels = new JPanel(new GridLayout(10,1,5,5));
+		panneauLabels.setLayout(new GridLayout(10,1,5,5));
 		panneauLabels.add(new JLabel("Login :"));
 		panneauLabels.add(new JLabel("Password :"));
-		panneauLabels.add(new JLabel("type :"));
+		panneauLabels.add(new JLabel("Type :"));
 		panneauLabels.add(new JLabel("Nom :"));
 		panneauLabels.add(new JLabel("Prénom :"));
 		panneauLabels.add(new JLabel("Adresse :"));
@@ -84,7 +72,7 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 		panneauLabels.add(new JLabel("Téléphone :"));
 
 		// Champs de saisie des informations
-		JPanel panneauSaisie = new JPanel(new GridLayout(10,1,5,5));
+		panneauSaisie.setLayout(new GridLayout(10,1,5,5));
 		panneauSaisie.add(textLogin);
 		panneauSaisie.add(textMDP);
 		panneauSaisie.add(comboType);
@@ -96,35 +84,10 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 		panneauSaisie.add(textMail);
 		panneauSaisie.add(textTelephone);
 		
-		// Boutons d'actions : Valider/Modifier et Annuler
-		JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
-		boutValider.addActionListener(this);
+		// Bouton Annuler
 		boutAnnuler.addActionListener(this);
-		panneauBoutons.add(boutValider);
 		panneauBoutons.add(boutAnnuler);
-		
-		// Champ d'avertissement en cas de saisie incomplète
-		JPanel panneauWarning = new JPanel(new GridLayout(1,1,5,5));
-		textWarning.setEditable(false);
-		textWarning.setForeground(Color.RED);
-		textWarning.setHorizontalAlignment(JTextField.CENTER);
-		textWarning.setBorder(BorderFactory.createLineBorder(Color.black));
-		panneauWarning.add(textWarning);
 
-		// Panel regroupant les labels et les champs de saisie
-		JPanel panneauHaut = new JPanel(new BorderLayout(5,5));
-		panneauHaut.add(panneauLabels,BorderLayout.WEST);
-		panneauHaut.add(panneauSaisie,BorderLayout.CENTER);
-
-		// On ajoute tous les panneaux secondaires au panneau principal
-		getContentPane().setLayout(new BorderLayout(20,20));
-		getContentPane().add(panneauHaut,BorderLayout.NORTH);
-		getContentPane().add(panneauBoutons,BorderLayout.CENTER);
-		getContentPane().add(panneauWarning,BorderLayout.SOUTH);
-		
-		// On rajoute un peu d'espace autour des panneaux
-		((JComponent)getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
 		// Si on est dans le cas d'une modification
 		if(u!= null){
 			// On initialise les champs texte
@@ -150,11 +113,11 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 		Object source = e.getSource();
 	
 		//Validation
-		if(source==boutValider){
+		if(source==boutAjouter || source==boutModifier){
 			if(verifChamps()){
 				try{
 					// Cas d'un ajout d'utilisateur
-					if(boutValider.getText().equals("Ajouter")){
+					if(source==boutAjouter){
 						// Ecriture dans la base de données
 						u.setId(tableUtilisateurs.ajouter(this.getUtilisateur()));
 	
@@ -171,7 +134,7 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 					}				
 				}
 				catch(SQLException eSQL){
-					
+					System.out.println(eSQL.getMessage());
 				}
 				finally{
 					// On masque la fenetre
@@ -224,11 +187,5 @@ public class AjoutModifUtilisateur extends JFrame implements ActionListener{
 		else ret = true;
 
 		return ret;
-	}
-
-	// Ajoute un message d'erreur à la boite de dialogue si un champs est mal renseigné
-	private void setWarning(String s){
-		textWarning.setText("Le champs \""+s+"\" est mal renseigné.");
-		textWarning.updateUI();
 	}
 }

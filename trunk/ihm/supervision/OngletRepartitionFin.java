@@ -58,7 +58,7 @@ public class OngletRepartitionFin extends JPanel{
 		
 		try{
 			// On récupère les camions disponibles de la base de données et on les affiche
-			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE);
+			parent.listeCamions = parent.tableCamions.listerParEtat(Camion.DISPONIBLE,parent.entActuel);
 			
 			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
 			//parent.listeVolumesDestinations = parent.tableColis.calculVolumesDestinations();
@@ -196,6 +196,9 @@ public class OngletRepartitionFin extends JPanel{
 			System.out.println(v);
 			/*******/
 			
+			// On place la camion de la ligne dans un objet
+			Camion c = (Camion)v.get(1);
+			
 			// On crée un objet Preparation à partir de la ligne du tableau
 			Preparation p = new Preparation();
 			if(v.get(2) instanceof Entrepot) 
@@ -205,16 +208,25 @@ public class OngletRepartitionFin extends JPanel{
 			p.setUtilisateur((Utilisateur)v.get(4));
 			p.setOrigine(((Camion)v.get(1)).getOrigine());
 			p.setVolume((Float)v.get(3));
-			p.setCamion((Camion)v.get(1));
+			p.setCamion(c);
 			p.setId(new Integer(0));
 			p.setIdChargement(new Integer(0));
 			p.setIdChargementEnCours(new Integer(0));
 			
+			// On met à jour le camion dans la base de données
+			try{
+				parent.tableCamions.modifier(c);				
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			
 			// On ajoute la préparation à la liste
-			parent.resultatAlgos.add(p);
+			//parent.resultatAlgos.add(p);
 		}
+		
 		/*******/
-		//System.out.println(liste);
+		System.out.println(parent.resultatAlgos);
 		/*******/
 	}
 	
@@ -227,7 +239,7 @@ public class OngletRepartitionFin extends JPanel{
 			// On extrait la ligne courante du tableau
 			v = (Vector)modeleTabPreparations.getRow(i);
 			
-			// On crée un objet Preparation à partir de la ligne du tableau
+			// On vérifie qu'un entrepot de destination est saisi
 			if(!(v.get(2) instanceof Entrepot) && !(v.get(2) instanceof Destination))
 				ret=false;
 			else if(!(v.get(4) instanceof Utilisateur)) ret=false;

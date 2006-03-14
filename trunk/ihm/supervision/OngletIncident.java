@@ -30,18 +30,9 @@ public class OngletIncident extends Onglet implements ActionListener{
         nomColonnes.add("Créateur");
         nomColonnes.add("Type");
  
-        try{
-	        // On récupère les Incidents de la base de données et on les affiche
-	        Vector listeIncidents = tableIncidents.lister();
-	        
-	        for(int i=0;i<listeIncidents.size();i++){
-	        	donnees.addElement(((Incident)listeIncidents.get(i)).toVector());
-	        }
-        }
-        catch(SQLException e){
-        	
-        }
-
+		// Construction du vector de données
+        listerIncidents();
+        
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
 		
@@ -116,6 +107,40 @@ public class OngletIncident extends Onglet implements ActionListener{
 				setFenetreActive(false);
 			}
 		}
+		// Mise à jour de la liste
+		if(source==boutUpdate){
+			
+			// Suppression du tableau
+			remove(scrollPane);
+			
+			// On vide la liste des éléments du tableau
+			donnees.removeAllElements();				
+			
+			// Reconstructtion de la liste à afficher
+			listerIncidents();
+			
+	        // Reconstruction du tableau
+	        construireTableau();
+	        
+	        // Mise à jour de la fenêtre
+	        updateUI();
+		}
+
+	}
+	
+	// Méthode remplissant le Vector de données du tableau par lecture dans la base de données
+	private void listerIncidents(){
+       try{
+	        // On récupère les Incidents de la base de données et on les affiche
+	        Vector listeIncidents = tableIncidents.lister();
+	        
+	        for(int i=0;i<listeIncidents.size();i++){
+	        	donnees.addElement(((Incident)listeIncidents.get(i)).toVector());
+	        }
+        }
+        catch(SQLException e){
+        	
+        }
 	}
 }
  

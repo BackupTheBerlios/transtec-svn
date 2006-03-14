@@ -14,10 +14,12 @@ import java.awt.*;
 public class Onglet extends JPanel{
 	protected JTable table;
 	protected ModeleTable modeleTab;
+	protected JScrollPane scrollPane;
 	protected TableSorter sorter;
 	protected Bouton boutModifier;
 	protected Bouton boutAjouter;
 	protected Bouton boutSupprimer;
+	protected Bouton boutUpdate;
 	protected Vector nomColonnes = new Vector();
 	protected Vector donnees = new Vector();
 	protected int ligneActive;
@@ -38,6 +40,23 @@ public class Onglet extends JPanel{
 		boutAjouter = new Bouton("images/supervision/bouton_ajouter.png","images/supervision/bouton_ajouter_appuyer.png");
 		boutModifier = new Bouton("images/supervision/bouton_modifier.png","images/supervision/bouton_modifier_appuyer.png");
 		boutSupprimer = new Bouton("images/supervision/bouton_supprimer.png","images/supervision/bouton_supprimer_appuyer.png");
+		boutUpdate = new Bouton("images/supervision/bouton_actualiser.png","images/supervision/bouton_actualiser_appuyer.png");
+	
+		// Bouton Ajouter
+		boutAjouter.setBounds(770,60,111,50);
+		add(boutAjouter);
+
+		// Bouton Modifier
+		boutModifier.setBounds(770,130,114,43);
+		add(boutModifier);
+
+		// Bouton Supprimer
+		boutSupprimer.setBounds(770,193,111,50);
+		add(boutSupprimer);
+		
+		// Bouton Mettre à jour
+		boutUpdate.setBounds(770,263,111,50);
+		add(boutUpdate);
 	}
 	
 	// Permet de définir une image de fond
@@ -69,7 +88,7 @@ public class Onglet extends JPanel{
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
-		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 
 		// On définit les dimensions du tableau
 		table.setPreferredScrollableViewportSize(new Dimension(732,472));
@@ -83,18 +102,6 @@ public class Onglet extends JPanel{
 
 		// On ajoute le tableau au Panneau principal
 		add(scrollPane);
-
-		// Bouton Ajouter
-		boutAjouter.setBounds(770,60,111,50);
-		add(boutAjouter);
-
-		// Bouton Modifier
-		boutModifier.setBounds(770,130,114,43);
-		add(boutModifier);
-
-		// Bouton Supprimer
-		boutSupprimer.setBounds(770,193,111,50);
-		add(boutSupprimer);
 	}
 	
 	// Suppression d'une ligne du tableau

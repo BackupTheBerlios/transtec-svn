@@ -57,10 +57,6 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 		labelUtilisateur.setFont(font);
 		contenu.add(labelUtilisateur);
 		
-		// On enlève les barres d'état
-		setUndecorated(true);
-		
-		
 		
 		/***************/
 		try {

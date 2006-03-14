@@ -1,5 +1,6 @@
 package ihm.supervision;
 
+import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.event.*;
 
@@ -34,25 +35,8 @@ public class OngletUtilisateur extends Onglet implements ActionListener{
         nomColonnes.add("E-mail");
         nomColonnes.add("Téléphone");
         
-        try{
-        	//On récupère les utilisateurs de la base de données et on les affiche
-            Vector listeUtilisateurs = tableUtilisateurs.lister();
-            
-            for(int i=0;i<listeUtilisateurs.size();i++){
-            	donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
-            }
-        }
-        catch(Exception e){
-        	System.out.println(e.getMessage());
-        }
-        
-        // Création et ajout de données (EXEMPLE, à remplacer par des accès à la BDD)
-        /*********************************
-		donnees.addElement(new Utilisateur("rochef","rgreg2fds",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639").toVector());
-		donnees.addElement(new Utilisateur("nicola","35sd11sdu",new Integer(0),"Sengler","Nikolaï","13 Place du Moustier","94800","Villejuif","sengler@efrei.fr","0146775640").toVector());
-		donnees.addElement(new Utilisateur("granger","515dpldnx",new Integer(1),"Granger","Hermione","8 Albion Road","35H12S","London","hermione@potter.uk","+4414563269").toVector());
-		donnees.addElement(new Utilisateur("potter","358poop853",new Integer(2),"Potter","Harry","45 Denver Strees","369HND","Irvine","harry@potter.com","+4423654878").toVector());
-		/*********************************/
+		// Construction du vector de données
+        listerUtilisateurs();
         
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
@@ -69,6 +53,9 @@ public class OngletUtilisateur extends Onglet implements ActionListener{
 
 		// Bouton Supprimer
 		boutSupprimer.addActionListener(this);
+		
+		// Bouton Mise à jour
+		boutUpdate.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent ev){
@@ -117,5 +104,42 @@ public class OngletUtilisateur extends Onglet implements ActionListener{
 			// On bloque l'utilisateur sur le pop-up
 			setFenetreActive(false);
 		}
+		// Mise à jour de la liste
+		else if(source==boutUpdate){
+			
+			// Suppression du tableau
+			remove(scrollPane);
+			
+			// On vide la liste des éléments du tableau
+			donnees.removeAllElements();				
+			
+			// Reconstructtion de la liste à afficher
+			listerUtilisateurs();
+			
+	        // Reconstruction du tableau
+	        construireTableau();
+	        
+			// On cache les colonnes contenant les ID
+			table.removeColumn(table.getColumnModel().getColumn(3));
+			table.removeColumn(table.getColumnModel().getColumn(6));
+	        
+	        // Mise à jour de la fenêtre
+	        updateUI();
+		}
+	}
+	
+	// Méthode remplissant le Vector de données du tableau par lecture dans la base de données
+	private void listerUtilisateurs(){
+       try{
+        	//On récupère les utilisateurs de la base de données et on les affiche
+            Vector listeUtilisateurs = tableUtilisateurs.lister();
+            
+            for(int i=0;i<listeUtilisateurs.size();i++){
+            	donnees.addElement(((Utilisateur)listeUtilisateurs.get(i)).toVector());
+            }
+        }
+        catch(SQLException e){
+        	System.out.println(e.getMessage());
+        }
 	}
 }

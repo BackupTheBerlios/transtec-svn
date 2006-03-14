@@ -1,5 +1,6 @@
 package ihm.supervision;
 
+import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.event.*;
 
@@ -25,18 +26,9 @@ public class OngletRoutage extends Onglet implements ActionListener {
 		nomColonnes.add("Intermédiaire");
 		nomColonnes.add("Distance");
 	
-        try{
-	        // On récupère les routes de la base de données et on les affiche
-	        Vector listeRoutes = tableRoutage.lister();
-	        
-	        for(int i=0;i<listeRoutes.size();i++){
-	        	donnees.addElement(((Route)listeRoutes.get(i)).toVector());
-	        }       
-        }
-        catch(Exception e){
-        	System.out.println(e.getMessage());
-        }
-
+		// Construction du vector de données
+		listerRoutes();
+		
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
 
@@ -48,6 +40,9 @@ public class OngletRoutage extends Onglet implements ActionListener {
 
 		// Bouton Supprimer
 		boutSupprimer.addActionListener(this);
+		
+		// Bouton Mise à jour
+		boutUpdate.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent ev) {
@@ -83,6 +78,39 @@ public class OngletRoutage extends Onglet implements ActionListener {
 			// On affiche l'invite de saisie d'information
 			new AjoutModifRoutage(null,this,tableRoutage);
 		}
-	}
+		// Mise à jour de la liste
+		else if(source==boutUpdate){
+			
+			// Suppression du tableau
+			remove(scrollPane);
+			
+			// On vide la liste des éléments du tableau
+			donnees.removeAllElements();				
+			
+			// Reconstructtion de la liste à afficher
+			listerRoutes();
+			
+	        // Reconstruction du tableau
+	        construireTableau();
+	        
+	        // Mise à jour de la fenêtre
+	        updateUI();
+		}
 
+	}
+	
+	// Méthode remplissant le Vector de données du tableau par lecture dans la base de données
+	private void listerRoutes(){
+        try{
+	        // On récupère les routes de la base de données et on les affiche
+	        Vector listeRoutes = tableRoutage.lister();
+	        
+	        for(int i=0;i<listeRoutes.size();i++){
+	        	donnees.addElement(((Route)listeRoutes.get(i)).toVector());
+	        }       
+        }
+        catch(SQLException e){
+        	System.out.println(e.getMessage());
+        }
+	}
 }
