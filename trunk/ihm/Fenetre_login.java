@@ -1,19 +1,19 @@
 package ihm;
 
-import ihm.entree.Entree_Fenetre_colis;
-import ihm.preparation.FenetrePrincipale;
-import ihm.supervision.Sup_Interface;
-
 import java.awt.event.*; 
 
 import javax.swing.*;
 
 import accesBDD.AccesBDDUtilisateur;
+
 import donnees.*;
+
+import ihm.entree.Entree_Fenetre_colis;
+import ihm.preparation.FenetrePrincipale;
+import ihm.supervision.Sup_FenetrePrincipale;
 
 //Cette classe correspond à la fenetre login qui permet aux utilisateurs d'accéder
 //au programme en fonction de leurs droits
-
 public class Fenetre_login extends JFrame implements ActionListener{
 
 	public Fenetre_login()
@@ -117,7 +117,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						
 					// Poste de supervision
 					case Utilisateur.SUPERVISION :
-						fen = new Sup_Interface(u);
+						fen = new Sup_FenetrePrincipale(u);
 						fen.setVisible(true);
 						break;
 					}		

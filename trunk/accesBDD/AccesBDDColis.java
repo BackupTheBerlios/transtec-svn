@@ -241,13 +241,14 @@ public class AccesBDDColis extends AccesBDD{
 	
 	// Permet de lister le volume lié à chaque destination
 	// Attention cas ou colis appartenant à un chargement pas encor géré!!!!!!
-	public Vector calculVolumesDestinations() throws SQLException{
+	public Vector calculVolumesDestinations(Integer idEntrepotActuel) throws SQLException{
 		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
 		Vector liste=new Vector();
 		Destination couple;
 
 		// Préparation de la requête SQL
-		PreparedStatement recherche=connecter().prepareStatement("SELECT Destination,SUM(Volume) Volume FROM colis GROUP BY Destination");
+		PreparedStatement recherche=connecter().prepareStatement("SELECT Destination,SUM(Volume) Volume FROM colis WHERE EntrepotEnCours=? GROUP BY Destination");
+		recherche.setInt(1, idEntrepotActuel.intValue());
 		ResultSet resultat=recherche.executeQuery();
 		
 		// Création d'une Destination la destination et le volume, puis ajout au Vector liste
