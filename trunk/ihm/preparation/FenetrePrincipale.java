@@ -123,6 +123,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		colonnesTable.add("Hauteur");
 		colonnesTable.add("Profondeur");
 		colonnesTable.add("Volume");
+		colonnesTable.add("Volume Disponible");
 		colonnesTable.add("Origine");
 		colonnesTable.add("Destination");
 		colonnesTable.add("Volume à charger");
@@ -194,6 +195,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		table.removeColumn(table.getColumnModel().getColumn(1));
 		table.removeColumn(table.getColumnModel().getColumn(1));
 		table.removeColumn(table.getColumnModel().getColumn(1));
+		table.removeColumn(table.getColumnModel().getColumn(1));
 		table.removeColumn(table.getColumnModel().getColumn(2));
 		table.removeColumn(table.getColumnModel().getColumn(2));
 		table.removeColumn(table.getColumnModel().getColumn(3));
@@ -245,7 +247,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 						new CreerChargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
 								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
-								(Integer)((Vector)tableMod.getRow(ligneActive)).get(13)).setVisible(true);
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						
@@ -257,7 +259,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					dispose();					
 					new ModifierChargement(
 							this.utilisateur,
-							(Integer)((Vector)tableMod.getRow(ligneActive)).get(10), 
+							(Integer)((Vector)tableMod.getRow(ligneActive)).get(11), 
 							this.selectionnee.getDestination().getId(), 
 							this.selectionnee.getVolume()).setVisible(true);
 				}
@@ -265,7 +267,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				// Création du plan de chargement
 				else if(source==this.genererPlan){
 					dispose();
-					new PlanChargement(this.utilisateur,(Integer)((Vector)tableMod.getRow(ligneActive)).get(10)).setVisible(true);
+					new PlanChargement(this.utilisateur,(Integer)((Vector)tableMod.getRow(ligneActive)).get(11)).setVisible(true);
 				}
 					
 				// Imprimer une étiquette
@@ -275,19 +277,19 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				// Valider le chargement
 				else if(source==this.validerCharg){
 					// Mise à jour dans la BDD
-					Integer idChargement=(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(10);
+					Integer idChargement=(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11);
 					try{
 						AccesBDDChargement bddChargement=new AccesBDDChargement();
 						bddChargement.valider(
 								bddChargement.rechercher(idChargement),
-								(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(13));
+								(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
 					}
 					catch(SQLException SQLE){						
 					}
 					// Mise à jour du tableau
-					this.tableMod.setValueAt(new Integer(0), ligneActive,10);
-					this.tableMod.setValueAt(idChargement, ligneActive,11);
-					this.tableMod.setValueAt("Validé", ligneActive,12);
+					this.tableMod.setValueAt(new Integer(0), ligneActive,11);
+					this.tableMod.setValueAt(idChargement, ligneActive,12);
+					this.tableMod.setValueAt("Validé", ligneActive,13);
 					this.table.updateUI();
 					// Mise à jour des boutons
 					this.gererChargement.setEnabled(false);
@@ -346,7 +348,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		if(ligneActive!=-1){
 			Vector ligne=(Vector)this.tableMod.getRow(ligneActive);
 			// Cas où la préparation est vierge!
-			if(((Integer)ligne.get(10)).intValue()==0){
+			if(((Integer)ligne.get(11)).intValue()==0){
 				this.creerChargement.setEnabled(true);
 				this.genererPlan.setEnabled(false);
 				this.gererChargement.setEnabled(false);
@@ -356,7 +358,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 			}
 			else{
 				// Cas où le chargement est en cours
-				if(((Integer)ligne.get(11)).intValue()==0){
+				if(((Integer)ligne.get(12)).intValue()==0){
 					this.creerChargement.setEnabled(false);
 					this.genererPlan.setEnabled(true);
 					this.gererChargement.setEnabled(true);
