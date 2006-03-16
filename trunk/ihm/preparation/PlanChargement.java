@@ -23,6 +23,11 @@ import accesBDD.AccesBDDPlan;
 import donnees.Colis;
 import donnees.Utilisateur;
 
+/*
+ * Classe permettant à l'utilisateur d'afficher le plan de chargement 
+ * pour les manutentionnaires
+ */
+
 public class PlanChargement extends JFrame implements ActionListener{
 	private FenetreType fenetre;
 	private Bouton imprimer, annuler;
@@ -83,11 +88,11 @@ public class PlanChargement extends JFrame implements ActionListener{
 			image = new AffichageImage(fichiers[AccesBDDPlan.ARRIERE].getBinaryStream());
 			image.setBounds(524,597,257,129);
 			this.fenetre.add(image);
+			// Fin de mise en place des vues
 		}
 		catch(SQLException e){
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -111,7 +116,7 @@ public class PlanChargement extends JFrame implements ActionListener{
         nomColonnes.add("N°");
        
         Vector donneesColis=new Vector();
-        // Vector conteannt les infos de la BDD
+        // Vector contenant les infos de la BDD
         try{
         	Vector liste=new AccesBDDChargement().listerColis(idChargement);
         	for(int i=0;i<liste.size();i++)
@@ -154,15 +159,13 @@ public class PlanChargement extends JFrame implements ActionListener{
 
 	public void actionPerformed(ActionEvent ev) {
 		Object source = ev.getSource();
-		
+		// L'utilisateur clique sur "Imprimer"
 		if(source==this.imprimer){
-			//Impression
-			dispose();
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			//Impression	
 		}
-		else if(source==this.annuler){
-			dispose();
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
-		}
+		// On retourne à la fenêtre de préparation principale
+		// A la fin de l'impression et dans le cas de l'annulation
+		dispose();
+		new FenetrePrincipale(this.utilisateur).setVisible(true);
 	}
 }

@@ -67,8 +67,9 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 		this.canvas3D.repaint();
 	}
 	
+	// Est-ce utilise??????
 	public void update(Colis colis, ModeleTable tableColisMod, JTable tableColis){
-//		 On supprime la branche -> tout l'objet 3D
+		// On supprime la branche -> tout l'objet 3D
 		this.scene.removeAllChildren();
 		
 		// On rajoute le nouveau
@@ -130,7 +131,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	    container.add(canvas3D);
 	}
 	
-	// Fonction permettant de créer un cube
+	// Fonction permettant de créer un cube avec une rotation permanente
 	private BranchGroup creationObjet(Colis colis){
 		// Création de la branche
 		BranchGroup branche=new BranchGroup();
@@ -138,7 +139,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 		// Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D transform3D=new Transform3D();
 	    // Changement de l'échelle 
-	    transform3D.setScale(0.1f);
+	    //transform3D.setScale(0.1f);
 
 	    // Partie concernant l'animation du cube
 	    objSpin = new TransformGroup(transform3D);
@@ -173,8 +174,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	    branche.addChild(lumiereDir);
 	    branche.addChild(background);
 	    
-	    //Construction du cube
-	    // Echelle
+	    //Construction du cube suivant l'échelle
 	    float taille[]=echelleColis(colis);
 	    objSpin.addChild(new Box(taille[1], taille[2], taille[0], apparence));
 	    branche.addChild(objSpin);
@@ -188,6 +188,7 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	}
 	
 	// Permet au colis de ne pas être plus grand que la scène 3D
+	// On lui applique une mise à l'échelle
 	private float[] echelleColis(Colis colis){
 		float taille[] =new float[3];
 		if(colis!=null){

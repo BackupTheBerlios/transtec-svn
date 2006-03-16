@@ -59,7 +59,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		// Mémorisation de l'utilisateur
 		this.utilisateur=utilisateur;
 		
-		// Création d'un police pour l'affichage des différents textes
+		// Création d'une police pour l'affichage des différents textes
 		Font font=new Font("Verdana", Font.BOLD, 12);
 		
 		// Mise en place des champs, boutons,...
@@ -174,7 +174,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		this.tfVolume.setEditable(false);
 		this.fenetre.add(this.tfVolume);
 		
-		// Crétaion des colonnes
+		// Création des colonnes
 		Vector nomColonnes=new Vector();
         nomColonnes.add("Id");
         nomColonnes.add("Colis");
@@ -184,7 +184,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
         nomColonnes.add("Utilisateur");
         nomColonnes.add("Type");		
         
-//      Création du tableau contenant les colis pouvant être chargé pour la destination
+        // Création du tableau contenant les différents incidents antérieurs du colis
         modColis = new ModeleTable(nomColonnes,new Vector());
 		//Création du TableSorter qui permet de réordonner les lignes à volonté
 		sorter1 = new TableSorter(modColis);
@@ -199,7 +199,6 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		tableColis.setOpaque(false);
 		tableColis.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-
 		// On supprime les colonnes inutiles
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
@@ -209,7 +208,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		
 		//Construction du JScrollPane
 		JScrollPane scrollPane1 = new JScrollPane(tableColis);
-		tableColis.setPreferredScrollableViewportSize(new Dimension(800,150));
+		tableColis.setPreferredScrollableViewportSize(new Dimension(590,380));
 		scrollPane1.setBounds(590,380,185,160);
 		scrollPane1.setOpaque(false);
 		scrollPane1.getViewport().setOpaque(false);
@@ -226,6 +225,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 
 	public void actionPerformed(ActionEvent ev) {
 		Object source = ev.getSource();
+		// Lorque l'utilisateur clique sur le bouton "Rechercher"
 		if(source==this.rechercher){
 			try{
 				// On recherche le colis dans la BDD
@@ -258,8 +258,8 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		        catch(SQLException e){
 		        	
 		        }
-		        
 			}
+			// Le colis n'est pas présent dans la BDD
 			else
 				JOptionPane.showMessageDialog(this,"Le colis n'existe pas!","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
 		}
@@ -278,7 +278,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 			catch(SQLException e){
 				
 			}
-				
+			// On retourne à la fenêtre principale
 			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
@@ -298,25 +298,30 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 			catch(SQLException e){
 				
 			}
-				
+			// On retourne à la fenêtre principale
 			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
+		// L'utilisateur clique sur le bouton "Annuler"
 		else if(source==this.annuler){
 			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
 		}
 	}
 
+	
 	public void mouseClicked(MouseEvent e) {
 		Object source = e.getSource();
+		// L'utilisateur clique sur le tableau contenant la liste des incidents
 		if(source==this.tableColis){
 			int ligneActive = tableColis.getSelectedRow();
 			// On récupère les données de la ligne du tableau
 			Vector vec = (Vector) modColis.getRow(ligneActive);
 			Incident incident=new Incident(vec);
+			// On affiche le détail de l'incident
 			new VisionnerIncident(incident);
 		}
+		// L'utilisateur clique sur le champs du code barre, on enlève l'ancien contenu
 		else if(source==this.tfCodeBarreColis){
 			this.tfCodeBarreColis.setText("");
 			this.tfCodeBarreColis.updateUI();
