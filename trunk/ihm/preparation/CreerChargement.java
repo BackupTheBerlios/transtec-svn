@@ -227,8 +227,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 //*********************************CREATION DU CAMION*****************************************//
 	   
 	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
-	    // -----> Mettre les coordonnées dynamique de la benne
-	    Point3f benne[]=tailleBenne(2.55f, 4, 12);
+	    Point3f benne[]=tailleBenne(camion.getProfondeur().floatValue(), 
+	    		camion.getHauteur().floatValue(), 
+	    		camion.getLargeur().floatValue());
 	    
 	    //Les couleurs des 4 faces visibles du cube
 //	  Les couleurs des 4 faces visibles du cube
@@ -335,7 +336,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 		Vector aCharger=new Vector();
 		Object source = ev.getSource();
 		Colis colis=null, colisSuiv=null;
-		//System.out.println("TESTTTTTTT333333");
 		// Annulation de la création d'un chargement
 		if(source==this.annuler){
 			dispose();
