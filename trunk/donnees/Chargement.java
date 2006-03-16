@@ -11,13 +11,13 @@ public class Chargement {
 	private Integer id;
 	private Camion camion;
 	private Integer nbColis;
-	private Integer volChargement; //en cm3
+	private Float volChargement; //en cm3
 	private Utilisateur utilisateur;
 	private Timestamp date;
 	private String codeBarre;
 	private int etat;
 	
-	public Chargement(Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
+	public Chargement(Camion camion, Integer nbColis, Float volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
 		this.camion=camion;
 		this.nbColis=nbColis;
 		this.volChargement=volChargement;
@@ -27,7 +27,7 @@ public class Chargement {
 		this.etat=EN_COURS;
 	}
 	
-	public Chargement(Integer id, Camion camion, Integer nbColis, Integer volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
+	public Chargement(Integer id, Camion camion, Integer nbColis, Float volChargement, Utilisateur utilisateur, Timestamp date, String codeBarre){
 		this.id=id;
 		this.camion=camion;
 		this.nbColis=nbColis;
@@ -61,7 +61,7 @@ public class Chargement {
 	}
 	
 	//----- Récupération du volume du chargement (en cm3) -----//
-	public Integer getVolChargement(){
+	public Float getVolChargement(){
 		return this.volChargement;
 	}
 	
@@ -92,14 +92,14 @@ public class Chargement {
 	
 	//----- Ajouter un volume de colis et incrémentation de nombre de colis -----//
 	public String ajouterVolumeColis(Float aAjouter){
-		this.volChargement=new Integer(this.volChargement.intValue()+aAjouter.intValue());
+		this.volChargement=new Float(this.volChargement.floatValue()+aAjouter.floatValue());
 		this.nbColis=new Integer(this.nbColis.intValue()+1);
 		return this.volChargement.toString();
 	}
 	
 	//----- Soustraire un volume de colis et décrémentation du nombre de colis -----//
 	public String soustraireVolumeColis(Float aAjouter){
-		this.volChargement=new Integer(this.volChargement.intValue()-aAjouter.intValue());
+		this.volChargement=new Float(this.volChargement.floatValue()-aAjouter.floatValue());
 		this.nbColis=new Integer(this.nbColis.intValue()-1);
 		return this.volChargement.toString();
 	}

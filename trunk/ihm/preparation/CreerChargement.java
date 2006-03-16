@@ -324,7 +324,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    this.chargement=new Chargement(
 	    		camion,
 	    		new Integer(0),
-	    		new Integer(0),
+	    		new Float(0),
 	    		this.utilisateur,
 	    		new Timestamp(System.currentTimeMillis()),
 	    		codeBarre);

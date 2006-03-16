@@ -36,7 +36,7 @@ public class AccesBDDChargement extends AccesBDD{
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getCamion().getId().intValue());
 		ajout.setInt(3, aAjouter.getNbColis().intValue());
-		ajout.setFloat(4, aAjouter.getVolChargement().intValue());
+		ajout.setFloat(4, aAjouter.getVolChargement().floatValue());
 		ajout.setTimestamp(5, aAjouter.getDate());
 		ajout.setInt(6, aAjouter.getUtilisateur().getId().intValue());
 		ajout.setString(7, aAjouter.getCodeBarre());
@@ -86,7 +86,7 @@ public class AccesBDDChargement extends AccesBDD{
 					new Integer(resultat.getInt("idChargement")),
 					bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
 					new Integer(resultat.getInt("NbColis")),
-					new Integer("VolChargement"),
+					new Float(resultat.getFloat("VolChargement")),
 					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
 					resultat.getTimestamp("DateCreation"),
 					resultat.getString("CodeBarre")));
@@ -156,7 +156,7 @@ public class AccesBDDChargement extends AccesBDD{
 				new Integer(resultat.getInt("idChargement")),
 				bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
 				new Integer(resultat.getInt("NbColis")),
-				new Integer(resultat.getInt("VolChargement")),
+				new Float(resultat.getFloat("VolChargement")),
 				bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
 				resultat.getTimestamp("DateCreation"),
 				resultat.getString("CodeBarre"));
@@ -185,7 +185,7 @@ public class AccesBDDChargement extends AccesBDD{
 				new Integer(resultat.getInt("idChargement")),
 				bddCamion.rechercher(new Integer(resultat.getInt("Camions_idCamions"))),
 				new Integer(resultat.getInt("NbColis")),
-				new Integer(resultat.getInt("VolChargement")),
+				new Float(resultat.getFloat("VolChargement")),
 				bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
 				resultat.getTimestamp("DateCreation"),
 				resultat.getString("CodeBarre"));
@@ -209,7 +209,7 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		
 		modifie.setInt(1,aModifier.getNbColis().intValue());
-		modifie.setInt(2,aModifier.getVolChargement().intValue());
+		modifie.setFloat(2,aModifier.getVolChargement().floatValue());
 		modifie.setTimestamp(3,aModifier.getDate());
 		modifie.setInt(4,aModifier.getEtat());
 		modifie.setInt(5,aModifier.getId().intValue());
