@@ -8,7 +8,7 @@ import donnees.Destination;
 //----- Classe permettant l'accès à la table Colis, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
 public class AccesBDDColis extends AccesBDD{
-//	----- Ajouter un colis dans la BDD -----//
+//----- Ajouter un colis dans la BDD -----//
 	public Integer ajouter(Colis aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
 		
@@ -130,7 +130,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
-					new Integer(resultat.getInt("Volume"))));
+					new Float(resultat.getFloat("Volume"))));
 		}
 				
 		// Fermeture des connexions
@@ -169,7 +169,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
-					new Integer(resultat.getInt("Volume")));
+					new Float(resultat.getFloat("Volume")));
 		}
 		
 		// Fermeture des connexions
@@ -207,7 +207,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
-					new Integer(resultat.getInt("Volume")));	       
+					new Float(resultat.getFloat("Volume")));	       
 		}
 		
 		// Fermeture des connexions
@@ -298,7 +298,7 @@ public class AccesBDDColis extends AccesBDD{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Destination"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("EntrepotEnCours"))),
 					resultat.getString("Valeur"),
-					new Integer(resultat.getInt("Volume"))));
+					new Float(resultat.getFloat("Volume"))));
 		}
 				
 		// Fermeture des connexions

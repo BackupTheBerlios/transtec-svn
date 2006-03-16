@@ -1123,7 +1123,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 							profondeur_temp = profondeur.getText();
 						}
 						
-						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur_temp),new Integer(profondeur_temp),new Integer(0));
+						modele = new ModeleColis(new Integer(selectmodelecolis),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Float(hauteur.getText()),new Float(largeur_temp),new Float(profondeur_temp));
 						try{
 							selectmodelecolis = test6.ajouter(modele);
 						}
@@ -1245,7 +1245,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 							profondeur_temp = profondeur.getText();
 						}
 						
-						modele_temp = new ModeleColis(modelecolis.getId(),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur_temp),new Integer(profondeur_temp),new Integer(0));
+						modele_temp = new ModeleColis(modelecolis.getId(),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Float(hauteur.getText()),new Float(largeur_temp),new Float(profondeur_temp));
 						try{
 							test6.modifier(modele_temp);
 						}
@@ -1274,7 +1274,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 							profondeur_temp = profondeur.getText();
 						}
 						
-						modele_temp = new ModeleColis(new Integer(0),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Integer(hauteur.getText()),new Integer(largeur_temp),new Integer(profondeur_temp),new Integer(0));
+						modele_temp = new ModeleColis(new Integer(0),new Integer(forme_colis.getSelectedIndex()),new Integer(modele_colis.getSelectedIndex()),new Float(hauteur.getText()),new Float(largeur_temp),new Float(profondeur_temp));
 						try{
 							selectmodelecolis = test6.ajouter(modele_temp);
 						}

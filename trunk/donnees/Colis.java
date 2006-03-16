@@ -22,14 +22,15 @@ public class Colis {
 	private Integer fragilite;
 	private ModeleColis modele;/////////// A VOIR
 	private String valeur_declaree;
-	private Integer volume, numeroDsCharg;
+	private Float volume;
+	private Integer numeroDsCharg;
 
 	// Constructeur vide
 	public Colis(){
 	}
 	
 	// Constructeur utilisant des paramètres pour chaque champ
-	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Integer volume){
+	public Colis(Integer id, String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Float volume){
 		this.id=id;
 		this.code_barre = code_barre;		
 		this.modele=modele;
@@ -46,7 +47,7 @@ public class Colis {
 		this.volume=volume;
 	}
 	
-	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Integer volume){
+	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Float volume){
 		this.code_barre = code_barre;
 		this.modele=modele;
 		this.fragilite=fragilite;
@@ -81,7 +82,7 @@ public class Colis {
 		ModeleColis m=new ModeleColis(FormeToConst((String)v.get(12)),ModeleToConst((String)v.get(13)));
 		
 		this.valeur_declaree=(String)v.get(14);	
-		this.volume=(Integer)v.get(15);	
+		this.volume=(Float)v.get(15);	
 		this.numeroDsCharg=(Integer)v.get(16);
 	}
 
@@ -271,7 +272,7 @@ public class Colis {
 	}
 	
 	// Récupération du volume du colis
-	public Integer getVolume(){
+	public Float getVolume(){
 		return this.volume;
 	}	
 	

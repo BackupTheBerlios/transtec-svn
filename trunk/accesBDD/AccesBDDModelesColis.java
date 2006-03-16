@@ -25,17 +25,15 @@ public class AccesBDDModelesColis extends AccesBDD{
 		//----- Insertion d'une personne dans la BDD -----//
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO modelescolis"
-				+ " (idModelesColis,Forme,Modele,hauteur,largeur,Profondeur,Diametre)" // Parametre de la table
-				+ " VALUES (?,?,?,?,?,?,?)"); 
+				+ " (idModelesColis,Forme,Modele,hauteur,largeur,Profondeur)" // Parametre de la table
+				+ " VALUES (?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getForme().intValue());
 		ajout.setInt(3,aAjouter.getModele().intValue());
-		ajout.setInt(4,aAjouter.getHauteur().intValue());
-		ajout.setInt(5,aAjouter.getLargeur().intValue());
-		ajout.setInt(6,aAjouter.getProfondeur().intValue());
-		ajout.setInt(7,aAjouter.getDiametre().intValue());
-		//ajout.setInt(8,aAjouter.calculerVolume().intValue());
+		ajout.setFloat(4,aAjouter.getHauteur().floatValue());
+		ajout.setFloat(5,aAjouter.getLargeur().floatValue());
+		ajout.setFloat(6,aAjouter.getProfondeur().floatValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -47,18 +45,16 @@ public class AccesBDDModelesColis extends AccesBDD{
 		//----- Modification de la localisation à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
 				"UPDATE modelescolis SET "
-				+"Forme =?,Modele =?,hauteur =?,largeur =?,Profondeur =?,Diametre =?"
+				+"Forme =?,Modele =?,hauteur =?,largeur =?,Profondeur =? "
 				+"WHERE idModelesColis =?");
 		
 		
 		modifie.setInt(1,aModifier.getForme().intValue());
 		modifie.setInt(2,aModifier.getModele().intValue());
-		modifie.setInt(3,aModifier.getHauteur().intValue());
-		modifie.setInt(4,aModifier.getLargeur().intValue());
-		modifie.setInt(5,aModifier.getProfondeur().intValue());
-		modifie.setInt(6,aModifier.getDiametre().intValue());
-		//modifie.setInt(7,aModifier.getVolume().intValue());
-		modifie.setInt(7,aModifier.getId().intValue());
+		modifie.setFloat(3,aModifier.getHauteur().floatValue());
+		modifie.setFloat(4,aModifier.getLargeur().floatValue());
+		modifie.setFloat(5,aModifier.getProfondeur().floatValue());
+		modifie.setInt(6,aModifier.getId().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
@@ -83,10 +79,9 @@ public class AccesBDDModelesColis extends AccesBDD{
 					new Integer(resultat.getInt("idModelesColis")),
 					new Integer(resultat.getInt("Forme")),
 					new Integer(resultat.getInt("Modele")),
-					new Integer(resultat.getInt("hauteur")),
-					new Integer(resultat.getInt("largeur")),
-					new Integer(resultat.getInt("Profondeur")),
-					new Integer(resultat.getInt("Diametre")));
+					new Float(resultat.getFloat("hauteur")),
+					new Float(resultat.getFloat("largeur")),
+					new Float(resultat.getFloat("Profondeur")));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
