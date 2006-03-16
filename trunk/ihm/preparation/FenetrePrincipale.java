@@ -29,6 +29,7 @@ import javax.swing.ListSelectionModel;
 
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
+import accesBDD.AccesBDDPreparation;
 import donnees.Utilisateur;
 
 public class FenetrePrincipale extends JFrame implements ActionListener, ItemListener, MouseListener{
@@ -299,8 +300,19 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				}
 				
 				// Cloturer la préparation
-				else if(source==this.cloturerPrep)
+				else if(source==this.cloturerPrep){
+					// On enlève la préparation de la BDD
+					try{
+						new AccesBDDPreparation().supprimer((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
+					}
+					catch(SQLException esql){
+						
+					}
+					// On supprime la ligne du tableau et on màj
+					this.tableMod.removeRow(ligneActive);
+					this.table.updateUI();
 					dispose();
+				}
 			}
 		}
 	}
@@ -337,6 +349,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		this.validerCharg.setEnabled(true);
 		
 		// On met à jour le container
+		
+		
+		// EREUR INUTILE DE TT REDESSINER FAIRE DES UPDATE DE CHAMPS!!!!!!!
 		fenetre.repaint();
 		this.listeDonneesPrep=this.recopie;
 	}

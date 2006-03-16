@@ -171,4 +171,15 @@ public class AccesBDDPreparation extends AccesBDD{
 		modifier.close();	// Fermeture requête SQL
 		deconnecter();
 	}
+	
+	// Finaliser une préparation = supprimer la préparation
+	public void supprimer(Integer aSupprimer) throws SQLException{
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM preparation WHERE idPreparation=?");
+		supprime.setInt(1, aSupprimer.intValue());
+				
+		supprime.executeUpdate();	// Exécution de la requête SQL
+		
+		supprime.close();	// Fermeture requête SQL
+		deconnecter();
+	}
 }
