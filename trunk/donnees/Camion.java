@@ -11,7 +11,7 @@ public class Camion implements Comparable {
 	private Integer id;
 	private String numero;
 	private Integer disponibilite;
-	private Float largeur, hauteur, profondeur, volume;
+	private Float largeur, hauteur, profondeur, volume, volumeDispo;
 	private Entrepot origine, destination;
 
 	// Constantes décrivant la disponibilité du camion
@@ -31,11 +31,12 @@ public class Camion implements Comparable {
 		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());
 		this.origine = origine;
 		this.destination = destination;
+		this.volumeDispo=this.volume;
 	}
 	
 	// Constructeur avec tous les paramètres même volume
 	public Camion(Integer id, String numero, Integer disponibilite,
-			Float largeur, Float hauteur, Float profondeur, Float volume, Entrepot origine, Entrepot destination) {
+			Float largeur, Float hauteur, Float profondeur, Float volume, Float volumeDispo, Entrepot origine, Entrepot destination) {
 		this.id = id;
 		this.numero = numero;
 		this.disponibilite = disponibilite;
@@ -45,6 +46,7 @@ public class Camion implements Comparable {
 		this.volume = volume;
 		this.origine = origine;
 		this.destination = destination;
+		this.volumeDispo=volumeDispo;
 	}
 
 	// Constructeur n'utilisant pas l'ID
@@ -58,6 +60,7 @@ public class Camion implements Comparable {
 		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());
 		this.origine = origine;
 		this.destination = destination;
+		this.volumeDispo=this.volume;
 	}
 
 	// Constructeur vide
@@ -74,8 +77,9 @@ public class Camion implements Comparable {
 		this.hauteur=(Float) v.get(4);
 		this.profondeur=(Float) v.get(5);
 		this.volume = (Float) v.get(6);
-		this.origine = (Entrepot) v.get(7);
-		this.destination = (Entrepot) v.get(8);
+		this.volumeDispo=(Float) v.get(7);
+		this.origine = (Entrepot) v.get(8);
+		this.destination = (Entrepot) v.get(9);
 	}
 
 	// Transforme l'objet en un Vector
@@ -93,6 +97,7 @@ public class Camion implements Comparable {
 		v.add(hauteur);
 		v.add(profondeur);
 		v.add(volume);
+		v.add(this.volumeDispo);
 		v.add(origine);
 		v.add(destination);
 
@@ -191,6 +196,11 @@ public class Camion implements Comparable {
 	//	----- Récupération de la profondeur du camion -----//
 	public Float getProfondeur(){
 		return this.profondeur;
+	}
+	
+	//----- Récupération du volume disponible dans le camion -----//
+	public Float getVolumeDispo(){
+		return this.volumeDispo;
 	}
 
 	/****** Méthode de calcul interne ******/

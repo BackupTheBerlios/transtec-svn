@@ -29,8 +29,8 @@ public class AccesBDDCamion extends AccesBDD{
 		//----- Insertion d'un camion dans la BDD -----//
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO camions "
-				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination,Hauteur,Largeur,Profondeur)" // Paramètre de la table
-				+ " VALUES (?,?,?,?,?,?,?,?,?)"); 
+				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination,Hauteur,Largeur,Profondeur,VolumeDispo)" // Paramètre de la table
+				+ " VALUES (?,?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getDisponibilite().intValue());
@@ -41,6 +41,7 @@ public class AccesBDDCamion extends AccesBDD{
 		ajout.setFloat(7,aAjouter.getHauteur().floatValue());
 		ajout.setFloat(8, aAjouter.getLargeur().floatValue());
 		ajout.setFloat(9, aAjouter.getProfondeur().floatValue());
+		ajout.setFloat(10, aAjouter.getVolumeDispo().floatValue());
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
@@ -77,6 +78,7 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Hauteur")),
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
+					new Float(resultat.getFloat("VolumeDispo")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
 		}
@@ -106,6 +108,7 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Hauteur")),
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
+					new Float(resultat.getFloat("VolumeDispo")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
 		}
@@ -137,6 +140,7 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Hauteur")),
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
+					new Float(resultat.getFloat("VolumeDispo")),
 					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
 					destination));
 		}
@@ -151,7 +155,7 @@ public class AccesBDDCamion extends AccesBDD{
 	public void modifier(Camion aModifier) throws SQLException{
 		//----- Modification d'une personne à partir de l'id -----//
 		PreparedStatement modifie=connecter().prepareStatement(
-				"UPDATE camions SET Immatriculation=?, Etat=?, Volume=?, Origine=?, Destination=?, Largeur=?, Hauteur=?, Profondeur=? "
+				"UPDATE camions SET Immatriculation=?, Etat=?, Volume=?, Origine=?, Destination=?, Largeur=?, Hauteur=?, Profondeur=?, VolumeDispo=?"
 				+"WHERE idCamions=?");
 		modifie.setString(1, aModifier.getNumero());
 		modifie.setInt(2, aModifier.getDisponibilite().intValue());
@@ -161,7 +165,8 @@ public class AccesBDDCamion extends AccesBDD{
 		modifie.setFloat(6, aModifier.getLargeur().floatValue());
 		modifie.setFloat(7, aModifier.getHauteur().floatValue());
 		modifie.setFloat(8, aModifier.getProfondeur().floatValue());
-		modifie.setInt(9, aModifier.getId().intValue());
+		modifie.setFloat(9, aModifier.getVolumeDispo().floatValue());
+		modifie.setInt(10, aModifier.getId().intValue());
 		
 		
 		modifie.executeUpdate();	// Exécution de la requête SQL
@@ -188,6 +193,7 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Hauteur")),
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
+					new Float(resultat.getFloat("VolumeDispo")),
 					bddLoc.rechercher(new Integer(resultat.getInt("Origine"))),
 					bddLoc.rechercher(new Integer(resultat.getInt("Destination"))));
 		}
@@ -198,22 +204,4 @@ public class AccesBDDCamion extends AccesBDD{
 		
 		return trouvee;
 	}
-
-	/*public static void main(String arg[]){
-		AccesBDDCamion test=new AccesBDDCamion();
-
-		Camion aAjouter = new Camion("1013Tfdgf",new Integer(0),new Integer(2),"Legfg",new Integer(1),new Integer(2));
-		Camion aAjouter1 = new Camion("101gfgf",new Integer(0),new Integer(2),"Lgfgfc",new Integer(1),new Integer(2));
-		Camion aAjouter2 = new Camion("1013fddf",new Integer(0),new Integer(2),"Lgfdfgfanc",new Integer(1),new Integer(2));
-		try{
-			test.ajouter(aAjouter);
-			test.ajouter(aAjouter1);
-			test.ajouter(aAjouter2);
-			Vector v=null;
-			v=test.lister();
-		}
-		catch(SQLException e){
-			System.out.println(e.getMessage());
-		}
-	}*/
 }
