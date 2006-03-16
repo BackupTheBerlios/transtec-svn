@@ -14,8 +14,21 @@ public class AccesBDDRoutage extends AccesBDD{
 		super();
 	}
 
-	public void modifier(/*Route r*/){
+	//----- Méthode permettant de modier une route dans la BDD -----//
+	public void modifier(Route aModifier) throws SQLException{
+		PreparedStatement modifie=connecter().prepareStatement(
+				"UPDATE routage SET Origine=?,Destination=?,PlatInter=?,Distance=? "
+				+"WHERE idRoutage=?");
+		modifie.setInt(1, aModifier.getOrigine().getId().intValue());
+		modifie.setInt(2, aModifier.getDestination().getId().intValue());
+		modifie.setInt(3, aModifier.getIntermediaire().getId().intValue());
+		modifie.setFloat(4, aModifier.getDistance().floatValue());
+		modifie.setInt(5, aModifier.getId().intValue());
 		
+		modifie.executeUpdate();	// Exécution de la requête SQL
+		
+		modifie.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 	
 	//----- Lister les routes -----//
@@ -46,7 +59,7 @@ public class AccesBDDRoutage extends AccesBDD{
 		return liste;
 	}
 	
-//	----- Ajouter un camion dans la BDD -----//
+	//----- Ajouter une route dans la BDD -----//
 	public Integer ajouter(Route aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
 		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
@@ -74,5 +87,16 @@ public class AccesBDDRoutage extends AccesBDD{
 		deconnecter();
 		
 		return aAjouter.getId();
+	}
+	
+	//----- Supprimer une route -----//
+	public void supprimer(Integer aSupprimer) throws SQLException{
+		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM routage WHERE idRoutage=?");
+		supprime.setInt(1, aSupprimer.intValue());
+				
+		supprime.executeUpdate();	// Exécution de la requête SQL
+						
+		supprime.close();	// Fermeture requête SQL
+		deconnecter();
 	}
 }
