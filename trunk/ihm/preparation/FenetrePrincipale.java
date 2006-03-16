@@ -255,7 +255,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				// Modification d'un ancien chargement
 				else if(source==this.gererChargement) {
 					dispose();					
-					new Prep_Gerer_chargement(
+					new ModifierChargement(
 							this.utilisateur,
 							(Integer)((Vector)tableMod.getRow(ligneActive)).get(10), 
 							this.selectionnee.getDestination().getId(), 

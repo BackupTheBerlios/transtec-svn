@@ -19,7 +19,7 @@ import donnees.Utilisateur;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 
-public class Prep_Gerer_chargement extends JFrame implements ActionListener{
+public class ModifierChargement extends JFrame implements ActionListener{
 	private JTable tableColis;
 	private JTable tableChargement;
 	private ModeleTable modColis;
@@ -35,7 +35,7 @@ public class Prep_Gerer_chargement extends JFrame implements ActionListener{
 	private Bouton ajouter, retirer, valider, annuler;
 	private Utilisateur utilisateur;
 	
-	public Prep_Gerer_chargement(Utilisateur utilisateur, Integer idChargement, Integer idDestination, Float volumeMax){
+	public ModifierChargement(Utilisateur utilisateur, Integer idChargement, Integer idDestination, Float volumeMax){
 		// Création graphique de la fenêtre
 		setTitle("Modification du chargement");
 		setSize(1024,768);

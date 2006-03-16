@@ -227,6 +227,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 //*********************************CREATION DU CAMION*****************************************//
 	   
 	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
+	    // -----> Mettre les coordonnées dynamique de la benne
 	    Point3f benne[]=tailleBenne(2.55f, 4, 12);
 	    
 	    //Les couleurs des 4 faces visibles du cube
