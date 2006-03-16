@@ -6,6 +6,10 @@ import donnees.Camion;
 import donnees.Entrepot;
 import donnees.Preparation;
 
+/*
+ * Classe regroupant tous les paramètres nécéssaires à préparer une destination
+ */
+
 public class DonneesPrep {
 	private Entrepot destination;
 	private Float volume, volumeCharge;
@@ -18,8 +22,11 @@ public class DonneesPrep {
 		this.listeCamionChargement=new Vector();
 	}
 	
+	// Méthode permettant d'ajouter un camions dans liste de camions et de faire varier le
+	// volume pour la destination, ceci en rapport avec l'objet de type "preparation"
 	public void ajouterCamion(Preparation preparation){
 		Vector courant=preparation.getCamion().toVector();
+		// Le vector courant servira à afficher le tableau des cmaions pour une destination donnée
 		courant.add(preparation.getVolume().toString());
 		courant.add(preparation.getIdChargementEnCours());
 		courant.add(preparation.getIdChargement());
@@ -35,19 +42,22 @@ public class DonneesPrep {
 		this.volume=new Float(preparation.getVolume().floatValue()+this.volume.floatValue());
 		this.listeCamionChargement.add(courant);
 	}
-	
+	// Récupération de la destination
 	public Entrepot getDestination(){
 		return this.destination;
 	}
 	
+	// Récupération du volume
 	public Float getVolume(){
 		return this.volume;
 	}
 	
+	// Récuparation du volume chargé
 	public Float getCharge(){
 		return this.volumeCharge;
 	}
 	
+	// Récupération de la liste de camion
 	public Vector getListeCamionChargement(){
 		return this.listeCamionChargement;
 	}

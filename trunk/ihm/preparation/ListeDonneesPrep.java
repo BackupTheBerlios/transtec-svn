@@ -8,10 +8,15 @@ import accesBDD.AccesBDDPreparation;
 import donnees.Preparation;
 import donnees.Utilisateur;
 
+/*
+ * Classe permettant de regrouper toute les informations nécessaire à l'affichage de la fenêtre principale de préparation
+ */
+
 public class ListeDonneesPrep {
 	private Vector liste=new Vector();
 	private String listeDest[];
 	
+	// On créer une liste de destinations à préparer en fonction de l'utilisateur
 	public ListeDonneesPrep(Utilisateur utilisateur) throws SQLException{
 		Vector listePrep=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
 		Preparation tmp_prep;
@@ -35,6 +40,7 @@ public class ListeDonneesPrep {
 			listeDest[i]=((DonneesPrep)liste.get(i)).getDestination().toString();
 	}
 	
+	// Méthode permettant de vérifier si une destination existe
 	private int destExists(String destination){
 		int retour=-1;
 
@@ -47,6 +53,7 @@ public class ListeDonneesPrep {
 		return retour;
 	}
 	
+	// Méthode permettant de retourner l'objet de type DonneesPrep s'il existe pour la desiantion données
 	public DonneesPrep exists(String destination){
 		DonneesPrep trouvee=null;
 		for(int i=0;i<liste.size();i++){
@@ -58,10 +65,12 @@ public class ListeDonneesPrep {
 		return trouvee;
 	}
 	
+	// Méthode permettant de retourner la liste de destination spour la comboBox
 	public String[] combo(){
 		return this.listeDest;
 	}
 	
+	// Méthode permettant de retourner la liste de DonneesPrep
 	public Vector getListe(){
 		return this.liste;
 	}

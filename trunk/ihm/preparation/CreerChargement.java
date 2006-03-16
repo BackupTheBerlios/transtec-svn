@@ -59,7 +59,7 @@ import donnees.Colis;
 import donnees.Entrepot;
 import donnees.Utilisateur;
 
-public class Prep_Creer_chargement extends JFrame implements ActionListener{
+public class CreerChargement extends JFrame implements ActionListener{
 	private Bouton valider, annuler, ajouter, retirer;
 	private ModeleTable listeColisMod, listeChargementMod;
 	private TableSorter sorter_colis, sorter_chargement;
@@ -75,7 +75,7 @@ public class Prep_Creer_chargement extends JFrame implements ActionListener{
 	private int ligneActive;
 	private Vector dimension_colis = new Vector();
 		
-	public Prep_Creer_chargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
+	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
 		// Création graphique de la fenêtre
 		setTitle("Créer Chargement");
 		setSize(1024,768);
