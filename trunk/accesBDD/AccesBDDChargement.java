@@ -112,7 +112,7 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		while(resultat.next()){
 			courant=bddColis.rechercher(new Integer(resultat.getInt("idColis")));
-			courant.setNumeroDsCharg(new Integer(resultat.getInt("idChargement")));
+			courant.setNumeroDsCharg(new Integer(resultat.getInt("Numero")));
 			liste.add(courant);
 		}
 		
