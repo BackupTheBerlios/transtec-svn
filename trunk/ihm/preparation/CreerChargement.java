@@ -393,10 +393,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 			ligneActive = listeColisTab.getSelectedRow();
 			if (ligneActive != -1){
 				numero++;
-				//On ajoute au chargement la ligne selectionnée
-				listeChargementMod.addRow(listeColisMod.getRow(ligneActive));
 				colis=new Colis((Vector)listeColisMod.getRow(ligneActive));
 				colis.setNumeroDsCharg(new Integer(this.numero));
+				//On ajoute au chargement la ligne selectionnée
+				listeChargementMod.addRow(colis.toVector());
+				
 				if(listeColisTab.getRowCount()>1)
 					colisSuiv=new Colis((Vector)listeColisMod.getRow(ligneActive+1));
 				else	colisSuiv=null;
@@ -427,9 +428,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 			ligneActive = listeChargementTab.getSelectedRow();
 			if (ligneActive != -1){
 				numero--;
-				// On ajoute à la liste des colis
-				listeColisMod.addRow(listeChargementMod.getRow(ligneActive));
 				colis=new Colis((Vector)listeChargementMod.getRow(ligneActive));
+				colis.setNumeroDsCharg(new Integer(0));
+				// On ajoute à la liste des colis
+				listeColisMod.addRow(colis.toVector());
+				
 				// Soustraction du volume
 				this.chargement.soustraireVolumeColis(new Float(colis.getVolume().intValue()));
 				listeColisMod.fireTableDataChanged();
@@ -543,7 +546,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		this.echelle=1.1f;
 		float tmp_profondeur=profondeur, tmp_hauteur=hauteur, tmp_largeur=largeur;
 		
-		while(tmp_largeur>2.1f || tmp_hauteur>1.1f || tmp_profondeur>6.0f){
+		while(tmp_largeur>1.1f || tmp_hauteur>2.1f || tmp_profondeur>10.0f){
 			tmp_profondeur/=1.1f;
 			tmp_hauteur/=1.1f;
 			tmp_largeur/=1.1f;
