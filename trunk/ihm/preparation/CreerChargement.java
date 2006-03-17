@@ -75,7 +75,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private int ligneActive;
 	private Vector dimension_colis = new Vector();
 		
-	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
+	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion/*, Integer idPreparation*/) {
 		// Création graphique de la fenêtre
 		setTitle("Créer Chargement");
 		setSize(1024,768);
@@ -172,9 +172,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
-		zoneColis3D=new AffichageColisDynamique(fenetre, listeColisMod, listeColisTab);
+		//zoneColis3D=new AffichageColisDynamique(fenetre, listeColisMod, listeColisTab);
 		// Le premier colis de la liste que l'on affiche
-		zoneColis3D.Initialisation(premierColisAAfficher);
+	//	zoneColis3D.Initialisation(premierColisAAfficher);
 		// Ecoute de la souris par rapport au tableau
 		listeColisTab.addMouseListener(zoneColis3D);
 
@@ -206,7 +206,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		scrollPane_chargement.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane_chargement);
 		
-				
+			
 		// Creation de la zone 3D correspondant au camion
 		camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    camion3D.setBounds(305,255,660,300);

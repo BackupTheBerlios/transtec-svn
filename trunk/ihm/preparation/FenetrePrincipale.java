@@ -30,6 +30,7 @@ import javax.swing.ListSelectionModel;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDPreparation;
+import accesBDD.AccesBDDUtilisateur;
 import donnees.Utilisateur;
 
 public class FenetrePrincipale extends JFrame implements ActionListener, ItemListener, MouseListener{
@@ -247,8 +248,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					try{
 						new CreerChargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
-								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
-								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)).setVisible(true);
+								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0))/*,
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)*/).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						
@@ -419,5 +420,15 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public static void main(String[] args) {
+		try{
+		FenetrePrincipale fen1 = new FenetrePrincipale(new AccesBDDUtilisateur().isRegistered("user3", "user3"));
+		fen1.setVisible(true);	
+		}
+		catch(SQLException e){
+			
+		}
+	}	
 
 }

@@ -45,6 +45,7 @@ public class Colis {
 		this.entrepot=entrepot;
 		this.valeur_declaree=valeur_declaree;
 		this.volume=volume;
+		this.numeroDsCharg=new Integer(0);
 	}
 	
 	public Colis(String code_barre,Personne expediteur,Personne destinataire,Utilisateur utilisateur, Integer poids , Timestamp date_envoi, Integer fragilite,ModeleColis modele, Entrepot origine, Entrepot destination, Entrepot entrepot, String valeur_declaree, Float volume){
@@ -61,6 +62,7 @@ public class Colis {
 		this.entrepot=entrepot;
 		this.valeur_declaree=valeur_declaree;
 		this.volume=volume;
+		this.numeroDsCharg=new Integer(0);
 	}
 	
 	// Constructeur utilisant un Vector

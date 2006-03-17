@@ -280,8 +280,8 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 				
 			}
 			// On retourne à la fenêtre principale
-			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			dispose();
 		}
 		
 		// On associe au colis l'incident et on envoie en zone de stockage
@@ -295,19 +295,19 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 						this.tfIncident.getText(),
 						this.utilisateur,
 						new Integer(Incident.CHARGEMENT),
-						new Integer(Incident.NORMAL)));
+						new Integer(Incident.ZONE_EXP)));
 			}
 			catch(SQLException e){
 				
 			}
 			// On retourne à la fenêtre principale
-			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			dispose();
 		}
 		// L'utilisateur clique sur le bouton "Annuler"
 		else if(source==this.annuler){
-			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			dispose();
 		}
 	}
 
