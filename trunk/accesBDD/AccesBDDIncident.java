@@ -26,8 +26,8 @@ public class AccesBDDIncident extends AccesBDD{
 		//----- Insertion du colis dans la BDD -----//
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO incidents "
-				+ "(idIncidents, Colis_idColis, Users_idUsers, Description, DateCreation, Type_2, Etat) " // Parametre de la table
-				+ "VALUES (?,?,?,?,?,?,?)"); 
+				+ "(idIncidents, Colis_idColis, Users_idUsers, Description, DateCreation, Type_2, Etat,Zone) " // Parametre de la table
+				+ "VALUES (?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		ajout.setInt(2,aAjouter.getColis().getId().intValue()); // Renvoi l'ID du Colis
@@ -36,6 +36,7 @@ public class AccesBDDIncident extends AccesBDD{
 		ajout.setTimestamp(5,aAjouter.getDate());
 		ajout.setInt(6,aAjouter.getType().intValue());
 		ajout.setInt(7,aAjouter.getEtat().intValue());
+		ajout.setInt(8, aAjouter.getZone().intValue());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
@@ -86,7 +87,8 @@ public class AccesBDDIncident extends AccesBDD{
 					new Integer(resultat.getInt("Etat")),
 					resultat.getString("Description"), 
 					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
-					new Integer(resultat.getInt("Type_2"))));
+					new Integer(resultat.getInt("Type_2")),
+					new Integer(resultat.getInt("Zone"))));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -114,7 +116,8 @@ public class AccesBDDIncident extends AccesBDD{
 					new Integer(resultat.getInt("Etat")),
 					resultat.getString("Description"), 
 					bddUtilisateur.rechercher(new Integer(resultat.getInt("Users_idUsers"))),
-					new Integer(resultat.getInt("Type_2"))));
+					new Integer(resultat.getInt("Type_2")),
+					new Integer(resultat.getInt("Zone"))));
 		}
 				
 		resultat.close();	// Fermeture requête SQL
@@ -123,4 +126,6 @@ public class AccesBDDIncident extends AccesBDD{
 		
 		return liste;
 	}
+	
+	// Mettre une fonction pour mettre en zone d'experttie
 }

@@ -273,7 +273,8 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 						new Integer(Incident.NON_TRAITE),
 						this.tfIncident.getText(),
 						this.utilisateur,
-						new Integer(Incident.CHARGEMENT)));
+						new Integer(Incident.CHARGEMENT),
+						new Integer(Incident.NORMAL)));
 			}
 			catch(SQLException e){
 				
@@ -293,7 +294,8 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 						new Integer(Incident.NON_TRAITE),
 						this.tfIncident.getText(),
 						this.utilisateur,
-						new Integer(Incident.CHARGEMENT)));
+						new Integer(Incident.CHARGEMENT),
+						new Integer(Incident.NORMAL)));
 			}
 			catch(SQLException e){
 				

@@ -13,7 +13,7 @@ public class Incident {
 	private Integer etat;
 	private String description;
 	private Utilisateur utilisateur;
-	private Integer type;
+	private Integer type, zone;
 	
 	// Constantes décrivant l'état de l'incident
 	public final static int NON_TRAITE = 0;
@@ -24,9 +24,13 @@ public class Incident {
 	public final static int ENTREE = 10;
 	public final static int CHARGEMENT = 11;
 	
+	// Constantes décrivant le lieu du colis soit en zone d'expertise, soit toujours associé au chargement...
+	public final static int ZONE_EXP=100;
+	public final static int NORMAL=101;
+	
 
 	// Constructeur avec tous les paramètres
-	public Incident(Integer id, Colis colis, Timestamp date, Integer etat, String description, Utilisateur utilisateur, Integer type){
+	public Incident(Integer id, Colis colis, Timestamp date, Integer etat, String description, Utilisateur utilisateur, Integer type, Integer zone){
 		this.id=id;
 		this.colis=colis;
 		this.date=date;
@@ -34,16 +38,18 @@ public class Incident {
 		this.description=description;
 		this.utilisateur=utilisateur;
 		this.type=type;
+		this.zone=zone;
 	}
 	
 	// Constructeur sans id
-	public Incident(Colis colis, Timestamp date, Integer etat, String description, Utilisateur utilisateur, Integer type){
+	public Incident(Colis colis, Timestamp date, Integer etat, String description, Utilisateur utilisateur, Integer type, Integer zone){
 		this.colis=colis;
 		this.date=date;
 		this.etat=etat;
 		this.description=description;
 		this.utilisateur=utilisateur;
 		this.type=type;
+		this.zone=zone;
 	}
 	
 	// Constructeur simplifié
@@ -63,7 +69,8 @@ public class Incident {
 		this.etat=stringToConst((String)v.get(3));
 		this.description=(String)v.get(4);
 		this.utilisateur=(Utilisateur)v.get(5);
-		this.type=stringToConst((String)v.get(6));		
+		this.type=stringToConst((String)v.get(6));	
+		this.zone=stringToConst((String)v.get(7));
 	}
 	
 	// Création du Vector à partir des données
@@ -79,6 +86,7 @@ public class Incident {
 		v.add(description);
 		v.add(utilisateur);
 		v.add(constToString(type));
+		v.add(constToString(this.zone));
 	
 		return v;
 	}
@@ -153,6 +161,10 @@ public class Incident {
 		return this.etat;
 	}
 	
+	public Integer getZone(){
+		return this.zone;
+	}
+	
 	//----- Récupération de la date de création de l'incident -----//
 	public Timestamp getDate(){
 		return this.date;
@@ -193,6 +205,12 @@ public class Incident {
 		case CHARGEMENT:
 			ret=new String("Chargement");
 			break;
+		case ZONE_EXP:
+			ret=new String("Zone d'expertise");
+			break;
+		case NORMAL:
+			ret=new String("Normal");
+			break;
 		}
 		
 		return ret;
@@ -207,6 +225,8 @@ public class Incident {
 		else if(s.equals("Traîté")) ret=new Integer(TRAITE);
 		else if(s.equals("Entrée")) ret=new Integer(ENTREE);
 		else if(s.equals("Chargement")) ret=new Integer(CHARGEMENT);
+		else if(s.equals("Zone d'expertise")) ret=new Integer(ZONE_EXP);
+		else if(s.equals("Normal")) ret=new Integer(NORMAL);
 
 		return ret;
 	}
