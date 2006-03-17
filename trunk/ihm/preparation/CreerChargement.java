@@ -543,7 +543,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		this.echelle=1.1f;
 		float tmp_profondeur=profondeur, tmp_hauteur=hauteur, tmp_largeur=largeur;
 		
-		while(tmp_largeur>2.1f || tmp_hauteur>2.1f || tmp_profondeur>10.0f){
+		while(tmp_largeur>2.1f || tmp_hauteur>1.1f || tmp_profondeur>6.0f){
 			tmp_profondeur/=1.1f;
 			tmp_hauteur/=1.1f;
 			tmp_largeur/=1.1f;
