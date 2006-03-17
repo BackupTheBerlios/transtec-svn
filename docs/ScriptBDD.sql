@@ -173,7 +173,7 @@ CREATE TABLE `incidents` (
   `DateCreation` datetime default NULL,
   `Type_2` smallint(5) unsigned default NULL,
   `Etat` int(10) unsigned default NULL,
-  `Zone` int(1) unsigned default NULL,
+  `Zone` int(3) unsigned default NULL,
   PRIMARY KEY  (`idIncidents`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Incidents_FKIndex2` (`Colis_idColis`)
