@@ -398,7 +398,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 				//On ajoute au chargement la ligne selectionnée
 				listeChargementMod.addRow(colis.toVector());
 				
-				if(listeColisTab.getRowCount()>1)
+				if(ligneActive+1<listeColisTab.getRowCount())
 					colisSuiv=new Colis((Vector)listeColisMod.getRow(ligneActive+1));
 				else	colisSuiv=null;
 				// Ajout du volume
@@ -411,16 +411,13 @@ public class CreerChargement extends JFrame implements ActionListener{
 				listeColisTab.updateUI();
 				listeChargementTab.updateUI();
 				
-				// Ajout de l'objet 3D
-				BranchGroup test=/*scene.addChild(*/brancheCube(
-						colis.getModele().getLargeur().intValue()/(this.echelle*100), 
-						colis.getModele().getProfondeur().intValue()/(this.echelle*100), 
-						colis.getModele().getHauteur().intValue()/(this.echelle*100))/*)*/;
-				scene.addChild(test);
-				System.out.println("exe");
-				scene.removeChild(test);
-				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
 				
+				// Ajout de l'objet 3D
+				scene.addChild(brancheCube(
+						colis.getModele().getLargeur().floatValue()/(this.echelle), 
+						colis.getModele().getProfondeur().floatValue()/(this.echelle), 
+						colis.getModele().getHauteur().floatValue()/(this.echelle)));
+				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans les colis disponibles","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -431,6 +428,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		else if(source==this.retirer){
 			ligneActive = listeChargementTab.getSelectedRow();
 			if (ligneActive != -1){
+				this.scene.removeChild(this.numero);
 				numero--;
 				colis=new Colis((Vector)listeChargementMod.getRow(ligneActive));
 				colis.setNumeroDsCharg(new Integer(0));
@@ -446,7 +444,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 				//Mise à jour des tableaux
 				listeColisTab.updateUI();
 				listeChargementTab.updateUI();
-				scene.removeChild(this.numero+2);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans le chargement","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -551,7 +548,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		this.echelle=1.1f;
 		float tmp_profondeur=profondeur, tmp_hauteur=hauteur, tmp_largeur=largeur;
 		
-		while(tmp_largeur>1.1f || tmp_hauteur>2.1f || tmp_profondeur>10.0f){
+		while(tmp_largeur>1.5f || tmp_hauteur>2.1f || tmp_profondeur>10.0f){
 			tmp_profondeur/=1.1f;
 			tmp_hauteur/=1.1f;
 			tmp_largeur/=1.1f;
