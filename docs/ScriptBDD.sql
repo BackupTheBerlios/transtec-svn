@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Mar 16, 2006 at 07:33 PM
+-- Generation Time: Mar 17, 2006 at 12:24 PM
 -- Server version: 4.1.9
 -- PHP Version: 4.3.10
 -- 
@@ -36,8 +36,7 @@ CREATE TABLE `camions` (
 -- Dumping data for table `camions`
 -- 
 
-INSERT DELAYED IGNORE INTO `camions` (`idCamions`, `Immatriculation`, `Etat`, `Hauteur`, `Largeur`, `Profondeur`, `Volume`, `VolumeDispo`, `Origine`, `Destination`) VALUES 
-(1, '1013TW78', 1, 4, 12, 2.55, 122.4, 122.4, 0, 0),
+INSERT DELAYED IGNORE INTO `camions` (`idCamions`, `Immatriculation`, `Etat`, `Hauteur`, `Largeur`, `Profondeur`, `Volume`, `VolumeDispo`, `Origine`, `Destination`) VALUES (1, '1013TW78', 1, 4, 12, 2.55, 122.4, 122.4, 0, 0),
 (2, '2356AQH76', 2, 4, 12, 2.55, 122.4, 122.4, 3, 1),
 (3, '2356ASU45', 0, 4, 12, 2.55, 122.4, 122.4, 0, 0),
 (4, '652GFD75', 0, 4, 12, 2.55, 122.4, 122.4, 0, 0),
@@ -173,7 +172,7 @@ CREATE TABLE `incidents` (
   `DateCreation` datetime default NULL,
   `Type_2` smallint(5) unsigned default NULL,
   `Etat` int(10) unsigned default NULL,
-  `Zone` int(3) unsigned default NULL,
+  `Zone` int(1) unsigned default NULL,
   PRIMARY KEY  (`idIncidents`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Incidents_FKIndex2` (`Colis_idColis`)
@@ -183,11 +182,11 @@ CREATE TABLE `incidents` (
 -- Dumping data for table `incidents`
 -- 
 
-INSERT DELAYED IGNORE INTO `incidents` (`idIncidents`, `Colis_idColis`, `Users_idUsers`, `Description`, `DateCreation`, `Type_2`, `Etat`,`Zone`) VALUES (5, 3, 3, 'un probleme avec le carton ouvert', '2006-02-21 23:21:35', 10, 1,0),
-(4, 1, 3, 'il faut mieux jeter le colis', '2006-02-21 23:21:08', 10, 1,0),
-(3, 1, 3, 'le colis est foutu', '2006-02-21 23:20:33', 10, 2,0),
-(2, 1, 3, 'un autre coin vient de s''abimer', '2006-02-21 23:20:21', 10, 0,0),
-(1, 1, 3, 'Il y a un coin abim? sur le colis', '2006-02-21 23:20:06', 10, 2,0);
+INSERT DELAYED IGNORE INTO `incidents` (`idIncidents`, `Colis_idColis`, `Users_idUsers`, `Description`, `DateCreation`, `Type_2`, `Etat`, `Zone`) VALUES (5, 3, 3, 'un probleme avec le carton ouvert', '2006-02-21 23:21:35', 10, 1, 0),
+(4, 1, 3, 'il faut mieux jeter le colis', '2006-02-21 23:21:08', 10, 1, 0),
+(3, 1, 3, 'le colis est foutu', '2006-02-21 23:20:33', 10, 2, 0),
+(2, 1, 3, 'un autre coin vient de s''abimer', '2006-02-21 23:20:21', 10, 0, 0),
+(1, 1, 3, 'Il y a un coin abim? sur le colis', '2006-02-21 23:20:06', 10, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -259,7 +258,7 @@ INSERT DELAYED IGNORE INTO `modelescolis` (`idModelesColis`, `Forme`, `Modele`, 
 (10, 1, 3, 183, 27, 69),
 (15, 2, 3, 85, 96, 0),
 (14, 1, 3, 12, 85, 74),
-(13, 0, 3, 18, 0, 0),
+(13, 0, 3, 18, 5, 3),
 (12, 1, 3, 18, 45, 5),
 (11, 2, 3, 41, 23, 19);
 
