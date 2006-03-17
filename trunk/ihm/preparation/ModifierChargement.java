@@ -100,20 +100,23 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		fenetre.add(this.labelVolumeChargement);
 		
 		// Crétaion des colonnes
-        nomColonnes.add("Id");
-        nomColonnes.add("Code barre");
-        nomColonnes.add("Expéditeur");
-        nomColonnes.add("Destinataire");
-        nomColonnes.add("Origine");
-        nomColonnes.add("Destination");
-        nomColonnes.add("Entrepot en Cours");
-        nomColonnes.add("Utilisateur");
-        nomColonnes.add("Poids");
-        nomColonnes.add("Date d'entrée");
-        nomColonnes.add("Fragilité");
-        nomColonnes.add("Modèle");
-        nomColonnes.add("Modèle");
-        nomColonnes.add("Volume");
+		nomColonnes.add("Id");
+		nomColonnes.add("Code Barre");
+		nomColonnes.add("expediteur");
+		nomColonnes.add("destinataire");
+		nomColonnes.add("origine");
+		nomColonnes.add("destination");
+		nomColonnes.add("entrepot en cours");
+		nomColonnes.add("utilisateur");
+		nomColonnes.add("Poids");
+		nomColonnes.add("Date Envoi");
+		nomColonnes.add("fragilite");
+		nomColonnes.add("Modele");
+		nomColonnes.add("forme");
+		nomColonnes.add("modele");
+		nomColonnes.add("valeur_declaree");
+		nomColonnes.add("Volume");
+		nomColonnes.add("numeroDsCharg");
         
         Vector donneesColis = new Vector();
         // Recherche des colis pouvant être chargés
@@ -145,13 +148,16 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		
 		// On supprime les colonnes inutiles
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
-		tableColis.removeColumn(tableColis.getColumnModel().getColumn(4));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(3));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(3));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(3));
 		
 		//Construction du JScrollPane
 		JScrollPane scrollPane1 = new JScrollPane(tableColis);
@@ -195,13 +201,16 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		tableChargement.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// On supprime les colonnes inutiles
 		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(1));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(1));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(1));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(1));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(1));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(1));
-		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(4));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(0));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(3));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(3));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(3));
 	
 		//Construction du JScrollPane
 		JScrollPane scrollPane2 = new JScrollPane(tableChargement);
@@ -279,7 +288,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			AccesBDDChargement bddChargement=new AccesBDDChargement();
 			
 			// Création de la liste de colis du nouveau chargement
-			for(int i=0;1<this.modChargement.getRowCount();i++)
+			for(int i=0;i<this.modChargement.getRowCount();i++)
 				nouvCharg.add(new Colis((Vector)this.modChargement.getRow(i)));
 			
 			// Modifications des infos concernant le chargement
@@ -307,6 +316,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			catch(SQLException e){
 				
 			}
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 			dispose();
 		}
 		
