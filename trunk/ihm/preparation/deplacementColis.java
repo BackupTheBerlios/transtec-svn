@@ -102,9 +102,9 @@ public class deplacementColis implements KeyListener{
 		if(v!=null){
 			for(i=0;i<v.size();i++){
 				tab = (float[])v.elementAt(i);
-				if( ((xloc - larg) >= tab[0]) && ((xloc - larg) <= tab[1]) ||  ((xloc + larg) >= tab[0]) && ((xloc + larg) <= tab[1]) || ((xloc - larg) <= tab[0]) && ((xloc + larg) >= tab[1]) || ((xloc - larg) >= tab[0]) && ((xloc + larg) <= tab[1])){
+				if( ((xloc - prof) >= tab[0]) && ((xloc - prof) <= tab[1]) ||  ((xloc + prof) >= tab[0]) && ((xloc + prof) <= tab[1]) || ((xloc - prof) <= tab[0]) && ((xloc + prof) >= tab[1]) || ((xloc - prof) >= tab[0]) && ((xloc + prof) <= tab[1])){
 					//Selon z
-					if( ((zloc - prof) >= tab[2]) && ((zloc - prof) <= tab[3]) ||  ((zloc + prof) >= tab[2]) && ((zloc + prof) <= tab[3]) || ((zloc - prof) <= tab[2]) && ((zloc + prof) >= tab[3]) || ((zloc - prof) >= tab[2]) && ((zloc + prof) <= tab[3])){
+					if( ((zloc - larg) >= tab[2]) && ((zloc - larg) <= tab[3]) ||  ((zloc + larg) >= tab[2]) && ((zloc + larg) <= tab[3]) || ((zloc - larg) <= tab[2]) && ((zloc + larg) >= tab[3]) || ((zloc - larg) >= tab[2]) && ((zloc + larg) <= tab[3])){
 						if(tab[4] + haut > yloc){
 							yloc = (tab[4] + haut);
 						}
