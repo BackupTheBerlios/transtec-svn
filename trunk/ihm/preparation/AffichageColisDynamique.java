@@ -67,13 +67,13 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 		this.canvas3D.repaint();
 	}
 	
-	// Est-ce utilise??????
+	// Méthode permettant de modifier les colis présents dans la zone 3D dynamique
 	public void update(Colis colis, ModeleTable tableColisMod, JTable tableColis){
 		// On supprime la branche -> tout l'objet 3D
 		this.scene.removeAllChildren();
 		
 		// On rajoute le nouveau
-		this.scene.addChild(creationObjet(colis));
+		if(colis!=null)	this.scene.addChild(creationObjet(colis));
 		
 		// Mise à jour de la zone graphique
 		this.canvas3D.repaint();
