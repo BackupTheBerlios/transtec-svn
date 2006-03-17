@@ -412,11 +412,15 @@ public class CreerChargement extends JFrame implements ActionListener{
 				listeChargementTab.updateUI();
 				
 				// Ajout de l'objet 3D
-				scene.addChild(brancheCube(
+				BranchGroup test=/*scene.addChild(*/brancheCube(
 						colis.getModele().getLargeur().intValue()/(this.echelle*100), 
 						colis.getModele().getProfondeur().intValue()/(this.echelle*100), 
-						colis.getModele().getHauteur().intValue()/(this.echelle*100)));
+						colis.getModele().getHauteur().intValue()/(this.echelle*100))/*)*/;
+				scene.addChild(test);
+				System.out.println("exe");
+				scene.removeChild(test);
 				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
+				
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans les colis disponibles","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
@@ -442,6 +446,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 				//Mise à jour des tableaux
 				listeColisTab.updateUI();
 				listeChargementTab.updateUI();
+				scene.removeChild(this.numero+2);
 			}
 			else{
 				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans le chargement","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
