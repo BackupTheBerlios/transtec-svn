@@ -164,9 +164,10 @@ public class CreerChargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(4));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(7));
-		//listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(9));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
+		//listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(5));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(5));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(6));
 		
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
@@ -176,9 +177,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 		getContentPane().add(scrollPane);
 		
 		// Ajout de l'écoute souris et de la zone graphique au dessus
-		//zoneColis3D=new AffichageColisDynamique(fenetre, listeColisMod, listeColisTab);
+		zoneColis3D=new AffichageColisDynamique(fenetre, listeColisMod, listeColisTab);
 		// Le premier colis de la liste que l'on affiche
-	//	zoneColis3D.Initialisation(premierColisAAfficher);
+		zoneColis3D.Initialisation(premierColisAAfficher);
 		// Ecoute de la souris par rapport au tableau
 		listeColisTab.addMouseListener(zoneColis3D);
 
