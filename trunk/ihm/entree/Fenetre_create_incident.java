@@ -157,7 +157,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			//enregistrement dans la BDD
 			
 			AccesBDDIncident test=new AccesBDDIncident();
-			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE));
+			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE), new Integer(0));
 		
 				try {
 					test.ajouter(aAjouter);
@@ -184,7 +184,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			//enregistrement dans la BDD
 			
 			AccesBDDIncident test=new AccesBDDIncident();
-			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE));
+			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE),new Integer(0));
 		
 				try {
 					test.ajouter(aAjouter);
