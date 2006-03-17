@@ -156,6 +156,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		listeColisTab.setAutoCreateColumnsFromModel(true);
 		listeColisTab.setOpaque(false);
 		listeColisTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		// Suppression des colonnes inutiles
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
@@ -197,14 +198,19 @@ public class CreerChargement extends JFrame implements ActionListener{
 		listeChargementTab.setAutoCreateColumnsFromModel(true);
 		listeChargementTab.setOpaque(false);
 		listeChargementTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(1));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
-		//listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
+		// Suppressiondes colonnes inutiles
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(0));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
+		listeChargementTab.removeColumn(listeChargementTab.getColumnModel().getColumn(3));
+		
 		JScrollPane scrollPane_chargement = new JScrollPane(listeChargementTab);
 		listeChargementTab.setPreferredScrollableViewportSize(new Dimension(400,150));
 		scrollPane_chargement.setBounds(305,570,660,120);
