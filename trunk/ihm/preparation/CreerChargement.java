@@ -165,9 +165,10 @@ public class CreerChargement extends JFrame implements ActionListener{
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(0));
 		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
-		//listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(5));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(5));
-		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(6));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(3));
+		listeColisTab.removeColumn(listeColisTab.getColumnModel().getColumn(4));
 		
 		JScrollPane scrollPane = new JScrollPane(listeColisTab);
 		listeColisTab.setPreferredScrollableViewportSize(new Dimension(400,150));
