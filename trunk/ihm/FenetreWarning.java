@@ -10,7 +10,7 @@ public class FenetreWarning extends JDialog implements ActionListener{
 	private Bouton warning;
 	
 	public FenetreWarning(String message){
-		setTitle("Warning");
+		//setTitle("Warning");
 		setBounds(347,242,330,283);
 		setUndecorated(true);
 		FenetreType fenetre=new FenetreType("images/preparation/warning.png");
