@@ -677,8 +677,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//on déplace les objets dans la fenetre
 		select_personne.setBounds(pos_x + 575,260,160,40);
 		
-		label_dest.setBounds(pos_x + 20,380,175,15);
-		label_exp.setBounds(pos_x+470,160,150,15);
+		label_dest.setBounds(pos_x + 120,380,175,15);
+		label_exp.setBounds(pos_x+400,380,175,15);
 		donnees_dest.setVisible(false);
 		donnees_exp.setVisible(false);
 		
@@ -690,7 +690,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		//Nom du destinataire
 		nom_dest = new JTextField(15);
-		nom_dest.setBounds(pos_x + 90,407,205,20);
+		nom_dest.setBounds(pos_x + 85,407,205,20);
 		nom_dest.setFont(font);
 		contenu.add(nom_dest);
 		
@@ -702,7 +702,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		//Prénom du destinataire
 		prenom_dest = new JTextField(15);
-		prenom_dest.setBounds(pos_x + 90,432,205,20);
+		prenom_dest.setBounds(pos_x + 85,432,205,20);
 		prenom_dest.setFont(font);
 		contenu.add(prenom_dest);
 		
@@ -714,7 +714,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		//Adresse du destinataire
 		adresse_dest = new JTextField(15);
-		adresse_dest.setBounds(pos_x + 90,457,205,20);
+		adresse_dest.setBounds(pos_x + 85,457,205,20);
 		adresse_dest.setFont(font);
 		contenu.add(adresse_dest);
 		
@@ -726,7 +726,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		//CP du destinataire
 		cp_dest = new JTextField(15);
-		cp_dest.setBounds(pos_x + 90,482,205,20);
+		cp_dest.setBounds(pos_x + 85,482,205,20);
 		cp_dest.setFont(font);
 		contenu.add(cp_dest);
 		
@@ -738,7 +738,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		//Ville du destinataire
 		ville_dest = new JTextField(15);
-		ville_dest.setBounds(pos_x + 90,507,205,20);
+		ville_dest.setBounds(pos_x + 85,507,205,20);
 		ville_dest.setFont(font);
 		contenu.add(ville_dest);
 		
@@ -750,7 +750,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 		//Email du destinataire
 		email_dest = new JTextField(15);
-		email_dest.setBounds(pos_x + 90,532,205,20);
+		email_dest.setBounds(pos_x + 85,532,205,20);
 		email_dest.setFont(font);
 		contenu.add(email_dest);
 		
@@ -762,91 +762,91 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 
 		//tel du destinataire
 		tel_dest = new JTextField(15);
-		tel_dest.setBounds(pos_x + 90,557,205,20);
+		tel_dest.setBounds(pos_x + 85,557,205,20);
 		tel_dest.setFont(font);
 		contenu.add(tel_dest);
 		
 		//Label du nom de l'expéditeur
 		label_nom_exp = new JLabel("Nom :");
-		label_nom_exp.setBounds(pos_x1 + pos_x,190,50,15);
+		label_nom_exp.setBounds(pos_x +295,410,175,15);
 		label_nom_exp.setFont(font);
 		contenu.add(label_nom_exp);
 
 		//Nom de l'expéditeur
 		nom_exp = new JTextField(15);
-		nom_exp.setBounds(pos_x1 + pos_x + 40,187,100,20);
+		nom_exp.setBounds(pos_x + 360,407,205,20);
 		nom_exp.setFont(font);
 		contenu.add(nom_exp);
 		
 		//Label du prénom de l'expéditeur
 		label_prenom_exp = new JLabel("Prénom :");
-		label_prenom_exp.setBounds(pos_x1 + pos_x+150,190,60,15);
+		label_prenom_exp.setBounds(pos_x+295,435,175,15);
 		label_prenom_exp.setFont(font);
 		contenu.add(label_prenom_exp);
 
 		//Préom de l'expéditeur
 		prenom_exp = new JTextField(15);
-		prenom_exp.setBounds(pos_x1 + pos_x + 210,187,100,20);
+		prenom_exp.setBounds(pos_x + 360,432,205,20);
 		prenom_exp.setFont(font);
 		contenu.add(prenom_exp);
 		
 		//Label de l'adresse de l'expéditeur
 		label_adresse_exp= new JLabel("Adresse :");
-		label_adresse_exp.setBounds(pos_x1 + pos_x,220,60,15);
+		label_adresse_exp.setBounds(pos_x+295,460,175,15);
 		label_adresse_exp.setFont(font);
 		contenu.add(label_adresse_exp);
 
 		//Adresse de l'expéditeur
 		adresse_exp = new JTextField(15);
-		adresse_exp.setBounds(pos_x1 + pos_x + 60,217,250,20);
+		adresse_exp.setBounds(pos_x + 360,457,205,20);
 		adresse_exp.setFont(font);
 		contenu.add(adresse_exp);
 		
 		//Label du cp de l'expéditeur
-		label_cp_exp= new JLabel("Code Postal :");
-		label_cp_exp.setBounds(pos_x1 + pos_x,250,90,15);
+		label_cp_exp= new JLabel("CP:");
+		label_cp_exp.setBounds(pos_x+295,485,175,15);
 		label_cp_exp.setFont(font);
 		contenu.add(label_cp_exp);
 
 		//Cp de l'expéditeur
 		cp_exp = new JTextField(15);
-		cp_exp.setBounds(pos_x1 + pos_x + 80,247,60,20);
+		cp_exp.setBounds(pos_x + 360,482,205,20);
 		cp_exp.setFont(font);
 		contenu.add(cp_exp);
 		
 		//Label de la ville de l'expéditeur
-		label_ville_exp= new JLabel(" Ville :");
-		label_ville_exp.setBounds(pos_x1 + pos_x+150,250,60,15);
+		label_ville_exp= new JLabel("Ville :");
+		label_ville_exp.setBounds(pos_x+295,510,175,15);
 		label_ville_exp.setFont(font);
 		contenu.add(label_ville_exp);
 	
 		//Ville de l'expéditeur
 		ville_exp = new JTextField(15);
-		ville_exp.setBounds(pos_x1 + pos_x + 190,247,120,20);
+		ville_exp.setBounds(pos_x + 360,507,205,20);
 		ville_exp.setFont(font);
 		contenu.add(ville_exp);
 		
 		//Label de l'email de l'expéditeur
 		label_email_exp= new JLabel("Email :");
-		label_email_exp.setBounds(pos_x1 + pos_x,280,60,15);
+		label_email_exp.setBounds(pos_x + 295,535,175,15);
 		label_email_exp.setFont(font);
 		contenu.add(label_email_exp);
 		
 		//Email de l'expéditeur
 		email_exp = new JTextField(15);
-		email_exp.setBounds(pos_x1 + pos_x + 40,277,270,20);
+		email_exp.setBounds(pos_x + 360,532,205,20);
 		email_exp.setFont(font);
 		contenu.add(email_exp);
 		
 		//Label du tel de l'expéditeur
-		label_tel_exp= new JLabel("Telephone :");
-		label_tel_exp.setBounds(pos_x1 + pos_x,310,80,15);
+		label_tel_exp= new JLabel("Tel :");
+		label_tel_exp.setBounds(pos_x +295,560,175,15);
 		label_tel_exp.setFont(font);
 		contenu.add(label_tel_exp);
 		
 		//Tel de l'expéditeur
 		tel_exp= new JTextField(15);
-		tel_exp.setBounds(pos_x1 + pos_x + 70,307,100,20);
+		tel_exp.setBounds(pos_x + 360,557,205,20);
 		tel_exp.setFont(font);
 		contenu.add(tel_exp);
 		
@@ -1028,6 +1028,14 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		largeur.setEnabled(true);
 		profondeur.setEnabled(true);
 		poids.setEnabled(true);
+		modele_colis.setSelectedIndex(modelecolis.getModele().intValue());
+		forme_colis.setSelectedIndex(modelecolis.getForme().intValue());
+		poids.setText(col.getPoids().toString());
+		largeur.setText(modelecolis.getLargeur().toString());
+		hauteur.setText(modelecolis.getHauteur().toString());
+		profondeur.setText(modelecolis.getProfondeur().toString());
+		date_envoie.setText(col.getDate().toLocaleString());
+		
 		
 		
 	}
@@ -1443,11 +1451,11 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				try{
 					new Integer(cp_dest.getText().trim());
 					try{
-						new Integer(hauteur.getText().trim());
+						new Float(hauteur.getText().trim());
 						try{
-							new Integer(largeur.getText().trim());
+							new Float(largeur.getText().trim());
 							try{
-								new Integer(profondeur.getText().trim());
+								new Float(profondeur.getText().trim());
 											
 							}				
 							catch(Exception e){

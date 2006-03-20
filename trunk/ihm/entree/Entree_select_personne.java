@@ -1,5 +1,6 @@
 package ihm.entree;
 
+import ihm.FenetreType;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
@@ -34,7 +35,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 	private JTable table;
 	private ModeleTable modeleTab;
 	private TableSorter sorter;
-	private Container contenu ;
+	private FenetreType contenu;
 	private int ligneActive;
 	private JButton ajout_exp,ajout_dest,fermer;
 	private Entree_Fenetre_colis fenetre1;
@@ -46,20 +47,27 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 	public Entree_select_personne(Entree_Fenetre_colis fenetre)
 	{
 		fenetre1=fenetre;
-		contenu = getContentPane();
+
+		
+		setTitle("Sélection d'un expéditeur et/ou destinataire");
+		//setBounds(100,100,800,500);
+		
+		setUndecorated(true); //on enleve la barre en haut
+		//setTitle(u.getPersonne().getNom() +" "+ u.getPersonne().getPrenom()  + " - Entrée");
+		setSize(700,527); // on définit la taille de la fenetre
+		contenu=new FenetreType("images/entree/bg_packentrée2.png");
+		
+		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
-		setTitle("Sélection d'un expéditeur et/ou destinataire");
-		setBounds(100,100,800,500);
-		
 		style_recherche = new JComboBox(recherche);
-		style_recherche.setBounds(20,20,100,20);
+		style_recherche.setBounds(20,45,100,20);
 		contenu.add(style_recherche);
 		style_recherche.addItemListener(this);
 		
 		donnees_recherche = new JTextField(15);
-		donnees_recherche.setBounds(130,20,120,20);
+		donnees_recherche.setBounds(130,45,120,20);
 		contenu.add(donnees_recherche);
 		
 		rechercher = new JButton("Rechercher");
@@ -140,6 +148,9 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		fermer.addActionListener(this);
    
 		donnees_recherche.setEnabled(false);
+		
+		contenu.validate();
+		repaint();
 		
 	}
 	
