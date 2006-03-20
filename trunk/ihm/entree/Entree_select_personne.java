@@ -53,9 +53,10 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		setTitle("Sélection d'un expéditeur et/ou destinataire");
 		//setBounds(100,100,800,500);
 		
-		setUndecorated(true); //on enleve la barre en haut
+		//setUndecorated(true); //on enleve la barre en haut
 		//setTitle(u.getPersonne().getNom() +" "+ u.getPersonne().getPrenom()  + " - Entrée");
-		setSize(700,527); // on définit la taille de la fenetre
+		//setSize(700,527); // on définit la taille de la fenetre
+		setBounds(150,120,710,560);
 		contenu=new FenetreType("images/entree/bg_packentrée2.png");
 		
 		setContentPane(contenu);

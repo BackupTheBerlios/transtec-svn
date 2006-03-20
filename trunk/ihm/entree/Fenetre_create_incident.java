@@ -1,5 +1,8 @@
 package ihm.entree;
 
+import ihm.Bouton;
+import ihm.FenetreType;
+
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -39,41 +42,41 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		//création graphique
 		//DateFormat dfs = DateFormat.getDateInstance(DateFormat.SHORT, Locale.FRANCE);
 		fenetre1 = fenetre;
+		setBounds(250,200,530,320);// on définit la taille de la fenetre
+		setTitle("Création d'un incident"); 
+		contenu=new FenetreType("images/entree/bg_packentrée3.png");
 		
-		setTitle("Création d'un incident");
-		setBounds(292,200,370,360);
-		
-		contenu = getContentPane();
+		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
 		numero_colis = new JLabel("Numéro du colis :");
-		numero_colis.setBounds(50,10,120,10);
+		numero_colis.setBounds(40,50,120,10);
 		contenu.add(numero_colis);
 		
 		code_barre = new JTextField(15);
-		code_barre.setBounds(175,7,130,20);
+		code_barre.setBounds(165,47,135,20);
 		code_barre.setText(col.getCode_barre());
 		code_barre.setEnabled(false);
 		contenu.add(code_barre);
 		
 		label_utilisateur = new JLabel("Utilisateur :");
-		label_utilisateur.setBounds(50,40,120,10);
+		label_utilisateur.setBounds(40,80,120,10);
 		contenu.add(label_utilisateur);
 		
 		utilisateur = new JTextField(15);
-		utilisateur.setBounds(175,37,130,20);
+		utilisateur.setBounds(165,77,135,20);
 		utilisateur.setText(utilis.getPersonne().getNom());
 		utilisateur.setEnabled(false);
 		contenu.add(utilisateur);
 		
 		label_date = new JLabel("Date de l'incident :");
-		label_date.setBounds(50,70,120,10);
+		label_date.setBounds(40,110,120,10);
 		contenu.add(label_date);
 		
 		
 		date = new JTextField(15);
-		date.setBounds(175,67,130,20);
+		date.setBounds(165,107,135,20);
 		date.setText(new Timestamp(System.currentTimeMillis()).toLocaleString());
 		//date.setText(dfs.format(new Date()));
 		date.setEnabled(false);
@@ -81,30 +84,30 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		
 		
 		description_incident = new JLabel("Description de l'incident :");
-		description_incident.setBounds(105,100,180,15);
+		description_incident.setBounds(95,140,180,15);
 		contenu.add(description_incident);
 		
 		donnees_description = new JTextArea();
 		donnees_description.setColumns(25);
 		donnees_description.setRows(6);
-		donnees_description.setBounds(50,120,250,100);
+		donnees_description.setBounds(40,160,255,100);
 		donnees_description.setLineWrap(true);
 		
 		donnees_description.setWrapStyleWord(true);
 		contenu.add(donnees_description);
 		
-		valider_incident = new JButton("Envoyer en zone d'expertise");
-		valider_incident.setBounds(75,230,200,25);
+		valider_incident = new Bouton("images/entree/bouton_zone_expertise.png","images/entree/bouton_zone_expertise_appuyer.png");
+		valider_incident.setBounds(325,50,185,45);
 		contenu.add(valider_incident);
 		valider_incident.addActionListener(this);
 		
-		envoie_stockage = new JButton("Envoyer en zone de stockage");
-		envoie_stockage.setBounds(75,260,200,25);
+		envoie_stockage = new Bouton("images/entree/bouton_zone_stockage.png","images/entree/bouton_zone_stockage_appuyer.png");
+		envoie_stockage.setBounds(325,110,185,40);
 		contenu.add(envoie_stockage);
 		envoie_stockage.addActionListener(this);
 		
-		annuler_incident = new JButton("Annuler");
-		annuler_incident.setBounds(125,290,100,25);
+		annuler_incident = new Bouton("images/entree/bouton_annuler.png","images/entree/bouton_annuler_appuyer.png");
+		annuler_incident.setBounds(300,170,185,40);
 		contenu.add(annuler_incident);
 		annuler_incident.addActionListener(this);
 		
@@ -114,12 +117,12 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			setTitle("Informations sur l'incident");
 			envoie_stockage.setVisible(false);
 			donnees_description.setEnabled(false);
-			annuler_incident.setText("Ok");
+			//annuler_incident.setText("Ok");
 			valider_incident.setVisible(false);
-			annuler_incident.setBounds(125,240,100,25);
+			annuler_incident.setBounds(325,50,185,45);
 			date.setText(incident.getDate().toLocaleString());
 			donnees_description.setText(incident.getDescription());
-			setBounds(292,200,370,310);
+			//setBounds(292,200,370,310);
 			AccesBDDUtilisateur test=new AccesBDDUtilisateur();
 			try{
 				utilis = test.rechercher(incident.getUtilisateur().getId());
@@ -134,9 +137,9 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		//Lors de la création d'un incident automatique
 		if (inc_auto == true){
 			envoie_stockage.setVisible(false);
-			valider_incident.setText("Créer l'incident");
-			setBounds(292,200,370,335);
-			annuler_incident.setBounds(125,265,100,25);
+			//valider_incident.setText("Créer l'incident");
+			//setBounds(292,200,370,335);
+			annuler_incident.setBounds(300,110,185,40);
 			
 		}
 		
@@ -209,7 +212,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	
 	}
 	
-	private Container contenu;
+	private FenetreType contenu;
 	private JLabel label_date,numero_colis,label_utilisateur,description_incident;
 	private JButton envoie_stockage,valider_incident,annuler_incident;
 	private JTextField date,code_barre,utilisateur;
