@@ -1,5 +1,6 @@
 package ihm.entree;
 
+import ihm.Bouton;
 import ihm.FenetreType;
 import ihm.ModeleTable;
 import ihm.TableSorter;
@@ -70,9 +71,10 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		donnees_recherche.setBounds(130,45,120,20);
 		contenu.add(donnees_recherche);
 		
-		rechercher = new JButton("Rechercher");
+		rechercher = new Bouton("images/entree/bouton_rechercher.png","images/entree/bouton_rechercher_appuyer.png");
+		//rechercher = new JButton("Rechercher");
 		contenu.add(rechercher);
-		rechercher.setBounds(260,20,150,20);
+		rechercher.setBounds(260,40,150,35);
 		rechercher.addActionListener(this);
 		
 		
@@ -123,7 +125,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		table.setPreferredScrollableViewportSize(new Dimension(760,400));
 
 		// On place le tableau
-		scrollPane.setBounds(20,60,760,350);
+		scrollPane.setBounds(20,80,660,320);
 
 		// On définit le tableau transparent
 		scrollPane.setOpaque(false);
@@ -132,18 +134,18 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		// On ajoute le tableau au Panneau principal
 		contenu.add(scrollPane);
         
-		ajout_exp = new JButton("Ajouter l'expéditeur");
-		ajout_exp.setBounds(300,420,180,25);
+		ajout_exp = new Bouton("images/entree/bouton_ajout_expéditeur.png","images/entree/bouton_ajout_expéditeur_appuyer.png");
+		ajout_exp.setBounds(270,470,180,40);
 		contenu.add(ajout_exp);
 		ajout_exp.addActionListener(this);
 		
-		ajout_dest = new JButton("Ajouter le destinataire");
-		ajout_dest.setBounds(50,420,180,25);
+		ajout_dest = new Bouton("images/entree/bouton_ajout_destinataire.png","images/entree/bouton_ajout_destinataire_appuyer.png");
+		ajout_dest.setBounds(20,470,180,40);
 		contenu.add(ajout_dest);
 		ajout_dest.addActionListener(this);
 		
-		fermer= new JButton("Fermer");
-		fermer.setBounds(550,420,180,25);
+		fermer= new Bouton("images/entree/bouton_fermer.png","images/entree/bouton_fermer_appuyer.png");
+		fermer.setBounds(520,470,180,40);
 		contenu.add(fermer);
 		fermer.addActionListener(this);
    

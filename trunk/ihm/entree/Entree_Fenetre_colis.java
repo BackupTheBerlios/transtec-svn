@@ -142,7 +142,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 		//Choix de la fragilité du colis
 		fragilite_colis = new JComboBox(fragilite);
-		fragilite_colis.setBounds(pos_x + 390,257,150,20);
+		fragilite_colis.setBounds(pos_x + 390,257,175,20);
 		fragilite_colis.setFont(font);
 		contenu.add(fragilite_colis);
 		fragilite_colis.setEnabled(false);
