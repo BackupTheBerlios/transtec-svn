@@ -1,5 +1,6 @@
 package ihm.preparation;
 
+//import OffScreenCanvas3D;
 import ihm.Bouton;
 import ihm.FenetreType;
 import ihm.ModeleTable;
@@ -8,6 +9,7 @@ import ihm.TableSorter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -346,7 +348,34 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    		this.utilisateur,
 	    		new Timestamp(System.currentTimeMillis()),
 	    		codeBarre);
-		setVisible(true);
+	    
+	    /*********************** Zone de test pour capture image ************/
+	    OffScreenCanvas3D offScreenCanvas = null;
+	    offScreenCanvas = new OffScreenCanvas3D(camion3D);
+	    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
+	    
+	    File imageFile = new File("image.png");
+
+	    // Dimension (en pixels) de l'image a sauvegarder dans le fichier
+	    Dimension dim = new Dimension(512, 512);
+
+	    // On recupere l'image (pixmap) rendue par le canvas 3D offscreen
+	    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
+
+	    // On recupere le contexte graphique de l'image finale de sortie
+	    Graphics2D gc = image.createGraphics();
+	    gc.drawImage(image, 0, 0, null);
+
+	    // Sauvegarde de l'image dans un fichier au format PNG
+	    try {
+	      ImageIO.write(image, "png", imageFile);
+	    }
+	    catch (IOException ex) {
+	      System.out.println("Impossible de sauvegarder l'image");
+	    }
+	    
+	    /*********************** Fin de sone de test ***********************/
+	    setVisible(true);
 	}
 		
 	public void actionPerformed(ActionEvent ev) {
