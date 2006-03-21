@@ -1,64 +1,64 @@
 package ihm.preparation;
+import java.awt.*;
+import java.awt.image.*;
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import javax.media.j3d.*;
 
-import javax.imageio.ImageIO;
-import javax.media.j3d.Canvas3D;
-import javax.media.j3d.ImageComponent;
-import javax.media.j3d.ImageComponent2D;
-import javax.media.j3d.Screen3D;
+/**
+ *
+ * <p>Fichier : OffScreenCanvas3D.java</p>
+ * <p>Description :</p>
+ * Cette classe permet de rendre une image 3D dans un canvas 3D offscreen a
+ * partir d'un canvas 3D onscreen.
+ * Un canvas 3D offscreen permet ensuite de recuperer l'image 3D afin de la
+ * sauvegarder en PNG ou JPEG par exemple ou de l'imprimer.
+ * <p>Copyright : Copyright (c) 04/2004</p>
+ * <p>Company :</p>
+ * @author A. MARI
+ * @version 1.0
+ */
+public class OffScreenCanvas3D extends Canvas3D {
 
-public class OffScreenCanvas3D extends Canvas3D{
-	//private boolean offscreen;
-	private Screen3D onScreen, offScreen;
-	public OffScreenCanvas3D(Canvas3D onScreenCanvas3D) {
-	    super(onScreenCanvas3D.getGraphicsConfiguration(), true);
+  private Screen3D onScreen = null;
+  private Screen3D offScreen = null;
 
-	    // On regle le screen 3D (offscreen) a la taille du screen 3D (onscreen)
-	    onScreen = onScreenCanvas3D.getScreen3D();
-	    offScreen = this.getScreen3D();
-	    offScreen.setSize(onScreen.getSize());
-	    offScreen.setPhysicalScreenWidth(onScreen.getPhysicalScreenWidth());
-	    offScreen.setPhysicalScreenHeight(onScreen.getPhysicalScreenHeight());
-	    
-//		 Dimension (en pixels) de l'image a mettre dans le presse-papiers
-		Dimension dim = new Dimension(660, 300);
+  /**
+   * Construit un canvas 3D offscreen a partir d'un canvas 3D onscreen
+   * @param onScreenCanvas3D canvas 3D onscreen
+   */
+  public OffScreenCanvas3D(Canvas3D onScreenCanvas3D) {
+    super(onScreenCanvas3D.getGraphicsConfiguration(), true);
 
-//		 On recupere l'image (pixmap) rendue par le canvas 3D offscreen
-		BufferedImage image = getOffScreenImage(dim);
-		
-		
-		
-		
-		// Fichier
-		File imageFile = new File("image.png");
-		
-		Graphics2D gc = image.createGraphics();
-		gc.drawImage(image, 0, 0, null);
-		
-		try {
-		    ImageIO.write(image, "png", imageFile);
-		}
-		catch (IOException ex) {
-		    System.out.println("Impossible de sauvegarder l'image");
-		}
-	}
-	
-	public BufferedImage getOffScreenImage(Dimension dim){
-		BufferedImage bImage = new BufferedImage(dim.width, dim.height,
-				BufferedImage.TYPE_INT_ARGB);
-				ImageComponent2D buffer = new ImageComponent2D(ImageComponent.FORMAT_RGBA, bImage);
-				buffer.setCapability(ImageComponent2D.ALLOW_IMAGE_READ);
-				
-		setOffScreenBuffer(buffer);
-		//renderOffScreenBuffer();
-		waitForOffScreenRendering();
-		bImage = getOffScreenBuffer().getImage();
-		bImage = getOffScreenBuffer().getImage();
-		return bImage;
-	}
+    // On regle le screen 3D (offscreen) a la taille du screen 3D (onscreen)
+    onScreen = onScreenCanvas3D.getScreen3D();
+    offScreen = this.getScreen3D();
+    offScreen.setSize(onScreen.getSize());
+    offScreen.setPhysicalScreenWidth(onScreen.getPhysicalScreenWidth());
+    offScreen.setPhysicalScreenHeight(onScreen.getPhysicalScreenHeight());
+  }
+
+  /**
+   * Recupere l'image 3D affichee dans le canvas 3D onscreen, en l'affichant
+   * dans une canvas 3D offscreen
+   * et en la redimensionnant a la dimension dim
+   * @param dim dimension de l'image que l'on recupere
+   * @return image qui est affichee dans le canvas 3D (onscreen)
+   */
+  public BufferedImage getOffScreenImage(Dimension dim) {
+    // Creation de l'image BufferedImage que l'on va recuperer
+    BufferedImage bImage =
+        new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_ARGB);
+    ImageComponent2D buffer =
+        new ImageComponent2D(ImageComponent.FORMAT_RGBA, bImage);
+    buffer.setCapability(ImageComponent2D.ALLOW_IMAGE_READ);
+
+    // On copie le canvas 3D onscreen dans le canvas 3D offscreen, et on
+    // recupere l'image dans bImage
+    setOffScreenBuffer(buffer);
+    renderOffScreenBuffer();
+    waitForOffScreenRendering();
+    bImage = getOffScreenBuffer().getImage();
+
+    return bImage;
+  }
 }

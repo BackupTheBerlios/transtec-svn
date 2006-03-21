@@ -351,6 +351,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    
 	    /*********************** Zone de test pour capture image ************/
 	    OffScreenCanvas3D offScreenCanvas = null;
+	    
 	    offScreenCanvas = new OffScreenCanvas3D(camion3D);
 	    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
 	    
