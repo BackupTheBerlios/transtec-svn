@@ -13,8 +13,10 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Random;
@@ -28,7 +30,6 @@ import javax.media.j3d.BoundingBox;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.Material;
 import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.QuadArray;
 import javax.media.j3d.Shape3D;
@@ -54,6 +55,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDPlan;
 import accesBDD.AccesBDDPreparation;
 import donnees.Camion;
 import donnees.Chargement;
@@ -412,13 +414,43 @@ public class CreerChargement extends JFrame implements ActionListener{
 			    Graphics2D gc = image.createGraphics();
 			    gc.drawImage(image, 0, 0, null);
 
+			    // ------>Il faut sauvegarder ds la BDD
 			    // Sauvegarde de l'image dans un fichier au format PNG
+			    int[] pix = new int[image.getWidth(null) * image.getHeight(null)];
+				PixelGrabber pg = new PixelGrabber(image, 0, 0, image.getWidth(this), image.getHeight(this), pix, 0, image.getWidth(this));
+				try {
+					pg.grabPixels();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(pix.length);
+				
+				byte[] pixels = new byte[image.getWidth(this) * image.getHeight(this)];
+				for(int j=0;j<pix.length;j++){
+					pixels[j] = new Integer(pix[j]).byteValue();
+				}
+			   Blob vues[]=new Blob[6];
+			   try {
+				vues[0].setBytes(0, pixels);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				new AccesBDDPlan().ajouter(new Integer(2), vues);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			  /* //File f=new File();
 			    try {
 			      ImageIO.write(image, "png", imageFile);
 			    }
 			    catch (IOException ex) {
 			      System.out.println("Impossible de sauvegarder l'image");
-			    }
+			    }*/
 			    
 			    // On ferme la fenêtre
 			//}

@@ -269,7 +269,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				// Création du plan de chargement
 				else if(source==this.genererPlan){
 					dispose();
-					new PlanChargement(this.utilisateur,(Integer)((Vector)tableMod.getRow(ligneActive)).get(11)).setVisible(true);
+					new PlanChargement(this.utilisateur,/*(Integer)((Vector)tableMod.getRow(ligneActive)).get(11)*/new Integer(2)).setVisible(true);
 				}
 					
 				// Imprimer une étiquette
