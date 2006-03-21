@@ -78,6 +78,10 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private Vector dimension_colis = new Vector();
 	private int numero=0;
 	private SimpleUniverse simpleU;
+	private float benne_prof;
+	private float benne_haut;
+	private float benne_larg;
+	
 		
 	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion/*, Integer idPreparation*/) {
 		// Création graphique de la fenêtre
@@ -558,7 +562,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    }
 	    
 	    //Déplacement du colis
-	    deplacement=new deplacementColis(ajouter,0.9f, 0.3f, 0.5f,dimension_colis);
+	    deplacement=new deplacementColis(ajouter,benne_prof, benne_haut, benne_larg,dimension_colis);
 	    deplacement.objetADeplacer(objSpin3,translation,b);
 	    
 	    //Construction du cube
@@ -587,9 +591,10 @@ public class CreerChargement extends JFrame implements ActionListener{
 			tmp_largeur/=1.1f;
 			this.echelle*=1.1f;
 		}
-		tmp_largeur/=2;
-		tmp_hauteur/=2;
-		tmp_profondeur/=2;
+		
+		benne_prof = tmp_largeur/=2;
+		benne_haut = tmp_hauteur/=2;
+		benne_larg = tmp_profondeur/=2;
 		
 		// Face 1
 		benne[0]=new Point3f(-tmp_largeur, -tmp_hauteur, -tmp_profondeur);

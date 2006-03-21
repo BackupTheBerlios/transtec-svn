@@ -50,25 +50,25 @@ public class deplacementColis implements KeyListener{
 		if(this.objSpin3!=null || this.translation!=null){
 			
 			if (e.getKeyChar()== 'a') {
-				yloc = -0.3f+haut;
+				yloc = (-benne_haut)+haut;
 				xloc = xloc + .01f;
 				Verif_Benne();
 				Cherch_haut();
 			}
 			if (e.getKeyChar()== 's') {
-				yloc = -0.3f+haut;
+				yloc = (-benne_haut)+haut;
 				xloc = xloc - .01f;
 				Verif_Benne();
 				Cherch_haut();
 			}
 			if (e.getKeyChar()=='f') {
-				yloc = -0.3f+haut;
+				yloc = (-benne_haut)+haut;
 				zloc = zloc + .01f;
 				Verif_Benne();
 				Cherch_haut();
 			}
 			if (e.getKeyChar()=='e') {
-				yloc = -0.3f+haut;
+				yloc = (-benne_haut)+haut;
 				zloc = zloc - .01f;
 				Verif_Benne();
 				Cherch_haut();
