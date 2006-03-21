@@ -77,6 +77,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private int ligneActive;
 	private Vector dimension_colis = new Vector();
 	private int numero=0;
+	private SimpleUniverse simpleU;
 		
 	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion/*, Integer idPreparation*/) {
 		// Création graphique de la fenêtre
@@ -229,7 +230,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    
 	    
 	    // Creation d'un objet SimpleUniverse
-	    SimpleUniverse simpleU = new SimpleUniverse(camion3D);
+	    simpleU = new SimpleUniverse(camion3D);
 	    
 	    // Positionnement du point d'observation pour avoir une vue correcte de la scene 3D
 	    simpleU.getViewingPlatform().setNominalViewingTransform();
@@ -349,33 +350,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    		new Timestamp(System.currentTimeMillis()),
 	    		codeBarre);
 	    
-	    /*********************** Zone de test pour capture image ************/
-	    OffScreenCanvas3D offScreenCanvas = null;
-	    
-	    offScreenCanvas = new OffScreenCanvas3D(camion3D);
-	    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
-	    
-	    File imageFile = new File("image.png");
-
-	    // Dimension (en pixels) de l'image a sauvegarder dans le fichier
-	    Dimension dim = new Dimension(512, 512);
-
-	    // On recupere l'image (pixmap) rendue par le canvas 3D offscreen
-	    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
-
-	    // On recupere le contexte graphique de l'image finale de sortie
-	    Graphics2D gc = image.createGraphics();
-	    gc.drawImage(image, 0, 0, null);
-
-	    // Sauvegarde de l'image dans un fichier au format PNG
-	    try {
-	      ImageIO.write(image, "png", imageFile);
-	    }
-	    catch (IOException ex) {
-	      System.out.println("Impossible de sauvegarder l'image");
-	    }
-	    
-	    /*********************** Fin de sone de test ***********************/
 	    setVisible(true);
 	}
 		
@@ -412,8 +386,37 @@ public class CreerChargement extends JFrame implements ActionListener{
 				catch(SQLException e){
 					
 				}
-				dispose();
+				
+				// On réaffiche la fenêtre principale
 				new FenetrePrincipale(this.utilisateur).setVisible(true);
+				
+				// Sauvegarde des vues du camions pour le plan de chargement
+				OffScreenCanvas3D offScreenCanvas = null;
+			    
+			    offScreenCanvas = new OffScreenCanvas3D(camion3D);
+			    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
+			    
+			    File imageFile = new File("image.png");
+
+			    // Dimension (en pixels) de l'image a sauvegarder dans le fichier
+			    Dimension dim = new Dimension(512, 512);
+
+			    // On recupere l'image (pixmap) rendue par le canvas 3D offscreen
+			    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
+
+			    // On recupere le contexte graphique de l'image finale de sortie
+			    Graphics2D gc = image.createGraphics();
+			    gc.drawImage(image, 0, 0, null);
+
+			    // Sauvegarde de l'image dans un fichier au format PNG
+			    try {
+			      ImageIO.write(image, "png", imageFile);
+			    }
+			    catch (IOException ex) {
+			      System.out.println("Impossible de sauvegarder l'image");
+			    }
+			    
+			    // On ferme la fenêtre
 			//}
 			//fenValide.fermer();
 		}
