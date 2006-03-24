@@ -1,6 +1,5 @@
 package ihm;
 
-import java.awt.FlowLayout;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JDialog;
