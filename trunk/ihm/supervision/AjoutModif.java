@@ -11,8 +11,8 @@ import java.awt.*;
 public class AjoutModif extends JFrame{
 	
 	protected JTextField textWarning = new JTextField(15);
-	protected Bouton boutAjouter = new Bouton("images/supervision/bouton_ajouter.png","images/supervision/bouton_ajouter_appuyer.png");
-	protected Bouton boutModifier = new Bouton("images/supervision/bouton_modifier.png","images/supervision/bouton_modifier_appuyer.png");
+	protected Bouton boutAjouter = new Bouton("images/supervision/bouton_valider.png","images/supervision/bouton_valider_appuyer.png");
+	protected Bouton boutModifier = new Bouton("images/supervision/bouton_valider.png","images/supervision/bouton_valider_appuyer.png");
 	protected Bouton boutAnnuler = new Bouton("images/supervision/bouton_annuler.png","images/supervision/bouton_annuler_appuyer.png");
 	protected JPanel panneauBoutons = new JPanel(new GridLayout(1,2,15,15));
 	protected JPanel panneauWarning = new JPanel(new GridLayout(1,1,5,5));

@@ -43,19 +43,19 @@ public class Onglet extends JPanel{
 		boutUpdate = new Bouton("images/supervision/bouton_actualiser.png","images/supervision/bouton_actualiser_appuyer.png");
 	
 		// Bouton Ajouter
-		boutAjouter.setBounds(770,60,111,50);
+		boutAjouter.setBounds(770,60,165,41);
 		add(boutAjouter);
 
 		// Bouton Modifier
-		boutModifier.setBounds(770,130,114,43);
+		boutModifier.setBounds(770,130,165,41);
 		add(boutModifier);
 
 		// Bouton Supprimer
-		boutSupprimer.setBounds(770,193,111,50);
+		boutSupprimer.setBounds(770,193,165,41);
 		add(boutSupprimer);
 		
 		// Bouton Mettre à jour
-		boutUpdate.setBounds(770,263,111,50);
+		boutUpdate.setBounds(770,263,165,41);
 		add(boutUpdate);
 	}
 	

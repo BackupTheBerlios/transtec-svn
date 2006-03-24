@@ -19,7 +19,7 @@ public class Camion implements Comparable {
 	public final static int REPARATION = 1;
 	public final static int LIVRAISON = 2;
 
-	// Constructeur avec tous les paramètres
+	// Constructeur avec tous les paramètres sauf le volume
 	public Camion(Integer id, String numero, Integer disponibilite,
 			Float largeur, Float hauteur, Float profondeur, Entrepot origine, Entrepot destination) {
 		this.id = id;
@@ -29,12 +29,12 @@ public class Camion implements Comparable {
 		this.hauteur=hauteur;
 		this.profondeur=profondeur;
 		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());
+		this.volumeDispo=this.volume;
 		this.origine = origine;
 		this.destination = destination;
-		this.volumeDispo=this.volume;
 	}
 	
-	// Constructeur avec tous les paramètres même volume
+	// Constructeur avec tous les paramètres, volume compris
 	public Camion(Integer id, String numero, Integer disponibilite,
 			Float largeur, Float hauteur, Float profondeur, Float volume, Float volumeDispo, Entrepot origine, Entrepot destination) {
 		this.id = id;
@@ -97,7 +97,7 @@ public class Camion implements Comparable {
 		v.add(hauteur);
 		v.add(profondeur);
 		v.add(volume);
-		v.add(this.volumeDispo);
+		v.add(volumeDispo);
 		v.add(origine);
 		v.add(destination);
 
@@ -139,8 +139,13 @@ public class Camion implements Comparable {
 	// ----- Insérer le volume du camion -----//
 	public void setVolume(Float volume) {
 		this.volume = volume;
-	}	
-
+	}
+	
+	// ----- Insérer le volume disponible dans le camion -----//
+	public void setVolumeDispo(Float volumeDispo) {
+		this.volumeDispo = volumeDispo;
+	}
+	
 	// ----- Insérer l'entrepôt de destination -----//
 	public void setDestination(Entrepot destination) {
 		this.destination = destination;
@@ -173,6 +178,11 @@ public class Camion implements Comparable {
 		return this.volume;
 	}
 
+	// ----- Récupération du volume du camion -----//
+	public Float getVolumeDispo() {
+		return this.volumeDispo;
+	}
+
 	// ----- Récupération de l'entrepôt de destination -----//
 	public Entrepot getDestination() {
 		return this.destination;
@@ -183,26 +193,21 @@ public class Camion implements Comparable {
 		return this.origine;
 	}
 	
-	//----- Récupération de la hauteur du camion -----//
+	// ----- Récupération de la hauteur du camion -----//
 	public Float getHauteur(){
 		return this.hauteur;
 	}
 	
-	//	----- Récupération de la largeur du camion -----//
+	// ----- Récupération de la largeur du camion -----//
 	public Float getLargeur(){
 		return this.largeur;
 	}
 	
-	//	----- Récupération de la profondeur du camion -----//
+	// ----- Récupération de la profondeur du camion -----//
 	public Float getProfondeur(){
 		return this.profondeur;
 	}
 	
-	//----- Récupération du volume disponible dans le camion -----//
-	public Float getVolumeDispo(){
-		return this.volumeDispo;
-	}
-
 	/****** Méthode de calcul interne ******/
 	public void calculerVolume(){
 		this.volume = new Float(largeur.floatValue()*hauteur.floatValue()*profondeur.floatValue());

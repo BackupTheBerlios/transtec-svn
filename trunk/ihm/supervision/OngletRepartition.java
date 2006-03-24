@@ -91,23 +91,23 @@ public class OngletRepartition extends JPanel implements ActionListener{
 		panBoutons.setLayout(null);
 
 		// Bouton Retour
-		boutRetour.setBounds(10,280,65,50);
+		boutRetour.setBounds(15,280,65,50);
 		boutRetour.addActionListener(this);
 		boutRetour.setVisible(false);
 		panBoutons.add(boutRetour);
 
 		// Bouton Suite
-		boutSuite.setBounds(100,280,65,50);
+		boutSuite.setBounds(93,280,65,50);
 		boutSuite.addActionListener(this);
 		panBoutons.add(boutSuite);
 		
 		// Bouton de mise à jour
-		boutUpdate.setBounds(10,20,111,50);
+		boutUpdate.setBounds(21,23,165,41);
 		boutUpdate.addActionListener(this);
 		panBoutons.add(boutUpdate);
 		
 		// Bouton de publication
-		boutPublier.setBounds(10,20,111,50);
+		boutPublier.setBounds(21,23,165,41);
 		boutPublier.addActionListener(this);
 		boutPublier.setVisible(false);
 		panBoutons.add(boutPublier);

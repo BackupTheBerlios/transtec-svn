@@ -42,7 +42,7 @@ public final class PereNoel {
 					if(cCourant.getVolume().compareTo(dCourant.getVolume())<=0){
 						cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
 						cCourant.setDestination(dCourant.getEntrepot());
-						
+					
 						// On ajoute ce camion à la liste
 						ret.add(creerPrep(cCourant,dCourant));
 						

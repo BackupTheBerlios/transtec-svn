@@ -39,7 +39,7 @@ public class OngletIncident extends Onglet implements ActionListener{
 		remove(boutAjouter);
 		
 		boutAfficher = new Bouton("images/supervision/bouton_afficher.png","images/supervision/bouton_afficher_appuyer.png");
-		boutAfficher.setBounds(770,60,111,50);
+		boutAfficher.setBounds(769,60,165,41);
 		
 		add(boutAfficher);
 		

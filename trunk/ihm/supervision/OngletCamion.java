@@ -33,6 +33,7 @@ public class OngletCamion extends Onglet implements ActionListener{
 		nomColonnes.add("Hauteur");
 		nomColonnes.add("Profondeur");
 		nomColonnes.add("Volume");
+		nomColonnes.add("Volume Disponible");
 		nomColonnes.add("Origine");
 		nomColonnes.add("Destination");
 
@@ -41,6 +42,9 @@ public class OngletCamion extends Onglet implements ActionListener{
 
 		// Construction du tableau et des fonction qui lui sont associées
 		construireTableau();
+		
+		// On cache les colonnes désirées
+		table.removeColumn(table.getColumnModel().getColumn(6));
 		
 		// Bouton Ajouter
 		boutAjouter.addActionListener(this);

@@ -111,6 +111,7 @@ public class AjoutModifCamion extends AjoutModif implements ActionListener{
 		}
 
 		pack();
+		setSize(300,350);
 		setAlwaysOnTop(true);
 		setVisible(true);
 	}
@@ -166,6 +167,7 @@ public class AjoutModifCamion extends AjoutModif implements ActionListener{
 		camion.setHauteur(new Float(textHauteur.getText().trim()));
 		camion.setProfondeur(new Float(textProfondeur.getText().trim()));		
 		camion.calculerVolume();
+		camion.setVolumeDispo(camion.getVolume());
 		camion.setOrigine((Entrepot)comboOrigine.getSelectedItem());
 		camion.setDestination((Entrepot)comboDestination.getSelectedItem());
 
