@@ -41,11 +41,11 @@ public class VisionnerIncident extends JFrame implements ActionListener{
 		lDate.setFont(font);
 		lDate.setBounds(20, 70, 295, 20);
 		fenetre.add(lDate);
-		JLabel lEtat=new JLabel("Etat "+incident.constToString(incident.getEtat()));
+		JLabel lEtat=new JLabel("Etat "+Incident.constToString(incident.getEtat()));
 		lEtat.setFont(font);
 		lEtat.setBounds(20, 100, 150, 20);
 		fenetre.add(lEtat);
-		JLabel lType=new JLabel("Type "+incident.constToString(incident.getType()));
+		JLabel lType=new JLabel("Type "+Incident.constToString(incident.getType()));
 		lType.setFont(font);
 		lType.setBounds(150, 100, 150, 20);
 		fenetre.add(lType);
