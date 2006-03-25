@@ -117,6 +117,9 @@ public class OngletCamion extends Onglet implements ActionListener{
 		        // Reconstruction du tableau
 		        construireTableau();
 		        
+				// On cache les colonnes désirées
+				table.removeColumn(table.getColumnModel().getColumn(6));
+				
 		        // Mise à jour de la fenêtre
 		        updateUI();
 			}

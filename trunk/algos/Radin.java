@@ -6,10 +6,10 @@ import java.util.Vector;
 
 import donnees.Camion;
 import donnees.Destination;
-//import donnees.Preparation;
+import donnees.Preparation;
 
-//Classe permettant de répartir des camions selon des destinations en maximisant
-//la satisfaction du client
+//Classe permettant de répartir des camions selon des destinations en minimisant
+//les coûts de transport
 public final class Radin {
 
 	// Fonction de répartition des camions
@@ -25,13 +25,66 @@ public final class Radin {
 			Collections.sort(listeCamions,ORDRE_VOLUME_CAMION);
 			Collections.reverse(listeCamions);
 			
+			// On boucle sur les camions pour remplir ceux qui peuvent l'être totalement
+			for(int indiceCamions=0;indiceCamions<listeCamions.size();indiceCamions++){
+				
+				Camion cCourant = (Camion)listeCamions.get(indiceCamions);
+				
+				// On boucle sur les destinations pour le camion courant
+				for(int indiceDest=0;indiceDest<listeDestinations.size();indiceDest++){
+					Destination dCourant = (Destination)listeDestinations.get(indiceDest);
+					
+					// Si on peut remplir le camion, on le met à jour
+					if(cCourant.getVolume().compareTo(dCourant.getVolumeRestant())<=0){
+						cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
+						cCourant.setDestination(dCourant.getEntrepot());
+						cCourant.setVolumeDispo(new Float(0));
+						dCourant.setVolumeRestant(new Float(dCourant.getVolumeRestant().floatValue()-cCourant.getVolume().floatValue()));
+						
+						// On ajoute ce camion à la liste
+						ret.add(creerPrep(cCourant,dCourant));
+						
+						// Pour arrêter la boucle
+						indiceDest=listeDestinations.size();
+					}
+				}				
+			}
 			
+			// On retire les camions attribués de la liste des camions
+			for(int i=0;i<ret.size();i++){
+				listeCamions.remove(((Preparation)ret.get(i)).getCamion());
+			}
 			
+			// On retrie les listes en inversant celle des 
+			//	camions : les plus petits sont en tête
+			Collections.sort(listeDestinations,ORDRE_VOLUME_DEST);
+			Collections.sort(listeCamions,ORDRE_VOLUME_CAMION);
+			Collections.reverse(listeCamions);
 			
-			
-			
-			
-
+			// On tente de remplir les plus petits camions
+			for(int indiceCamions=0;indiceCamions<listeCamions.size();indiceCamions++){
+				
+				Camion cCourant = (Camion)listeCamions.get(indiceCamions);
+				
+				// On boucle sur les destinations pour le camion courant
+				for(int indiceDest=0;indiceDest<listeDestinations.size();indiceDest++){
+					Destination dCourant = (Destination)listeDestinations.get(indiceDest);
+					
+					// Si on peut remplir le camion, on le met à jour
+					if(cCourant.getVolume().compareTo(dCourant.getVolumeRestant())<=0){
+						cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
+						cCourant.setDestination(dCourant.getEntrepot());
+						cCourant.setVolumeDispo(new Float(0));
+						dCourant.setVolumeRestant(new Float(dCourant.getVolumeRestant().floatValue()-cCourant.getVolume().floatValue()));
+						
+						// On ajoute ce camion à la liste
+						ret.add(creerPrep(cCourant,dCourant));
+						
+						// Pour arrêter la boucle
+						indiceDest=listeDestinations.size();
+					}
+				}				
+			}
 		}
 		// Si l'une des deux listes est vide
 		else System.out.println("ERREUR\nClasse PereNoel : liste vide !");
@@ -41,7 +94,7 @@ public final class Radin {
 	}
 	
 	// Créer une préparation à partir d'un camion et d'une destination
-/*	private static Preparation creerPrep(Camion c, Destination d){
+	private static Preparation creerPrep(Camion c, Destination d){
 		Preparation p = new Preparation();
 		
 		p.setDestination(d.getEntrepot());
@@ -50,7 +103,7 @@ public final class Radin {
 		p.setCamion(c);
 		
 		return p;
-	}*/
+	}
 	
 	// Comparateur sur les Destinations, utilisant leur Volume
 	private static final Comparator ORDRE_VOLUME_DEST = new Comparator(){

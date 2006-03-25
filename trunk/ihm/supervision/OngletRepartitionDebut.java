@@ -108,6 +108,8 @@ public class OngletRepartitionDebut extends JPanel {
 		// Liste des destinations : noms des colonnes.
 		nomColonnesDestinations.add("Destination");
 		nomColonnesDestinations.add("Volume");
+		nomColonnesDestinations.add("Volume restant");
+		//nomColonnesDestinations.add("Distance");
 		
 		try{
 			// On récupère les Destinations des colis et on les affiche avec le volume correspondant
@@ -137,7 +139,8 @@ public class OngletRepartitionDebut extends JPanel {
 		tabDestinations.setAutoCreateColumnsFromModel(true);
 		tabDestinations.setOpaque(false);
 		tabDestinations.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//tabDestinations.removeColumn(tabDestinations.getColumnModel().getColumn(0));
+		tabDestinations.removeColumn(tabDestinations.getColumnModel().getColumn(2));
+		//tabDestinations.removeColumn(tabDestinations.getColumnModel().getColumn(2));
 		
 		// On place le tableau dans un ScrollPane pour qu'il soit défilable
 		scrollPaneDestinations = new JScrollPane(tabDestinations);

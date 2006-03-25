@@ -184,15 +184,12 @@ public class OngletRepartitionFin extends JPanel{
 		// On vide la liste de résultats des algorithmes pour la réutiliser
 		parent.resultatAlgos.removeAllElements();
 		
-		// On prend en compte toutes les modifications apportées aux cellules
-		//Sup_OngletRepartition.traverseAllCells(tabPreparations);
-		
 		// Extraction du contenu des lignes du tableau pour en créer des préparations
 		for(int i=0;i<modeleTabPreparations.getRowCount();i++){
 			// On extrait la ligne courante du tableau
 			v = (Vector)modeleTabPreparations.getRow(i);
 			
-			/*******/
+			/*******
 			System.out.println(v);
 			/*******/
 			
@@ -206,7 +203,7 @@ public class OngletRepartitionFin extends JPanel{
 			else if((v.get(2) instanceof Destination))
 				p.setDestination(((Destination)v.get(2)).getEntrepot());
 			p.setUtilisateur((Utilisateur)v.get(4));
-			p.setOrigine(((Camion)v.get(1)).getOrigine());
+			p.setOrigine(c.getOrigine());
 			p.setVolume((Float)v.get(3));
 			p.setCamion(c);
 			p.setId(new Integer(0));
@@ -222,12 +219,18 @@ public class OngletRepartitionFin extends JPanel{
 			}
 			
 			// On ajoute la préparation à la liste
-			//parent.resultatAlgos.add(p);
+			parent.resultatAlgos.add(p);
 		}
 		
-		/*******/
-		System.out.println(parent.resultatAlgos);
-		/*******/
+		// Ajout des préparations dans la base de données
+		for(int i=0;i<parent.resultatAlgos.size();i++){
+			try{
+				parent.tablePreparations.ajouter((Preparation)parent.resultatAlgos.get(i));
+			}
+			catch(Exception ex){
+				System.out.println(ex.getMessage());
+			}
+		}
 	}
 	
 	// Fonction permettant de vérifier que tous les champs du tableau sont renseignés
@@ -287,6 +290,7 @@ public class OngletRepartitionFin extends JPanel{
 		}
 	}
 	
+	// Classe permettant la gestion de la boite d'information
     public class SelectionListener implements ListSelectionListener {
 		JTable table;
 
@@ -294,21 +298,13 @@ public class OngletRepartitionFin extends JPanel{
 
 		Vector v;
 
-		// It is necessary to keep the table since it is not possible
-		// to determine the table from the event's source
 		SelectionListener(JTable table, ModeleTable modele) {
 			this.table = table;
 			this.modele = modele;
 		}
 
 		public void valueChanged(ListSelectionEvent e) {
-			// If cell selection is enabled, both row and column change events
-			// are fired
 			if (e.getSource() == table.getSelectionModel() && table.getRowSelectionAllowed()) {
-				// Column selection changed
-				/*int first = e.getFirstIndex();
-				int last = e.getLastIndex();	*/			
-
 				// On récupère le contenu de la ligne sélectionnée
 				v = (Vector) modele.getRow(table.getSelectedRow());
 
@@ -339,16 +335,7 @@ public class OngletRepartitionFin extends JPanel{
 				panelInfos.setTextVolReparti(((Float)v.get(3)).toString());
 				panelInfos.setTextVolTotal(sVolTotal);
 
-			}/* else if (e.getSource() == table.getColumnModel().getSelectionModel() && table.getColumnSelectionAllowed() ) {
-				// Row selection changed
-				int first = e.getFirstIndex();
-				int last = e.getLastIndex();
 			}
-
-			if (e.getValueIsAdjusting()) {
-				// The mouse button has not yet been released
-			}*/
-        }
+		}
     }
-
 }

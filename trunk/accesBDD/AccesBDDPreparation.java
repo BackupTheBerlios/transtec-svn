@@ -46,7 +46,7 @@ public class AccesBDDPreparation extends AccesBDD{
 	
 	public Integer ajouter(Preparation aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idPreparation) FROM Preparation");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -57,7 +57,7 @@ public class AccesBDDPreparation extends AccesBDD{
 		PreparedStatement ajout =connecter().prepareStatement(
 				"INSERT INTO preparation "
 				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume,ChargementEnCours,Chargement)" // Paramètre de la table
-				+ " VALUES (?,?,?,?,?,?,?)"); 
+				+ " VALUES (?,?,?,?,?,?,?,?,?)"); 
 		
 		ajout.setInt(1, aAjouter.getId().intValue());
 		ajout.setInt(2, aAjouter.getUtilisateur().getId().intValue());

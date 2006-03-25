@@ -30,7 +30,7 @@ public class Preparation {
 		this.idChargement=idChargement;
 	}
 	
-	// Constructeur utilisant tous les paramètres
+	// Constructeur utilisant tous les paramètres sauf les ID de chargements
 	public Preparation(Integer id, Utilisateur utilisateur, Entrepot origine, Entrepot destination, Float volume, Camion camion, Integer etat){
 		this.id=id;
 		this.utilisateur=utilisateur;
@@ -64,6 +64,9 @@ public class Preparation {
 	
 	// Constructeur vide
 	public Preparation(){
+		this.id=new Integer(-1);
+		this.idChargementEnCours=new Integer(0);
+		this.idChargement=new Integer(0);		
 		this.etat = new Integer(A_FAIRE);
 	}
 	

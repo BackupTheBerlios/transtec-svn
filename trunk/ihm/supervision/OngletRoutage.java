@@ -48,53 +48,62 @@ public class OngletRoutage extends Onglet implements ActionListener {
 	public void actionPerformed(ActionEvent ev) {
 		Object source = ev.getSource();
 
-		// On récupère le numéro de la ligne sélectionnée
-		int ligneSelect = table.getSelectedRow();
-
-		// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
-		if (ligneSelect != -1) {
-
-			// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
-			ligneActive = sorter.modelIndex(ligneSelect);
-
-			// Action liée au bouton de modification d'un camion
-			if (source == boutModifier) {
-
-				// On récupère les données de la ligne du tableau
-				Vector rVect = (Vector) modeleTab.getRow(ligneActive);
-
-				Route r = new Route(rVect);
-
-				// On affiche l'invite de modification
-				new AjoutModifRoutage(r,this,tableRoutage);
+		try{
+			// On récupère le numéro de la ligne sélectionnée
+			int ligneSelect = table.getSelectedRow();
+	
+			// Si une ligne est sélectionnée, on peut la modifier ou la supprimer
+			if (ligneSelect != -1) {
+	
+				// On cherche la ligne réellement sélectionnée (au cas où un tri ait été lancé)
+				ligneActive = sorter.modelIndex(ligneSelect);
+	
+				// Action liée au bouton de modification d'un camion
+				if (source == boutModifier) {
+	
+					// On récupère les données de la ligne du tableau
+					Vector rVect = (Vector) modeleTab.getRow(ligneActive);
+	
+					Route r = new Route(rVect);
+	
+					// On affiche l'invite de modification
+					new AjoutModifRoutage(r,this,tableRoutage);
+				}
+				// Suppression d'un camion
+				else if (source == boutSupprimer) {
+					// Suppression de la base de données
+					tableRoutage.supprimer((Integer)modeleTab.getValueAt(ligneActive,0));
+	
+					// Suppression de la ligne du tableau
+					supprimerLigne(ligneActive);
+				}
 			}
-			// Suppression d'un camion
-			else if (source == boutSupprimer) {
-				supprimerLigne(ligneActive);
+			// Ajout d'un camion
+			if (source == boutAjouter) {
+				// On affiche l'invite de saisie d'information
+				new AjoutModifRoutage(null,this,tableRoutage);
+			}
+			// Mise à jour de la liste
+			else if(source==boutUpdate){
+				
+				// Suppression du tableau
+				remove(scrollPane);
+				
+				// On vide la liste des éléments du tableau
+				donnees.removeAllElements();				
+				
+				// Reconstructtion de la liste à afficher
+				listerRoutes();
+				
+		        // Reconstruction du tableau
+		        construireTableau();
+		        
+		        // Mise à jour de la fenêtre
+		        updateUI();
 			}
 		}
-		// Ajout d'un camion
-		if (source == boutAjouter) {
-			// On affiche l'invite de saisie d'information
-			new AjoutModifRoutage(null,this,tableRoutage);
-		}
-		// Mise à jour de la liste
-		else if(source==boutUpdate){
-			
-			// Suppression du tableau
-			remove(scrollPane);
-			
-			// On vide la liste des éléments du tableau
-			donnees.removeAllElements();				
-			
-			// Reconstructtion de la liste à afficher
-			listerRoutes();
-			
-	        // Reconstruction du tableau
-	        construireTableau();
-	        
-	        // Mise à jour de la fenêtre
-	        updateUI();
+		catch(Exception ex){
+			System.out.println("Erreur - OngletRoutage :\n"+ex.getMessage());
 		}
 
 	}

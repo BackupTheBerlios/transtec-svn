@@ -115,7 +115,7 @@ public class AjoutModifRoutage extends AjoutModif implements ActionListener{
 						parent.modifierLigne(this.getRoute().toVector());
 						
 						// Ecriture dans la base de données
-						//tableRoutage.modifier(this.getRoute());
+						tableRoutage.modifier(this.getRoute());
 					}
 				}
 				catch(Exception ex){

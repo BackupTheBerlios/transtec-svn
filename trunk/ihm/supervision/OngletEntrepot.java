@@ -114,6 +114,9 @@ public class OngletEntrepot extends Onglet implements ActionListener{
 				// On cache les colonnes désirées
 				table.removeColumn(table.getColumnModel().getColumn(0));
 				
+				// On cache la première ligne
+				modeleTab.removeRow(0);
+				
 		        // Mise à jour de la fenêtre
 		        updateUI();
 			}

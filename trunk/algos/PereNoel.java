@@ -39,10 +39,12 @@ public final class PereNoel {
 					Destination dCourant = (Destination)listeDestinations.get(indiceDest);
 					
 					// Si on peut remplir le camion, on le met à jour
-					if(cCourant.getVolume().compareTo(dCourant.getVolume())<=0){
+					if(cCourant.getVolume().compareTo(dCourant.getVolumeRestant())<=0){
 						cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
 						cCourant.setDestination(dCourant.getEntrepot());
-					
+						cCourant.setVolumeDispo(new Float(0));
+						dCourant.setVolumeRestant(new Float(dCourant.getVolumeRestant().floatValue()-cCourant.getVolume().floatValue()));
+						
 						// On ajoute ce camion à la liste
 						ret.add(creerPrep(cCourant,dCourant));
 						
@@ -59,13 +61,15 @@ public final class PereNoel {
 			
 			// Les camions pouvant être totalement remplis le sont, on attribue 
 			//	maintenant le reste des colis aux camions restants
-			// On boucle sur les camions pour remplir ceux qui peuvent l'être totalement
+			// On boucle sur les camions
 			for(int indice=0;indice<Math.min(listeCamions.size(),listeDestinations.size());indice++){				
 				Camion cCourant = (Camion)listeCamions.get(indice);
 				Destination dCourant = (Destination)listeDestinations.get(indice);
 				
 				cCourant.setDisponibilite(new Integer(Camion.LIVRAISON));
 				cCourant.setDestination(dCourant.getEntrepot());
+				cCourant.setVolumeDispo(new Float(cCourant.getVolume().floatValue()-dCourant.getVolumeRestant().floatValue()));
+				dCourant.setVolumeRestant(new Float(0));
 				
 				// On ajoute ce camion à la liste
 				ret.add(creerPrep(cCourant,dCourant));
@@ -83,8 +87,7 @@ public final class PereNoel {
 		Preparation p = new Preparation();
 		
 		p.setDestination(d.getEntrepot());
-		float volume = Math.min(c.getVolume().floatValue(),d.getVolume().floatValue());
-		p.setVolume(new Float(volume));
+		p.setVolume(new Float(c.getVolume().floatValue()-c.getVolumeDispo().floatValue()));
 		p.setCamion(c);
 		
 		return p;

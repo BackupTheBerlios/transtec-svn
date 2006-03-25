@@ -7,12 +7,14 @@ import java.util.Vector;
 public class Destination implements Comparable{
 	private Entrepot entrepot;
 	private Float volume;//en m3
+	private Float volumeRestant;
 	private boolean transit;
 	
 	// Constructeur avec tous les paramètres
 	public Destination(Entrepot entrepot, Float volume, boolean transit){
 		this.entrepot=entrepot;
 		this.volume=volume;
+		this.volumeRestant=volume;
 		this.transit = transit;
 	}
 
@@ -27,9 +29,10 @@ public class Destination implements Comparable{
 
 		// ATTENTION l'ordre est très important !!
 		// l'ordre doit être :
-		// entrepot, volume
+		// entrepot, volume, volumeRestant
 		v.add(entrepot);
 		v.add(volume);
+		v.add(volumeRestant);
 
 		return v;
 	}
@@ -37,14 +40,19 @@ public class Destination implements Comparable{
 	
 	/****** Méthodes d'écriture ******/
 
-	//----- Récupération de l'entrepôt -----//
+	//----- Insérer l'entrepôt -----//
 	public void setEntrepot(Entrepot entrepot){
 		this.entrepot=entrepot;
 	}
 	
-	//----- Récupération du volume -----//
+	//----- Insérer le volume -----//
 	public void setVolume(Float volume){
 		this.volume=volume;
+	}
+	
+	//----- Insérer le volume restant -----//
+	public void setVolumeRestant(Float volumeRestant){
+		this.volumeRestant=volumeRestant;
 	}
 	
 	//----- Insérer le type -----//
@@ -63,6 +71,11 @@ public class Destination implements Comparable{
 	//----- Récupération du volume -----//
 	public Float getVolume(){
 		return this.volume;
+	}
+	
+	//----- Récupération du volume restant -----//
+	public Float getVolumeRestant(){
+		return this.volumeRestant;
 	}
 	
 	//----- Obtenir le type -----//

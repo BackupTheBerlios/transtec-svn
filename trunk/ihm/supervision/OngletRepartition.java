@@ -132,6 +132,7 @@ public class OngletRepartition extends JPanel implements ActionListener{
 			break;
 			
 		case RADIN:
+			resultatAlgos = Radin.calculer(listeCamions,listeVolumesDestinations);
 			panDonneesFin.construireTableau(RADIN);
 			break;
 			
