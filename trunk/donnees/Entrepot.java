@@ -4,7 +4,7 @@ import java.util.Vector;
 
 //----- Classe regroupant tous les attributs d'un entrepôt, ainsi que les méthodes propres à la manipulation de cet objet -----//
 
-public class Entrepot {
+public class Entrepot implements Comparable{
 	private Integer id;
 	private Localisation localisation;
 	private String telephone;
@@ -121,5 +121,16 @@ public class Entrepot {
 		}
 		
 		return ret;
+	}
+	
+	
+	/****** Méthode liée à l'implémentation de Comparable ******/
+
+	// Permet de comparer deux objets entre eux
+	public int compareTo(Object o) {
+		Entrepot ent = (Entrepot) o;
+
+		// On renvoie le résultat de la comparaison de leur numéro
+		return this.localisation.getVille().compareToIgnoreCase(ent.getLocalisation().getVille());
 	}
 }

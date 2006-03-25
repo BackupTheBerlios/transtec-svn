@@ -1,6 +1,8 @@
 package accesBDD;
 
 import donnees.Entrepot;
+
+import java.util.Collections;
 import java.util.Vector;
 import java.sql.*;
 
@@ -85,6 +87,9 @@ public class AccesBDDEntrepot extends AccesBDD{
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		deconnecter();
+		
+		// On ordonne la liste
+		Collections.sort(liste);
 		
 		return liste;
 	}

@@ -45,7 +45,10 @@ public class OngletCamion extends Onglet implements ActionListener{
 		
 		// On cache les colonnes désirées
 		table.removeColumn(table.getColumnModel().getColumn(6));
-		
+		table.removeColumn(table.getColumnModel().getColumn(2));
+		table.removeColumn(table.getColumnModel().getColumn(2));
+		table.removeColumn(table.getColumnModel().getColumn(2));
+				
 		// Bouton Ajouter
 		boutAjouter.addActionListener(this);
 
@@ -119,6 +122,9 @@ public class OngletCamion extends Onglet implements ActionListener{
 		        
 				// On cache les colonnes désirées
 				table.removeColumn(table.getColumnModel().getColumn(6));
+				table.removeColumn(table.getColumnModel().getColumn(2));
+				table.removeColumn(table.getColumnModel().getColumn(2));
+				table.removeColumn(table.getColumnModel().getColumn(2));
 				
 		        // Mise à jour de la fenêtre
 		        updateUI();

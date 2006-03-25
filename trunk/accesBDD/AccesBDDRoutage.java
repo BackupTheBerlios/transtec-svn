@@ -62,7 +62,7 @@ public class AccesBDDRoutage extends AccesBDD{
 	//----- Ajouter une route dans la BDD -----//
 	public Integer ajouter(Route aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
+		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idRoutage) FROM Routage ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
