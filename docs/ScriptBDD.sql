@@ -147,16 +147,59 @@ CREATE TABLE `entrepots` (
 -- Dumping data for table `entrepots`
 -- 
 
-INSERT DELAYED IGNORE INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (1, 1, '0565487887'),
-(2, 2, '0165322356'),
-(0, 0, NULL),
-(9, 9, '0163259687'),
-(8, 8, '0396857423'),
-(7, 7, '0474586332'),
-(6, 6, '0136542596'),
-(5, 5, '0365214896'),
-(4, 4, '0496587463'),
-(3, 3, '0147963215');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (1, 1, '0565487887');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (2, 2, '0165322356');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (0, 0, NULL);
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (9, 9, '0163259687');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (8, 8, '0396857423');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (7, 7, '0474586332');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (6, 6, '0136542596');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (5, 5, '0365214896');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (4, 4, '0496587463');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (3, 3, '0147963215');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (10, 17, '0212565423');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (11, 18, '0478562552');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (12, 19, '0245123265');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (13, 20, '0245789885');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (14, 21, '0545652112');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (15, 22, '0565213212');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (16, 23, '0278899887');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (17, 24, '0545566554');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (18, 25, '0323313665');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (19, 26, '0545123265');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (20, 27, '0545217813');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (21, 28, '0445653254');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (22, 29, '0565243857');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (23, 30, '0312545879');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (24, 31, '0345653212');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (25, 32, '0345653212');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (26, 33, '0545126598');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (27, 34, '0425368856');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (28, 35, '0245659878');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (29, 36, '0212456532');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (30, 37, '0545782355');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (31, 38, '0523212624');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (32, 39, '0512121212');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (33, 40, '0598654874');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (34, 41, '0512236545');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (35, 42, '0212213223');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (36, 43, '0345216598');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (37, 44, '0356549887');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (38, 45, '0476804651');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (39, 46, '0312459878');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (40, 47, '0545125445');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (41, 48, '0312654875');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (42, 49, '0512654592');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (43, 50, '0312659874');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (44, 51, '0248789852');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (45, 52, '0245659878');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (46, 53, '0532129875');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (47, 54, '0512459872');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (48, 55, '0345652198');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (49, 56, '0212654791');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (50, 57, '0354255884');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (51, 58, '0245986715');
+INSERT INTO `entrepots` (`idEntrepots`, `Localisation_idLocalisation`, `Telephone`) VALUES (52, 59, '0362189443');
 
 -- --------------------------------------------------------
 
@@ -206,23 +249,67 @@ CREATE TABLE `localisation` (
 -- Dumping data for table `localisation`
 -- 
 
-INSERT DELAYED IGNORE INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (1, '2 rue du Poitoux', '64000', 'Pau'),
-(2, '19 avenue Foch', '94300', 'Rungis'),
-(3, '2 rue Jean Jaures', '94800', 'Villejuif'),
-(4, '13 place du Moustique', '94800', 'Villejuif'),
-(5, '3 allee des Accacias', '14000', 'Caen'),
-(6, 'impasse des Condamines', '60000', 'Beauvais'),
-(0, NULL, NULL, 'Ind?fini'),
-(16, '9 impasse du vieux port', '84000', 'Avignon'),
-(15, '46 rue de villacoublay', '78000', 'Versailles'),
-(14, '6 rue des tombes', '12000', 'Rodez'),
-(13, '6 rue du clos', '78150', 'Le Chesnay'),
-(12, '9 rue de villacoublay', '78220', 'Viroflay'),
-(11, '6 rue de la dame', '46000', 'Cahors'),
-(10, '6 rue des tombes', '44000', 'Nantes'),
-(9, '4 rue de la grande arm', '91000', 'Evry'),
-(8, '4 rue de la montagne', '27000', 'Evreux'),
-(7, '98 rue de la place', '51000', 'Lille');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (1, '2 rue Jean Jaurès', '94800', 'Villejuif');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (2, '19 avenue Foch', '94300', 'Rungis');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (3, '27 avenue du Poitoux', '64000', 'Pau');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (4, '13 place du Moustique', '72000', 'Le Mans');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (5, '3 allee des Accacias', '14000', 'Caen');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (6, 'impasse des Condamines', '60000', 'Beauvais');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (0, NULL, NULL, 'Indéfini');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (16, '9 impasse du vieux port', '84000', 'Avignon');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (15, '46 rue de villacoublay', '78000', 'Versailles');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (14, '6 rue des tombes', '12000', 'Rodez');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (13, '6 rue du clos', '78150', 'Le Chesnay');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (12, '9 rue de villacoublay', '78220', 'Viroflay');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (11, '6 rue de la dame', '46000', 'Cahors');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (10, '6 rue des tombes', '44000', 'Nantes');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (9, '4 rue de la grande arm', '91000', 'Evry');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (8, '4 rue de la montagne', '27000', 'Evreux');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (7, '98 rue Pommery', '51000', 'Chalons en Champagne');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (17, '8 Avenue de la mine', '28000', 'Chartres');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (18, '156 Impasse Camus', '06000', 'Nice');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (19, '56 avenue Ramier', '01000', 'Bourg-En-Bresse');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (20, '48 rue de la Chanterelle', '02000', 'Verneuil-sur-Serre');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (21, '25 Boulevard St Mandé', '05000', 'Gap');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (22, '45 Avenue des longs cous', '07000', 'Privas');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (23, '65 Rue René jean', '08000', 'Charleville Mezières');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (24, '8 rue de la rive', '09000', 'Foix');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (25, '8 Chemin des Trembliers', '10000', 'Troyes');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (26, '8 Avenue du rempart', '11000', 'Carcassonne');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (27, '45 Avenue Chaubert', '12000', 'Rodez');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (28, '8 rue du Vieux port', '13000', 'Marseille');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (29, '8 Avenue de l''Aubrac', '15000', 'Aurillac');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (30, '8 rue de la Chocolaterie', '16000', 'Angoulême');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (31, '54 Voie du Port', '17000', 'La Rochelle');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (32, '45 Boulevard des Arches', '18000', 'Bourges');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (33, '87 rue des vignes', '19000', 'Tulles');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (34, '8 rue des sangliers', '20000', 'Ajaccio');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (35, '8 Boulevard Amora', '21000', 'Dijon');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (36, '32 Avenue Fauche', '22000', 'St Brieuc');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (37, '58 Avenue du port', '30000', 'Nîmes');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (38, '5 Avenue du Capitole', '31000', 'Toulouse');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (39, '8 place des bovins', '32000', 'Auch');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (40, '8 Place du centre', '33000', 'Bordeaux');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (41, '56 Avenue du front de mer', '34000', 'Montpellier');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (42, '8 Rue des brumes', '35000', 'Rennes');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (43, '8 Avenue de l''aéroport', '36000', 'Châteauroux');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (44, '8 Rue de la gare', '37000', 'Tours');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (45, '8 Boulevard St Issoire', '38000', 'Grenoble');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (46, '8 rue des Pommiers', '39000', 'Lons Le Saunier');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (47, '6 Impasse des pinèdes', '40000', 'Mont de Marsan');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (48, '8 Rue du Château', '41000', 'Blois');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (49, '98 Avenue du Stade', '42000', 'St Etienne');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (50, '8 rue du Puy', '43000', 'Le Puy en Velay');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (51, '56 Boulevard du Pont', '44000', 'Nantes');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (52, 'Place des orléanais', '45000', 'Orléans');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (53, '2 Chemin du viaduc', '46000', 'Millau');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (54, '8 Boulevard des prunes', '47000', 'Agen');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (55, '8 rue des Anges', '49000', 'Angers');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (56, '8 rue de l''eau', '50000', 'St Lo');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (57, '8 rue Volta', '57000', 'Metz');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (58, '8 rue de Magnycourt', '58000', 'Nevers');
+INSERT INTO `localisation` (`idLocalisation`, `Adresse`, `CodePostal`, `Ville`) VALUES (59, '87 Avenue de Belgique', '59000', 'Lille');
+
 
 -- --------------------------------------------------------
 
@@ -358,6 +445,36 @@ CREATE TABLE `routage` (
 -- 
 -- Dumping data for table `routage`
 -- 
+
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (1, 3, 7, 1, 1059);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (2, 6, 3, 1, 961);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (3, 1, 7, 6, 188);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (4, 8, 9, 0, 129);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (5, 5, 6, 0, 211);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (6, 2, 9, 0, 23);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (7, 47, 37, 0, 475);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (8, 47, 27, 0, 582);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (9, 47, 48, 0, 530);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (10, 47, 1, 0, 703);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (11, 47, 23, 0, 252);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (12, 47, 32, 0, 76);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (13, 47, 22, 0, 255);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (14, 47, 6, 0, 252);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (15, 47, 41, 0, 544);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (16, 47, 33, 0, 140);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (17, 47, 12, 0, 716);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (18, 47, 25, 0, 541);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (19, 47, 5, 0, 737);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (20, 47, 19, 0, 207);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (21, 47, 7, 0, 889);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (22, 47, 16, 0, 935);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (23, 47, 10, 0, 655);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (24, 47, 36, 0, 440);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (25, 47, 28, 0, 705);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (26, 47, 8, 0, 743);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (27, 47, 9, 0, 698);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (28, 47, 17, 0, 199);
+INSERT INTO `routage` (`idRoutage`, `Origine`, `Destination`, `PlatInter`, `Distance`) VALUES (29, 47, 14, 0, 675);
 
 
 -- --------------------------------------------------------
