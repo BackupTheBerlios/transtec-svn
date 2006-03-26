@@ -42,15 +42,15 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 		description.setEditable(false);
 		fenetre.add(description);
 
-		getContentPane().setLayout(null);
-		//getContentPane().add(panel);
+		fenetre.setLayout(null);
+		//fenetre.add(panel);
 
 		valider=new Bouton("images/icones/valider.png","images/icones/valider_inv.png");
-		valider.setBounds(40,215,108,44);
+		valider.setBounds(40,215,165,41);
 		fenetre.add(valider);
 		valider.addChangeListener(this);
 		annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
-		annuler.setBounds(175,215,108,44);
+		annuler.setBounds(175,215,165,41);
 		fenetre.add(annuler);
 		annuler.addChangeListener(this);
 
