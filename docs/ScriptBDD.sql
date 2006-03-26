@@ -30,7 +30,7 @@ CREATE TABLE `camions` (
   PRIMARY KEY  (`idCamions`),
   KEY `Colis_FKIndex1` (`Origine`),
   KEY `Colis_FKIndex2` (`Destination`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- 
 -- Dumping data for table `camions`
@@ -76,7 +76,7 @@ CREATE TABLE `chargement` (
   PRIMARY KEY  (`idChargement`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Chargement_FKIndex2` (`Camions_idCamions`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `chargement`
@@ -96,7 +96,7 @@ CREATE TABLE `chargement_colis` (
   `Numero` int(11) NOT NULL default '0',
   KEY `Incidents_FKIndex1` (`idChargement`),
   KEY `Chargement_FKIndex2` (`idColis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `chargement_colis`
@@ -128,7 +128,7 @@ CREATE TABLE `colis` (
   KEY `Colis_FKIndex1` (`ModelesColis_idModelesColis`),
   KEY `Colis_FKIndex2` (`Destination`),
   KEY `users_FKIndex3` (`Createur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `colis`
@@ -156,7 +156,7 @@ CREATE TABLE `entrepots` (
   `Telephone` char(15) default NULL,
   PRIMARY KEY  (`idEntrepots`),
   KEY `Entrepots_FKIndex1` (`Localisation_idLocalisation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `entrepots`
@@ -234,7 +234,7 @@ CREATE TABLE `incidents` (
   PRIMARY KEY  (`idIncidents`),
   KEY `Incidents_FKIndex1` (`Users_idUsers`),
   KEY `Incidents_FKIndex2` (`Colis_idColis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+)  AUTO_INCREMENT=6 ;
 
 -- 
 -- Dumping data for table `incidents`
@@ -258,7 +258,7 @@ CREATE TABLE `localisation` (
   `CodePostal` char(15) default NULL,
   `Ville` char(50) default NULL,
   PRIMARY KEY  (`idLocalisation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `localisation`
@@ -340,7 +340,7 @@ CREATE TABLE `modelescolis` (
   `largeur` float unsigned default NULL,
   `Profondeur` float unsigned default NULL,
   PRIMARY KEY  (`idModelesColis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `modelescolis`
@@ -379,7 +379,7 @@ CREATE TABLE `personnes` (
   `Email` char(50) default NULL,
   PRIMARY KEY  (`idPersonnes`),
   KEY `Personnes_FKIndex1` (`Localisation_idLocalisation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `personnes`
@@ -408,7 +408,7 @@ CREATE TABLE `plan` (
   `gauche` blob NOT NULL,
   `droite` blob NOT NULL,
   PRIMARY KEY  (`idChargement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `plan`
@@ -435,7 +435,7 @@ CREATE TABLE `preparation` (
   PRIMARY KEY  (`idPreparation`),
   KEY `Incidents_FKIndex1` (`idPreparateur`),
   KEY `Incidents_FKIndex2` (`idDestination`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `preparation`
@@ -451,11 +451,12 @@ INSERT DELAYED IGNORE INTO `preparation` (`idPreparation`, `idPreparateur`, `idD
 -- 
 
 CREATE TABLE `routage` (
+  `idRoutage` int(10) unsigned NOT NULL default '0',
   `Origine` int(11) NOT NULL default '0',
   `Destination` int(11) NOT NULL default '0',
   `PlatInter` int(11) default NULL,
   `Distance` float default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `routage`
@@ -506,7 +507,7 @@ CREATE TABLE `users` (
   `Type_2` smallint(5) unsigned default NULL,
   PRIMARY KEY  (`idUsers`),
   KEY `Users_FKIndex1` (`Personnes_idPersonnes`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ;
 
 -- 
 -- Dumping data for table `users`
