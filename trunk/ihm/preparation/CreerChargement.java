@@ -68,7 +68,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private Vector listeColis= new Vector(), donnees = new Vector();
 	private BranchGroup scene;
 	private Canvas3D camion3D;
-	private DeplacementColis deplacement;
+	private DeplacerColis deplacement;
 	private float echelle=0;
 	private AffichageColisDynamique zoneColis3D=null;
 	private Chargement chargement;
@@ -607,7 +607,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    }
 	    
 	    //Déplacement du colis
-	    deplacement=new DeplacementColis(ajouter,benne_prof, benne_haut, benne_larg,dimension_colis);
+	    deplacement=new DeplacerColis(ajouter,benne_prof, benne_haut, benne_larg,dimension_colis);
 	    deplacement.objetADeplacer(objSpin3,translation,b);
 	    
 	    //Construction du cube
