@@ -136,9 +136,10 @@ public class AccesBDDChargement extends AccesBDD{
 			
 			ajouter.executeUpdate();
 		}
-		
-		ajouter.close();
-		deconnecter();
+		if(listeColis.size()!=0){
+			ajouter.close();
+			deconnecter();
+		}
 	}
 	
 	public Chargement rechercher(String codeBarre) throws SQLException{
