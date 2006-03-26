@@ -16,6 +16,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -312,6 +313,16 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					// On supprime la ligne du tableau et on màj
 					this.tableMod.removeRow(ligneActive);
 					this.table.updateUI();
+					
+					// Destruction des images en locak sur l'ordinateur
+					File file=null;
+					for(int i=0;i<6;i++){
+						file=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11)).toString()+"/plan"+i+".png");
+						file.delete();
+					}
+					// On déttruit le répertoire
+					File repertoire=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11)).toString());
+					repertoire.delete();
 					dispose();
 				}
 			}

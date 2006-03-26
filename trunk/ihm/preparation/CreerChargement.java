@@ -1,6 +1,5 @@
 package ihm.preparation;
 
-//import OffScreenCanvas3D;
 import ihm.Bouton;
 import ihm.FenetreType;
 import ihm.ModeleTable;
@@ -13,14 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Random;
@@ -122,9 +115,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
 		
-	
-		
-	    
 	    // Création de la première ligne
 		nomColonnes.add("Id");
 		nomColonnes.add("Code Barre");

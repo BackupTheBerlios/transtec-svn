@@ -65,35 +65,33 @@ public class PlanChargement extends JFrame implements ActionListener{
 			Blob fichiers[]=new AccesBDDPlan().rechercher(idChargement);
 		
 			// Mise en place des vues
-			AffichageImage image = new AffichageImage(fichiers[AccesBDDPlan.DESSUS].getBinaryStream());
+			AffichageImage image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DESSUS+".png");
 			image.setBounds(247,251,257,129);
 			this.fenetre.add(image);
 			
-			image = new AffichageImage(fichiers[AccesBDDPlan.GAUCHE].getBinaryStream());
+			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.GAUCHE+".png");
 			image.setBounds(247,424,257,129);
 			this.fenetre.add(image);
 			
-			image = new AffichageImage(fichiers[AccesBDDPlan.FACE].getBinaryStream());
+			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.FACE+".png");
 			image.setBounds(247,597,257,129);
 			this.fenetre.add(image);
 			
-			image = new AffichageImage(fichiers[AccesBDDPlan.DESSOUS].getBinaryStream());
+			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DESSOUS+".png");
 			image.setBounds(524,251,257,129);
 			this.fenetre.add(image);
 			
-			image = new AffichageImage(fichiers[AccesBDDPlan.DROITE].getBinaryStream());
+			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DROITE+".png");
 			image.setBounds(524,424,257,129);
 			this.fenetre.add(image);
 			
-			image = new AffichageImage(fichiers[AccesBDDPlan.ARRIERE].getBinaryStream());
+			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.ARRIERE+".png");
 			image.setBounds(524,597,257,129);
 			this.fenetre.add(image);
 			// Fin de mise en place des vues
 		}
 		catch(SQLException e){
 			
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		
 		// Crétaion des colonnes
