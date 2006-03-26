@@ -67,7 +67,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		this.rechercher.setBounds(250,260,121,32);
 		this.fenetre.add(this.rechercher);
 		this.rechercher.addActionListener(this);
-		this.envoyer=new Bouton("images/icones/zoneStockage.png","images/icones/zoneStockage_inv.png");
+		this.envoyer=new Bouton("images/icones/zoneExpertise.png","images/icones/zoneExpertise_inv.png");
 		this.envoyer.setBounds(804,260,168,43);
 		this.fenetre.add(this.envoyer);
 		this.envoyer.addActionListener(this);
