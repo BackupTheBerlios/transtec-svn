@@ -411,6 +411,25 @@ public class CreerChargement extends JFrame implements ActionListener{
 				//InputStream is[]=new InputStream[6];
 				File imageFile=null;
 			    for(int i=0;i<6;i++){
+			    	/* Changement de vues du chargement pour les différente captures */
+			    	if(i==AccesBDDPlan.ARRIERE){
+			    		
+			    	}
+			    	if(i==AccesBDDPlan.DESSOUS){
+			    		
+			    	}
+			    	if(i==AccesBDDPlan.DESSUS){
+			    		
+			    	}
+			    	if(i==AccesBDDPlan.DROITE){
+			    		
+			    	}
+			    	if(i==AccesBDDPlan.FACE){
+			    		
+			    	}
+			    	if(i==AccesBDDPlan.GAUCHE){
+			    		
+			    	}
 				    offScreenCanvas = new OffScreenCanvas3D(camion3D);
 				    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
 				    
