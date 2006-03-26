@@ -8,11 +8,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 
+/*
+ * Fenêtre permettant de mettre au courant l'utilisateur d'un problème
+ */
+
 public class FenetreWarning extends JDialog implements ActionListener{
 	private Bouton warning;
 	
 	public FenetreWarning(String message){
-		//setTitle("Warning");
 		setBounds(347,242,330,283);
 		setUndecorated(true);
 		FenetreType fenetre=new FenetreType("images/preparation/warning.png");
@@ -44,7 +47,4 @@ public class FenetreWarning extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		dispose();		
 	}	
-	public static void main(String[] args) {
-		new FenetreWarning("OUH le joli Message aligné au centre du milieu de la fenêtre").setVisible(true);
-	}
 }

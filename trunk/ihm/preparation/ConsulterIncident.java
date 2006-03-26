@@ -48,7 +48,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 	
 	public ConsulterIncident(Utilisateur utilisateur) {
 		//	Création graphique de la fenêtre
-		setTitle("Créer Chargement");
+		setTitle("Consulter les incidents");
 		setSize(1024,768);
 		setUndecorated(true);
 		fenetre=new FenetreType(utilisateur,"images/preparation/fenetre_incidentBackground.png");
