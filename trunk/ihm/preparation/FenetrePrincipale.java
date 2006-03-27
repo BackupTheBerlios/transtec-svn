@@ -210,14 +210,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 		getContentPane().add(scrollPane);
-
-//		Comportement lors de la fermeture
-		/*WindowListener l = new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				System.exit(0);
-			}
-		};
-		addWindowListener(l);	*/	
+		
 		setVisible(true);
 	}
 	
@@ -243,7 +236,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 			if(ligneActive==-1)
 				new FenetreWarning("Veuillez sélectionner un camion dans le tableau");
 			else{
-				// création d'un chargement
+				// Création d'un chargement
 				if(source==this.creerChargement){
 					dispose();
 					try{
@@ -329,22 +322,18 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		}
 	}
 
-	// Mise à jour de la fenêtre lorsque l'onchange la destination
+	// Mise à jour de la fenêtre lorsque l'on change la destination
 	public void itemStateChanged(ItemEvent arg0) {
 		// Chargement du volume pour la destination selectionnée
 		selectionnee=listeDonneesPrep.exists((String)destinations.getSelectedItem());
 		
 		// On réaffiche les volumes
-		fenetre.remove(this.labelVolume);
-		this.labelVolume=new JLabel(selectionnee.getVolume().toString());
-		this.labelVolume.setBounds(150,305,100,20);
-		fenetre.add(this.labelVolume);
+		this.labelVolume.setText(selectionnee.getVolume().toString());
+		this.labelVolume.updateUI();
 		
-		fenetre.remove(this.labelCharge);
-		this.labelCharge=new JLabel(selectionnee.getCharge().toString());
-		this.labelCharge.setBounds(150,340,100,20);
-		fenetre.add(this.labelCharge);
-		
+		this.labelCharge.setText(selectionnee.getCharge().toString());
+		this.labelCharge.updateUI();
+				
 		// Mise à jour du tableau
 		for(int i=0;i<tableMod.getRowCount();i++)
 			tableMod.removeRow(i);
@@ -360,11 +349,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		this.imprimerEtiquette.setEnabled(true);
 		this.validerCharg.setEnabled(true);
 		
-		// On met à jour le container
-		
-		
-		// EREUR INUTILE DE TT REDESSINER FAIRE DES UPDATE DE CHAMPS!!!!!!!
-		fenetre.repaint();
 		this.listeDonneesPrep=this.recopie;
 	}
 
