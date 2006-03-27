@@ -44,11 +44,13 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Color4f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
+import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
@@ -80,7 +82,8 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private float benne_prof;
 	private float benne_haut;
 	private float benne_larg;
-	
+	private Transform3D View_Transform3D = new Transform3D();
+	private TransformGroup View_TransformGroup;
 		
 	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion/*, Integer idPreparation*/) {
 		// Création graphique de la fenêtre
@@ -234,6 +237,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    
 	    // Positionnement du point d'observation pour avoir une vue correcte de la scene 3D
 	    simpleU.getViewingPlatform().setNominalViewingTransform();
+	    
+	    //Initialisation de la ViewPlatform, du TransformGroup et du Transform3d pour la sauvegarde des vues
+	    ViewingPlatform vp = simpleU.getViewingPlatform();
+	    View_TransformGroup = vp.getMultiTransformGroup().getTransformGroup(0);
+        View_TransformGroup.getTransform(View_Transform3D);
 	    
 	    // Creation de la scene 3D qui contient tous les objets 3D que l'on veut visualiser
 	    this.scene=new BranchGroup();
@@ -402,23 +410,56 @@ public class CreerChargement extends JFrame implements ActionListener{
 				File imageFile=null;
 			    for(int i=0;i<6;i++){
 			    	/* Changement de vues du chargement pour les différente captures */
+			    	
+			    	float max_prof_haut,max_prof_larg,max_haut_larg;
+			        
+			        //Calcul du maximum entre la profondeur et la hauteur
+			        if(benne_prof >= benne_haut){
+			        	max_prof_haut = benne_prof;
+			        }
+			        else max_prof_haut = benne_haut;
+			        
+			        //Calcul du maximum entre la profondeur et la largeur
+			        if(benne_prof >= benne_larg){
+			        	max_prof_larg = benne_prof;
+			        }
+			        else max_prof_larg = benne_larg;
+			        
+			        //Calcul du maximum entre la hauteur et la largeur
+			        if(benne_haut >= benne_larg){
+			        	max_haut_larg = benne_haut;
+			        }
+			        else max_haut_larg = benne_larg;
+			        
 			    	if(i==AccesBDDPlan.ARRIERE){
-			    		
+			    		View_Transform3D.lookAt(new Point3d(0,0,-(benne_larg+max_prof_haut*3)),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			    		View_Transform3D.invert();
+			            View_TransformGroup.setTransform(View_Transform3D);
 			    	}
 			    	if(i==AccesBDDPlan.DESSOUS){
-			    		
+			    		View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3),0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			    		View_Transform3D.invert();
+			            View_TransformGroup.setTransform(View_Transform3D);
 			    	}
 			    	if(i==AccesBDDPlan.DESSUS){
-			    		
+			    		View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			    		View_Transform3D.invert();
+			            View_TransformGroup.setTransform(View_Transform3D);
 			    	}
 			    	if(i==AccesBDDPlan.DROITE){
-			    		
+			    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			    		View_Transform3D.invert();
+			            View_TransformGroup.setTransform(View_Transform3D);
 			    	}
 			    	if(i==AccesBDDPlan.FACE){
-			    		
+			    		View_Transform3D.lookAt(new Point3d(0,0,benne_larg+max_prof_haut*3),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			    		View_Transform3D.invert();
+			            View_TransformGroup.setTransform(View_Transform3D);
 			    	}
 			    	if(i==AccesBDDPlan.GAUCHE){
-			    		
+			    		View_Transform3D.lookAt(new Point3d(-(benne_prof+max_haut_larg*3),0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			    		View_Transform3D.invert();
+			            View_TransformGroup.setTransform(View_Transform3D);
 			    	}
 				    offScreenCanvas = new OffScreenCanvas3D(camion3D);
 				    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
