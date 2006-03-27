@@ -2,6 +2,8 @@ package ihm.preparation;
 
 import ihm.Bouton;
 import ihm.FenetreType;
+import ihm.FenetreValidation;
+import ihm.FenetreWarning;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
@@ -88,7 +90,8 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private float benne_larg;
 	private Transform3D View_Transform3D = new Transform3D();
 	private TransformGroup View_TransformGroup;
-		
+	private Camion camion=null;
+	
 	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion/*, Integer idPreparation*/) {
 		// Création graphique de la fenêtre
 		setTitle("Créer Chargement");
@@ -119,6 +122,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		
 		// Mémorisation de l'utilisateur
 		this.utilisateur=utilisateur;
+		this.camion=camion;
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
 		
@@ -364,6 +368,8 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    
 	    setVisible(true);
 	}
+	
+	private boolean test=false;
 		
 	public void actionPerformed(ActionEvent ev) {
 		AccesBDDChargement bddChargement=new AccesBDDChargement();
@@ -378,44 +384,47 @@ public class CreerChargement extends JFrame implements ActionListener{
 		
 		// Création d'un chargement à l'état en cours
 		else if(source==this.valider){
-			//FenetreValidation fenValide=new FenetreValidation("");
+//			 On réaffiche la fenêtre principale
+			
+			//FenetreValidation fenValide=new FenetreValidation("Voulez-vous vraiment créer ce chargement");
+			//fenValide.setVisible(true);
 			//if(fenValide.getResultat()==true){
-				Colis courant;
-				// On met à jour la date
-				this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
-				try{
-					this.chargement.setId(bddChargement.ajouter(this.chargement));
-					for(int i=0;i<listeChargementMod.getRowCount();i++){
-						courant=new Colis((Vector)listeChargementMod.getRow(i));
-						// On ajoute l'ordre de chargement
-						courant.setNumeroDsCharg(new Integer(i+1));
-						aCharger.add(courant);
+				if(this.camion.getVolumeDispo().floatValue()-this.chargement.getVolChargement().floatValue()>0){
+					Colis courant;
+					// On met à jour la date
+					this.chargement.setDate(new Timestamp(System.currentTimeMillis()));
+					try{
+						this.chargement.setId(bddChargement.ajouter(this.chargement));
+						for(int i=0;i<listeChargementMod.getRowCount();i++){
+							courant=new Colis((Vector)listeChargementMod.getRow(i));
+							// On ajoute l'ordre de chargement
+							courant.setNumeroDsCharg(new Integer(i+1));
+							aCharger.add(courant);
+						}
+						bddChargement.AjouterColis(chargement, aCharger);
+						// On crée le chargement temporaire
+						new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
 					}
-					bddChargement.AjouterColis(chargement, aCharger);
-					// On crée le chargement temporaire
-					new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
-				}
-				catch(SQLException e){
+					catch(SQLException e){
+						
+					}
+					new FenetrePrincipale(this.utilisateur).setVisible(true);
 					
-				}
+					
+					// Sauvegarde des vues du camions pour le plan de chargement
 				
-				// On réaffiche la fenêtre principale
-				new FenetrePrincipale(this.utilisateur).setVisible(true);
+					//Création d'un dossier de sauvegarde
 				
-				// Sauvegarde des vues du camions pour le plan de chargement
-			
-				//Création d'un dossier de sauvegarde
-			
-				File repertoire=new File(this.chargement.getId().toString());
-				repertoire.mkdir();
-				
-				OffScreenCanvas3D offScreenCanvas = null;
-				//InputStream is[]=new InputStream[6];
-				File imageFile=null;
-			    for(int i=0;i<6;i++){
-			    	/* Changement de vues du chargement pour les différente captures */
-			    	
-			    	float max_prof_haut,max_prof_larg,max_haut_larg;
+					File repertoire=new File(this.chargement.getId().toString());
+					repertoire.mkdir();
+					
+					OffScreenCanvas3D offScreenCanvas = null;
+					//InputStream is[]=new InputStream[6];
+					File imageFile=null;
+//					 Dimension (en pixels) de l'image a sauvegarder dans le fichier
+				    Dimension dim = new Dimension(257, 129);
+				    
+				    float max_prof_haut,max_prof_larg,max_haut_larg;
 			        
 			        //Calcul du maximum entre la profondeur et la hauteur
 			        if(benne_prof >= benne_haut){
@@ -434,85 +443,92 @@ public class CreerChargement extends JFrame implements ActionListener{
 			        	max_haut_larg = benne_haut;
 			        }
 			        else max_haut_larg = benne_larg;
-			        
-			    	if(i==AccesBDDPlan.ARRIERE){
-			    		View_Transform3D.lookAt(new Point3d(0,0,-(benne_larg+max_prof_haut*3)),new Point3d(0,0,0),new Vector3d(0,1f,0));
-			    		View_Transform3D.invert();
-			            View_TransformGroup.setTransform(View_Transform3D);
-			    	}
-			    	if(i==AccesBDDPlan.DESSOUS){
-			    		View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3),0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-			    		View_Transform3D.invert();
-			            View_TransformGroup.setTransform(View_Transform3D);
-			    	}
-			    	if(i==AccesBDDPlan.DESSUS){
-			    		View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-			    		View_Transform3D.invert();
-			            View_TransformGroup.setTransform(View_Transform3D);
-			    	}
-			    	if(i==AccesBDDPlan.DROITE){
-			    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-			    		View_Transform3D.invert();
-			            View_TransformGroup.setTransform(View_Transform3D);
-			    	}
-			    	if(i==AccesBDDPlan.FACE){
-			    		View_Transform3D.lookAt(new Point3d(0,0,benne_larg+max_prof_haut*3),new Point3d(0,0,0),new Vector3d(0,1f,0));
-			    		View_Transform3D.invert();
-			            View_TransformGroup.setTransform(View_Transform3D);
-			    	}
-			    	if(i==AccesBDDPlan.GAUCHE){
-			    		View_Transform3D.lookAt(new Point3d(-(benne_prof+max_haut_larg*3),0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-			    		View_Transform3D.invert();
-			            View_TransformGroup.setTransform(View_Transform3D);
-			    	}
-				    offScreenCanvas = new OffScreenCanvas3D(camion3D);
-				    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
 				    
-				    imageFile = new File(repertoire.getName()+"/plan"+i+".png");
-	
-				    // Dimension (en pixels) de l'image a sauvegarder dans le fichier
-				    Dimension dim = new Dimension(512, 512);
-	
-				    // On recupere l'image (pixmap) rendue par le canvas 3D offscreen
-				    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
-	
-				    // On recupere le contexte graphique de l'image finale de sortie
-				    Graphics2D gc = image.createGraphics();
-				    gc.drawImage(image, 0, 0, null);
-				    
-				    
-	//			  Sauvegarde de l'image dans un fichier au format PNG
-				    try {
-				      ImageIO.write(image, "png", imageFile);
+			        for(int i=0;i<6;i++){
+				    	/* Changement de vues du chargement pour les différente captures */
+				    	if(i==AccesBDDPlan.ARRIERE){
+				    		View_Transform3D.lookAt(new Point3d(0,0,-(benne_larg+max_prof_haut*3)),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+				    	/*if(i==AccesBDDPlan.DESSOUS){
+				    		//View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3),0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}*/
+				    	/*if(i==AccesBDDPlan.DESSUS){
+				    		//View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}*/
+				    	if(i==AccesBDDPlan.DROITE){
+				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+				    	if(i==AccesBDDPlan.FACE){
+				    		View_Transform3D.lookAt(new Point3d(0,0,benne_larg+max_prof_haut*3),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+				    	if(i==AccesBDDPlan.GAUCHE){
+				    		View_Transform3D.lookAt(new Point3d(-(benne_prof+max_haut_larg*3),0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+					    offScreenCanvas = new OffScreenCanvas3D(camion3D);
+					    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
+					    
+					    imageFile = new File(repertoire.getName()+"/plan"+i+".png");
+		
+					    
+		
+					    // On recupere l'image (pixmap) rendue par le canvas 3D offscreen
+					    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
+		
+					    // On recupere le contexte graphique de l'image finale de sortie
+					    Graphics2D gc = image.createGraphics();
+					    gc.drawImage(image, 0, 0, null);
+					    
+					    
+		//			  Sauvegarde de l'image dans un fichier au format PNG
+					    try {
+					      ImageIO.write(image, "png", imageFile);
+					    }
+					    catch (IOException ex) {
+					      System.out.println("Impossible de sauvegarder l'image");
+					    }
+					    /*try {
+							is[i] = new BufferedInputStream(new FileInputStream("plan"+i+".png"));
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}*/
 				    }
-				    catch (IOException ex) {
-				      System.out.println("Impossible de sauvegarder l'image");
-				    }
+				    
+				    
 				    /*try {
-						is[i] = new BufferedInputStream(new FileInputStream("plan"+i+".png"));
-					} catch (FileNotFoundException e) {
+						new AccesBDDPlan().ajouter(new Integer(2), is);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}*/
-			    }
-			    
-			    
-			    /*try {
-					new AccesBDDPlan().ajouter(new Integer(2), is);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
-			    
-			    
-			    
-			    
-			    // On ferme la fenêtre
+				    
+				    
+				    
+				    
+				    // On ferme la fenêtre
+				}
+				else
+					new FenetreWarning("Le chargement dépasse le volume disponible du camion").setVisible(true);
 			//}
 			//fenValide.fermer();
+				dispose();
 		}
 		
 		// Ajouter un colis dans le camion
@@ -538,38 +554,55 @@ public class CreerChargement extends JFrame implements ActionListener{
 				listeColisTab.updateUI();
 				listeChargementTab.updateUI();
 				
-				
 				// Ajout de l'objet 3D
 				scene.addChild(brancheCube(
 						colis.getModele().getLargeur().floatValue()/(this.echelle*2), 
 						colis.getModele().getProfondeur().floatValue()/(this.echelle*2), 
 						colis.getModele().getHauteur().floatValue()/(this.echelle*2)));
+				test=true;
 				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
+				
 			}
-			else{
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans les colis disponibles","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}
+			else
+				new FenetreWarning("Veuillez sélectionner un colis dans les colis disponibles").setVisible(true);
 		}
 		
 		// Supprimer un colis dans le camion
 		else if(source==this.retirer){	
-			this.scene.removeChild(this.numero);
-			colis=new Colis((Vector)listeChargementMod.getRow(numero));
-			colis.setNumeroDsCharg(new Integer(0));
-			
-			// On ajoute à la liste des colis
-			listeColisMod.addRow(colis.toVector());
-			// Soustraction du volume
-			this.chargement.soustraireVolumeColis(new Float(colis.getVolume().floatValue()));
-			listeColisMod.fireTableDataChanged();
-			//On supprime du chargement
-			listeChargementMod.removeRow(numero);
-			listeChargementMod.fireTableDataChanged();
-			
-			numero--;
-			//Mise à jour des tableaux
-			listeColisTab.updateUI();
-			listeChargementTab.updateUI();
+			if(listeChargementMod.getRowCount()!=0){
+				// Ajout de la zone de collision du dernier colis si elle n'a pas déjà été ajoutée
+				if(test==true){
+					// ajouter une zone de collision dans dimension_colis
+					Ajout_colis_present(deplacement.GetX(),deplacement.GetY(),deplacement.GetZ(),deplacement.GetProfondeur(),deplacement.GetHauteur(),deplacement.GetLargeur());
+
+				}
+				
+				// Suppression de la zone de collision
+				dimension_colis.removeElementAt(dimension_colis.size()-1);
+				
+				test=false;
+				
+				this.scene.removeChild(this.numero);
+				numero--;
+				colis=new Colis((Vector)listeChargementMod.getRow(numero));
+				colis.setNumeroDsCharg(new Integer(0));
+				
+				// On ajoute à la liste des colis
+				listeColisMod.addRow(colis.toVector());
+				// Soustraction du volume
+				this.chargement.soustraireVolumeColis(new Float(colis.getVolume().floatValue()));
+				listeColisMod.fireTableDataChanged();
+				//On supprime du chargement
+				listeChargementMod.removeRow(numero);
+				listeChargementMod.fireTableDataChanged();
+				
+				
+				//Mise à jour des tableaux
+				listeColisTab.updateUI();
+				listeChargementTab.updateUI();
+			}
+			else
+				new FenetreWarning("Le camion est déjà vide").setVisible(true);
 		}
 	}
 	
@@ -589,9 +622,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    // Translation
 	    Vector3f vector = new Vector3f( benne_prof-profondeur, benne_haut-hauteur, -benne_larg+largeur);
 	    translation.setTranslation(vector);
-	    
-	    
-	    
+	   
 	    //Création des TransformGroup
 	    TransformGroup objSpin1=new TransformGroup(echelle);
 	    TransformGroup objSpin2=new TransformGroup(rotation);
@@ -643,7 +674,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    	//Ferme le KeyListener du colis venant d'être placé
 	    	deplacement.ArretEcoute();
 	    	//Ajoute à la liste les coordonnées du colis venant d'être placé
-	    	Ajout_colis_present(deplacement.GetX(),deplacement.GetY(),deplacement.GetZ(),deplacement.GetProfondeur(),deplacement.GetHauteur(),deplacement.GetLargeur());
+	    	if(test==true)Ajout_colis_present(deplacement.GetX(),deplacement.GetY(),deplacement.GetZ(),deplacement.GetProfondeur(),deplacement.GetHauteur(),deplacement.GetLargeur());
 	    }
 	    
 	    //Déplacement du colis

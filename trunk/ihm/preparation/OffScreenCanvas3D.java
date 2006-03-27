@@ -55,7 +55,7 @@ public class OffScreenCanvas3D extends Canvas3D {
     // On copie le canvas 3D onscreen dans le canvas 3D offscreen, et on
     // recupere l'image dans bImage
     setOffScreenBuffer(buffer);
-    //renderOffScreenBuffer();
+    renderOffScreenBuffer();
     waitForOffScreenRendering();
     bImage = getOffScreenBuffer().getImage();
 

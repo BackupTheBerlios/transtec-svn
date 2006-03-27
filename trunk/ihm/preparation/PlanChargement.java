@@ -51,11 +51,11 @@ public class PlanChargement extends JFrame implements ActionListener{
 		
 		// Mise en place du menu
 		this.imprimer=new Bouton("images/icones/imprimer.png","images/icones/imprimer_inv.png");
-		this.imprimer.setBounds(805, 265, 116, 46);
+		this.imprimer.setBounds(808, 270, 165, 41);
 		this.fenetre.add(this.imprimer);
 		this.imprimer.addActionListener(this);
 		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
-		this.annuler.setBounds(800, 331, 116, 46);
+		this.annuler.setBounds(808, 336, 165, 41);
 		this.fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		
@@ -111,6 +111,7 @@ public class PlanChargement extends JFrame implements ActionListener{
         nomColonnes.add("Modèle");
         nomColonnes.add("Valeur Déclarée");
         nomColonnes.add("Volume");
+        nomColonnes.add("Volume");
         nomColonnes.add("N°");
        
         Vector donneesColis=new Vector();
@@ -140,7 +141,7 @@ public class PlanChargement extends JFrame implements ActionListener{
 		
 		// On supprime les colonnes inutiles
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(0));
-		for(int i=0;i<13;i++)
+		for(int i=0;i<14;i++)
 			tableColis.removeColumn(tableColis.getColumnModel().getColumn(1));
 		
 		
@@ -163,7 +164,7 @@ public class PlanChargement extends JFrame implements ActionListener{
 		}
 		// On retourne à la fenêtre de préparation principale
 		// A la fin de l'impression et dans le cas de l'annulation
-		dispose();
 		new FenetrePrincipale(this.utilisateur).setVisible(true);
+		dispose();
 	}
 }
