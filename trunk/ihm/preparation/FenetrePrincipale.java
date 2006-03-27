@@ -335,9 +335,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		this.labelCharge.updateUI();
 				
 		// Mise à jour du tableau
-		for(int i=0;i<tableMod.getRowCount();i++)
-			tableMod.removeRow(i);
-		for(int i=0;i<selectionnee.getListeCamionChargement().size();i++)
+		int i,max=tableMod.getRowCount();
+		for(i=0;i<max;i++)
+			tableMod.removeRow(0);
+		//table.updateUI();
+		for(i=0;i<selectionnee.getListeCamionChargement().size();i++)
 			tableMod.addRow(selectionnee.getListeCamionChargement().get(i));
 		tableMod.fireTableDataChanged();
 		table.updateUI();
