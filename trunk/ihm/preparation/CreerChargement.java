@@ -62,6 +62,10 @@ import donnees.Colis;
 import donnees.Entrepot;
 import donnees.Utilisateur;
 
+/*
+ * Fenêtre de création d'un chargement temporaire
+ */
+
 public class CreerChargement extends JFrame implements ActionListener{
 	private Bouton valider, annuler, ajouter, retirer;
 	private ModeleTable listeColisMod, listeChargementMod;
@@ -555,7 +559,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 			
 			// On ajoute à la liste des colis
 			listeColisMod.addRow(colis.toVector());
-			
 			// Soustraction du volume
 			this.chargement.soustraireVolumeColis(new Float(colis.getVolume().floatValue()));
 			listeColisMod.fireTableDataChanged();
