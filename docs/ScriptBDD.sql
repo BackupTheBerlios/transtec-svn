@@ -36,9 +36,10 @@ CREATE TABLE `camions` (
 -- Contenu de la table `camions`
 -- 
 
-INSERT DELAYED IGNORE INTO `camions` (`idCamions`, `Immatriculation`, `Etat`, `Hauteur`, `Largeur`, `Profondeur`, `Volume`, `VolumeDispo`, `Origine`, `Destination`) VALUES (1, '1013TW10', 0, 2, 5, 2, 20, 20, 1, 0),
-(2, '2356AQH11', 0, 2, 5, 2, 20, 20, 2, 0),
-(3, '2356ASU12', 0, 2, 5, 2, 20, 20, 3, 0),
+INSERT DELAYED IGNORE INTO `camions` (`idCamions`, `Immatriculation`, `Etat`, `Hauteur`, `Largeur`, `Profondeur`, `Volume`, `VolumeDispo`, `Origine`, `Destination`) VALUES 
+(1, '1013TW10', 0, 2, 5, 2, 20, 20, 1, 7),
+(2, '2356AQH11', 0, 2, 5, 2, 20, 20, 2, 7),
+(3, '2356ASU12', 0, 2, 5, 2, 20, 20, 3, 7),
 (4, '652GFD13', 0, 2, 5, 2, 20, 20, 4, 0),
 (5, '1012TW14', 0, 2, 5, 2, 20, 20, 6, 0),
 (6, '1312VS69', 0, 2, 5, 2, 20, 20, 7, 0),
@@ -46,16 +47,17 @@ INSERT DELAYED IGNORE INTO `camions` (`idCamions`, `Immatriculation`, `Etat`, `H
 (8, '2356ASU75', 0, 2, 5, 2, 20, 20, 9, 0),
 (9, '652GFD74', 0, 2, 5, 2, 20, 20, 10, 0),
 (10, '1012TW78', 0, 2, 5, 2, 20, 20, 11, 0),
-(11, '1312VS77', 0, 2, 5, 2, 20, 20, 12, 0),
+(11, '1312VS77', 0,2, 5, 2, 20, 20, 12, 0),
 (12, '2356AQH68', 0, 2, 5, 2, 20, 20, 13, 0),
 (13, '2356ASU67', 0, 2, 5, 1.5, 15, 15, 14, 0),
-(14, '652GFD25', 0, 1.5, 5, 1.5, 11.25, 11.25, 15, 0),
+(14, '652GFD25', 0, 1.5, 5, 1.5, 11.25, 11.25, 1, 8),
 (15, '1012TW32', 0, 2, 4, 2, 16, 16, 16, 0),
 (16, '1312VS45', 0, 2, 3, 2, 12, 12, 17, 0),
 (17, '2356AQH78', 0, 1.5, 7, 1, 10.5, 10.5, 18, 0),
 (18, '2356ASU90', 0, 2, 5, 2, 20, 20, 19, 0),
 (19, '652GFD93', 1, 2, 5, 2, 20, 20, 20, 0),
 (20, '1012TW94', 2, 2, 5, 2, 20, 20, 21, 0);
+
 
 -- --------------------------------------------------------
 
@@ -428,8 +430,12 @@ CREATE TABLE `preparation` (
 -- Contenu de la table `preparation`
 -- 
 
-INSERT DELAYED IGNORE INTO `preparation` (`idPreparation`, `idPreparateur`, `idDestination`, `idCamion`, `Origine`, `Etat`, `Volume`, `ChargementEnCours`, `Chargement`) VALUES (1, 3, 7, 1, 1, 0, 60, 0, 0),
-(2, 3, 3, 1, 1, 0, 450, 0, 0);
+INSERT DELAYED IGNORE INTO `preparation` (`idPreparation`, `idPreparateur`, `idDestination`, `idCamion`, `Origine`, `Etat`, `Volume`, `ChargementEnCours`, `Chargement`) VALUES 
+(1, 3, 7, 1, 1, 0, 20, 0, 0),
+(2, 3, 7, 2, 1, 0, 20, 0, 0),
+(3, 3, 7, 3, 1, 0, 20, 0, 0),
+(4, 3, 8, 14, 1, 0, 11.25, 0, 0);
+
 
 -- --------------------------------------------------------
 
