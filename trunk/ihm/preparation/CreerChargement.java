@@ -548,30 +548,25 @@ public class CreerChargement extends JFrame implements ActionListener{
 		}
 		
 		// Supprimer un colis dans le camion
-		else if(source==this.retirer){
-			//dimension_colis.remove(dimension_colis.size()-1);
-			ligneActive = listeChargementTab.getSelectedRow();
-			if (ligneActive != -1){
-				this.scene.removeChild(this.numero);
-				numero--;
-				colis=new Colis((Vector)listeChargementMod.getRow(ligneActive));
-				colis.setNumeroDsCharg(new Integer(0));
-				// On ajoute à la liste des colis
-				listeColisMod.addRow(colis.toVector());
-				
-				// Soustraction du volume
-				this.chargement.soustraireVolumeColis(new Float(colis.getVolume().intValue()));
-				listeColisMod.fireTableDataChanged();
-				//On supprime du chargement
-				listeChargementMod.removeRow(ligneActive);
-				listeChargementMod.fireTableDataChanged();
-				//Mise à jour des tableaux
-				listeColisTab.updateUI();
-				listeChargementTab.updateUI();
-			}
-			else{
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un colis dans le chargement","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
-			}
+		else if(source==this.retirer){	
+			this.scene.removeChild(this.numero);
+			colis=new Colis((Vector)listeChargementMod.getRow(numero));
+			colis.setNumeroDsCharg(new Integer(0));
+			
+			// On ajoute à la liste des colis
+			listeColisMod.addRow(colis.toVector());
+			
+			// Soustraction du volume
+			this.chargement.soustraireVolumeColis(new Float(colis.getVolume().floatValue()));
+			listeColisMod.fireTableDataChanged();
+			//On supprime du chargement
+			listeChargementMod.removeRow(numero);
+			listeChargementMod.fireTableDataChanged();
+			
+			numero--;
+			//Mise à jour des tableaux
+			listeColisTab.updateUI();
+			listeChargementTab.updateUI();
 		}
 	}
 	
