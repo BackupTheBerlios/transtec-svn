@@ -66,31 +66,31 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		this.fenetre.add(this.deconnexion);
 		this.deconnexion.addActionListener(this);
 		this.creerChargement=new Bouton("images/icones/creerChargement.png","images/icones/creerChargement_inv.png");
-		this.creerChargement.setBounds(802, 270, 139, 48);
+		this.creerChargement.setBounds(802, 270, 165, 41);
 		this.fenetre.add(this.creerChargement);
 		this.genererPlan=new Bouton("images/icones/genererPlan.png","images/icones/genererPlan_inv.png");
-		this.genererPlan.setBounds(802, 338, 143, 45);
+		this.genererPlan.setBounds(802, 331, 165, 41);
 		this.fenetre.add(this.genererPlan);
 		this.genererPlan.addActionListener(this);
 		this.creerChargement.addActionListener(this);
 		this.gererChargement=new Bouton("images/icones/gererChargement.png","images/icones/gererChargement_inv.png");
-		this.gererChargement.setBounds(802, 403, 158, 29);
+		this.gererChargement.setBounds(802, 392, 165, 41);
 		this.fenetre.add(this.gererChargement);
 		this.gererChargement.addActionListener(this);		
 		this.validerCharg=new Bouton("images/icones/validerCharg.png","images/icones/validerCharg_inv.png");
-		this.validerCharg.setBounds(802, 452, 121, 40);
+		this.validerCharg.setBounds(802, 453, 165, 41);
 		this.fenetre.add(this.validerCharg);
 		this.validerCharg.addActionListener(this);
 		this.imprimerEtiquette=new Bouton("images/icones/imprimerEtiquette.png","images/icones/imprimerEtiquette_inv.png");
-		this.imprimerEtiquette.setBounds(802, 512, 162, 42);
+		this.imprimerEtiquette.setBounds(802, 514, 165, 41);
 		this.fenetre.add(this.imprimerEtiquette);
 		this.imprimerEtiquette.addActionListener(this);
 		this.cloturerPrep=new Bouton("images/icones/cloturer.png","images/icones/cloturer_inv.png");
-		this.cloturerPrep.setBounds(802, 574, 162, 42);
+		this.cloturerPrep.setBounds(802, 575, 165, 41);
 		this.fenetre.add(this.cloturerPrep);
 		this.cloturerPrep.addActionListener(this);
 		this.incident=new Bouton("images/icones/incident.png","images/icones/incident_inv.png");
-		this.incident.setBounds(802, 636, 162, 42);
+		this.incident.setBounds(802, 636, 165, 41);
 		this.fenetre.add(this.incident);
 		this.incident.addActionListener(this);
 		
@@ -241,7 +241,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 			int ligneActive = table.getSelectedRow();
 			// Création d'un nouveau chargement pour la destination selectionnée
 			if(ligneActive==-1)
-				new FenetreWarning("");
+				new FenetreWarning("Veuillez sélectionner un camion dans le tableau");
 			else{
 				// création d'un chargement
 				if(source==this.creerChargement){
