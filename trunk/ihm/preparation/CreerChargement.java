@@ -105,11 +105,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 		fenetre.add(this.ajouter);
 		this.ajouter.addActionListener(this);
 		this.valider=new Bouton("images/icones/valider.png","images/icones/valider_inv.png");
-		this.valider.setBounds(550, 702, 108, 44);
+		this.valider.setBounds(540, 702, 165, 41);
 		fenetre.add(this.valider);
 		this.valider.addActionListener(this);
 		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
-		this.annuler.setBounds(675, 702, 108, 44);
+		this.annuler.setBounds(710, 702, 165, 41);
 		fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		
@@ -521,8 +521,8 @@ public class CreerChargement extends JFrame implements ActionListener{
 				//On ajoute au chargement la ligne selectionnée
 				listeChargementMod.addRow(colis.toVector());
 				
-				if(ligneActive+1<listeColisTab.getRowCount())
-					colisSuiv=new Colis((Vector)listeColisMod.getRow(ligneActive+1));
+				if(listeColisTab.getRowCount()>1)
+					colisSuiv=new Colis((Vector)listeColisMod.getRow(0));
 				else	colisSuiv=null;
 				// Ajout du volume
 				this.chargement.ajouterVolumeColis(new Float(colis.getVolume().intValue()));
@@ -537,9 +537,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 				
 				// Ajout de l'objet 3D
 				scene.addChild(brancheCube(
-						colis.getModele().getLargeur().floatValue()/(this.echelle), 
-						colis.getModele().getProfondeur().floatValue()/(this.echelle), 
-						colis.getModele().getHauteur().floatValue()/(this.echelle)));
+						colis.getModele().getLargeur().floatValue()/(this.echelle*2), 
+						colis.getModele().getProfondeur().floatValue()/(this.echelle*2), 
+						colis.getModele().getHauteur().floatValue()/(this.echelle*2)));
 				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
 			}
 			else{
@@ -549,6 +549,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		
 		// Supprimer un colis dans le camion
 		else if(source==this.retirer){
+			//dimension_colis.remove(dimension_colis.size()-1);
 			ligneActive = listeChargementTab.getSelectedRow();
 			if (ligneActive != -1){
 				this.scene.removeChild(this.numero);
@@ -588,7 +589,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    // Rotation
 	    rotation.rotY(0.0f);
 	    // Translation
-	    Vector3f vector = new Vector3f( 0.5f, .0f, .0f);
+	    Vector3f vector = new Vector3f( benne_prof-profondeur, benne_haut-hauteur, -benne_larg+largeur);
 	    translation.setTranslation(vector);
 	    
 	    

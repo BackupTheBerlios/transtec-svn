@@ -238,7 +238,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 			else{
 				// Création d'un chargement
 				if(source==this.creerChargement){
-					dispose();
 					try{
 						new CreerChargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
@@ -248,6 +247,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					catch(SQLException SQLE){
 						
 					}
+					dispose();
 				}
 				
 				// Modification d'un ancien chargement
