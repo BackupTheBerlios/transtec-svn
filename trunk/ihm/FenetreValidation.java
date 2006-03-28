@@ -57,7 +57,8 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 		setVisible(true);
 	}
 	public boolean getResultat(){
-		while(this.blocage==true);
+		//while(this.blocage==true);
+		//return resultat;
 		return resultat;
 	}
 	
@@ -65,7 +66,7 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 		if(arg0.getSource()==valider)
 			resultat=true;
 		setVisible(false);
-		this.blocage=false;
+		//this.blocage=false;
 	}
 	
 	public void fermer(){

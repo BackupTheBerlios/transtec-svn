@@ -91,8 +91,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private Transform3D View_Transform3D = new Transform3D();
 	private TransformGroup View_TransformGroup;
 	private Camion camion=null;
+	private Integer idPreparation;
 	
-	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion/*, Integer idPreparation*/) {
+	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
 		// Création graphique de la fenêtre
 		setTitle("Créer Chargement");
 		setSize(1024,768);
@@ -120,9 +121,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 		fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		
-		// Mémorisation de l'utilisateur
+		// Mémorisation des paramètres pour la fenêtre
 		this.utilisateur=utilisateur;
 		this.camion=camion;
+		this.idPreparation=idPreparation;
+		
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
 		
@@ -403,7 +406,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 						}
 						bddChargement.AjouterColis(chargement, aCharger);
 						// On crée le chargement temporaire
-						new AccesBDDPreparation().ajouterChargementTemp(new Integer(1), this.chargement.getId());
+						new AccesBDDPreparation().ajouterChargementTemp(this.idPreparation, this.chargement.getId());
 					}
 					catch(SQLException e){
 						
@@ -528,7 +531,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 					new FenetreWarning("Le chargement dépasse le volume disponible du camion").setVisible(true);
 			//}
 			//fenValide.fermer();
-				dispose();
+				//dispose();
 		}
 		
 		// Ajouter un colis dans le camion
@@ -545,7 +548,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 					colisSuiv=new Colis((Vector)listeColisMod.getRow(0));
 				else	colisSuiv=null;
 				// Ajout du volume
-				this.chargement.ajouterVolumeColis(new Float(colis.getVolume().intValue()));
+				this.chargement.ajouterVolumeColis(new Float(colis.getVolume().floatValue()));
 				listeChargementMod.fireTableDataChanged();
 				//On supprime de la liste des colis
 				listeColisMod.removeRow(ligneActive);
@@ -596,10 +599,15 @@ public class CreerChargement extends JFrame implements ActionListener{
 				listeChargementMod.removeRow(numero);
 				listeChargementMod.fireTableDataChanged();
 				
-				
 				//Mise à jour des tableaux
 				listeColisTab.updateUI();
 				listeChargementTab.updateUI();
+				
+				//Mise à jour de la vue gauche
+				if(listeColisTab.getRowCount()>=1)
+					colisSuiv=new Colis((Vector)listeColisMod.getRow(0));
+				else	colisSuiv=null;
+				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
 			}
 			else
 				new FenetreWarning("Le camion est déjà vide").setVisible(true);

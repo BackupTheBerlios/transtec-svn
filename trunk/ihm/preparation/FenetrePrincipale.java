@@ -245,8 +245,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					try{
 						new CreerChargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
-								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0))/*,
-								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)*/).setVisible(true);
+								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						

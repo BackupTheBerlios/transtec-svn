@@ -41,7 +41,7 @@ public class DeplacerColis implements KeyListener{
 		objSpin3=colis;
 		this.translation=translation;
 		xloc=0;
-		yloc=0;
+		yloc=(-benne_haut)+haut;
 		zloc=0;
 	}
 	
@@ -50,25 +50,21 @@ public class DeplacerColis implements KeyListener{
 		if(this.objSpin3!=null || this.translation!=null){
 			
 			if (e.getKeyChar()== 'a') {
-				yloc = (-benne_haut)+haut;
 				xloc = xloc + .01f;
 				Verif_Benne();
 				Cherch_haut();
 			}
 			if (e.getKeyChar()== 's') {
-				yloc = (-benne_haut)+haut;
 				xloc = xloc - .01f;
 				Verif_Benne();
 				Cherch_haut();
 			}
 			if (e.getKeyChar()=='f') {
-				yloc = (-benne_haut)+haut;
 				zloc = zloc + .01f;
 				Verif_Benne();
 				Cherch_haut();
 			}
 			if (e.getKeyChar()=='e') {
-				yloc = (-benne_haut)+haut;
 				zloc = zloc - .01f;
 				Verif_Benne();
 				Cherch_haut();

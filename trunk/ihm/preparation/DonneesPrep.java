@@ -1,6 +1,9 @@
 package ihm.preparation;
 
+import java.sql.SQLException;
 import java.util.Vector;
+
+import accesBDD.AccesBDDChargement;
 
 import donnees.Camion;
 import donnees.Entrepot;
@@ -25,16 +28,31 @@ public class DonneesPrep {
 	// Méthode permettant d'ajouter un camions dans liste de camions et de faire varier le
 	// volume pour la destination, ceci en rapport avec l'objet de type "preparation"
 	public void ajouterCamion(Preparation preparation){
+		AccesBDDChargement bddChargement=new AccesBDDChargement();
 		Vector courant=preparation.getCamion().toVector();
 		// Le vector courant servira à afficher le tableau des cmaions pour une destination donnée
 		courant.add(preparation.getVolume().toString());
 		courant.add(preparation.getIdChargementEnCours());
 		courant.add(preparation.getIdChargement());
-		if(preparation.getIdChargementEnCours().intValue()!=0)
+		if(preparation.getIdChargementEnCours().intValue()!=0){
 			courant.add("En Cours");
+			try {
+				this.volumeCharge=new Float(this.volumeCharge.floatValue()+bddChargement.volume(preparation.getIdChargementEnCours()).floatValue());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else{
-			if(preparation.getIdChargement().intValue()!=0)
+			if(preparation.getIdChargement().intValue()!=0){
 				courant.add("Validé");
+				try {
+					this.volumeCharge=new Float(this.volumeCharge.floatValue()+bddChargement.volume(preparation.getIdChargement()).floatValue());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			else
 				courant.add("A préparer");
 		}

@@ -226,4 +226,24 @@ public class AccesBDDChargement extends AccesBDD{
 		// on ajoute le chargement dans la colonne chargement effectué
 		bddPreparation.ajouterChargement(idPreparation, aModifier.getId());
 	}
+	
+	public Float volume(Integer idChargement) throws SQLException{
+		Float volume=new Float(0);
+		Chargement chargement=null;
+		AccesBDDCamion bddCamion=new AccesBDDCamion();
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		
+		PreparedStatement recherche=connecter().prepareStatement("SELECT VolChargement FROM chargement WHERE idChargement=?");
+		recherche.setInt(1, idChargement.intValue());
+		
+		ResultSet resultat=recherche.executeQuery();
+		if(resultat.next())
+			volume=new Float(resultat.getFloat("VolChargement"));
+		
+		recherche.close();
+		resultat.close();
+		deconnecter();
+		
+		return volume;
+	}
 }
