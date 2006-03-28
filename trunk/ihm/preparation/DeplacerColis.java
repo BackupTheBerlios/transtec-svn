@@ -48,27 +48,22 @@ public class DeplacerColis implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(this.objSpin3!=null || this.translation!=null){
-			
+			yloc=(-benne_haut)+haut;
 			if (e.getKeyChar()== 'a') {
 				xloc = xloc + .01f;
-				Verif_Benne();
-				Cherch_haut();
 			}
 			if (e.getKeyChar()== 's') {
 				xloc = xloc - .01f;
-				Verif_Benne();
-				Cherch_haut();
 			}
 			if (e.getKeyChar()=='f') {
 				zloc = zloc + .01f;
-				Verif_Benne();
-				Cherch_haut();
 			}
 			if (e.getKeyChar()=='e') {
 				zloc = zloc - .01f;
-				Verif_Benne();
-				Cherch_haut();
 			}
+			
+			Verif_Benne();
+			Cherch_haut();
 			
 			translation.setTranslation(new Vector3f(xloc,yloc,zloc));
 			objSpin3.setTransform(translation);

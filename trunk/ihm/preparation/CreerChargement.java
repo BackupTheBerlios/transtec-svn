@@ -37,6 +37,7 @@ import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
+import javax.media.j3d.View;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -52,6 +53,7 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.universe.SimpleUniverse;
+import com.sun.j3d.utils.universe.Viewer;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import accesBDD.AccesBDDChargement;
@@ -357,8 +359,18 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    fenetre.add(camion3D);
 	    
 	    // Creation d'un code barre de chargement avec la fonction random
-	    String codeBarre="";
-	    codeBarre+=new Random().nextInt(10);
+		int de;
+		String id="";
+		int error = 1;
+		do{
+			for (int i = 0; i< 9;i++)
+			{
+				Random r = new Random();
+				de = r.nextInt(10);
+				id = id + de;
+			}
+					
+		}while(error==0);
 
 	    // Création d'un nouveau chargement
 	    this.chargement=new Chargement(
@@ -367,7 +379,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    		new Float(0),
 	    		this.utilisateur,
 	    		new Timestamp(System.currentTimeMillis()),
-	    		codeBarre);
+	    		id);
 	    
 	    setVisible(true);
 	}
@@ -411,8 +423,8 @@ public class CreerChargement extends JFrame implements ActionListener{
 					catch(SQLException e){
 						
 					}
-					new FenetrePrincipale(this.utilisateur).setVisible(true);
 					
+					new FenetrePrincipale(this.utilisateur).setVisible(true);
 					
 					// Sauvegarde des vues du camions pour le plan de chargement
 				
@@ -449,89 +461,68 @@ public class CreerChargement extends JFrame implements ActionListener{
 				    
 			        for(int i=0;i<6;i++){
 				    	/* Changement de vues du chargement pour les différente captures */
-				    	if(i==AccesBDDPlan.ARRIERE){
-				    		View_Transform3D.lookAt(new Point3d(0,0,-(benne_larg+max_prof_haut*3)),new Point3d(0,0,0),new Vector3d(0,1f,0));
-				    		View_Transform3D.invert();
-				            View_TransformGroup.setTransform(View_Transform3D);
-				    	}
-				    	/*if(i==AccesBDDPlan.DESSOUS){
-				    		//View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3),0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-				    		View_Transform3D.invert();
-				            View_TransformGroup.setTransform(View_Transform3D);
-				    	}*/
-				    	/*if(i==AccesBDDPlan.DESSUS){
-				    		//View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-				    		View_Transform3D.invert();
-				            View_TransformGroup.setTransform(View_Transform3D);
-				    	}*/
-				    	if(i==AccesBDDPlan.DROITE){
-				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
-				    		View_Transform3D.invert();
-				            View_TransformGroup.setTransform(View_Transform3D);
-				    	}
-				    	if(i==AccesBDDPlan.FACE){
+			        	if(i==AccesBDDPlan.FACE){
 				    		View_Transform3D.lookAt(new Point3d(0,0,benne_larg+max_prof_haut*3),new Point3d(0,0,0),new Vector3d(0,1f,0));
 				    		View_Transform3D.invert();
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
-				    	if(i==AccesBDDPlan.GAUCHE){
+			        	else if(i==AccesBDDPlan.ARRIERE){
+				    		View_Transform3D.lookAt(new Point3d(0,0,-(benne_larg+max_prof_haut*3)),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+			        	else if(i==AccesBDDPlan.GAUCHE){
 				    		View_Transform3D.lookAt(new Point3d(-(benne_prof+max_haut_larg*3),0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
 				    		View_Transform3D.invert();
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
+			        	else if(i==AccesBDDPlan.DROITE){
+				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+			        	else if(i==AccesBDDPlan.DESSUS){
+				    		View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+			        	else if(i==AccesBDDPlan.DESSOUS){
+				    		View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3),0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.invert();
+				            View_TransformGroup.setTransform(View_Transform3D);
+				    	}
+			        	
 					    offScreenCanvas = new OffScreenCanvas3D(camion3D);
 					    simpleU.getViewer().getView().addCanvas3D(offScreenCanvas);
 					    
 					    imageFile = new File(repertoire.getName()+"/plan"+i+".png");
-		
 					    
-		
-					    // On recupere l'image (pixmap) rendue par le canvas 3D offscreen
+					    Canvas3D canvas=null;
+					    //while(simpleU.getViewer().getView().getCanvas3D(i+1)==null)	
+					    	//System.out.println("test boucle");
+					    
 					    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
-		
+					    
 					    // On recupere le contexte graphique de l'image finale de sortie
 					    Graphics2D gc = image.createGraphics();
 					    gc.drawImage(image, 0, 0, null);
 					    
-					    
-		//			  Sauvegarde de l'image dans un fichier au format PNG
+					    // Sauvegarde de l'image dans un fichier au format PNG
 					    try {
 					      ImageIO.write(image, "png", imageFile);
 					    }
 					    catch (IOException ex) {
 					      System.out.println("Impossible de sauvegarder l'image");
 					    }
-					    /*try {
-							is[i] = new BufferedInputStream(new FileInputStream("plan"+i+".png"));
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
 				    }
-				    
-				    
-				    /*try {
-						new AccesBDDPlan().ajouter(new Integer(2), is);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}*/
-				    
-				    
-				    
-				    
 				    // On ferme la fenêtre
 				}
 				else
 					new FenetreWarning("Le chargement dépasse le volume disponible du camion").setVisible(true);
 			//}
 			//fenValide.fermer();
-				//dispose();
+				
+			dispose();
 		}
 		
 		// Ajouter un colis dans le camion
