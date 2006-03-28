@@ -255,13 +255,13 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				}
 				
 				// Modification d'un ancien chargement
-				else if(source==this.gererChargement) {
-					dispose();					
+				else if(source==this.gererChargement) {		
 					new ModifierChargement(
 							this.utilisateur,
 							(Integer)((Vector)tableMod.getRow(ligneActive)).get(11), 
 							this.selectionnee.getDestination().getId(), 
-							this.selectionnee.getVolume()).setVisible(true);
+							this.selectionnee.getCamion((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)).getVolumeDispo()).setVisible(true);
+					dispose();	
 				}
 				
 				// Création du plan de chargement
@@ -272,7 +272,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					
 				// Imprimer une étiquette
 				else if(source==this.imprimerEtiquette)
-						JOptionPane.showMessageDialog(this,"L'impression a été lancée","Message de confirmation",JOptionPane.YES_NO_CANCEL_OPTION);
+						new FenetreWarning("L'impression a été lancée").setVisible(true);
 				
 				// Valider le chargement
 				else if(source==this.validerCharg){
@@ -320,7 +320,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					// On déttruit le répertoire
 					File repertoire=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11)).toString());
 					repertoire.delete();
-					dispose();
 				}
 			}
 		}

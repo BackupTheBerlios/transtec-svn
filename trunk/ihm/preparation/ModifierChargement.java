@@ -2,6 +2,7 @@ package ihm.preparation;
 
 import ihm.Bouton;
 import ihm.FenetreType;
+import ihm.FenetreWarning;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
@@ -29,7 +30,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 	private TableSorter sorter2;
 	private Chargement chargement;
 	private JLabel labelVolumeChargement,labelVolumeMax;
-	private Float volumeChargement, volumeMax;	// Ne sert plus
+	private Float volumeMax;
 	private Vector listeColis=null;
 	private FenetreType fenetre;
 	private Bouton ajouter, retirer, valider, annuler;
@@ -55,11 +56,11 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		this.fenetre.add(this.retirer);
 		this.retirer.addActionListener(this);
 		this.valider=new Bouton("images/icones/valider.png","images/icones/valider_inv.png");
-		this.valider.setBounds(810, 485, 108, 43);
+		this.valider.setBounds(810, 485, 165, 41);
 		this.fenetre.add(this.valider);
 		this.valider.addActionListener(this);
 		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
-		this.annuler.setBounds(810, 543, 108, 43);
+		this.annuler.setBounds(810, 543, 165, 41);
 		this.fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		
@@ -78,7 +79,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			
 		}
 		this.volumeMax=volumeMax;
-		this.volumeChargement=new Float(this.chargement.getVolChargement().floatValue());
+		//this.volumeChargement=new Float(this.chargement.getVolChargement().floatValue());
 		
 		// Affichage du chargement traité
 		JLabel labelChargement=new JLabel("Chargement n°"+this.chargement.getCodeBarre());
@@ -95,7 +96,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		JLabel labelInfo2= new JLabel("Volume chargé : ");
 		labelInfo2.setBounds(570,227,200,20);
 		fenetre.add(labelInfo2);
-		this.labelVolumeChargement=new JLabel(this.volumeChargement.toString());
+		this.labelVolumeChargement=new JLabel(this.chargement.getVolChargement().toString());
 		this.labelVolumeChargement.setBounds(670,227,200,20);
 		fenetre.add(this.labelVolumeChargement);
 		
@@ -158,6 +159,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(3));
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(3));
 		tableColis.removeColumn(tableColis.getColumnModel().getColumn(3));
+		tableColis.removeColumn(tableColis.getColumnModel().getColumn(5));
 		
 		//Construction du JScrollPane
 		JScrollPane scrollPane1 = new JScrollPane(tableColis);
@@ -211,6 +213,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(3));
 		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(3));
 		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(3));
+		tableChargement.removeColumn(tableChargement.getColumnModel().getColumn(5));
 	
 		//Construction du JScrollPane
 		JScrollPane scrollPane2 = new JScrollPane(tableChargement);
@@ -247,14 +250,15 @@ public class ModifierChargement extends JFrame implements ActionListener{
 				tableChargement.updateUI();
 				
 				// On remet à jour le volume
-				this.fenetre.remove(this.labelVolumeChargement);
-				this.labelVolumeChargement=new JLabel(this.chargement.ajouterVolumeColis(new Float(new Colis(vec).getVolume().intValue())));
-				this.labelVolumeChargement.setBounds(440,30,200,20);
-				this.fenetre.add(this.labelVolumeChargement);
-				this.fenetre.repaint();
+				//this.fenetre.remove(this.labelVolumeChargement);
+				this.labelVolumeChargement.setText(this.chargement.ajouterVolumeColis(new Colis(vec).getVolume()));
+				this.labelVolumeChargement.updateUI();
+				//this.labelVolumeChargement.setBounds(440,30,200,20);
+				//this.fenetre.add(this.labelVolumeChargement);
+				//this.fenetre.repaint();
 			}
 			else
-				JOptionPane.showMessageDialog(this,"Veuillez sélectionner un camion","Message d'avertissement",JOptionPane.ERROR_MESSAGE);
+				new FenetreWarning("Veuillez sélectionner un colis").setVisible(true);
 		}
 		//Action liée au bouton droite_gauche
 		else if(source==this.retirer){
@@ -276,14 +280,18 @@ public class ModifierChargement extends JFrame implements ActionListener{
 				tableChargement.updateUI();
 				
 				// On remet à jour le volume
-				this.fenetre.remove(this.labelVolumeChargement);
-				this.labelVolumeChargement=new JLabel(this.chargement.soustraireVolumeColis(new Float(new Colis(vec).getVolume().intValue())));
-				this.labelVolumeChargement.setBounds(440,30,200,20);
-				fenetre.add(this.labelVolumeChargement);
-				this.fenetre.repaint();
+				//this.fenetre.remove(this.labelVolumeChargement);
+				this.labelVolumeChargement.setText(this.chargement.soustraireVolumeColis(new Colis(vec).getVolume()));
+				this.labelVolumeChargement.updateUI();
+				//this.labelVolumeChargement.setBounds(440,30,200,20);
+				//fenetre.add(this.labelVolumeChargement);
+				//this.fenetre.repaint();
 			}
+			else
+				new FenetreWarning("Veuillez sélectionner un colis").setVisible(true);
 		}
 		else if(source==this.valider){
+			new FenetrePrincipale(this.utilisateur).setVisible(true);
 			Vector nouvCharg=new Vector();
 			AccesBDDChargement bddChargement=new AccesBDDChargement();
 			
@@ -316,14 +324,13 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			catch(SQLException e){
 				
 			}
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
 			dispose();
 		}
 		
 		// Annulation de l'opération de modification du chargement
 		else if(source==this.annuler){
-			dispose();
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			dispose();
 		}
 	}
 }
