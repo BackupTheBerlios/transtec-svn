@@ -51,7 +51,7 @@ public class ModeleColis {
 		return this.profondeur;
 	}
 
-	// Calcul du volume (en cm3) lié aux données.
+	// Calcul du volume (en m3) lié aux données.
 	public Float calculerVolume(){
 		Float vol = new Float(0);
 		

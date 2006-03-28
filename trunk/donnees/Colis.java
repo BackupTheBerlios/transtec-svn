@@ -1,14 +1,13 @@
 package donnees;
 
-
-
 import java.sql.Timestamp;
 import java.util.Vector;
 
-//----- Classe regroupant tous les attributs d'un colis, ainsi que les méthodes propres à la manipulation de cet objet -----//
+/*
+ * Classe regroupant tous les attributs d'un colis, ainsi que les méthodes propres à la manipulation de cet objet
+ */ 
 
 public class Colis {
-
 	private Integer id;
 	private Entrepot entrepot;
 	private String code_barre;
@@ -17,10 +16,10 @@ public class Colis {
 	private Entrepot origine;
 	private Entrepot destination;
 	private Utilisateur utilisateur;
-	private Integer poids;// en grammes
+	private Integer poids;
 	private Timestamp date_envoi;
 	private Integer fragilite;
-	private ModeleColis modele;/////////// A VOIR
+	private ModeleColis modele;
 	private String valeur_declaree;
 	private Float volume;
 	private Integer numeroDsCharg;

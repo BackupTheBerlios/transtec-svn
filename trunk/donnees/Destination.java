@@ -2,7 +2,9 @@ package donnees;
 
 import java.util.Vector;
 
-//----- Classe regroupant tous les attributs d'une destination (couple "Entrepôt + volume de colis")
+/*
+ * Classe regroupant tous les attributs d'une destination (couple "Entrepôt + volume de colis")
+ */ 
 
 public class Destination implements Comparable{
 	private Entrepot entrepot;

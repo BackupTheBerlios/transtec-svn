@@ -11,7 +11,7 @@ public class Chargement {
 	private Integer id;
 	private Camion camion;
 	private Integer nbColis;
-	private Float volChargement; //en cm3
+	private Float volChargement;
 	private Utilisateur utilisateur;
 	private Timestamp date;
 	private String codeBarre;

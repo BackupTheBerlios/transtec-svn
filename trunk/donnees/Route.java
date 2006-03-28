@@ -2,7 +2,10 @@ package donnees;
 
 import java.util.Vector;
 
-// Classe représentant une route de la table de routage
+/*
+ * Classe représentant une route de la table de routage
+ */ 
+
 public class Route {
 	private Integer id;
 	private Entrepot origine;
