@@ -399,11 +399,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 		
 		// Création d'un chargement à l'état en cours
 		else if(source==this.valider){
-//			 On réaffiche la fenêtre principale
+
 			
-			//FenetreValidation fenValide=new FenetreValidation("Voulez-vous vraiment créer ce chargement");
+			FenetreValidation fenValide=new FenetreValidation("Voulez-vous vraiment créer ce chargement");
 			//fenValide.setVisible(true);
-			//if(fenValide.getResultat()==true){
+			if(fenValide.getResultat()==true){
 				if(this.camion.getVolumeDispo().floatValue()-this.chargement.getVolChargement().floatValue()>0){
 					Colis courant;
 					// On met à jour la date
@@ -423,7 +423,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 					catch(SQLException e){
 						
 					}
-					
+					// On réaffiche la fenêtre principale
 					new FenetrePrincipale(this.utilisateur).setVisible(true);
 					
 					// Sauvegarde des vues du camions pour le plan de chargement
@@ -516,13 +516,12 @@ public class CreerChargement extends JFrame implements ActionListener{
 					    }
 				    }
 				    // On ferme la fenêtre
+			        dispose();
 				}
 				else
 					new FenetreWarning("Le chargement dépasse le volume disponible du camion").setVisible(true);
-			//}
-			//fenValide.fermer();
-				
-			dispose();
+			}
+			fenValide.fermer();
 		}
 		
 		// Ajouter un colis dans le camion

@@ -24,14 +24,6 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 		setContentPane(fenetre);
 		// Création de la police
 		Font font=new Font("Verdana", Font.BOLD, 12);
-		//setTitle("Validation");
-		/*labelMessage.setText(message);
-		labelMessage.setHorizontalTextPosition(SwingConstants.CENTER);
-		labelMessage.setVerticalTextPosition(SwingConstants.CENTER);
-		labelMessage.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-		panel.setOpaque(false);
-		panel.add(labelMessage,BorderLayout.CENTER);
-		panel.setBounds(0, 30, 330, 100);*/
 		JTextArea description=new JTextArea(message);
 		description.setFont(font);
 		description.setBounds(20, 40, 300, 180);
@@ -57,16 +49,18 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 		setVisible(true);
 	}
 	public boolean getResultat(){
-		//while(this.blocage==true);
-		//return resultat;
+		while(this.blocage==true)	setVisible(true);
 		return resultat;
 	}
 	
 	public void stateChanged(ChangeEvent arg0) {
 		if(arg0.getSource()==valider)
 			resultat=true;
+		else
+			resultat=false;
 		setVisible(false);
-		//this.blocage=false;
+		
+		this.blocage=false;
 	}
 	
 	public void fermer(){
@@ -74,6 +68,9 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 	}
 	
 	public static void main(String[] args) {
-		new FenetreValidation("OUH le joli Message aligné au centre du milieu de la fenêtre").setVisible(true);
+		FenetreValidation a=new FenetreValidation("OUH le joli Message aligné au centre du milieu de la fenêtre");
+		a.setVisible(true);
+		System.out.println(a.getResultat());
+		a.fermer();
 	}
 }
