@@ -64,19 +64,19 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		
 		// Mise en place des champs, boutons,...
 		this.rechercher=new Bouton("images/icones/rechercher.png","images/icones/rechercher_inv.png");
-		this.rechercher.setBounds(250,260,121,32);
+		this.rechercher.setBounds(250,260,165,41);
 		this.fenetre.add(this.rechercher);
 		this.rechercher.addActionListener(this);
 		this.envoyer=new Bouton("images/icones/zoneExpertise.png","images/icones/zoneExpertise_inv.png");
-		this.envoyer.setBounds(804,260,168,43);
+		this.envoyer.setBounds(804,260,165,41);
 		this.fenetre.add(this.envoyer);
 		this.envoyer.addActionListener(this);
 		this.laisser=new Bouton("images/icones/laisser.png","images/icones/laisser_inv.png");
-		this.laisser.setBounds(795,315,168,43);
+		this.laisser.setBounds(804,315,165,41);
 		this.fenetre.add(this.laisser);
 		this.laisser.addActionListener(this);
 		this.annuler=new Bouton("images/icones/annuler.png","images/icones/annuler_inv.png");
-		this.annuler.setBounds(807,368,105,43);
+		this.annuler.setBounds(804,368,165,41);
 		this.fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		this.tfCodeBarreColis=new JTextField("Insérer code barre");

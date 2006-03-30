@@ -307,19 +307,20 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					catch(SQLException esql){
 						
 					}
-					// On supprime la ligne du tableau et on màj
-					this.tableMod.removeRow(ligneActive);
-					this.table.updateUI();
 					
 					// Destruction des images en locak sur l'ordinateur
 					File file=null;
 					for(int i=0;i<6;i++){
-						file=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11)).toString()+"/plan"+i+".png");
+						file=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(12)).toString()+"/plan"+i+".png");
 						file.delete();
 					}
 					// On déttruit le répertoire
-					File repertoire=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11)).toString());
+					File repertoire=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(12)).toString());
 					repertoire.delete();
+					
+					// On supprime la ligne du tableau et on màj
+					this.tableMod.removeRow(ligneActive);
+					this.table.updateUI();
 				}
 			}
 		}
@@ -363,18 +364,18 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		this.ligneActive = table.getSelectedRow();
 		if(ligneActive!=-1){
 			Vector ligne=(Vector)this.tableMod.getRow(ligneActive);
-			// Cas où la préparation est vierge!
-			if(((Integer)ligne.get(11)).intValue()==0){
-				this.creerChargement.setEnabled(true);
-				this.genererPlan.setEnabled(false);
+			// Cas où le chargement a été validé
+			if(((Integer)ligne.get(12)).intValue()!=0){
+				this.creerChargement.setEnabled(false);
+				this.genererPlan.setEnabled(true);
 				this.gererChargement.setEnabled(false);
 				this.validerCharg.setEnabled(false);
-				this.imprimerEtiquette.setEnabled(false);
-				this.cloturerPrep.setEnabled(false);
+				this.imprimerEtiquette.setEnabled(true);
+				this.cloturerPrep.setEnabled(true);
 			}
 			else{
 				// Cas où le chargement est en cours
-				if(((Integer)ligne.get(12)).intValue()==0){
+				if(((Integer)ligne.get(11)).intValue()!=0){
 					this.creerChargement.setEnabled(false);
 					this.genererPlan.setEnabled(true);
 					this.gererChargement.setEnabled(true);
@@ -382,14 +383,15 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					this.imprimerEtiquette.setEnabled(false);
 					this.cloturerPrep.setEnabled(false);
 				}
-				// Cas où le chargement a été validé
+				// Cas où la préparation est vierge!
 				else{
-					this.creerChargement.setEnabled(false);
-					this.genererPlan.setEnabled(true);
+					
+					this.creerChargement.setEnabled(true);
+					this.genererPlan.setEnabled(false);
 					this.gererChargement.setEnabled(false);
 					this.validerCharg.setEnabled(false);
-					this.imprimerEtiquette.setEnabled(true);
-					this.cloturerPrep.setEnabled(true);
+					this.imprimerEtiquette.setEnabled(false);
+					this.cloturerPrep.setEnabled(false);
 				}
 			}
 		}
