@@ -49,16 +49,16 @@ public class DeplacerColis implements KeyListener{
 		// TODO Auto-generated method stub
 		if(this.objSpin3!=null || this.translation!=null){
 			yloc=(-benne_haut)+haut;
-			if (e.getKeyChar()== 'a') {
+			if (e.getKeyCode()== KeyEvent.VK_RIGHT) {
 				xloc = xloc + .01f;
 			}
-			if (e.getKeyChar()== 's') {
+			if (e.getKeyCode()== KeyEvent.VK_LEFT) {
 				xloc = xloc - .01f;
 			}
-			if (e.getKeyChar()=='f') {
+			if (e.getKeyCode()== KeyEvent.VK_DOWN) {
 				zloc = zloc + .01f;
 			}
-			if (e.getKeyChar()=='e') {
+			if (e.getKeyCode()== KeyEvent.VK_UP) {
 				zloc = zloc - .01f;
 			}
 			
