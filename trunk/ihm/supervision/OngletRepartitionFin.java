@@ -189,10 +189,6 @@ public class OngletRepartitionFin extends JPanel{
 			// On extrait la ligne courante du tableau
 			v = (Vector)modeleTabPreparations.getRow(i);
 			
-			/*******
-			System.out.println(v);
-			/*******/
-			
 			// On place la camion de la ligne dans un objet
 			Camion c = (Camion)v.get(1);
 			
@@ -231,6 +227,7 @@ public class OngletRepartitionFin extends JPanel{
 				System.out.println(ex.getMessage());
 			}
 		}
+		JOptionPane.showMessageDialog(this,"Les préparations ont été correctement\nenregistrées dans le système.","Publication",JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	// Fonction permettant de vérifier que tous les champs du tableau sont renseignés
@@ -243,16 +240,18 @@ public class OngletRepartitionFin extends JPanel{
 			v = (Vector)modeleTabPreparations.getRow(i);
 			
 			// On vérifie qu'un entrepot de destination est saisi
-			if(!(v.get(2) instanceof Entrepot) && !(v.get(2) instanceof Destination))
+			if(!(v.get(2) instanceof Entrepot) && !(v.get(2) instanceof Destination)){
 				ret=false;
+			}
+			// On vérifie qu'un préparateur est choisi
 			else if(!(v.get(4) instanceof Utilisateur)) ret=false;
 		}	
 		
 		return ret;
 	}
 	
-	
-	/****** Classes utilisées localement ******/
+
+	/****** Classes utilisées localement pour mettre en forme l'affichage ******/
 	
 	// Classe dérivant de JComboBox et permettant d'afficher une liste
 	// de sélection dans une cellule de JTable
@@ -334,7 +333,6 @@ public class OngletRepartitionFin extends JPanel{
 				panelInfos.setTextDestination(sDestination);
 				panelInfos.setTextVolReparti(((Float)v.get(3)).toString());
 				panelInfos.setTextVolTotal(sVolTotal);
-
 			}
 		}
     }

@@ -399,11 +399,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 		
 		// Création d'un chargement à l'état en cours
 		else if(source==this.valider){
-			/*FenetreValidation a=new FenetreValidation("OUH le joli Message aligné au centre du milieu de la fenêtre");
+			FenetreValidation a=new FenetreValidation("OUH le joli Message aligné au centre du milieu de la fenêtre");
 			a.setVisible(true);
 			System.out.println(a.getResultat());
 			a.fermer();
-			boolean res=false;*/
+			//boolean res=false;
 			//if(res==true){
 				if(this.camion.getVolumeDispo().floatValue()-this.chargement.getVolChargement().floatValue()>0){
 					Colis courant;

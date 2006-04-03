@@ -9,7 +9,7 @@ import java.awt.*;
 
 import donnees.Utilisateur;
 import donnees.Entrepot;
-//import ihm.Fenetre_login;
+import ihm.Fenetre_login;
 import accesBDD.AccesBDDEntrepot;
 
 //  Fenêtre principale du Superviseur
@@ -106,10 +106,10 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 		
 		// Si l'utilisateur a cliqué sur Déconnexion, on retourne à l'invite de login
 		if(source==boutonDeconnexion){
-//			JFrame fenlogin = new Fenetre_login();
-//			fenlogin.setVisible(true);
-//			dispose();
-			System.exit(0);
+			JFrame fenlogin = new Fenetre_login();
+			fenlogin.setVisible(true);
+			dispose();
+//			System.exit(0);
 		}
 	}
 	

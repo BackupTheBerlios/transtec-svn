@@ -209,21 +209,9 @@ public class OngletRepartition extends JPanel implements ActionListener{
 		}
 		else if(source==boutPublier){
 			// On publie la liste des chargements répartis
-			if(panDonneesFin.verifierSaisie())
+			if(panDonneesFin.verifierSaisie()){
 				panDonneesFin.publierPreparations();
-		}
-	}
-	
-	// Permet de valider les mises à jour dans les cellules d'un tableau
-/*	public static void traverseAllCells(JTable table)
-	{
-		table.setSurrendersFocusOnKeystroke(true);
-		for (int x = 0; x < table.getRowCount(); x++)
-		{
-			for (int y = 0; y < table.getColumnCount(); y++)
-			{
-				table.editCellAt(x ,y);
 			}
 		}
-	}*/
+	}
 }
