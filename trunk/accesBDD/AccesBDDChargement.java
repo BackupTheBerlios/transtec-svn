@@ -229,9 +229,9 @@ public class AccesBDDChargement extends AccesBDD{
 	
 	public Float volume(Integer idChargement) throws SQLException{
 		Float volume=new Float(0);
-		Chargement chargement=null;
-		AccesBDDCamion bddCamion=new AccesBDDCamion();
-		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		//Chargement chargement=null;
+		//AccesBDDCamion bddCamion=new AccesBDDCamion();
+		//AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		
 		PreparedStatement recherche=connecter().prepareStatement("SELECT VolChargement FROM chargement WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());

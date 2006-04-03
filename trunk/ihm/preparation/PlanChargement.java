@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -59,40 +57,31 @@ public class PlanChargement extends JFrame implements ActionListener{
 		this.fenetre.add(this.annuler);
 		this.annuler.addActionListener(this);
 		
+		// Mise en place des vues
+		AffichageImage image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DESSUS+".png");
+		image.setBounds(247,251,257,129);
+		this.fenetre.add(image);
 		
-		try{
-			//	On recherche les fichiers dans la BDD
-			Blob fichiers[]=new AccesBDDPlan().rechercher(idChargement);
+		image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.GAUCHE+".png");
+		image.setBounds(247,424,257,129);
+		this.fenetre.add(image);
 		
-			// Mise en place des vues
-			AffichageImage image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DESSUS+".png");
-			image.setBounds(247,251,257,129);
-			this.fenetre.add(image);
-			
-			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.GAUCHE+".png");
-			image.setBounds(247,424,257,129);
-			this.fenetre.add(image);
-			
-			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.FACE+".png");
-			image.setBounds(247,597,257,129);
-			this.fenetre.add(image);
-			
-			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DESSOUS+".png");
-			image.setBounds(524,251,257,129);
-			this.fenetre.add(image);
-			
-			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DROITE+".png");
-			image.setBounds(524,424,257,129);
-			this.fenetre.add(image);
-			
-			image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.ARRIERE+".png");
-			image.setBounds(524,597,257,129);
-			this.fenetre.add(image);
-			// Fin de mise en place des vues
-		}
-		catch(SQLException e){
-			
-		}
+		image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.FACE+".png");
+		image.setBounds(247,597,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DESSOUS+".png");
+		image.setBounds(524,251,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.DROITE+".png");
+		image.setBounds(524,424,257,129);
+		this.fenetre.add(image);
+		
+		image = new AffichageImage(idChargement.toString()+"/plan"+AccesBDDPlan.ARRIERE+".png");
+		image.setBounds(524,597,257,129);
+		this.fenetre.add(image);
+		// Fin de mise en place des vues
 		
 		// Crétaion des colonnes
 		Vector nomColonnes=new Vector();

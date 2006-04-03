@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 public class FenetreValidation extends JDialog implements ChangeListener{
 	private Bouton valider, annuler;
 	private boolean resultat=false, blocage=true;
-	private JLabel labelMessage = new JLabel();
+	//private JLabel labelMessage = new JLabel();
 	//JPanel panel = new JPanel(new BorderLayout());
 
 	public FenetreValidation(String message){

@@ -80,7 +80,7 @@ public class Colis {
 		this.modele=(ModeleColis)v.get(11);
 		
 		//A Supprimer ou à garder ?
-		ModeleColis m=new ModeleColis(FormeToConst((String)v.get(12)),ModeleToConst((String)v.get(13)));
+		//ModeleColis m=new ModeleColis(FormeToConst((String)v.get(12)),ModeleToConst((String)v.get(13)));
 		
 		this.valeur_declaree=(String)v.get(14);	
 		this.volume=(Float)v.get(15);	
@@ -110,7 +110,7 @@ public class Colis {
 		return v;
 	}
 	
-	private static Integer ModeleToConst(String s){
+	/*private static Integer ModeleToConst(String s){
 		Integer ret=null;
 		
 		if(s.equals("Modèle 1")) ret=new Integer(0);
@@ -128,7 +128,7 @@ public class Colis {
 		else if(s.equals("Cylindre")) ret=new Integer(2);
 		
 		return ret;
-	}
+	}*/
 	
 	private static Integer stringToConst(String s){
 		Integer ret=null;

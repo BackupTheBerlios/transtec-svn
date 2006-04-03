@@ -1,3 +1,4 @@
+
 package ihm.preparation;
 
 import ihm.Bouton;
@@ -37,9 +38,7 @@ import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
-import javax.media.j3d.View;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -53,7 +52,6 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.sun.j3d.utils.universe.Viewer;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import accesBDD.AccesBDDChargement;
@@ -498,7 +496,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 					    
 					    imageFile = new File(repertoire.getName()+"/plan"+i+".png");
 					    
-					    Canvas3D canvas=null;
+					    //Canvas3D canvas=null;
 					    //while(simpleU.getViewer().getView().getCanvas3D(i+1)==null)	
 					    	//System.out.println("test boucle");
 					    
