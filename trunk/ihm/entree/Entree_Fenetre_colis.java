@@ -1119,12 +1119,12 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						if(forme_colis.getSelectedIndex() == 2)
 						{
 							largeur_temp = largeur.getText();
-							profondeur_temp = "0";
+							profondeur_temp = "0.0";
 						}
 						else if(forme_colis.getSelectedIndex() == 0)
 						{
-							largeur_temp ="0";
-							profondeur_temp = "0";
+							largeur_temp ="0.0";
+							profondeur_temp = "0.0";
 						}
 						else{
 							largeur_temp = largeur.getText();
@@ -1152,6 +1152,9 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 							e1.printStackTrace();
 						}
 					}
+					
+					System.out.println(modele.calculerVolume());
+					
 					
 					
 					//On ajoute l'entrepot dans la bdd
