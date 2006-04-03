@@ -96,6 +96,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 				
 				// Si un utilisateur correspond aux informations saisies
 				if(u!=null){
+
 					// On ouvre l'interface du poste correspondant à l'utilisateur
 					switch(u.getType().intValue())
 					{
@@ -117,6 +118,9 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						fen.setVisible(true);
 						break;
 					}		
+
+					// on fait disparaitre la fenêtre de login
+					dispose();
 				}
 				// Si aucun utilisateur n'est trouvé
 				else{

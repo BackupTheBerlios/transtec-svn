@@ -13,13 +13,13 @@ import donnees.Entrepot;
 public class OngletCamion extends Onglet implements ActionListener{
 	
 	private AccesBDDCamion tableCamions = new AccesBDDCamion(); 
-	private Entrepot entActuel;
+	//private Entrepot entActuel;
 
 	public OngletCamion(Entrepot entActuel){
 		super("Gestion des camions");
 				
 		// Transmission de l'entrepot où l'on se trouve
-		this.entActuel = entActuel;
+		//this.entActuel = entActuel;
 		
 		// Mise en forme initiale
 		setOpaque(false);
@@ -139,7 +139,7 @@ public class OngletCamion extends Onglet implements ActionListener{
 	private void listerCamions(){
         try{
 	        // On récupère les camions de la base de données et on les affiche
-	        Vector listeCamions = tableCamions.lister(this.entActuel);
+	        Vector listeCamions = tableCamions.lister(/*this.entActuel*/);
 	        
 	        for(int i=0;i<listeCamions.size();i++){
 	        	donnees.addElement(((Camion)listeCamions.get(i)).toVector());
