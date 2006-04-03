@@ -96,10 +96,6 @@ public class Fenetre_login extends JFrame implements ActionListener{
 				
 				// Si un utilisateur correspond aux informations saisies
 				if(u!=null){
-					
-					// on fait disparaitre la fenêtre de login
-					dispose();
-					
 					// On ouvre l'interface du poste correspondant à l'utilisateur
 					switch(u.getType().intValue())
 					{
@@ -126,6 +122,8 @@ public class Fenetre_login extends JFrame implements ActionListener{
 				else{
 					JOptionPane.showMessageDialog(this,"Le couple login/mot de\npasse est incorrect.","Erreur",JOptionPane.ERROR_MESSAGE);					
 				}		
+				// on fait disparaitre la fenêtre de login
+				dispose();
 			}
 			catch(Exception ex){				
 				System.out.println(ex.getMessage());
