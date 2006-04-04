@@ -161,7 +161,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		poids.setEnabled(false);
 
 		//label de date d'envoie du colis
-		label_date = new JLabel("Date d'envoie :");
+		label_date = new JLabel("Date d'envoi :");
 		label_date.setBounds(pos_x + 20,350,175,15);
 		label_date.setFont(font);
 		contenu.add(label_date);
@@ -1561,7 +1561,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	private JMenuItem se_deloguer,creation;
 	private JLabel label_email_dest,label_tel_exp,label_ville_exp,label_adresse_exp,label_cp_exp,label_nom_exp,label_prenom_exp,label_email_exp,label_tel_dest,label_ville_dest,label_adresse_dest,label_cp_dest,label_nom_dest,label_prenom_dest,/*label_liste_incidents,*/label_profondeur_colis,label_hauteur_colis,label_largeur_colis,label_camion,/*label_cam,*/label_date,label_poids,label_dest,label_exp,numero_colis,label_forme_colis,label_modele_colis,label_fragile;
 	private JTextField tel_exp,email_exp,ville_exp,adresse_exp,cp_exp,nom_exp,prenom_exp,tel_dest,email_dest,ville_dest,adresse_dest,cp_dest,nom_dest,prenom_dest,hauteur,profondeur,largeur,date_envoie,poids,code_barre;
-	private String[] formes={"cube","pavé","cylindre"}, modele={"modèle1","modèle2","modèle3","personalisé"},fragilite={"trés fragile","fragile","pas fragile"};
+	private String[] formes={"cube","pavé","cylindre"}, modele={"modèle1","modèle2","modèle3","personalisé"},fragilite={"très fragile","fragile","pas fragile"};
 	private JComboBox forme_colis,modele_colis,fragilite_colis;
 	private JButton deconnexion,modif_infos,incident_automatique,select_personne,voir_incident,annuler,create_etiquette,create_incident,valider_colis;
 	private JTextArea donnees_dest,donnees_exp;

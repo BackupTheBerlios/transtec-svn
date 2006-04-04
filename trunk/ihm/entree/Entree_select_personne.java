@@ -8,6 +8,7 @@ import ihm.TableSorter;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -44,6 +45,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 	private JComboBox style_recherche;
 	private JTextField donnees_recherche;
 	private JButton rechercher;
+	private Font font;
 	
 	public Entree_select_personne(Entree_Fenetre_colis fenetre)
 	{
@@ -62,6 +64,8 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 		setContentPane(contenu);
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
+		
+		font=new Font("Verdana", Font.BOLD, 12);
 		
 		style_recherche = new JComboBox(recherche);
 		style_recherche.setBounds(20,45,100,20);

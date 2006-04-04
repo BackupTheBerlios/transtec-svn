@@ -5,6 +5,7 @@ import ihm.FenetreType;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,49 +51,58 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		contenu.setLayout(new FlowLayout());
 		getContentPane().setLayout(null);
 		
+		font=new Font("Verdana", Font.BOLD, 12);
+		
 		numero_colis = new JLabel("Numéro du colis :");
-		numero_colis.setBounds(40,50,120,10);
+		numero_colis.setBounds(20,50,120,10);
+		numero_colis.setFont(font);
 		contenu.add(numero_colis);
 		
 		code_barre = new JTextField(15);
-		code_barre.setBounds(165,47,135,20);
+		code_barre.setBounds(150,47,155,20);
 		code_barre.setText(col.getCode_barre());
 		code_barre.setEnabled(false);
+		code_barre.setFont(font);
 		contenu.add(code_barre);
 		
 		label_utilisateur = new JLabel("Utilisateur :");
-		label_utilisateur.setBounds(40,80,120,10);
+		label_utilisateur.setBounds(20,80,120,10);
+		label_utilisateur.setFont(font);
 		contenu.add(label_utilisateur);
 		
 		utilisateur = new JTextField(15);
-		utilisateur.setBounds(165,77,135,20);
+		utilisateur.setBounds(150,77,155,20);
 		utilisateur.setText(utilis.getPersonne().getNom());
 		utilisateur.setEnabled(false);
+		utilisateur.setFont(font);
 		contenu.add(utilisateur);
 		
 		label_date = new JLabel("Date de l'incident :");
-		label_date.setBounds(40,110,120,10);
+		label_date.setBounds(20,110,130,10);
+		label_date.setFont(font);
 		contenu.add(label_date);
 		
 		
 		date = new JTextField(15);
-		date.setBounds(165,107,135,20);
+		date.setBounds(150,107,155,20);
 		date.setText(new Timestamp(System.currentTimeMillis()).toLocaleString());
 		//date.setText(dfs.format(new Date()));
 		date.setEnabled(false);
+		date.setFont(font);
 		contenu.add(date);
 		
 		
 		description_incident = new JLabel("Description de l'incident :");
-		description_incident.setBounds(95,140,180,15);
+		description_incident.setBounds(80,140,180,15);
+		description_incident.setFont(font);
 		contenu.add(description_incident);
 		
 		donnees_description = new JTextArea();
 		donnees_description.setColumns(25);
 		donnees_description.setRows(6);
-		donnees_description.setBounds(40,160,255,100);
+		donnees_description.setBounds(20,160,285,100);
 		donnees_description.setLineWrap(true);
-		
+		donnees_description.setFont(font);
 		donnees_description.setWrapStyleWord(true);
 		contenu.add(donnees_description);
 		
@@ -221,4 +231,5 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 	private Colis colis;
 	private Utilisateur utilis;
 	private Incident incident;
+	private Font font;
 }
