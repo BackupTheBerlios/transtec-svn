@@ -32,7 +32,6 @@ import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDPreparation;
-import accesBDD.AccesBDDUtilisateur;
 import donnees.Utilisateur;
 
 /*
@@ -230,9 +229,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		
 		// On revient à la fenêtre de login
 		if(source==this.deconnexion){
-			dispose();
 			Fenetre_login login=new Fenetre_login();
 			login.setVisible(true);
+			dispose();
 		}
 		// Afficher les incidents
 		else if(source==this.incident){

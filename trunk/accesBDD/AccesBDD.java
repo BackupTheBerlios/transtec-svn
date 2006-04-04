@@ -19,8 +19,8 @@ public class AccesBDD {
 	//----- Constructeur mettant les caractéristique de la BDD -----//
 	public AccesBDD(){
 		driver="org.gjt.mm.mysql.Driver";
-        chaineconnexion="jdbc:mysql://localhost/transtec";
-      //  chaineconnexion="jdbc:mysql://192.168.0.3:3306/transtec";
+        //chaineconnexion="jdbc:mysql://localhost/transtec";
+		chaineconnexion="jdbc:mysql://192.168.0.3:3306/transtec";
 
         login="root";
         password=null;	

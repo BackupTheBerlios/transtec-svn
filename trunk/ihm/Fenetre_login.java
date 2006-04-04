@@ -1,6 +1,7 @@
 package ihm;
 
 import java.awt.event.*; 
+import java.sql.SQLException;
 
 import javax.swing.*;
 
@@ -79,6 +80,8 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		quitter.setBounds(10,735,98,17);
 		contenu.add(quitter);
 		quitter.addActionListener(this);
+		
+		
 		accesbdd = new AccesBDD();
 	}
 
@@ -93,7 +96,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			JFrame fen;
 			u = null;
 			bdd=new AccesBDDUtilisateur(accesbdd);
-			
+
 			try {
 				// On récupère l'utilisateur associé au couple login/mot de passe
 				u = bdd.isRegistered(login.getText(), new String(pwd1.getPassword()));
@@ -135,10 +138,15 @@ public class Fenetre_login extends JFrame implements ActionListener{
 			}
 			catch(Exception ex){				
 				System.out.println(ex.getMessage());
-			}				
+			}
 		}
 		// Si l'utilisateur veut quitter l'application
 		else if(source==quitter){
+			try {
+				accesbdd.deconnecter();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			System.exit(0);			
 		}
 	}
@@ -150,13 +158,9 @@ public class Fenetre_login extends JFrame implements ActionListener{
 	private JTextField login;
 	private JPasswordField pwd1;
 	protected JButton valider,quitter;
-	
+
 	public static void main(String[] args) {
 		JFrame fen1 = new Fenetre_login();
 		fen1.setVisible(true);	
-	}	
-	
-	
-	
-	
+	}
 }
