@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.awt.event.*;
 import java.sql.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDEntrepot;
 
 import donnees.Entrepot;
@@ -11,10 +12,11 @@ import donnees.Entrepot;
 // Panneau de l'onglet de gestion des camions
 public class OngletEntrepot extends Onglet implements ActionListener{
 	
-	private AccesBDDEntrepot tableEntrepots = new AccesBDDEntrepot(); 
+	private AccesBDDEntrepot tableEntrepots;
 
-	public OngletEntrepot(){
-		super("Gestion des entrepôts");
+	public OngletEntrepot(AccesBDD accesBDD){
+		super("Gestion des entrepôts", accesBDD);
+		this.tableEntrepots = new AccesBDDEntrepot(accesBDD); 
 		
 		//Mise en forme initiale
 		setOpaque(false);

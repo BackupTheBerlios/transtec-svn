@@ -86,7 +86,7 @@ public class OngletCamion extends Onglet implements ActionListener{
 					Camion c = new Camion(cVect);
 	
 					// On affiche l'invite de modification
-					new AjoutModifCamion(c,this,tableCamions);
+					new AjoutModifCamion(c,this,tableCamions,this.accesbdd);
 					
 					// On bloque l'utilisateur sur le pop-up
 					setFenetreActive(false);
@@ -103,7 +103,7 @@ public class OngletCamion extends Onglet implements ActionListener{
 			// Ajout d'un camion
 			if(source==boutAjouter){
 				// On affiche l'invite de saisie d'information
-				new AjoutModifCamion(null,this,tableCamions);
+				new AjoutModifCamion(null,this,tableCamions,this.accesbdd);
 				
 				// On bloque l'utilisateur sur le pop-up
 				setFenetreActive(false);

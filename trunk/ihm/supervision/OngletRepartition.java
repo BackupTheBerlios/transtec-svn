@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPreparation;
@@ -31,10 +32,10 @@ public class OngletRepartition extends JPanel implements ActionListener{
 	private Bouton boutPublier = new Bouton("images/supervision/bouton_publier.png","images/supervision/bouton_publier_appuyer.png");
 	protected Vector listePreparateurs,listeVolumesDestinations,listeCamions;	
 	protected Vector resultatAlgos = new Vector();
-	protected AccesBDDCamion tableCamions = new AccesBDDCamion();
-	protected AccesBDDColis tableColis = new AccesBDDColis();
-	protected AccesBDDPreparation tablePreparations = new AccesBDDPreparation();
-	protected AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur();
+	protected AccesBDDCamion tableCamions;
+	protected AccesBDDColis tableColis;
+	protected AccesBDDPreparation tablePreparations;
+	protected AccesBDDUtilisateur tableUtilisateurs;
 	protected Entrepot entActuel;
 	
 	private final static int DEBUT = 0;
@@ -47,7 +48,11 @@ public class OngletRepartition extends JPanel implements ActionListener{
 
 	private int ecranActuel = DEBUT;
 
-	public OngletRepartition(Entrepot entActuel){
+	public OngletRepartition(Entrepot entActuel, AccesBDD accesBDD){
+		this.tableCamions = new AccesBDDCamion(accesBDD);
+		this.tableColis = new AccesBDDColis(accesBDD);
+		this.tablePreparations = new AccesBDDPreparation(accesBDD);
+		this.tableUtilisateurs = new AccesBDDUtilisateur(accesBDD);
 		
 		// Transmission de l'entrepot où l'on se trouve
 		this.entActuel = entActuel;

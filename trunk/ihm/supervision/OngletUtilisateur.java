@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.event.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDUtilisateur;
 
 import donnees.Utilisateur;
@@ -11,10 +12,11 @@ import donnees.Utilisateur;
 // Panneau de l'onglet de gestion des utilisateurs
 public class OngletUtilisateur extends Onglet implements ActionListener{
 
-	private AccesBDDUtilisateur tableUtilisateurs = new AccesBDDUtilisateur(); 
+	private AccesBDDUtilisateur tableUtilisateurs;
 
-	public OngletUtilisateur(){
-		super("Gestion des utilisateurs");
+	public OngletUtilisateur(AccesBDD accesBDD){
+		super("Gestion des utilisateurs",accesBDD);
+		this.tableUtilisateurs = new AccesBDDUtilisateur(accesBDD); 
 		
 		//Mise en forme initiale
 		setOpaque(false);

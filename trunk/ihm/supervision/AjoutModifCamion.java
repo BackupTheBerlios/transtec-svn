@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import donnees.Camion;
 import donnees.Entrepot;
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDEntrepot;
 
@@ -28,11 +29,12 @@ public class AjoutModifCamion extends AjoutModif implements ActionListener{
 	private OngletCamion parent;
 	
 	private AccesBDDCamion tableCamions;
-	private AccesBDDEntrepot tableEntrepots = new AccesBDDEntrepot();
+	private AccesBDDEntrepot tableEntrepots;
 	
 	//Constructeur
-	public AjoutModifCamion(Camion c, OngletCamion parent, AccesBDDCamion tableCamions){
+	public AjoutModifCamion(Camion c, OngletCamion parent, AccesBDDCamion tableCamions,AccesBDD accesBDD){
 		super();
+		this.tableEntrepots = new AccesBDDEntrepot(accesBDD);
 		
 		// On indique le titre de la fenêtre selon le cas de figure : modification ou ajout
 		if(c!=null){

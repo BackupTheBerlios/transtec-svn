@@ -22,7 +22,7 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 	private OngletIncident ongletIncident;
 	private OngletRoutage ongletRoutage;
 	private OngletUtilisateur ongletUtilisateur;
-	private OngletEntrepot ongletEntrepot = new OngletEntrepot();
+	private OngletEntrepot ongletEntrepot;
 	private Bouton boutonDeconnexion;
 	private Entrepot entActuel; 
 	private AccesBDD accesbdd;
@@ -31,8 +31,8 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 	// Constructeur : nécessite un utilisateur en paramètre
 	public Sup_FenetrePrincipale(Utilisateur u, AccesBDD accesbdd) {
 		super(u.getPersonne().getPrenom()+" "+u.getPersonne().getNom()+" - Superviseur");
-		
 		this.accesbdd = accesbdd;
+		this.ongletEntrepot = new OngletEntrepot(this.accesbdd);
 		
 		// On enlève les barres d'état
 		setUndecorated(true);
@@ -78,10 +78,10 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 		onglets = new JTabbedPane(SwingConstants.TOP);
 		onglets.setUI(new CustomTabbedPane());
 		ongletCamion = new OngletCamion(entActuel,this.accesbdd);
-		ongletRepartition = new OngletRepartition(entActuel);
-		ongletIncident = new OngletIncident();
-		ongletRoutage = new OngletRoutage();
-		ongletUtilisateur = new OngletUtilisateur();
+		ongletRepartition = new OngletRepartition(entActuel, this.accesbdd);
+		ongletIncident = new OngletIncident(this.accesbdd);
+		ongletRoutage = new OngletRoutage(this.accesbdd);
+		ongletUtilisateur = new OngletUtilisateur(this.accesbdd);
 		onglets.addTab("Camions",null,ongletCamion,"Gérer la liste des camions : état, disponibilités, propriétés, ...");
 		onglets.addTab("Répartition",null,ongletRepartition,"Gérer la répartition des colis par destination");
 		onglets.addTab("Incidents",null,ongletIncident,"Gérer les incidents : mise à jour, consultation des archives, ...");

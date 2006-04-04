@@ -6,16 +6,18 @@ import java.awt.event.*;
 
 import ihm.Bouton;
 import donnees.Incident;
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDIncident;
 
 // Panneau de l'onglet de gestion des incidents
 public class OngletIncident extends Onglet implements ActionListener{
 	
 	private Bouton boutAfficher;
-	private AccesBDDIncident tableIncidents = new AccesBDDIncident();
+	private AccesBDDIncident tableIncidents;
 	
-	public OngletIncident(){
-		super("Gestion des incidents");
+	public OngletIncident(AccesBDD accesBDD){
+		super("Gestion des incidents",accesBDD);
+		this.tableIncidents = new AccesBDDIncident(accesBDD);
 		
 		//Mise en forme initiale
 		setOpaque(false);

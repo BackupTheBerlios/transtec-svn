@@ -4,16 +4,17 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.event.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDRoutage;
 import donnees.Route;
 
 // Panneau de l'onglet de gestion des tables de routage
 public class OngletRoutage extends Onglet implements ActionListener {
-
-	AccesBDDRoutage tableRoutage = new AccesBDDRoutage();
+	AccesBDDRoutage tableRoutage;
 	
-	public OngletRoutage() {
-		super("Gestion de la table de routage");
+	public OngletRoutage(AccesBDD accesBDD) {
+		super("Gestion de la table de routage",accesBDD);
+		this.tableRoutage = new AccesBDDRoutage(accesBDD);
 
 		//Mise en forme initiale
 		setOpaque(false);
@@ -67,7 +68,7 @@ public class OngletRoutage extends Onglet implements ActionListener {
 					Route r = new Route(rVect);
 	
 					// On affiche l'invite de modification
-					new AjoutModifRoutage(r,this,tableRoutage);
+					new AjoutModifRoutage(r,this,tableRoutage,this.accesbdd);
 				}
 				// Suppression d'un camion
 				else if (source == boutSupprimer) {
@@ -81,7 +82,7 @@ public class OngletRoutage extends Onglet implements ActionListener {
 			// Ajout d'un camion
 			if (source == boutAjouter) {
 				// On affiche l'invite de saisie d'information
-				new AjoutModifRoutage(null,this,tableRoutage);
+				new AjoutModifRoutage(null,this,tableRoutage,this.accesbdd);
 			}
 			// Mise à jour de la liste
 			else if(source==boutUpdate){

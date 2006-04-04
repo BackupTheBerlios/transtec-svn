@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.Vector;
 import javax.swing.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDEntrepot;
 import accesBDD.AccesBDDRoutage;
 import donnees.Entrepot;
@@ -23,12 +24,13 @@ public class AjoutModifRoutage extends AjoutModif implements ActionListener{
 	private Vector vectOrigines = new Vector();
 	private Vector vectDestinations = new Vector();
 	private Vector vectIntermed = new Vector();
-	private AccesBDDEntrepot tableEntrepots = new AccesBDDEntrepot();
+	private AccesBDDEntrepot tableEntrepots;
 	private AccesBDDRoutage tableRoutage;
 	
 	//Constructeur
-	public AjoutModifRoutage(Route r, OngletRoutage parent, AccesBDDRoutage tableRoutage){
+	public AjoutModifRoutage(Route r, OngletRoutage parent, AccesBDDRoutage tableRoutage, AccesBDD accesBDD){
 		super();
+		this.tableEntrepots = new AccesBDDEntrepot(accesBDD);
 		
 		// On indique le titre de la fenêtre selon le cas de figure : modification ou ajout
 		if(r!=null){
