@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDUtilisateur;
 
 import donnees.*;
@@ -16,6 +17,8 @@ import ihm.supervision.Sup_FenetrePrincipale;
 //au programme en fonction de leurs droits
 public class Fenetre_login extends JFrame implements ActionListener{
 
+	AccesBDD accesbdd = new AccesBDD();
+	
 	public Fenetre_login()
 	{
 		// Création graphique de la fenetre
@@ -88,7 +91,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		{
 			JFrame fen;
 			u = null;
-			bdd=new AccesBDDUtilisateur();
+			bdd=new AccesBDDUtilisateur(accesbdd);
 			
 			try {
 				// On récupère l'utilisateur associé au couple login/mot de passe
@@ -114,7 +117,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						
 					// Poste de supervision
 					case Utilisateur.SUPERVISION :
-						fen = new Sup_FenetrePrincipale(u);
+						fen = new Sup_FenetrePrincipale(u,accesbdd);
 						fen.setVisible(true);
 						break;
 					}		

@@ -6,10 +6,12 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 import donnees.Utilisateur;
 import donnees.Entrepot;
 import ihm.Fenetre_login;
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDEntrepot;
 
 //  Fenêtre principale du Superviseur
@@ -23,11 +25,15 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 	private OngletEntrepot ongletEntrepot = new OngletEntrepot();
 	private Bouton boutonDeconnexion;
 	private Entrepot entActuel; 
+	private AccesBDD accesbdd;
+
 	
 	// Constructeur : nécessite un utilisateur en paramètre
-	public Sup_FenetrePrincipale(Utilisateur u) {
+	public Sup_FenetrePrincipale(Utilisateur u, AccesBDD accesbdd) {
 		super(u.getPersonne().getPrenom()+" "+u.getPersonne().getNom()+" - Superviseur");
-
+		
+		this.accesbdd = accesbdd;
+		
 		// On enlève les barres d'état
 		setUndecorated(true);
 
@@ -60,7 +66,7 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 		
 		/***************/
 		try {
-			entActuel = new AccesBDDEntrepot().rechercher(new Integer(1));
+			entActuel = new AccesBDDEntrepot(this.accesbdd).rechercher(new Integer(1));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}	
@@ -71,7 +77,7 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 		// Onglets : création et assemblage
 		onglets = new JTabbedPane(SwingConstants.TOP);
 		onglets.setUI(new CustomTabbedPane());
-		ongletCamion = new OngletCamion(entActuel);
+		ongletCamion = new OngletCamion(entActuel,this.accesbdd);
 		ongletRepartition = new OngletRepartition(entActuel);
 		ongletIncident = new OngletIncident();
 		ongletRoutage = new OngletRoutage();
@@ -109,13 +115,18 @@ public class Sup_FenetrePrincipale extends JFrame implements ActionListener{
 			JFrame fenlogin = new Fenetre_login();
 			fenlogin.setVisible(true);
 			dispose();
+			try {
+				accesbdd.deconnecter();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 //			System.exit(0);
 		}
 	}
 	
 	// Fonction principale de l'interface Superviseur
-	public static void main(String [] args){
+/*	public static void main(String [] args){
 		Utilisateur uTest = new Utilisateur(new Integer(-1),"rochef","pass",new Integer(0),"Roche","François","67 rue Jean Jaurès","94800","Villejuif","roche@efrei.fr","0871732639");
-		new Sup_FenetrePrincipale(uTest);	
-	}
+		new Sup_FenetrePrincipale(uTest,accesbdd);	
+	}*/
 }

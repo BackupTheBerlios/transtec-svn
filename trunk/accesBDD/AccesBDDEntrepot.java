@@ -8,15 +8,18 @@ import java.sql.*;
 
 //----- Classe permettant l'accès à la table Entrepot, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDEntrepot extends AccesBDD{
-	public AccesBDDEntrepot(){
-		super();
+public class AccesBDDEntrepot{
+		
+	private AccesBDD accesbdd;
+	
+	public AccesBDDEntrepot(AccesBDD accesbdd){
+		this.accesbdd = accesbdd;
 	}
 	
 	//----- Ajouter un entrepot dans BDD -----//
 	public Integer ajouter(Entrepot aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idEntrepots) FROM entrepots");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idEntrepots) FROM entrepots");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -25,56 +28,56 @@ public class AccesBDDEntrepot extends AccesBDD{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion du colis dans la BDD -----//
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO entrepots "
 				+ "(idEntrepots,Localisation_idLocalisation,Telephone) " // Parametre de la table
 				+ "VALUES (?,?,?)"); 
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout de la localisation
-		ajout.setInt(2,new AccesBDDLocalisation().ajouter(aAjouter.getLocalisation()).intValue());
+		ajout.setInt(2,new AccesBDDLocalisation(accesbdd).ajouter(aAjouter.getLocalisation()).intValue());
 		ajout.setString(3,aAjouter.getTelephone());
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
-		deconnecter();
+		//deconnecter();
 
 		return aAjouter.getId();
 	}
 	
 	//----- Modifier les informations d'une entrepôt -----//
 	public void modifier(Entrepot aModifier) throws SQLException{
-		PreparedStatement modifie=connecter().prepareStatement("UPDATE entrepots SET Telephone=? WHERE idEntrepots=?");
+		PreparedStatement modifie=accesbdd.getConnexion().prepareStatement("UPDATE entrepots SET Telephone=? WHERE idEntrepots=?");
 		modifie.setString(1, aModifier.getTelephone());
 		modifie.setInt(2, aModifier.getId().intValue());
 				
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//----- Modification de la localisation associée à la personne -----//
-		new AccesBDDLocalisation().modifier(aModifier.getLocalisation());
+		new AccesBDDLocalisation(accesbdd).modifier(aModifier.getLocalisation());
 		
 		modifie.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Supprimer un entrepôt de la BDD -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM entrepots WHERE idEntrepots=?");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM entrepots WHERE idEntrepots=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 		
 		supprime.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Lister les entrepots -----//
 	public Vector lister() throws SQLException{
-		AccesBDDLocalisation loc=new AccesBDDLocalisation();
+		AccesBDDLocalisation loc=new AccesBDDLocalisation(accesbdd);
 		Vector liste=new Vector();
 		Entrepot courant=null;
 		
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT * FROM entrepots ORDER BY idEntrepots");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT * FROM entrepots ORDER BY idEntrepots");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
@@ -86,7 +89,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		// On ordonne la liste
 		Collections.sort(liste);
@@ -98,11 +101,11 @@ public class AccesBDDEntrepot extends AccesBDD{
 	public Entrepot rechercher(Integer aChercher) throws SQLException{
 		Entrepot trouvee=null;
 				
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM entrepots WHERE idEntrepots=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM entrepots WHERE idEntrepots=?");
 		recherche.setInt(1, aChercher.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		if(resultat.next()){
-			trouvee=new Entrepot(new AccesBDDLocalisation().rechercher(new Integer(
+			trouvee=new Entrepot(new AccesBDDLocalisation(accesbdd).rechercher(new Integer(
 					resultat.getInt("Localisation_idLocalisation"))), 
 					resultat.getString("telephone"));
 			trouvee.setId(new Integer(resultat.getInt("idEntrepots")));
@@ -110,7 +113,7 @@ public class AccesBDDEntrepot extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}

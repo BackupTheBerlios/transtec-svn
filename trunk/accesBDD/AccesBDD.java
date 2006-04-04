@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 //import java.sql.
 import java.sql.SQLException;
 import java.io.*;
+//import org.gjt.mm.mysql.Driver;
 
 //----- Classe mère de tous les accès à la BDD -----//
 
@@ -17,10 +18,18 @@ public class AccesBDD {
 	
 	//----- Constructeur mettant les caractéristique de la BDD -----//
 	public AccesBDD(){
-		this.driver="com.mysql.jdbc.Driver";
-        this.chaineconnexion="jdbc:mysql:///transtec";
-        this.login="root";
-        this.password="";		
+		driver="org.gjt.mm.mysql.Driver";
+        chaineconnexion="jdbc:mysql://192.168.0.3:3306/transtec";
+        login="root";
+        password=null;	
+        
+        
+        try {
+			connecter();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		/*try{
             FileReader fr = new FileReader("D:\\EFREI\\JAVA_Workspace\\infoBDD.ini");
             BufferedReader br = new BufferedReader(fr);
@@ -45,26 +54,29 @@ public class AccesBDD {
 	// Se connecte à la BDD
 	public Connection connecter() throws SQLException{
 		try{
-			if (this.connexion == null || this.connexion.isClosed()){
+			if (connexion == null || this.connexion.isClosed()){
 				Class.forName(driver); // chargement de la classe driver
-				if (login != null)			
-						this.connexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/transtec?user="+login+"&password="+password); 
+				if (login != null){
+					//this.connexion = DriverManager.getConnection("jdbc:mysql://192.168.0.3/transtec?user="+login+"&password="+password); 
+					connexion=DriverManager.getConnection(chaineconnexion,login,password);
+				}
 					
-				else	// ouverture de la connexion
-					this.connexion = DriverManager.getConnection(this.chaineconnexion);
+				else{	// ouverture de la connexion
+					connexion = DriverManager.getConnection(this.chaineconnexion);
+				}
 			}
-			return this.connexion;
+			return connexion;
 		}
-		catch(ClassNotFoundException ex)
+		catch(Exception ex)
 		{
-			throw new SQLException("Connecteur SQL : Classe introuvable " + ex.getMessage());
+			throw new SQLException(ex.getMessage());
 		}
 	}
 	
 	//	Ferme la connexion si elle est ouverte
 	public void deconnecter() throws SQLException{
-		if (this.connexion != null && !this.connexion.isClosed())
-			this.connexion.close();
+		if (connexion != null && !connexion.isClosed())
+			connexion.close();
 	}
 	
 	// Change les informations de la BDD
@@ -81,5 +93,9 @@ public class AccesBDD {
             output.close();
 		}
 		catch(IOException ioe){System.out.println("erreur : " + ioe );}
+	}
+	
+	public Connection getConnexion(){
+		return connexion;
 	}
 }

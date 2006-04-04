@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.awt.event.*;
 import java.sql.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 
 import donnees.Camion;
@@ -12,14 +13,16 @@ import donnees.Entrepot;
 // Panneau de l'onglet de gestion des camions
 public class OngletCamion extends Onglet implements ActionListener{
 	
-	private AccesBDDCamion tableCamions = new AccesBDDCamion(); 
+	private AccesBDDCamion tableCamions; 
 	//private Entrepot entActuel;
 
-	public OngletCamion(Entrepot entActuel){
-		super("Gestion des camions");
+	public OngletCamion(Entrepot entActuel,AccesBDD accesbdd){
+		super("Gestion des camions",accesbdd);
 				
 		// Transmission de l'entrepot où l'on se trouve
 		//this.entActuel = entActuel;
+		
+		tableCamions = new AccesBDDCamion(accesbdd);
 		
 		// Mise en forme initiale
 		setOpaque(false);
@@ -143,7 +146,7 @@ public class OngletCamion extends Onglet implements ActionListener{
 	        
 	        for(int i=0;i<listeCamions.size();i++){
 	        	donnees.addElement(((Camion)listeCamions.get(i)).toVector());
-	        }       
+	        }
         }
         catch(SQLException e){
         	System.out.println(e.getMessage());

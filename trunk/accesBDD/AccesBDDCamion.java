@@ -10,15 +10,18 @@ import donnees.Entrepot;
 
 //----- Classe permettant l'accès à la table Camion, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDCamion extends AccesBDD{
-	public AccesBDDCamion(){
-		super();
+public class AccesBDDCamion{
+	
+	private AccesBDD accesbdd;
+	
+	public AccesBDDCamion(AccesBDD accesbdd){
+		this.accesbdd = accesbdd;
 	}
 	
 	//----- Ajouter un camion dans la BDD -----//
 	public Integer ajouter(Camion aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idCamions) FROM Camions ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -27,7 +30,7 @@ public class AccesBDDCamion extends AccesBDD{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'un camion dans la BDD -----//
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO camions "
 				+ " (idCamions,Etat,Volume, Immatriculation,Origine,Destination,Hauteur,Largeur,Profondeur,VolumeDispo)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?,?,?,?,?,?)"); 
@@ -45,28 +48,29 @@ public class AccesBDDCamion extends AccesBDD{
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	//----- Supprimer un camion -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM camions WHERE idCamions=?");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM camions WHERE idCamions=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Lister les camions -----//
-	public Vector lister(Entrepot entActuel) throws SQLException{
+	public Vector lister(/*Entrepot entActuel*/) throws SQLException{
 		Vector liste=new Vector();
+		AccesBDDEntrepot tableEnt = new AccesBDDEntrepot(accesbdd);
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Origine=?");
-		recherche.setInt(1, entActuel.getId().intValue());
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM camions "/*WHERE Origine=?"*/);
+		//recherche.setInt(1, entActuel.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
@@ -79,12 +83,12 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
 					new Float(resultat.getFloat("VolumeDispo")),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
+					tableEnt.rechercher(new Integer(resultat.getInt("Origine"))), 
+					tableEnt.rechercher(new Integer(resultat.getInt("Destination")))));
 		}
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return liste;
 	}
@@ -93,7 +97,7 @@ public class AccesBDDCamion extends AccesBDD{
 	public Vector listerParEtat(int etat,Entrepot entActuel) throws SQLException{
 		Vector liste=new Vector();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Etat=? AND Origine=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM camions WHERE Etat=? AND Origine=?");
 		recherche.setInt(1, etat);
 		recherche.setInt(2, entActuel.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -109,12 +113,12 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
 					new Float(resultat.getFloat("VolumeDispo")),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination")))));
+					new AccesBDDEntrepot(accesbdd).rechercher(new Integer(resultat.getInt("Origine"))), 
+					new AccesBDDEntrepot(accesbdd).rechercher(new Integer(resultat.getInt("Destination")))));
 		}
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		// On ordonne la liste
 		Collections.sort(liste);
@@ -126,11 +130,11 @@ public class AccesBDDCamion extends AccesBDD{
 	public Vector listerParDest(Integer Destination) throws SQLException{
 		Vector liste=new Vector();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE Destination=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM camions WHERE Destination=?");
 		recherche.setInt(1, Destination.intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
-		Entrepot destination=new AccesBDDEntrepot().rechercher(Destination);
+		Entrepot destination=new AccesBDDEntrepot(accesbdd).rechercher(Destination);
 		while(resultat.next()){
 			liste.add(new Camion(
 					new Integer(resultat.getInt("idCamions")),
@@ -141,12 +145,12 @@ public class AccesBDDCamion extends AccesBDD{
 					new Float(resultat.getFloat("Profondeur")),
 					new Float(resultat.getFloat("Volume")),
 					new Float(resultat.getFloat("VolumeDispo")),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
+					new AccesBDDEntrepot(accesbdd).rechercher(new Integer(resultat.getInt("Origine"))), 
 					destination));
 		}
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return liste;
 	}
@@ -154,7 +158,7 @@ public class AccesBDDCamion extends AccesBDD{
 	//----- Modification des attributs d'un camion dans la BDD -----//
 	public void modifier(Camion aModifier) throws SQLException{
 		//----- Modification d'une personne à partir de l'id -----//
-		PreparedStatement modifie=connecter().prepareStatement(
+		PreparedStatement modifie=accesbdd.getConnexion().prepareStatement(
 				"UPDATE camions SET Immatriculation=?, Etat=?, Volume=?, Origine=?, Destination=?, Largeur=?, Hauteur=?, Profondeur=?, VolumeDispo=?"
 				+"WHERE idCamions=?");
 		modifie.setString(1, aModifier.getNumero());
@@ -172,20 +176,20 @@ public class AccesBDDCamion extends AccesBDD{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		modifie.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Rechercher un camion dans la BDD -----//
 	public Camion rechercher(Integer aChercher) throws SQLException{
 		Camion trouvee=null;
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM camions WHERE idCamions=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM camions WHERE idCamions=?");
 		recherche.setInt(1, aChercher.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		if(resultat.next()){	// S'il a trouvé la personne
-			AccesBDDEntrepot bddLoc=new AccesBDDEntrepot();
+			AccesBDDEntrepot bddLoc=new AccesBDDEntrepot(accesbdd);
 			trouvee=new Camion(new Integer(resultat.getInt("idCamions")),
 					resultat.getString("Immatriculation"), 
 					new Integer(resultat.getInt("Etat")),
@@ -200,7 +204,7 @@ public class AccesBDDCamion extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}

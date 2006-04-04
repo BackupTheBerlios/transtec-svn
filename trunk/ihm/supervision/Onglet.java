@@ -6,6 +6,8 @@ import ihm.Bouton;
 
 import javax.swing.*;
 
+import accesBDD.AccesBDD;
+
 import java.util.Vector;
 import java.awt.*;
 
@@ -23,8 +25,11 @@ public class Onglet extends JPanel{
 	protected Vector nomColonnes = new Vector();
 	protected Vector donnees = new Vector();
 	protected int ligneActive;
+	protected AccesBDD accesbdd;
 
-	public Onglet(String s){
+	public Onglet(String s,AccesBDD accesbdd){
+		
+		this.accesbdd = accesbdd;
 		
 		// Mise en forme initiale
 		setOpaque(false);

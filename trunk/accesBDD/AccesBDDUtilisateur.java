@@ -8,15 +8,16 @@ import java.util.Collections;
 
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 
-public class AccesBDDUtilisateur extends AccesBDD{
-	public AccesBDDUtilisateur(){
-		super();
+public class AccesBDDUtilisateur{
+	private AccesBDD accesbdd;
+	public AccesBDDUtilisateur(AccesBDD accesbdd){
+		this.accesbdd = accesbdd;
 	}
 	
 	//----- Ajouter un utilisateur -----//
 	public Integer ajouter(Utilisateur aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idUsers) FROM users");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idUsers) FROM users");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 				
@@ -25,7 +26,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion du colis dans la BDD -----//
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO users"
 				+ " (idUsers,Personnes_idPersonnes,Login,Password_2,Type_2)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?)"); 
@@ -40,7 +41,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		ajout.executeUpdate();//execution de la requete SQL
 		
 		ajout.close();//fermeture requete SQL
-		deconnecter();
+		//deconnecter();
 		
 		return aAjouter.getId();
 	}
@@ -48,7 +49,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	//----- Mettre à jour un utilisateur sur la BDD -----//
 	public void modifier(Utilisateur aModifier) throws SQLException{
 		//----- Modification d'une personne à partir de l'id -----//
-		PreparedStatement modifie=connecter().prepareStatement(
+		PreparedStatement modifie=accesbdd.getConnexion().prepareStatement(
 				"UPDATE users SET "
 				+"Login=?, Password_2=?, Type_2=? "
 				+"WHERE idUsers=?");
@@ -63,17 +64,17 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		new AccesBDDPersonne().modifier(aModifier.getPersonne());
 		
 		modifie.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM users WHERE idUsers=?");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM users WHERE idUsers=?");
 		supprime.setInt(1,aSupprimer.intValue());
 				
 		supprime.executeUpdate();//execution de la requete SQL
 		// La suppression de la personne se fera automatiquement suite à la configuration de la BDD
 		supprime.close();//fermeture requete SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Lister tous les users -----//
@@ -83,7 +84,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		Utilisateur courantUtilisateur=null;
 		Personne courantPers=null;
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM users");
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
 		while(resultat.next()){
@@ -99,7 +100,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return liste;
 	}
@@ -134,7 +135,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	public Utilisateur isRegistered(String login, String password)throws SQLException{
 		Utilisateur trouvee=null;
 		//A REFAIRE
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM users WHERE (Login=? and Password_2=?)");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM users WHERE (Login=? and Password_2=?)");
 		recherche.setString(1, login);
 		recherche.setString(2, password);
 		
@@ -150,7 +151,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}
@@ -159,7 +160,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	public Utilisateur rechercher(Integer aChercher) throws SQLException{
 		Utilisateur trouvee=null;
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Users WHERE idUsers=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM Users WHERE idUsers=?");
 		recherche.setInt(1, aChercher.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -175,7 +176,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}
@@ -184,7 +185,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 	public Vector listerParType(int typeUtilisateur) throws SQLException{
 		Vector listeutilisateurs = new Vector();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Users WHERE Type_2="+typeUtilisateur);
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM Users WHERE Type_2="+typeUtilisateur);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
@@ -203,7 +204,7 @@ public class AccesBDDUtilisateur extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		// On ordonne les utilisateurs trouvés
 		Collections.sort(listeutilisateurs);
