@@ -67,10 +67,10 @@ public class FenetreValidation extends JDialog implements ChangeListener{
 		dispose();
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		FenetreValidation a=new FenetreValidation("OUH le joli Message aligné au centre du milieu de la fenêtre");
 		a.setVisible(true);
 		System.out.println(a.getResultat());
 		a.fermer();
-	}
+	}*/
 }
