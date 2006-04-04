@@ -48,7 +48,7 @@ public class AccesBDD {
 			if (this.connexion == null || this.connexion.isClosed()){
 				Class.forName(driver); // chargement de la classe driver
 				if (login != null)			
-						this.connexion = DriverManager.getConnection("jdbc:mysql://192.168.0.2/transtec?user="+login+"&password="+password); 
+						this.connexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/transtec?user="+login+"&password="+password); 
 					
 				else	// ouverture de la connexion
 					this.connexion = DriverManager.getConnection(this.chaineconnexion);

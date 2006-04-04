@@ -170,6 +170,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 			this.creerChargement.setEnabled(false);
 			this.gererChargement.setEnabled(false);
 			this.genererPlan.setEnabled(false);
+			this.validerCharg.setEnabled(false);
+			this.cloturerPrep.setEnabled(false);
 			this.imprimerEtiquette.setEnabled(false);
 		}
 		// Création de la combo box des destinations
@@ -293,8 +295,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					// Mise à jour des boutons
 					this.gererChargement.setEnabled(false);
 					this.validerCharg.setEnabled(false);
-					this.imprimerEtiquette.setEnabled(true);
-					this.cloturerPrep.setEnabled(true);
+					this.imprimerEtiquette.setEnabled(false);
+					this.cloturerPrep.setEnabled(false);
 				}
 				
 				// Cloturer la préparation
