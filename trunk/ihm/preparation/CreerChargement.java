@@ -397,9 +397,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 		
 		// Création d'un chargement à l'état en cours
 		else if(source==this.valider){
-			
-			JOptionPane.showConfirmDialog(this, "test", "titre", JOptionPane.YES_NO_OPTION);
-			//if(res==true){
+			int ret=JOptionPane.showConfirmDialog(this, "Voulez-vous créer le chargement", "Validation création chargement", JOptionPane.YES_NO_OPTION);
+			System.out.println(ret);
+			if(ret==0){
 				if(this.camion.getVolumeDispo().floatValue()-this.chargement.getVolChargement().floatValue()>0){
 					Colis courant;
 					// On met à jour la date
@@ -516,8 +516,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 				}
 				else
 					new FenetreWarning("Le chargement dépasse le volume disponible du camion").setVisible(true);
-			//}
-			//fenValide.fermer();
+			}
 		}
 		
 		// Ajouter un colis dans le camion
