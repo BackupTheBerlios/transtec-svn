@@ -120,6 +120,7 @@ public class Colis {
 
 		return ret;
 	}
+	
 	private static Integer FormeToConst(String s){
 		Integer ret=null;
 		

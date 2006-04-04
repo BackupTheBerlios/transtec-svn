@@ -94,9 +94,9 @@ public class AccesBDDColis{
 		modifie.setString(9, aModifier.getValeurDeclaree());
 		modifie.setInt(10, aModifier.getFragilite().intValue());
 		modifie.setFloat(11, aModifier.getVolume().floatValue());
-		modifie.setInt(12,aModifier.getId().intValue());
-		modifie.setInt(13, aModifier.getOrigine().getId().intValue());
-		modifie.setInt(14, aModifier.getEntrepot().getId().intValue());
+		modifie.setInt(12, aModifier.getOrigine().getId().intValue());
+		modifie.setInt(13, aModifier.getEntrepot().getId().intValue());
+		modifie.setInt(14,aModifier.getId().intValue());
 
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		

@@ -1030,6 +1030,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		poids.setEnabled(true);
 		modele_colis.setSelectedIndex(modelecolis.getModele().intValue());
 		forme_colis.setSelectedIndex(modelecolis.getForme().intValue());
+		fragilite_colis.setSelectedIndex(col.getFragilite().intValue());
 		poids.setText(col.getPoids().toString());
 		largeur.setText(modelecolis.getLargeur().toString());
 		hauteur.setText(modelecolis.getHauteur().toString());
@@ -1058,8 +1059,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si l'utilisateur veut créer une étiquette
 		if (source ==creation) {
 			
-			JFrame fen4 = new Entree_Create_etiquette(code_barre.getText());
-			fen4.setVisible(true);
+			//JFrame fen4 = new Entree_Create_etiquette(code_barre.getText());
+			//fen4.setVisible(true);
 		}
 		//Si l'utilisateur veut choisir une personne comme expéditeur ou destinataire
 		if (source ==select_personne) {
@@ -1153,7 +1154,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						}
 					}
 					
-					System.out.println(modele.calculerVolume());
+					//System.out.println(modele.calculerVolume());
 					
 					
 					
@@ -1197,6 +1198,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//Cas d'un colis à modifier
 			else if(create ==2)
 			{
+				
 				//update des données
 				boolean verif;
 				
@@ -1321,15 +1323,20 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	
 					//On ajoute le colis dans la BDD
 					AccesBDDColis test=new AccesBDDColis(this.accesBDD);
-					//System.out.println(col.getId());
+				
+					
 					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,entrepot,entrepot,"0",modele_temp.calculerVolume());
 				
+					
+					
 					try{
 						test.modifier(col_temp);
 					}
+				
 					catch(SQLException e2){
 						System.out.println(e2.getMessage());
 					}
+					//System.out.println(col_temp.getPoids());
 					if (charg!=null){
 					AccesBDDChargement test10=new AccesBDDChargement(this.accesBDD);
 					try {
@@ -1357,8 +1364,22 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si on veut créer une étiquette
 		if (source == create_etiquette)
 		{
-			JFrame fen4 = new Entree_Create_etiquette(code_barre.getText());
-			fen4.setVisible(true);
+			if(create == 0 || create == 2){
+				boolean verif = verifChamps();
+				//Si la vérification est Ok
+				if (verif == true){
+					destinataire = new Personne(new Integer(0),nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
+					expediteur = new Personne(new Integer(0),nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
+					JFrame fen4 = new Entree_Create_etiquette(code_barre.getText(),destinataire,expediteur);
+					fen4.setVisible(true);
+				}
+			}
+			else{
+				JFrame fen4 = new Entree_Create_etiquette(code_barre.getText(),destinataire,expediteur);
+				fen4.setVisible(true);
+			}
+			
+				
 		}
 		//Si on veut annuler le colis en cours
 		if (source == annuler)

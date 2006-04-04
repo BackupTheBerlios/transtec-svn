@@ -7,12 +7,13 @@ import ihm.FenetreType;
 import java.awt.*;
 import java.awt.event.*; 
 import javax.swing.*;
+import donnees.*;
 
 //Cette classe correspond à la fenetre de création de l'étiquette d'un colis.
 
 public class Entree_Create_etiquette extends JFrame implements ActionListener
 {
-	public Entree_Create_etiquette(String code_barre)
+	public Entree_Create_etiquette(String code_barre,Personne destinataire,Personne expediteur)
 	{
 		
 		setTitle("Création de l'étiquette du colis " + code_barre); 
@@ -47,7 +48,7 @@ public class Entree_Create_etiquette extends JFrame implements ActionListener
 		
 		
 		label_dest = new JLabel("Destinataire :");
-		label_dest.setBounds(130,150,150,20);
+		label_dest.setBounds(120,150,150,20);
 		label_dest.setFont(font);
 		contenu.add(label_dest);
 		
@@ -55,7 +56,7 @@ public class Entree_Create_etiquette extends JFrame implements ActionListener
 		donnees_dest = new JTextArea();
 		donnees_dest.setColumns(25);
 		donnees_dest.setRows(10);
-		donnees_dest.setBounds(120,380,175,65);
+		donnees_dest.setBounds(40,180,290,120);
 		donnees_dest.setLineWrap(true);
 		donnees_dest.setWrapStyleWord(true);
 		donnees_dest.setFont(font);
@@ -64,7 +65,7 @@ public class Entree_Create_etiquette extends JFrame implements ActionListener
 
 		//label de l'expéditeur du colis
 		label_exp = new JLabel("Expéditeur :");
-		label_exp.setBounds(400,150,150,20);
+		label_exp.setBounds(410,150,150,20);
 		label_exp.setFont(font);
 		contenu.add(label_exp);
 		
@@ -72,15 +73,15 @@ public class Entree_Create_etiquette extends JFrame implements ActionListener
 		donnees_exp = new JTextArea();
 		donnees_exp.setColumns(25);
 		donnees_exp.setRows(4);
-		donnees_exp.setBounds(390,380,175,65);
+		donnees_exp.setBounds(360,180,290,120);
 		donnees_exp.setLineWrap(true);
 		donnees_exp.setWrapStyleWord(true);
 		donnees_exp.setFont(font);
 		contenu.add(donnees_exp);
 		donnees_exp.setEnabled(false);
 		
-		
-
+		donnees_dest.setText(destinataire.getNom()+ " "+ destinataire.getPrenom()+ "\n"+ destinataire.getLocalisation().getAdresse()+ "\n"+ destinataire.getLocalisation().getCodePostal()+ " "+ destinataire.getLocalisation().getVille()+ "\n"+destinataire.getMail());
+		donnees_exp.setText(expediteur.getNom()+ " "+ expediteur.getPrenom()+ "\n"+ expediteur.getLocalisation().getAdresse()+ "\n"+ expediteur.getLocalisation().getCodePostal()+ " "+ expediteur.getLocalisation().getVille()+ "\n"+expediteur.getMail());
 		
 	
 		imprimer = new Bouton("images/icones/imprimer.png","images/icones/imprimer_inv.png");
