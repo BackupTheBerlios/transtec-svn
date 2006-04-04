@@ -1,9 +1,9 @@
 package accesBDD;
-import donnees.*;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import donnees.ModeleColis;
 
 public class AccesBDDModelesColis{
 	private AccesBDD accesbdd;

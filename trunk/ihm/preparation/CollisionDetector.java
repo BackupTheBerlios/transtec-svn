@@ -1,12 +1,18 @@
 package ihm.preparation;
 
 
-import com.sun.j3d.utils.geometry.*;
-
 import java.awt.Color;
 import java.util.Enumeration;
-import javax.media.j3d.*;
-import javax.vecmath.*;
+
+import javax.media.j3d.Appearance;
+import javax.media.j3d.Behavior;
+import javax.media.j3d.Material;
+import javax.media.j3d.Shape3D;
+import javax.media.j3d.WakeupOnCollisionEntry;
+import javax.media.j3d.WakeupOnCollisionExit;
+import javax.vecmath.Color3f;
+
+import com.sun.j3d.utils.geometry.Box;
 
 public class CollisionDetector extends Behavior {
 

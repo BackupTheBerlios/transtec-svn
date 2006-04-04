@@ -1,22 +1,26 @@
 package ihm.supervision;
 
-import javax.swing.*;
+import ihm.Bouton;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.CardLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPreparation;
 import accesBDD.AccesBDDUtilisateur;
-
+import algos.PereNoel;
+import algos.Radin;
 import donnees.Entrepot;
-
-import ihm.Bouton;
-
-import algos.*;
 
 public class OngletRepartition extends JPanel implements ActionListener{
 	private JLabel titre;

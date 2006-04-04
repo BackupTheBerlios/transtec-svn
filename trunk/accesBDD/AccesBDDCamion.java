@@ -1,10 +1,11 @@
 package accesBDD;
 
 import java.sql.PreparedStatement;
-import java.util.Vector;
-import java.util.Collections;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Vector;
+
 import donnees.Camion;
 import donnees.Entrepot;
 

@@ -1,9 +1,9 @@
 package ihm;
 
-import java.awt.*;
+import java.awt.Font;
 
-import javax.swing.*;
 import javax.swing.JDialog;
+import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

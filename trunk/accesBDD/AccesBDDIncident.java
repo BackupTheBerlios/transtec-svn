@@ -1,8 +1,11 @@
 package accesBDD;
 
-import donnees.Incident;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
+
+import donnees.Incident;
 
 //----- Classe permettant l'accès à la table Incident, elle permet de faire les différentes opérations nécessaire sur la table -----//
 

@@ -49,16 +49,17 @@ import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
-import com.sun.j3d.utils.geometry.Box;
-import com.sun.j3d.utils.image.TextureLoader;
-import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.sun.j3d.utils.universe.ViewingPlatform;
-
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPlan;
 import accesBDD.AccesBDDPreparation;
+
+import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.image.TextureLoader;
+import com.sun.j3d.utils.universe.SimpleUniverse;
+import com.sun.j3d.utils.universe.ViewingPlatform;
+
 import donnees.Camion;
 import donnees.Chargement;
 import donnees.Colis;

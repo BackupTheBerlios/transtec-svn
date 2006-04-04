@@ -1,6 +1,10 @@
 package ihm.supervision;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class OngletRepartitionChoix extends JPanel{
 	

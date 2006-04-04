@@ -2,22 +2,28 @@ package ihm.supervision;
 
 import ihm.ModeleTable;
 
-import java.awt.*;
-
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.util.Vector;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import donnees.Camion;
-import donnees.Utilisateur;
-import donnees.Preparation;
 import donnees.Destination;
 import donnees.Entrepot;
+import donnees.Preparation;
+import donnees.Utilisateur;
 
 public class OngletRepartitionFin extends JPanel{
 	

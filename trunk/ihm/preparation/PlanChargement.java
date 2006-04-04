@@ -1,5 +1,11 @@
 package ihm.preparation;
 
+import ihm.AffichageImage;
+import ihm.Bouton;
+import ihm.FenetreType;
+import ihm.ModeleTable;
+import ihm.TableSorter;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -7,18 +13,15 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import ihm.AffichageImage;
-import ihm.Bouton;
-import ihm.FenetreType;
-import ihm.ModeleTable;
-import ihm.TableSorter;
-
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDPlan;
-
 import donnees.Colis;
 import donnees.Utilisateur;
 

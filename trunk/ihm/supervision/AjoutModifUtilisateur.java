@@ -1,14 +1,18 @@
 package ihm.supervision;
 
-import java.sql.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import accesBDD.AccesBDDUtilisateur;
-import donnees.Utilisateur;
-import donnees.Personne;
 import donnees.Localisation;
+import donnees.Personne;
+import donnees.Utilisateur;
 
 
 // Invite d'ajout/modification d'un utilisateur

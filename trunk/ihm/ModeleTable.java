@@ -1,7 +1,8 @@
 package ihm;
 
-import javax.swing.table.*;
 import java.util.Vector;
+
+import javax.swing.table.AbstractTableModel;
 
 // Modèle de tableau permettant d'afficher et de gérer les listes de données
 public class ModeleTable extends AbstractTableModel{

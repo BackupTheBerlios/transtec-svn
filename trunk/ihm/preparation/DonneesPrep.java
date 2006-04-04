@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
-
 import donnees.Camion;
 import donnees.Entrepot;
 import donnees.Preparation;

@@ -1,7 +1,6 @@
 package donnees;
 
 import java.sql.Timestamp;
-//import java.util.Date;
 import java.util.Vector;
 
 //----- Classe regroupant tous les attributs d'un Incident, ainsi que les méthodes propres à la manipulation de cet objet -----//

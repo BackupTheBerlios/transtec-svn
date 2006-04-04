@@ -1,10 +1,13 @@
 package accesBDD;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Vector;
+
 import donnees.Personne;
 import donnees.Utilisateur;
-import java.sql.*;
-import java.util.Vector;
-import java.util.Collections;
 
 //----- Classe permettant l'accès à la table Utilisateur, elle permet de faire les différentes opérations nécessaire sur la table -----//
 

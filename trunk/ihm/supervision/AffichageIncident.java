@@ -1,7 +1,7 @@
 package ihm.supervision;
 
-import donnees.Incident;
 import accesBDD.AccesBDDIncident;
+import donnees.Incident;
 
 public class AffichageIncident extends AjoutModifIncident{
 

@@ -1,9 +1,13 @@
 package ihm.supervision;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
-import javax.swing.*;
+
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDEntrepot;

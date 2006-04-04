@@ -5,7 +5,6 @@ import ihm.FenetreType;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -15,8 +14,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.Vector;
-import accesBDD.*;
-
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,6 +24,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import accesBDD.AccesBDD;
+import accesBDD.AccesBDDPersonne;
 import donnees.Personne;
 
 public class Entree_select_personne extends JFrame implements ActionListener, ItemListener{

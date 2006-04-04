@@ -1,13 +1,15 @@
 package ihm.supervision;
 
-import java.util.Vector;
-import java.sql.SQLException;
-import java.awt.event.*;
-
 import ihm.Bouton;
-import donnees.Incident;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.Vector;
+
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDIncident;
+import donnees.Incident;
 
 // Panneau de l'onglet de gestion des incidents
 public class OngletIncident extends Onglet implements ActionListener{

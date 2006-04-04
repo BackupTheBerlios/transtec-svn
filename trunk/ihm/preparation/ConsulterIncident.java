@@ -27,7 +27,6 @@ import javax.swing.ListSelectionModel;
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDIncident;
-
 import donnees.Colis;
 import donnees.Incident;
 import donnees.Utilisateur;

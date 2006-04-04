@@ -3,10 +3,15 @@ package ihm.supervision;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import donnees.Camion;
 import donnees.Destination;

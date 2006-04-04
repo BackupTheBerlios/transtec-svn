@@ -3,7 +3,10 @@ package ihm.supervision;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 // Classe correspondant au petit panel d'aide à la répartition des
 //	volumes, en troisième étape de la répartition.

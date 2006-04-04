@@ -1,16 +1,52 @@
 package ihm.entree;
 
-import ihm.*;
+import ihm.AffichageImage;
+import ihm.Bouton;
+import ihm.FenetreType;
+import ihm.Fenetre_login;
+import ihm.ModeleTable;
+import ihm.TableSorter;
 
-import java.sql.*;
-import java.util.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Random;
+import java.util.Vector;
 
-import java.awt.*;
-import java.awt.event.*; 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
-import donnees.*;
-import accesBDD.*;
+import accesBDD.AccesBDD;
+import accesBDD.AccesBDDChargement;
+import accesBDD.AccesBDDColis;
+import accesBDD.AccesBDDEntrepot;
+import accesBDD.AccesBDDIncident;
+import accesBDD.AccesBDDLocalisation;
+import accesBDD.AccesBDDModelesColis;
+import accesBDD.AccesBDDPersonne;
+import donnees.Chargement;
+import donnees.Colis;
+import donnees.Entrepot;
+import donnees.Incident;
+import donnees.Localisation;
+import donnees.ModeleColis;
+import donnees.Personne;
+import donnees.Utilisateur;
 
 
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.

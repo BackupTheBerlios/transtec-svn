@@ -1,15 +1,22 @@
 package ihm.supervision;
 
+import ihm.Bouton;
 import ihm.ModeleTable;
 import ihm.TableSorter;
-import ihm.Bouton;
 
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import accesBDD.AccesBDD;
-
-import java.util.Vector;
-import java.awt.*;
 
 
 // Panneau de l'onglet

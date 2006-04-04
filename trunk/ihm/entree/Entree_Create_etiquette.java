@@ -4,10 +4,17 @@ import ihm.AffichageImage;
 import ihm.Bouton;
 import ihm.FenetreType;
 
-import java.awt.*;
-import java.awt.event.*; 
-import javax.swing.*;
-import donnees.*;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import donnees.Personne;
 
 //Cette classe correspond à la fenetre de création de l'étiquette d'un colis.
 

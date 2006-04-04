@@ -6,20 +6,28 @@ import ihm.FenetreWarning;
 import ihm.ModeleTable;
 import ihm.TableSorter;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
-import donnees.Chargement;
-import donnees.Colis;
-import donnees.Utilisateur;
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
+import donnees.Chargement;
+import donnees.Colis;
+import donnees.Utilisateur;
 
 public class ModifierChargement extends JFrame implements ActionListener{
 	private JTable tableColis;

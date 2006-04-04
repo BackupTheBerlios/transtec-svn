@@ -1,15 +1,19 @@
 package ihm.supervision;
 
-import java.util.Vector;
 import java.awt.GridLayout;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
-import donnees.Camion;
-import donnees.Entrepot;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDEntrepot;
+import donnees.Camion;
+import donnees.Entrepot;
 
 // Invite d'ajout/modification d'un camion
 public class AjoutModifCamion extends AjoutModif implements ActionListener{

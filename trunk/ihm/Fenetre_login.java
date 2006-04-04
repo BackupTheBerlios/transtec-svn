@@ -1,18 +1,25 @@
 package ihm;
 
-import java.awt.event.*; 
-import java.sql.SQLException;
-
-import javax.swing.*;
-
-import accesBDD.AccesBDD;
-import accesBDD.AccesBDDUtilisateur;
-
-import donnees.*;
-
 import ihm.entree.Entree_Fenetre_colis;
 import ihm.preparation.FenetrePrincipale;
 import ihm.supervision.Sup_FenetrePrincipale;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import accesBDD.AccesBDD;
+import accesBDD.AccesBDDUtilisateur;
+import donnees.Utilisateur;
 
 //Cette classe correspond à la fenetre login qui permet aux utilisateurs d'accéder
 //au programme en fonction de leurs droits

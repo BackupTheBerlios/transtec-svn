@@ -1,10 +1,12 @@
 package accesBDD;
 
-import donnees.Entrepot;
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Vector;
-import java.sql.*;
+
+import donnees.Entrepot;
 
 //----- Classe permettant l'accès à la table Entrepot, elle permet de faire les différentes opérations nécessaire sur la table -----//
 

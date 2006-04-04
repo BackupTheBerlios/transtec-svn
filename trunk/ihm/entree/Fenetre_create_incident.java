@@ -3,11 +3,12 @@ package ihm.entree;
 import ihm.Bouton;
 import ihm.FenetreType;
 
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,18 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-//import java.awt.*;
-//import java.awt.event.*; 
-//import javax.swing.*;
-
-//import java.util.*;
-//import java.text.DateFormat;
-
-import donnees.*;
-import accesBDD.*;
-
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import accesBDD.AccesBDD;
+import accesBDD.AccesBDDChargement;
+import accesBDD.AccesBDDIncident;
+import accesBDD.AccesBDDUtilisateur;
+import donnees.Colis;
+import donnees.Incident;
+import donnees.Utilisateur;
 
 
 //Cette classe correspond à la fenetre création d'un incident

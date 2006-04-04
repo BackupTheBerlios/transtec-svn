@@ -1,18 +1,25 @@
 package ihm.supervision;
 
 import ihm.Bouton;
+import ihm.Fenetre_login;
 
-import javax.swing.*;
-
-import java.awt.event.*;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import donnees.Utilisateur;
-import donnees.Entrepot;
-import ihm.Fenetre_login;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+
 import accesBDD.AccesBDD;
 import accesBDD.AccesBDDEntrepot;
+import donnees.Entrepot;
+import donnees.Utilisateur;
 
 //  Fenêtre principale du Superviseur
 public class Sup_FenetrePrincipale extends JFrame implements ActionListener{

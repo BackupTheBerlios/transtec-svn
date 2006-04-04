@@ -1,8 +1,12 @@
 package ihm.supervision;
 
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.awt.*;
 
 // Classe dérivant du type basique de gestionnaire d'onglets, permettant ainsi
 //	de définir des onglets au design totalement personnalisé
