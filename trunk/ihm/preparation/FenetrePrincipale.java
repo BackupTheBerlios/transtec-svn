@@ -236,7 +236,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		}
 		// Afficher les incidents
 		else if(source==this.incident){
-			new ConsulterIncident(this.utilisateur).setVisible(true);
+			new ConsulterIncident(this.utilisateur, this.accesBDD).setVisible(true);
 			dispose();
 		}
 		else{
@@ -251,7 +251,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 						new CreerChargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
 								new AccesBDDCamion(accesBDD).rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
-								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)).setVisible(true);
+								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14), this.accesBDD).setVisible(true);
 					}
 					catch(SQLException SQLE){
 						JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
@@ -265,13 +265,13 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 							this.utilisateur,
 							(Integer)((Vector)tableMod.getRow(ligneActive)).get(11), 
 							this.selectionnee.getDestination().getId(), 
-							this.selectionnee.getCamion((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)).getVolumeDispo()).setVisible(true);
+							this.selectionnee.getCamion((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)).getVolumeDispo(), this.accesBDD).setVisible(true);
 					dispose();	
 				}
 				
 				// Création du plan de chargement
 				else if(source==this.genererPlan){
-					new PlanChargement(this.utilisateur,(Integer)((Vector)tableMod.getRow(ligneActive)).get(11)).setVisible(true);
+					new PlanChargement(this.utilisateur,(Integer)((Vector)tableMod.getRow(ligneActive)).get(11), this.accesBDD).setVisible(true);
 					dispose();
 				}
 					

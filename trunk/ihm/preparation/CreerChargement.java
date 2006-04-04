@@ -57,6 +57,7 @@ import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDPlan;
@@ -95,8 +96,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private TransformGroup View_TransformGroup;
 	private Camion camion=null;
 	private Integer idPreparation;
+	private AccesBDD accesBDD;
 	
-	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation) {
+	public CreerChargement(Utilisateur utilisateur, Entrepot entrepot, Camion camion, Integer idPreparation, AccesBDD accesBDD) {
 		// Création graphique de la fenêtre
 		setTitle("Créer Chargement");
 		setSize(1024,768);
@@ -128,6 +130,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		this.utilisateur=utilisateur;
 		this.camion=camion;
 		this.idPreparation=idPreparation;
+		this.accesBDD=accesBDD;
 		
 		Vector nomColonnes = new Vector();
 		Colis premierColisAAfficher=null;
@@ -152,7 +155,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 		nomColonnes.add("numeroDsCharg");
 		
 		// Acces BDD pour récupération liste des colis pour la destination donnée
-		AccesBDDColis bddColis=new AccesBDDColis();
+		AccesBDDColis bddColis=new AccesBDDColis(this.accesBDD);
 		try{
 			Vector listeColisBDD=bddColis.colisACharger(entrepot.getId());
 			for(int i=0;i<listeColisBDD.size();i++){
@@ -381,14 +384,14 @@ public class CreerChargement extends JFrame implements ActionListener{
 	private boolean test=false;
 		
 	public void actionPerformed(ActionEvent ev) {
-		AccesBDDChargement bddChargement=new AccesBDDChargement();
+		AccesBDDChargement bddChargement=new AccesBDDChargement(this.accesBDD);
 		Vector aCharger=new Vector();
 		Object source = ev.getSource();
 		Colis colis=null, colisSuiv=null;
 		// Annulation de la création d'un chargement
 		if(source==this.annuler){
 			dispose();
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 		}
 		
 		// Création d'un chargement à l'état en cours
@@ -410,13 +413,13 @@ public class CreerChargement extends JFrame implements ActionListener{
 						}
 						bddChargement.AjouterColis(chargement, aCharger);
 						// On crée le chargement temporaire
-						new AccesBDDPreparation().ajouterChargementTemp(this.idPreparation, this.chargement.getId());
+						new AccesBDDPreparation(this.accesBDD).ajouterChargementTemp(this.idPreparation, this.chargement.getId());
 					}
 					catch(SQLException e){
 						JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 					}
 					// On réaffiche la fenêtre principale
-					new FenetrePrincipale(this.utilisateur).setVisible(true);
+					new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 					
 					// Sauvegarde des vues du camions pour le plan de chargement
 				

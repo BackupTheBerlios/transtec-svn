@@ -33,7 +33,7 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 
 	private Vector nomColonnes = new Vector();
 	private Vector donnees = new Vector();
-	private AccesBDDPersonne tablePersonnes = new AccesBDDPersonne(); 
+	private AccesBDDPersonne tablePersonnes;
 	private JTable table;
 	private ModeleTable modeleTab;
 	private TableSorter sorter;
@@ -46,11 +46,13 @@ public class Entree_select_personne extends JFrame implements ActionListener, It
 	private JTextField donnees_recherche;
 	private JButton rechercher;
 	private Font font;
+	private AccesBDD accesBDD;
 	
-	public Entree_select_personne(Entree_Fenetre_colis fenetre)
+	public Entree_select_personne(Entree_Fenetre_colis fenetre, AccesBDD accesBDD)
 	{
 		fenetre1=fenetre;
-
+		this.accesBDD=accesBDD;
+		this.tablePersonnes = new AccesBDDPersonne(this.accesBDD); 
 		
 		setTitle("Sélection d'un expéditeur et/ou destinataire");
 		//setBounds(100,100,800,500);

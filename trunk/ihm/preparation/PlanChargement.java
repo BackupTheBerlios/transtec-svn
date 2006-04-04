@@ -15,6 +15,7 @@ import ihm.TableSorter;
 
 import javax.swing.*;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDPlan;
 
@@ -33,8 +34,9 @@ public class PlanChargement extends JFrame implements ActionListener{
 	private ModeleTable modColis;
 	private TableSorter sorter1;
 	private JTable tableColis;
+	private AccesBDD accesBDD;
 	
-	public PlanChargement(Utilisateur utilisateur, Integer idChargement) {
+	public PlanChargement(Utilisateur utilisateur, Integer idChargement, AccesBDD accesBDD) {
 		// Création graphique de la fenêtre
 		setTitle("Plan de chargement");
 		setSize(1024,768);
@@ -46,6 +48,7 @@ public class PlanChargement extends JFrame implements ActionListener{
 		
 		// Mémorisation de l'utilisateur
 		this.utilisateur=utilisateur;
+		this.accesBDD=accesBDD;
 		
 		// Mise en place du menu
 		this.imprimer=new Bouton("images/icones/imprimer.png","images/icones/imprimer_inv.png");
@@ -106,7 +109,7 @@ public class PlanChargement extends JFrame implements ActionListener{
         Vector donneesColis=new Vector();
         // Vector contenant les infos de la BDD
         try{
-        	Vector liste=new AccesBDDChargement().listerColis(idChargement);
+        	Vector liste=new AccesBDDChargement(this.accesBDD).listerColis(idChargement);
         	for(int i=0;i<liste.size();i++)
         		donneesColis.add(((Colis)liste.get(i)).toVector());
         }
@@ -153,7 +156,7 @@ public class PlanChargement extends JFrame implements ActionListener{
 		}
 		// On retourne à la fenêtre de préparation principale
 		// A la fin de l'impression et dans le cas de l'annulation
-		new FenetrePrincipale(this.utilisateur).setVisible(true);
+		new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 		dispose();
 	}
 }

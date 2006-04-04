@@ -17,6 +17,7 @@ import javax.swing.*;
 import donnees.Chargement;
 import donnees.Colis;
 import donnees.Utilisateur;
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDColis;
 
@@ -35,8 +36,9 @@ public class ModifierChargement extends JFrame implements ActionListener{
 	private FenetreType fenetre;
 	private Bouton ajouter, retirer, valider, annuler;
 	private Utilisateur utilisateur;
+	private AccesBDD accesBDD;
 	
-	public ModifierChargement(Utilisateur utilisateur, Integer idChargement, Integer idDestination, Float volumeMax){
+	public ModifierChargement(Utilisateur utilisateur, Integer idChargement, Integer idDestination, Float volumeMax, AccesBDD accesBDD){
 		// Création graphique de la fenêtre
 		setTitle("Modification du chargement");
 		setSize(1024,768);
@@ -71,7 +73,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		this.utilisateur=utilisateur;
 		
 		// Recherche du chargement
-		AccesBDDChargement bddChargement=new AccesBDDChargement();
+		AccesBDDChargement bddChargement=new AccesBDDChargement(this.accesBDD);
 		try{
 			this.chargement=bddChargement.rechercher(idChargement);
 		}
@@ -122,7 +124,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
         Vector donneesColis = new Vector();
         // Recherche des colis pouvant être chargés
 		try{
-			Vector colisNonCharge=new AccesBDDColis().colisACharger(idDestination);
+			Vector colisNonCharge=new AccesBDDColis(this.accesBDD).colisACharger(idDestination);
 			
 			// Transformation pour l'affichage dans le tableau
 			for(int i=0;i<colisNonCharge.size();i++)
@@ -284,9 +286,9 @@ public class ModifierChargement extends JFrame implements ActionListener{
 				new FenetreWarning("Veuillez sélectionner un colis").setVisible(true);
 		}
 		else if(source==this.valider){
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 			Vector nouvCharg=new Vector();
-			AccesBDDChargement bddChargement=new AccesBDDChargement();
+			AccesBDDChargement bddChargement=new AccesBDDChargement(this.accesBDD);
 			
 			// Création de la liste de colis du nouveau chargement
 			for(int i=0;i<this.modChargement.getRowCount();i++)
@@ -322,7 +324,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 		
 		// Annulation de l'opération de modification du chargement
 		else if(source==this.annuler){
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 			dispose();
 		}
 	}

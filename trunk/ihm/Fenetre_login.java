@@ -17,7 +17,7 @@ import ihm.supervision.Sup_FenetrePrincipale;
 //au programme en fonction de leurs droits
 public class Fenetre_login extends JFrame implements ActionListener{
 
-	AccesBDD accesbdd = new AccesBDD();
+	private AccesBDD accesbdd;
 	
 	public Fenetre_login()
 	{
@@ -79,6 +79,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 		quitter.setBounds(10,735,98,17);
 		contenu.add(quitter);
 		quitter.addActionListener(this);
+		accesbdd = new AccesBDD();
 	}
 
 	// Gestion des actions liées aux boutons
@@ -105,7 +106,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 					{
 					// Poste d'entrée
 					case Utilisateur.ENTREE :
-						fen = new Entree_Fenetre_colis(u);
+						fen = new Entree_Fenetre_colis(u, this.accesbdd);
 						fen.setVisible(true);
 						break;
 						

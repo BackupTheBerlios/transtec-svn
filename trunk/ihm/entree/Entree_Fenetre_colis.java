@@ -16,10 +16,10 @@ import accesBDD.*;
 //Cette classe correspond à la fenetre de saisi ou de vérification d'un colis.
 
 public class Entree_Fenetre_colis extends JFrame implements ActionListener, ItemListener{
-
-	public Entree_Fenetre_colis(Utilisateur u)
+	private AccesBDD accesBDD;
+	public Entree_Fenetre_colis(Utilisateur u, AccesBDD accesBDD)
 	{
-		
+		this.accesBDD=accesBDD;
 		utilisateur  = u; //on récupère l'utilisateur qui s'est logué
 		setUndecorated(true); //on enleve la barre en haut
 		setTitle(u.getPersonne().getNom() +" "+ u.getPersonne().getPrenom()  + " - Entrée");
@@ -441,8 +441,8 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			temp = barre_code;
 			
 			// on crée 2 variables permettant d'accéder à la bdd
-			AccesBDDColis rechercher_colis=new AccesBDDColis();
-			AccesBDDChargement rechercher_chargement=new AccesBDDChargement();
+			AccesBDDColis rechercher_colis=new AccesBDDColis(this.accesBDD);
+			AccesBDDChargement rechercher_chargement=new AccesBDDChargement(this.accesBDD);
 			
 			//Si on veut créer un nouveau colis
 			if (barre_code==null || barre_code.length()==0)
@@ -556,7 +556,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			//On récupère les infos dans la Bdd et on les affiche
 			
 			// On cherche les infos sur le modèle du colis
-			AccesBDDModelesColis test3=new AccesBDDModelesColis();
+			AccesBDDModelesColis test3=new AccesBDDModelesColis(this.accesBDD);
 			try{
 				modelecolis = test3.rechercher(col.getModele().getId());
 				
@@ -573,7 +573,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			profondeur.setText(modelecolis.getProfondeur().toString());
 			
 			//On cherche les infos sur le destinataire
-			AccesBDDPersonne test1=new AccesBDDPersonne();
+			AccesBDDPersonne test1=new AccesBDDPersonne(this.accesBDD);
 
 			try{
 				destinataire = test1.rechercher(col.getDestinataire().getId());
@@ -582,7 +582,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				System.out.println(e2.getMessage());
 			}
 			//On cherche les infos sur l'adresse du destinataire
-			AccesBDDLocalisation test2=new AccesBDDLocalisation();
+			AccesBDDLocalisation test2=new AccesBDDLocalisation(this.accesBDD);
 			try{
 				localisation1 = test2.rechercher(destinataire.getLocalisation().getId());
 			}
@@ -614,7 +614,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 			//On liste les incidents qu'il y a eu sur le colis
 			Vector liste_incidents = new Vector();
-			AccesBDDIncident test5=new AccesBDDIncident();
+			AccesBDDIncident test5=new AccesBDDIncident(this.accesBDD);
 			
 			try {
 				liste_incidents = test5.lister_colis(col.getId());
@@ -870,7 +870,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	{
 		
 		
-		AccesBDDChargement test=new AccesBDDChargement();
+		AccesBDDChargement test=new AccesBDDChargement(this.accesBDD);
 		try {
 			liste_chargement = test.listerColis(charg.getId());
 			nombre_colis = liste_chargement.size();
@@ -1063,7 +1063,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		}
 		//Si l'utilisateur veut choisir une personne comme expéditeur ou destinataire
 		if (source ==select_personne) {
-			JFrame fen5 = new Entree_select_personne(this);
+			JFrame fen5 = new Entree_select_personne(this, this.accesBDD);
 			fen5.setVisible(true);
 		}
 		
@@ -1081,7 +1081,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				if (verif == true){
 				
 					//On enregistre le destinataire dans la bdd
-					AccesBDDPersonne test1=new AccesBDDPersonne();
+					AccesBDDPersonne test1=new AccesBDDPersonne(this.accesBDD);
 					destinataire = new Personne(new Integer(0),nom_dest.getText(),prenom_dest.getText(), adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
 			
 					try{
@@ -1096,7 +1096,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					}
 					
 					//On enregistre l'expéditeur dans la bdd
-					AccesBDDPersonne test4=new AccesBDDPersonne();
+					AccesBDDPersonne test4=new AccesBDDPersonne(this.accesBDD);
 					expediteur = new Personne(new Integer(0),nom_exp.getText(),prenom_exp.getText(), adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
 					try{
 						test4.ajouter(expediteur);
@@ -1109,7 +1109,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					ModeleColis modele=null;
 					//On recherche l' id_modele de colis
 					int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
-					AccesBDDModelesColis test6=new AccesBDDModelesColis();
+					AccesBDDModelesColis test6=new AccesBDDModelesColis(this.accesBDD);
 					//Si le modèle n'est pas standard
 					if(selectmodelecolis == 69)
 					{
@@ -1166,7 +1166,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 				
 					//On ajoute le colis dans la BDD
-					AccesBDDColis test=new AccesBDDColis();
+					AccesBDDColis test=new AccesBDDColis(this.accesBDD);
 					col = new Colis(new Integer(0),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),new Timestamp(System.currentTimeMillis()),new Integer(fragilite_colis.getSelectedIndex()),modele,entrepot,entrepot,entrepot,"0",modele.calculerVolume());
 					try{
 						test.ajouter(col);
@@ -1183,7 +1183,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 			
 				//On envoie le colis en zone de stockage et on le supprime de la liste de chargement
 				if (charg !=null){
-				AccesBDDChargement test10=new AccesBDDChargement();
+				AccesBDDChargement test10=new AccesBDDChargement(this.accesBDD);
 				try {
 					test10.supprimer_colis(col,charg);
 				} catch (SQLException e1) {
@@ -1207,7 +1207,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				if (verif == true){
 				
 					//On enregistre le destinataire dans la bdd
-					AccesBDDPersonne test1=new AccesBDDPersonne();
+					AccesBDDPersonne test1=new AccesBDDPersonne(this.accesBDD);
 					Personne destinataire_temp = new Personne(destinataire.getId(),nom_dest.getText(),prenom_dest.getText(),localisation1.getId(),adresse_dest.getText(), cp_dest.getText(), ville_dest.getText(), email_dest.getText(), tel_dest.getText());
 			
 					try{
@@ -1218,7 +1218,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					}
 					
 					//On enregistre l'expéditeur dans la bdd
-					AccesBDDPersonne test4=new AccesBDDPersonne();
+					AccesBDDPersonne test4=new AccesBDDPersonne(this.accesBDD);
 					Personne expediteur_temp = new Personne(expediteur.getId(),nom_exp.getText(),prenom_exp.getText(),localisation2.getId(),adresse_exp.getText(), cp_exp.getText(), ville_exp.getText(), email_exp.getText(), tel_exp.getText());
 					try{
 						test4.modifier(expediteur_temp);
@@ -1233,7 +1233,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					ModeleColis modele_temp = null;
 					//On recherche l' id_modele de colis
 					int selectmodelecolis = SelectionId(forme_colis.getSelectedIndex(),modele_colis.getSelectedIndex());
-					AccesBDDModelesColis test6=new AccesBDDModelesColis();
+					AccesBDDModelesColis test6=new AccesBDDModelesColis(this.accesBDD);
 					//Si le modèle n'est pas standard
 					if(selectmodelecolis == 69 && modelecolis.getId().intValue() > 9)
 					{
@@ -1320,7 +1320,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 					}*/
 	
 					//On ajoute le colis dans la BDD
-					AccesBDDColis test=new AccesBDDColis();
+					AccesBDDColis test=new AccesBDDColis(this.accesBDD);
 					//System.out.println(col.getId());
 					Colis col_temp = new Colis(col.getId(),code_barre.getText(),expediteur,destinataire,utilisateur,new Integer(poids.getText()),col.getDate(),new Integer(fragilite_colis.getSelectedIndex()),modele_temp,entrepot,entrepot,entrepot,"0",modele_temp.calculerVolume());
 				
@@ -1331,7 +1331,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 						System.out.println(e2.getMessage());
 					}
 					if (charg!=null){
-					AccesBDDChargement test10=new AccesBDDChargement();
+					AccesBDDChargement test10=new AccesBDDChargement(this.accesBDD);
 					try {
 						test10.supprimer_colis(col,charg);
 					} catch (SQLException e1) {
@@ -1350,7 +1350,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		if (source == create_incident)
 		{
 			incident = null;
-			JFrame fen3 = new Fenetre_create_incident(col,utilisateur,incident,this,false);
+			JFrame fen3 = new Fenetre_create_incident(col,utilisateur,incident,this,false, this.accesBDD);
 			fen3.setVisible(true);
 			
 		}
@@ -1391,7 +1391,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				
 				
 				incident = null;
-				JFrame fen3 = new Fenetre_create_incident(c,utilisateur,incident,this,true);
+				JFrame fen3 = new Fenetre_create_incident(c,utilisateur,incident,this,true, this.accesBDD);
 				fen3.setVisible(true);
 			
 				
@@ -1411,7 +1411,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 				Vector cVect = (Vector) modeleTabInc.getRow(ligneActive);
 				Incident c = new Incident(cVect);
 				//String temp = c.getId().toString();
-				JFrame fen3 = new Fenetre_create_incident(col,utilisateur,c,this,false);
+				JFrame fen3 = new Fenetre_create_incident(col,utilisateur,c,this,false, this.accesBDD);
 				fen3.setVisible(true);
 				
 			}
@@ -1424,7 +1424,7 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		
 		
 		
-		AccesBDDEntrepot test7=new AccesBDDEntrepot();
+		AccesBDDEntrepot test7=new AccesBDDEntrepot(this.accesBDD);
 		Entrepot entre = new Entrepot();
 		try{
 			entre = test7.rechercher(numero_entrepot);

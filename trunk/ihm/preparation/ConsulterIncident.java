@@ -24,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDColis;
 import accesBDD.AccesBDDIncident;
 
@@ -45,8 +46,9 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 	private ModeleTable modColis;
 	private TableSorter sorter1;
 	private JTable tableColis;
+	private AccesBDD accesBDD;
 	
-	public ConsulterIncident(Utilisateur utilisateur) {
+	public ConsulterIncident(Utilisateur utilisateur, AccesBDD accesBDD) {
 		//	Création graphique de la fenêtre
 		setTitle("Consulter les incidents");
 		setSize(1024,768);
@@ -58,6 +60,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		
 		// Mémorisation de l'utilisateur
 		this.utilisateur=utilisateur;
+		this.accesBDD=accesBDD;
 		
 		// Création d'une police pour l'affichage des différents textes
 		Font font=new Font("Verdana", Font.BOLD, 12);
@@ -229,7 +232,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		if(source==this.rechercher){
 			try{
 				// On recherche le colis dans la BDD
-				this.colis=new AccesBDDColis().rechercherCode_barre(new Integer(this.tfCodeBarreColis.getText()).intValue());
+				this.colis=new AccesBDDColis(this.accesBDD).rechercherCode_barre(new Integer(this.tfCodeBarreColis.getText()).intValue());
 			}
 			catch(SQLException e){
 				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
@@ -250,7 +253,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 				
 				// On recherche les incidents lié à ce colis
 				 try{
-		        	Vector liste=new AccesBDDIncident().lister_colis(this.colis.getId());
+		        	Vector liste=new AccesBDDIncident(this.accesBDD).lister_colis(this.colis.getId());
 		        	for(int i=0;i<liste.size();i++)
 		        		this.modColis.addRow(((Incident)liste.get(i)).toVector());
 		        	this.tableColis.updateUI();
@@ -267,7 +270,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		else if(source==this.laisser){
 			// Sauvegarder ds la BDD
 			try{
-				new AccesBDDIncident().ajouter(new Incident(
+				new AccesBDDIncident(this.accesBDD).ajouter(new Incident(
 						this.colis,
 						new Timestamp(System.currentTimeMillis()),
 						new Integer(Incident.NON_TRAITE),
@@ -280,7 +283,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 			}
 			// On retourne à la fenêtre principale
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 			dispose();
 		}
 		
@@ -288,7 +291,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		else if(source==this.envoyer){
 			// Sauvegarder ds la BDD
 			try{
-				new AccesBDDIncident().ajouter(new Incident(
+				new AccesBDDIncident(this.accesBDD).ajouter(new Incident(
 						this.colis,
 						new Timestamp(System.currentTimeMillis()),
 						new Integer(Incident.NON_TRAITE),
@@ -301,12 +304,12 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 			}
 			// On retourne à la fenêtre principale
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 			dispose();
 		}
 		// L'utilisateur clique sur le bouton "Annuler"
 		else if(source==this.annuler){
-			new FenetrePrincipale(this.utilisateur).setVisible(true);
+			new FenetrePrincipale(this.utilisateur, this.accesBDD).setVisible(true);
 			dispose();
 		}
 	}

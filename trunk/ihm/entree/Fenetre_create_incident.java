@@ -34,9 +34,10 @@ import java.sql.Timestamp;
 //incident pour un colis.
 
 public class Fenetre_create_incident extends JFrame implements ActionListener{
-
-	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,Entree_Fenetre_colis fenetre,boolean inc_auto)
+	private AccesBDD accesBDD;
+	public Fenetre_create_incident(Colis col,Utilisateur user,Incident inc,Entree_Fenetre_colis fenetre,boolean inc_auto, AccesBDD accesBDD)
 	{
+		this.accesBDD=accesBDD;
 		colis = col;
 		utilis = user;
 		incident = inc;
@@ -133,7 +134,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 			date.setText(incident.getDate().toLocaleString());
 			donnees_description.setText(incident.getDescription());
 			//setBounds(292,200,370,310);
-			AccesBDDUtilisateur test=new AccesBDDUtilisateur();
+			AccesBDDUtilisateur test=new AccesBDDUtilisateur(this.accesBDD);
 			try{
 				utilis = test.rechercher(incident.getUtilisateur().getId());
 				utilisateur.setText(utilis.getPersonne().getNom());
@@ -169,7 +170,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		{
 			//enregistrement dans la BDD
 			
-			AccesBDDIncident test=new AccesBDDIncident();
+			AccesBDDIncident test=new AccesBDDIncident(this.accesBDD);
 			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE), new Integer(0));
 		
 				try {
@@ -179,7 +180,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 					e1.printStackTrace();
 				}
 				if (fenetre1.getChargement()!=null){
-			AccesBDDChargement test10=new AccesBDDChargement();
+			AccesBDDChargement test10=new AccesBDDChargement(this.accesBDD);
 			try {
 				test10.supprimer_colis(colis,fenetre1.getChargement());
 			} catch (SQLException e1) {
@@ -196,7 +197,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 		{
 			//enregistrement dans la BDD
 			
-			AccesBDDIncident test=new AccesBDDIncident();
+			AccesBDDIncident test=new AccesBDDIncident(this.accesBDD);
 			Incident aAjouter =new Incident(new Integer(0),colis,new Timestamp(System.currentTimeMillis()),new Integer(Incident.NON_TRAITE),donnees_description.getText(),utilis,new Integer(Incident.ENTREE),new Integer(0));
 		
 				try {
@@ -206,7 +207,7 @@ public class Fenetre_create_incident extends JFrame implements ActionListener{
 					e1.printStackTrace();
 				}
 			if (fenetre1.getChargement()!=null){
-			AccesBDDChargement test10=new AccesBDDChargement();
+			AccesBDDChargement test10=new AccesBDDChargement(this.accesBDD);
 			try {
 				test10.supprimer_colis(colis,fenetre1.getChargement());
 			} catch (SQLException e1) {
