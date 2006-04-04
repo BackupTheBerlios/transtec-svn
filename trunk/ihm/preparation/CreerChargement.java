@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -48,6 +49,8 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
+
+import sun.security.acl.OwnerImpl;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.image.TextureLoader;
@@ -486,6 +489,11 @@ public class CreerChargement extends JFrame implements ActionListener{
 					    
 					    imageFile = new File(repertoire.getName()+"/plan"+i+".png");
 					    
+					    //Boucle permettant de simuler l'attente du thread
+						float attente;
+					    for(float f=0;f<100000;f=f+0.01f){
+					    	attente=f;
+					    }
 					    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
 					    
 					    // On recupere le contexte graphique de l'image finale de sortie

@@ -51,7 +51,7 @@ public class OffScreenCanvas3D extends Canvas3D {
     ImageComponent2D buffer =
         new ImageComponent2D(ImageComponent.FORMAT_RGBA, bImage);
     buffer.setCapability(ImageComponent2D.ALLOW_IMAGE_READ);
-    buffer.notify();
+    //buffer.notify();
     // On copie le canvas 3D onscreen dans le canvas 3D offscreen, et on
     // recupere l'image dans bImage
     setOffScreenBuffer(buffer);
