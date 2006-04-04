@@ -1045,9 +1045,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 	{
 		Object source = e.getSource();
 		if(source==this.deconnexion){
-			dispose();
+			
 			Fenetre_login login=new Fenetre_login();
 			login.setVisible(true);
+			dispose();
 		}
 		//Si l'utilisateur veut se déloguer
 		if (source ==se_deloguer) {
