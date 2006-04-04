@@ -329,11 +329,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    Shape3D shape = new Shape3D();
 	    shape.setGeometry(quadArray);
 	    shape.setAppearance(apparence);
-	   
-	 /*   CollisionDetector cd=new CollisionDetector(shape);
-		BoundingBox bounds1;
-	    bounds1 = new BoundingBox(new Point3d(-0.9f, -0.3f, -0.165f),new Point3d(0.9f, 0.3f, 0.165f));
-	    cd.setSchedulingBounds(bounds1);*/
 	    
 	    //Ajout de l'objet crée
 	    objSpin1.addChild(objSpin2);
@@ -496,7 +491,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 					    //Canvas3D canvas=null;
 					    //while(simpleU.getViewer().getView().getCanvas3D(i+1)==null)	
 					    	//System.out.println("test boucle");
-					    
+					    //long milliSecondes = 500L;
+					    //this.wait(milliSecondes);
+					    //this.notify();
 					    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
 					    
 					    // On recupere le contexte graphique de l'image finale de sortie
