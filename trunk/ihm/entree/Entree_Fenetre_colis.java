@@ -1052,9 +1052,10 @@ public class Entree_Fenetre_colis extends JFrame implements ActionListener, Item
 		//Si l'utilisateur veut se déloguer
 		if (source ==se_deloguer) {
 			
-			dispose();
+			
 			JFrame fen1 = new Fenetre_login();
 			fen1.setVisible(true);
+			dispose();
 		}
 		//Si l'utilisateur veut créer une étiquette
 		if (source ==creation) {
