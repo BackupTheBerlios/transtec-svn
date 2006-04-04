@@ -192,10 +192,16 @@ public class AffichageColisDynamique extends JFrame implements MouseListener{
 	private float[] echelleColis(Colis colis){
 		float taille[] =new float[3];
 		if(colis!=null){
-			// initialisation
-			taille[0]=colis.getModele().getLargeur().floatValue();
-			taille[1]=colis.getModele().getProfondeur().floatValue();
 			taille[2]=colis.getModele().getHauteur().floatValue();
+			if(colis.getModele().getProfondeur().floatValue()==0 && colis.getModele().getLargeur().floatValue()==0){
+				taille[0]=colis.getModele().getHauteur().floatValue();
+				taille[1]=colis.getModele().getHauteur().floatValue();
+			}
+			else{
+				// initialisation
+				taille[0]=colis.getModele().getLargeur().floatValue();
+				taille[1]=colis.getModele().getProfondeur().floatValue();
+			}
 			
 			// On réduit la taille
 			while(taille[0]>0.5f || taille[1]>0.5f || taille[2]>0.5f){

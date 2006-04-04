@@ -467,22 +467,22 @@ public class CreerChargement extends JFrame implements ActionListener{
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
 			        	else if(i==AccesBDDPlan.GAUCHE){
-				    		View_Transform3D.lookAt(new Point3d(-(benne_prof+max_haut_larg*3),0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.lookAt(new Point3d(-(benne_prof+max_haut_larg*5),0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
 				    		View_Transform3D.invert();
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
 			        	else if(i==AccesBDDPlan.DROITE){
-				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*3,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.lookAt(new Point3d(benne_prof+max_haut_larg*5,0,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
 				    		View_Transform3D.invert();
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
 			        	else if(i==AccesBDDPlan.DESSUS){
-				    		View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3,0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+			        		View_Transform3D.lookAt(new Point3d(0.0001f,benne_haut+max_prof_larg*3.0f,0),new Point3d(0,0,0),new Vector3d(0,0,-1f));
 				    		View_Transform3D.invert();
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
 			        	else if(i==AccesBDDPlan.DESSOUS){
-				    		View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3),0),new Point3d(0,0,0),new Vector3d(0,1f,0));
+				    		View_Transform3D.lookAt(new Point3d(0.0001f,-(benne_haut+max_prof_larg*3.0f),0),new Point3d(0,0,0),new Vector3d(0,0,1f));
 				    		View_Transform3D.invert();
 				            View_TransformGroup.setTransform(View_Transform3D);
 				    	}
@@ -598,6 +598,10 @@ public class CreerChargement extends JFrame implements ActionListener{
 	}
 	
 	private BranchGroup brancheCube(float largeur, float profondeur, float hauteur){
+		if(profondeur==0 && largeur==0){
+			profondeur=hauteur;
+			largeur=hauteur;
+		}
 		// Création de la branche
 		BranchGroup branche=new BranchGroup();
 		
