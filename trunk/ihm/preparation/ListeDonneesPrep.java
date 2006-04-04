@@ -3,6 +3,7 @@ package ihm.preparation;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDPreparation;
 
 import donnees.Preparation;
@@ -17,8 +18,8 @@ public class ListeDonneesPrep {
 	private String listeDest[];
 	
 	// On créer une liste de destinations à préparer en fonction de l'utilisateur
-	public ListeDonneesPrep(Utilisateur utilisateur) throws SQLException{
-		Vector listePrep=new AccesBDDPreparation().listerDestAPreparer(utilisateur);
+	public ListeDonneesPrep(Utilisateur utilisateur, AccesBDD accesBDD) throws SQLException{
+		Vector listePrep=new AccesBDDPreparation(accesBDD).listerDestAPreparer(utilisateur);
 		Preparation tmp_prep;
 		DonneesPrep courante;
 		int exists;
@@ -27,7 +28,7 @@ public class ListeDonneesPrep {
 			tmp_prep=(Preparation)listePrep.get(i);
 			exists=destExists(tmp_prep.getDestination().getLocalisation().getVille());
 			if(i==0 || exists==-1){
-				courante=new DonneesPrep(tmp_prep.getDestination());
+				courante=new DonneesPrep(tmp_prep.getDestination(),accesBDD);
 				courante.ajouterCamion(tmp_prep);
 				liste.add(courante);
 			}

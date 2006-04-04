@@ -18,9 +18,9 @@ public class AccesBDDPreparation{
 	public Vector listerDestAPreparer(Utilisateur preparateur) throws SQLException{
 		Vector liste=new Vector();
 		Preparation courante=null;
-		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot(this.accesbdd);
 						
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Preparation WHERE idPreparateur=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM Preparation WHERE idPreparateur=?");
 		recherche.setInt(1, preparateur.getId().intValue());
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
@@ -31,7 +31,7 @@ public class AccesBDDPreparation{
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
-					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
+					new AccesBDDCamion(this.accesbdd).rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")),
 					new Integer(resultat.getInt("ChargementEnCours")),
 					new Integer(resultat.getInt("Chargement")));
@@ -40,13 +40,13 @@ public class AccesBDDPreparation{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		return liste;
 	}
 	
 	public Integer ajouter(Preparation aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idPreparation) FROM Preparation");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idPreparation) FROM Preparation");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -54,7 +54,7 @@ public class AccesBDDPreparation{
 		resultat.close();	// Fermeture requête SQL
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO preparation "
 				+ " (idPreparation,idPreparateur,idDestination,idCamion,Origine,Etat,Volume,ChargementEnCours,Chargement)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?,?,?,?,?)"); 
@@ -71,16 +71,16 @@ public class AccesBDDPreparation{
 		
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	public Preparation rechercher(Integer aChercher) throws SQLException{
 		Preparation trouvee=null;
-		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot(this.accesbdd);
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM preparation WHERE idPreparation=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM preparation WHERE idPreparation=?");
 		recherche.setInt(1, aChercher.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -88,11 +88,11 @@ public class AccesBDDPreparation{
 		if(resultat.next()){	// S'il a trouvé la préparation
 			trouvee=new Preparation(
 					aChercher,
-					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("idPreparateur"))),
+					new AccesBDDUtilisateur(this.accesbdd).rechercher(new Integer(resultat.getInt("idPreparateur"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
-					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
+					new AccesBDDCamion(this.accesbdd).rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")),
 					new Integer(resultat.getInt("ChargementEnCours")),
 					new Integer(resultat.getInt("Chargement")));
@@ -100,14 +100,14 @@ public class AccesBDDPreparation{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}
 	
 	// Permet d'affecter un chargement temporaire à une préparation
 	public void ajouterChargementTemp(Integer idPreparation, Integer idChargement) throws SQLException{
-		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET ChargementEnCours=? WHERE idPreparation=?");
+		PreparedStatement modifier=accesbdd.getConnexion().prepareStatement("UPDATE preparation SET ChargementEnCours=? WHERE idPreparation=?");
 		
 		modifier.setInt(1, idChargement.intValue());
 		modifier.setInt(2, idPreparation.intValue());
@@ -115,11 +115,11 @@ public class AccesBDDPreparation{
 		modifier.executeUpdate();
 		
 		modifier.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	public void retirerChargementTemp(Integer idPreparation) throws SQLException{
-		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET ChargementEnCours=? WHERE idPreparation=?");
+		PreparedStatement modifier=accesbdd.getConnexion().prepareStatement("UPDATE preparation SET ChargementEnCours=? WHERE idPreparation=?");
 		
 		modifier.setInt(1, 0);
 		modifier.setInt(2, idPreparation.intValue());
@@ -127,14 +127,14 @@ public class AccesBDDPreparation{
 		modifier.executeUpdate();
 		
 		modifier.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	public Preparation rechercherAvecChargementTemp(Integer aChercher) throws SQLException{
 		Preparation trouvee=null;
-		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot();
+		AccesBDDEntrepot bddEntrepot=new AccesBDDEntrepot(this.accesbdd);
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM preparation WHERE ChargementEnCours=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM preparation WHERE ChargementEnCours=?");
 		recherche.setInt(1, aChercher.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -142,11 +142,11 @@ public class AccesBDDPreparation{
 		if(resultat.next()){	// S'il a trouvé la préparation
 			trouvee=new Preparation(
 					new Integer(resultat.getInt("idPreparation")),
-					new AccesBDDUtilisateur().rechercher(new Integer(resultat.getInt("idPreparateur"))),
+					new AccesBDDUtilisateur(this.accesbdd).rechercher(new Integer(resultat.getInt("idPreparateur"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("Origine"))),
 					bddEntrepot.rechercher(new Integer(resultat.getInt("idDestination"))), 
 					new Float(resultat.getFloat("Volume")),
-					new AccesBDDCamion().rechercher(new Integer(resultat.getInt("idCamion"))),
+					new AccesBDDCamion(this.accesbdd).rechercher(new Integer(resultat.getInt("idCamion"))),
 					new Integer(resultat.getInt("Etat")),
 					new Integer(resultat.getInt("ChargementEnCours")),
 					new Integer(resultat.getInt("Chargement")));
@@ -154,14 +154,14 @@ public class AccesBDDPreparation{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}
 	
 	// Permet de garder enmémoire pour la préparation le chargement
 	public void ajouterChargement(Integer idPreparation, Integer idChargement) throws SQLException{
-		PreparedStatement modifier=connecter().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
+		PreparedStatement modifier=accesbdd.getConnexion().prepareStatement("UPDATE preparation SET Chargement=? WHERE idPreparation=?");
 		
 		modifier.setInt(1, idChargement.intValue());
 		modifier.setInt(2, idPreparation.intValue());
@@ -169,17 +169,17 @@ public class AccesBDDPreparation{
 		modifier.executeUpdate();
 		
 		modifier.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	// Finaliser une préparation = supprimer la préparation
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM preparation WHERE idPreparation=?");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM preparation WHERE idPreparation=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 		
 		supprime.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 }

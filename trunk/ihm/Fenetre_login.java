@@ -111,7 +111,7 @@ public class Fenetre_login extends JFrame implements ActionListener{
 						
 					// Poste de préparation
 					case Utilisateur.PREPARATION :
-						fen = new FenetrePrincipale(u);
+						fen = new FenetrePrincipale(u, this.accesbdd);
 						fen.setVisible(true);
 						break;
 						

@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDCamion;
 import accesBDD.AccesBDDChargement;
 import accesBDD.AccesBDDPreparation;
@@ -53,8 +54,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 	private Bouton deconnexion, creerChargement, gererChargement, genererPlan, imprimerEtiquette, incident, validerCharg, cloturerPrep;	// Boutons du menu
 	private JComboBox destinations;	// Liste des destinations
 	private int ligneActive;
+	private AccesBDD accesBDD;
 	
-	public FenetrePrincipale(Utilisateur utilisateur){
+	public FenetrePrincipale(Utilisateur utilisateur, AccesBDD accesBDD){
 		// Création graphique de la fenêtre
 		setTitle("Préparation");
 		setSize(1024,768);
@@ -100,11 +102,12 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		
 		// On garde en mémoire l'utilisateur
 		this.utilisateur=utilisateur;
+		this.accesBDD=accesBDD;
 		
 		// Recherche des informations propre à l'utilisateur dans la BDD
 		try{
-			listeDonneesPrep=new ListeDonneesPrep(this.utilisateur);
-			this.recopie=new ListeDonneesPrep(this.utilisateur);
+			listeDonneesPrep=new ListeDonneesPrep(this.utilisateur, this.accesBDD);
+			this.recopie=new ListeDonneesPrep(this.utilisateur, this.accesBDD);
 		}
 		catch(SQLException e){
 			JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
@@ -247,7 +250,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					try{
 						new CreerChargement(this.utilisateur, 
 								this.selectionnee.getDestination(),
-								new AccesBDDCamion().rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
+								new AccesBDDCamion(accesBDD).rechercher((Integer)((Vector)tableMod.getRow(ligneActive)).get(0)),
 								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)).setVisible(true);
 					}
 					catch(SQLException SQLE){
@@ -283,7 +286,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					if(ret==0){
 						Integer idChargement=(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11);
 						try{
-							AccesBDDChargement bddChargement=new AccesBDDChargement();
+							AccesBDDChargement bddChargement=new AccesBDDChargement(accesBDD);
 							bddChargement.valider(
 									bddChargement.rechercher(idChargement),
 									(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
@@ -310,7 +313,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 					int ret=JOptionPane.showConfirmDialog(this, "Voulez-vous clôturer la préparation, elle disparaîtra de la liste", "Clôturer préparation", JOptionPane.YES_NO_OPTION);
 					if(ret==0){
 						try{
-							new AccesBDDPreparation().supprimer((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
+							new AccesBDDPreparation(accesBDD).supprimer((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
 						}
 						catch(SQLException esql){
 							JOptionPane.showMessageDialog(this,esql,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
@@ -432,13 +435,13 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try{
 		FenetrePrincipale fen1 = new FenetrePrincipale(new AccesBDDUtilisateur().isRegistered("user3", "user3"));
 		fen1.setVisible(true);	
 		}
 		catch(SQLException e){
 		}
-	}	
+	}	*/
 
 }

@@ -3,6 +3,7 @@ package ihm.preparation;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import accesBDD.AccesBDD;
 import accesBDD.AccesBDDChargement;
 
 import donnees.Camion;
@@ -17,18 +18,20 @@ public class DonneesPrep {
 	private Entrepot destination;
 	private Float volume, volumeCharge;
 	private Vector listeCamionChargement;
+	private AccesBDD accesBDD;
 	
-	public DonneesPrep(Entrepot destination){
+	public DonneesPrep(Entrepot destination, AccesBDD accesBDD){
 		this.destination=destination;
 		this.volume=new Float(0);
 		this.volumeCharge=new Float(0);
 		this.listeCamionChargement=new Vector();
+		this.accesBDD=accesBDD;
 	}
 	
 	// Méthode permettant d'ajouter un camions dans liste de camions et de faire varier le
 	// volume pour la destination, ceci en rapport avec l'objet de type "preparation"
 	public void ajouterCamion(Preparation preparation){
-		AccesBDDChargement bddChargement=new AccesBDDChargement();
+		AccesBDDChargement bddChargement=new AccesBDDChargement(this.accesBDD);
 		Vector courant=preparation.getCamion().toVector();
 		// Le vector courant servira à afficher le tableau des cmaions pour une destination donnée
 		courant.add(preparation.getVolume().toString());

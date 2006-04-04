@@ -17,7 +17,7 @@ public class AccesBDDRoutage{
 
 	//----- Méthode permettant de modier une route dans la BDD -----//
 	public void modifier(Route aModifier) throws SQLException{
-		PreparedStatement modifie=connecter().prepareStatement(
+		PreparedStatement modifie=accesbdd.getConnexion().prepareStatement(
 				"UPDATE routage SET Origine=?,Destination=?,PlatInter=?,Distance=? "
 				+"WHERE idRoutage=?");
 		modifie.setInt(1, aModifier.getOrigine().getId().intValue());
@@ -29,7 +29,7 @@ public class AccesBDDRoutage{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		modifie.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Lister les routes -----//
@@ -37,7 +37,7 @@ public class AccesBDDRoutage{
 		Vector liste=new Vector();
 		
 		// Préparation de la requête SQL
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM routage");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM routage");
 		
 		// Exécution de la requête SQL
 		ResultSet resultat = recherche.executeQuery();
@@ -46,16 +46,16 @@ public class AccesBDDRoutage{
 		while(resultat.next()){
 			liste.add(new Route(
 					new Integer(resultat.getInt("idRoutage")),
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Origine"))), 
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("Destination"))), 
-					new AccesBDDEntrepot().rechercher(new Integer(resultat.getInt("PlatInter"))),
+					new AccesBDDEntrepot(this.accesbdd).rechercher(new Integer(resultat.getInt("Origine"))), 
+					new AccesBDDEntrepot(this.accesbdd).rechercher(new Integer(resultat.getInt("Destination"))), 
+					new AccesBDDEntrepot(this.accesbdd).rechercher(new Integer(resultat.getInt("PlatInter"))),
 					new Float(resultat.getFloat("Distance"))));
 		}
 		
 		// Fermeture des connexions
 		resultat.close();
 		recherche.close();
-		deconnecter();
+		//deconnecter();
 		
 		return liste;
 	}
@@ -63,7 +63,7 @@ public class AccesBDDRoutage{
 	//----- Ajouter une route dans la BDD -----//
 	public Integer ajouter(Route aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idRoutage) FROM Routage ");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idRoutage) FROM Routage ");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -72,7 +72,7 @@ public class AccesBDDRoutage{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'un camion dans la BDD -----//
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO routage "
 				+ " (idRoutage,Origine,Destination,PlatInter,Distance)" // Paramètre de la table
 				+ " VALUES (?,?,?,?,?)"); 
@@ -85,19 +85,19 @@ public class AccesBDDRoutage{
 				
 		ajout.executeUpdate();	// Execution de la requête SQL
 		ajout.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	//----- Supprimer une route -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM routage WHERE idRoutage=?");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM routage WHERE idRoutage=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 }

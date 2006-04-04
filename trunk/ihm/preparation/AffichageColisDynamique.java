@@ -1,4 +1,4 @@
-package ihm.preparation;
+ package ihm.preparation;
 
 /*
 /*	Classe permettant d'afficher le colis dans le container (fenêtre)
