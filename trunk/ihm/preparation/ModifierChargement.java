@@ -76,7 +76,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			this.chargement=bddChargement.rechercher(idChargement);
 		}
 		catch(SQLException e){
-			
+			JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		}
 		this.volumeMax=volumeMax;
 		//this.volumeChargement=new Float(this.chargement.getVolChargement().floatValue());
@@ -130,7 +130,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			
 		}
 		catch(SQLException e){
-			
+			JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		}
 		
 		// Création du tableau contenant les colis pouvant être chargé pour la destination
@@ -183,7 +183,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 			
 		}
 		catch(SQLException e){
-			
+			JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		}
 		
 		
@@ -250,12 +250,9 @@ public class ModifierChargement extends JFrame implements ActionListener{
 				tableChargement.updateUI();
 				
 				// On remet à jour le volume
-				//this.fenetre.remove(this.labelVolumeChargement);
 				this.labelVolumeChargement.setText(this.chargement.ajouterVolumeColis(new Colis(vec).getVolume()));
 				this.labelVolumeChargement.updateUI();
-				//this.labelVolumeChargement.setBounds(440,30,200,20);
-				//this.fenetre.add(this.labelVolumeChargement);
-				//this.fenetre.repaint();
+
 			}
 			else
 				new FenetreWarning("Veuillez sélectionner un colis").setVisible(true);
@@ -280,12 +277,8 @@ public class ModifierChargement extends JFrame implements ActionListener{
 				tableChargement.updateUI();
 				
 				// On remet à jour le volume
-				//this.fenetre.remove(this.labelVolumeChargement);
 				this.labelVolumeChargement.setText(this.chargement.soustraireVolumeColis(new Colis(vec).getVolume()));
 				this.labelVolumeChargement.updateUI();
-				//this.labelVolumeChargement.setBounds(440,30,200,20);
-				//fenetre.add(this.labelVolumeChargement);
-				//this.fenetre.repaint();
 			}
 			else
 				new FenetreWarning("Veuillez sélectionner un colis").setVisible(true);
@@ -322,7 +315,7 @@ public class ModifierChargement extends JFrame implements ActionListener{
 				bddChargement.AjouterColis(this.chargement, nouvCharg);
 			}
 			catch(SQLException e){
-				
+				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 			}
 			dispose();
 		}

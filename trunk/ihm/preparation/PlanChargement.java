@@ -111,7 +111,7 @@ public class PlanChargement extends JFrame implements ActionListener{
         		donneesColis.add(((Colis)liste.get(i)).toVector());
         }
         catch(SQLException e){
-        	
+        	JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
         }
         
         // Création du tableau contenant les colis appartenant au chargement

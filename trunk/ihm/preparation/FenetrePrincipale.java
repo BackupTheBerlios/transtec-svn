@@ -23,6 +23,7 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -106,7 +107,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 			this.recopie=new ListeDonneesPrep(this.utilisateur);
 		}
 		catch(SQLException e){
-			
+			JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		}
 		// Création de la police pour les affichages de texte
 		Font font=new Font("Verdana", Font.BOLD, 12);
@@ -232,8 +233,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		}
 		// Afficher les incidents
 		else if(source==this.incident){
-			dispose();
 			new ConsulterIncident(this.utilisateur).setVisible(true);
+			dispose();
 		}
 		else{
 			int ligneActive = table.getSelectedRow();
@@ -250,7 +251,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 								(Integer)((Vector)tableMod.getRow(ligneActive)).get(14)).setVisible(true);
 					}
 					catch(SQLException SQLE){
-						
+						JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 					}
 					dispose();
 				}
@@ -278,50 +279,57 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 				// Valider le chargement
 				else if(source==this.validerCharg){
 					// Mise à jour dans la BDD
-					Integer idChargement=(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11);
-					try{
-						AccesBDDChargement bddChargement=new AccesBDDChargement();
-						bddChargement.valider(
-								bddChargement.rechercher(idChargement),
-								(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
+					int ret=JOptionPane.showConfirmDialog(this, "Voulez-vous valider le chargement, il ne sera plus modifiable", "Validation chargement", JOptionPane.YES_NO_OPTION);
+					if(ret==0){
+						Integer idChargement=(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(11);
+						try{
+							AccesBDDChargement bddChargement=new AccesBDDChargement();
+							bddChargement.valider(
+									bddChargement.rechercher(idChargement),
+									(Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
+						}
+						catch(SQLException SQLE){		
+							JOptionPane.showMessageDialog(this,SQLE,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
+						}
+						// Mise à jour du tableau
+						this.tableMod.setValueAt(new Integer(0), ligneActive,11);
+						this.tableMod.setValueAt(idChargement, ligneActive,12);
+						this.tableMod.setValueAt("Validé", ligneActive,13);
+						this.table.updateUI();
+						// Mise à jour des boutons
+						this.gererChargement.setEnabled(false);
+						this.validerCharg.setEnabled(false);
+						this.imprimerEtiquette.setEnabled(false);
+						this.cloturerPrep.setEnabled(false);
 					}
-					catch(SQLException SQLE){						
-					}
-					// Mise à jour du tableau
-					this.tableMod.setValueAt(new Integer(0), ligneActive,11);
-					this.tableMod.setValueAt(idChargement, ligneActive,12);
-					this.tableMod.setValueAt("Validé", ligneActive,13);
-					this.table.updateUI();
-					// Mise à jour des boutons
-					this.gererChargement.setEnabled(false);
-					this.validerCharg.setEnabled(false);
-					this.imprimerEtiquette.setEnabled(false);
-					this.cloturerPrep.setEnabled(false);
 				}
 				
 				// Cloturer la préparation
 				else if(source==this.cloturerPrep){
 					// On enlève la préparation de la BDD
-					try{
-						new AccesBDDPreparation().supprimer((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
-					}
-					catch(SQLException esql){
+					int ret=JOptionPane.showConfirmDialog(this, "Voulez-vous clôturer la préparation, elle disparaîtra de la liste", "Clôturer préparation", JOptionPane.YES_NO_OPTION);
+					if(ret==0){
+						try{
+							new AccesBDDPreparation().supprimer((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(14));
+						}
+						catch(SQLException esql){
+							JOptionPane.showMessageDialog(this,esql,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
+						}
 						
+						// Destruction des images en locak sur l'ordinateur
+						File file=null;
+						for(int i=0;i<6;i++){
+							file=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(12)).toString()+"/plan"+i+".png");
+							file.delete();
+						}
+						// On déttruit le répertoire
+						File repertoire=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(12)).toString());
+						repertoire.delete();
+						
+						// On supprime la ligne du tableau et on màj
+						this.tableMod.removeRow(ligneActive);
+						this.table.updateUI();
 					}
-					
-					// Destruction des images en locak sur l'ordinateur
-					File file=null;
-					for(int i=0;i<6;i++){
-						file=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(12)).toString()+"/plan"+i+".png");
-						file.delete();
-					}
-					// On déttruit le répertoire
-					File repertoire=new File(((Integer)((Vector)this.tableMod.getRow(ligneActive)).get(12)).toString());
-					repertoire.delete();
-					
-					// On supprime la ligne du tableau et on màj
-					this.tableMod.removeRow(ligneActive);
-					this.table.updateUI();
 				}
 			}
 		}
@@ -430,7 +438,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener, ItemLis
 		fen1.setVisible(true);	
 		}
 		catch(SQLException e){
-			
 		}
 	}	
 

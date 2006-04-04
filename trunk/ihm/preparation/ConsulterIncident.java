@@ -232,7 +232,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 				this.colis=new AccesBDDColis().rechercherCode_barre(new Integer(this.tfCodeBarreColis.getText()).intValue());
 			}
 			catch(SQLException e){
-				
+				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 			}
 			if(this.colis!=null){
 				// On met à jour tous les champs de la fenêtre
@@ -256,7 +256,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 		        	this.tableColis.updateUI();
 		        }
 		        catch(SQLException e){
-		        	
+		        	JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		        }
 			}
 			// Le colis n'est pas présent dans la BDD
@@ -277,7 +277,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 						new Integer(Incident.NORMAL)));
 			}
 			catch(SQLException e){
-				
+				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 			}
 			// On retourne à la fenêtre principale
 			new FenetrePrincipale(this.utilisateur).setVisible(true);
@@ -298,7 +298,7 @@ public class ConsulterIncident extends JFrame implements ActionListener, MouseLi
 						new Integer(Incident.ZONE_EXP)));
 			}
 			catch(SQLException e){
-				
+				JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 			}
 			// On retourne à la fenêtre principale
 			new FenetrePrincipale(this.utilisateur).setVisible(true);

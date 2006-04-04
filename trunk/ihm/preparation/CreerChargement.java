@@ -158,7 +158,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 			}
 		}
 		catch(SQLException SQLe){
-			
+			JOptionPane.showMessageDialog(this,SQLe,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		}
 		
 		//Création du tableau listant les colis pour la destination
@@ -241,8 +241,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 		camion3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 	    camion3D.setBounds(305,255,660,300);
 	    
-	    
-	    
 	    // Creation d'un objet SimpleUniverse
 	    simpleU = new SimpleUniverse(camion3D);
 	    
@@ -264,7 +262,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    background.setApplicationBounds(new BoundingBox());
 	    branche.addChild(background);
 	    
-//*********************************CREATION DU CAMION*****************************************//
+	    //*********************************CREATION DU CAMION*****************************************//
 	   
 	    // Les coordonnees des 16 sommets des 4 faces visibles du cube
 	    Point3f benne[]=tailleBenne(camion.getProfondeur().floatValue(), 
@@ -272,7 +270,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    		camion.getLargeur().floatValue());
 	    
 	    //Les couleurs des 4 faces visibles du cube
-//	  Les couleurs des 4 faces visibles du cube
+	    // Les couleurs des 4 faces visibles du cube
 	    Color4f color1 = new Color4f(Color.darkGray);
 	    Color4f color2 = new Color4f(Color.gray);
 	    Color4f color3 = new Color4f(Color.lightGray);
@@ -297,9 +295,9 @@ public class CreerChargement extends JFrame implements ActionListener{
 	    	/* couleur face 4 */ color2, color2, color2, color2,
 	    	/* couleur face 5 */ color1, color1, color1, color1
 	    });
-//******************************************************************************************//	    
+	    //******************************************************************************************//	    
 	   
-//	  Objet  relatif aux paramêtres du milieu (echelle, ...)
+	    // Objet  relatif aux paramêtres du milieu (echelle, ...)
 	    Transform3D echelle=new Transform3D();
 	    Transform3D rotation=new Transform3D();
 	  
@@ -412,7 +410,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 						new AccesBDDPreparation().ajouterChargementTemp(this.idPreparation, this.chargement.getId());
 					}
 					catch(SQLException e){
-						
+						JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 					}
 					// On réaffiche la fenêtre principale
 					new FenetrePrincipale(this.utilisateur).setVisible(true);
@@ -427,7 +425,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 					OffScreenCanvas3D offScreenCanvas = null;
 					//InputStream is[]=new InputStream[6];
 					File imageFile=null;
-//					 Dimension (en pixels) de l'image a sauvegarder dans le fichier
+					// Dimension (en pixels) de l'image a sauvegarder dans le fichier
 				    Dimension dim = new Dimension(257, 129);
 				    
 				    float max_prof_haut,max_prof_larg,max_haut_larg;
@@ -488,12 +486,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 					    
 					    imageFile = new File(repertoire.getName()+"/plan"+i+".png");
 					    
-					    //Canvas3D canvas=null;
-					    //while(simpleU.getViewer().getView().getCanvas3D(i+1)==null)	
-					    	//System.out.println("test boucle");
-					    //long milliSecondes = 500L;
-					    //this.wait(milliSecondes);
-					    //this.notify();
 					    BufferedImage image = offScreenCanvas.getOffScreenImage(dim);
 					    
 					    // On recupere le contexte graphique de l'image finale de sortie
@@ -546,7 +538,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 						colis.getModele().getHauteur().floatValue()/(this.echelle*2)));
 				test=true;
 				this.zoneColis3D.update(colisSuiv, listeColisMod, listeColisTab);
-				
 			}
 			else
 				new FenetreWarning("Veuillez sélectionner un colis dans les colis disponibles").setVisible(true);
@@ -559,7 +550,6 @@ public class CreerChargement extends JFrame implements ActionListener{
 				if(test==true){
 					// ajouter une zone de collision dans dimension_colis
 					Ajout_colis_present(deplacement.GetX(),deplacement.GetY(),deplacement.GetZ(),deplacement.GetProfondeur(),deplacement.GetHauteur(),deplacement.GetLargeur());
-
 				}
 				
 				// Suppression de la zone de collision
@@ -648,8 +638,7 @@ public class CreerChargement extends JFrame implements ActionListener{
 			apparence.setTexture(texture);
 			apparence.setTextureAttributes(textureAttributes);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,e,"Erreur BDD",JOptionPane.ERROR_MESSAGE);
 		}
 	    
 	    // Ajout des paramètres à la scène
