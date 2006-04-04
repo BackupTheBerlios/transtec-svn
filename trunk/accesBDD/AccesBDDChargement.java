@@ -10,15 +10,16 @@ import donnees.Colis;
 
 //----- Classe permettant l'accès à la table Chargement, elle permet de faire les différentes
 //		opérations nécessaire sur la table -----//
-public class AccesBDDChargement extends AccesBDD{
-	public AccesBDDChargement(){
-		super();
+public class AccesBDDChargement{
+	private AccesBDD accesbdd;
+	public AccesBDDChargement(AccesBDD accesbdd){
+		this.accesbdd=accesbdd;
 	}
 	
 	//	----- Ajouter un colis dans la BDD -----//
 	public Integer ajouter(Chargement aAjouter) throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idChargement) FROM chargement");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idChargement) FROM chargement");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -28,7 +29,7 @@ public class AccesBDDChargement extends AccesBDD{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion du colis dans la BDD -----//
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO chargement"
 				+ " (idChargement,Camions_idCamions, NbColis, VolChargement, DateCreation, Users_idUsers, CodeBarre)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?,?)"); 
@@ -43,41 +44,41 @@ public class AccesBDDChargement extends AccesBDD{
 				
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close(); //fermeture requete SQL
-		deconnecter();
+		//deconnecter();
 		
 		return aAjouter.getId();
 	}
 	
 	//----- Supprimer un chargement -----//
 	public void supprimer(Integer aSupprimer) throws SQLException{
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement WHERE idChargement=?");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM chargement WHERE idChargement=?");
 		supprime.setInt(1, aSupprimer.intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	//-----Supprimer un colis d'un chargement----//
 	public void supprimer_colis(Colis aSupprimer,Chargement charg) throws SQLException{
 		
-		PreparedStatement supprime=connecter().prepareStatement("DELETE FROM chargement_colis WHERE idChargement=? AND idColis=? ");
+		PreparedStatement supprime=accesbdd.getConnexion().prepareStatement("DELETE FROM chargement_colis WHERE idChargement=? AND idColis=? ");
 		supprime.setInt(1, charg.getId().intValue());
 		supprime.setInt(2, aSupprimer.getId().intValue());
 				
 		supprime.executeUpdate();	// Exécution de la requête SQL
 						
 		supprime.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	//----- Lister les chargements -----//
 	public Vector lister() throws SQLException{
 		Vector liste=new Vector();
-		AccesBDDCamion bddCamion=new AccesBDDCamion();
-		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		AccesBDDCamion bddCamion=new AccesBDDCamion(this.accesbdd);
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur(this.accesbdd);
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM chargement");
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
 		
@@ -94,7 +95,7 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		recherche.close();
 		resultat.close();
-		deconnecter();
+		//deconnecter();
 		
 		return liste;
 	}
@@ -102,10 +103,10 @@ public class AccesBDDChargement extends AccesBDD{
 	//----- Lister les colis présents dans un chargement -----//
 	public Vector listerColis(Integer idChargement) throws SQLException{
 		Vector liste=new Vector();
-		AccesBDDColis bddColis=new AccesBDDColis();
+		AccesBDDColis bddColis=new AccesBDDColis(this.accesbdd);
 		Colis courant;
 	
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM Chargement_Colis WHERE idChargement=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM Chargement_Colis WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -118,7 +119,7 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		recherche.close();
 		resultat.close();
-		deconnecter();
+		//deconnecter();
 		
 		return liste;
 	}
@@ -127,7 +128,7 @@ public class AccesBDDChargement extends AccesBDD{
 	public void AjouterColis(Chargement chargement, Vector listeColis) throws SQLException{
 		PreparedStatement ajouter=null;
 		for(int i=0;i<listeColis.size();i++){
-			ajouter=connecter().prepareStatement("INSERT INTO Chargement_Colis "
+			ajouter=accesbdd.getConnexion().prepareStatement("INSERT INTO Chargement_Colis "
 					+"(idChargement, idColis, Numero) "
 					+"VALUES (?,?,?)");
 			ajouter.setInt(1, chargement.getId().intValue());
@@ -138,16 +139,16 @@ public class AccesBDDChargement extends AccesBDD{
 		}
 		if(listeColis.size()!=0){
 			ajouter.close();
-			deconnecter();
+			//deconnecter();
 		}
 	}
 	
 	public Chargement rechercher(String codeBarre) throws SQLException{
 		Chargement chargement=null;
-		AccesBDDCamion bddCamion=new AccesBDDCamion();
-		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		AccesBDDCamion bddCamion=new AccesBDDCamion(this.accesbdd);
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur(this.accesbdd);
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement WHERE CodeBarre=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM chargement WHERE CodeBarre=?");
 		recherche.setString(1, codeBarre);
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -166,17 +167,17 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		recherche.close();
 		resultat.close();
-		deconnecter();
+		//deconnecter();
 		
 		return chargement;
 	}
 	
 	public Chargement rechercher(Integer idChargement) throws SQLException{
 		Chargement chargement=null;
-		AccesBDDCamion bddCamion=new AccesBDDCamion();
-		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
+		AccesBDDCamion bddCamion=new AccesBDDCamion(this.accesbdd);
+		AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur(this.accesbdd);
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM chargement WHERE idChargement=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM chargement WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -195,7 +196,7 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		recherche.close();
 		resultat.close();
-		deconnecter();
+		//deconnecter();
 		
 		return chargement;
 	}
@@ -203,7 +204,7 @@ public class AccesBDDChargement extends AccesBDD{
 	// Permet de valider un chargement ATTENTION LE SORTIR DE LA PREP DANS CE CAS
 	public void valider(Chargement aModifier, Integer idPreparation) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
-		PreparedStatement modifie=connecter().prepareStatement(
+		PreparedStatement modifie=accesbdd.getConnexion().prepareStatement(
 				"UPDATE chargement SET "
 				+"NbColis=?,VolChargement=?,DateCreation=?,Etat=? "
 				+"WHERE idChargement=?");
@@ -218,9 +219,9 @@ public class AccesBDDChargement extends AccesBDD{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 						
 		modifie.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
-		AccesBDDPreparation bddPreparation=new AccesBDDPreparation();
+		AccesBDDPreparation bddPreparation=new AccesBDDPreparation(this.accesbdd);
 		// On enlève également el chargement temporaire temporaire
 		bddPreparation.retirerChargementTemp(idPreparation);
 		// on ajoute le chargement dans la colonne chargement effectué
@@ -233,7 +234,7 @@ public class AccesBDDChargement extends AccesBDD{
 		//AccesBDDCamion bddCamion=new AccesBDDCamion();
 		//AccesBDDUtilisateur bddUtilisateur=new AccesBDDUtilisateur();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT VolChargement FROM chargement WHERE idChargement=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT VolChargement FROM chargement WHERE idChargement=?");
 		recherche.setInt(1, idChargement.intValue());
 		
 		ResultSet resultat=recherche.executeQuery();
@@ -242,7 +243,7 @@ public class AccesBDDChargement extends AccesBDD{
 		
 		recherche.close();
 		resultat.close();
-		deconnecter();
+		//deconnecter();
 		
 		return volume;
 	}

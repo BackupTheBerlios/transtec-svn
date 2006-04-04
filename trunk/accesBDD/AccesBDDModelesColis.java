@@ -5,15 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AccesBDDModelesColis extends AccesBDD{
-	public AccesBDDModelesColis(){
-		super();
+public class AccesBDDModelesColis{
+	private AccesBDD accesbdd;
+	public AccesBDDModelesColis(AccesBDD accesbdd){
+		this.accesbdd=accesbdd;
 	}
 	
 	//----- Ajouter une nouvelle forme (cube) -----//
 	public int ajouter(ModeleColis aAjouter)throws SQLException{
 		//----- Recherche de l'identifiant le plus grand -----//
-		PreparedStatement rechercheMaxID=connecter().prepareStatement("SELECT MAX(idModelesColis ) FROM modelescolis");
+		PreparedStatement rechercheMaxID=accesbdd.getConnexion().prepareStatement("SELECT MAX(idModelesColis ) FROM modelescolis");
 		ResultSet resultat = rechercheMaxID.executeQuery();	// Exécution de la requête SQL
 		resultat.next();	// Renvoie le plus grand ID
 		
@@ -23,7 +24,7 @@ public class AccesBDDModelesColis extends AccesBDD{
 		rechercheMaxID.close();	// Fermeture requête SQL
 		
 		//----- Insertion d'une personne dans la BDD -----//
-		PreparedStatement ajout =connecter().prepareStatement(
+		PreparedStatement ajout =accesbdd.getConnexion().prepareStatement(
 				"INSERT INTO modelescolis"
 				+ " (idModelesColis,Forme,Modele,hauteur,largeur,Profondeur)" // Parametre de la table
 				+ " VALUES (?,?,?,?,?,?)"); 
@@ -37,13 +38,13 @@ public class AccesBDDModelesColis extends AccesBDD{
 		
 		ajout.executeUpdate();//execution de la requete SQL
 		ajout.close();//fermeture requete SQL
-		deconnecter();
+		//deconnecter();
 		return aAjouter.getId().intValue();
 	}
 	
 	public void modifier(ModeleColis aModifier) throws SQLException{
 		//----- Modification de la localisation à partir de l'id -----//
-		PreparedStatement modifie=connecter().prepareStatement(
+		PreparedStatement modifie=accesbdd.getConnexion().prepareStatement(
 				"UPDATE modelescolis SET "
 				+"Forme =?,Modele =?,hauteur =?,largeur =?,Profondeur =? "
 				+"WHERE idModelesColis =?");
@@ -61,14 +62,14 @@ public class AccesBDDModelesColis extends AccesBDD{
 		//Recherche dans personne has_colis, mais est-ce nécéssaire
 						
 		modifie.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 	}
 	
 	public ModeleColis rechercher(Integer aChercher) throws SQLException{
 		ModeleColis trouvee=null;
 		//AccesBDDPersonne bddPersonne=new AccesBDDPersonne();
 		
-		PreparedStatement recherche=connecter().prepareStatement("SELECT * FROM modelescolis WHERE idModelesColis=?");
+		PreparedStatement recherche=accesbdd.getConnexion().prepareStatement("SELECT * FROM modelescolis WHERE idModelesColis=?");
 		recherche.setInt(1, aChercher.intValue());
 		
 		ResultSet resultat = recherche.executeQuery();	// Exécution de la requête SQL
@@ -86,7 +87,7 @@ public class AccesBDDModelesColis extends AccesBDD{
 		
 		resultat.close();	// Fermeture requête SQL
 		recherche.close();	// Fermeture requête SQL
-		deconnecter();
+		//deconnecter();
 		
 		return trouvee;
 	}	

@@ -33,7 +33,7 @@ public class AccesBDDUtilisateur{
 		
 		ajout.setInt(1,aAjouter.getId().intValue());
 		// Ajout dans la table personne
-		ajout.setInt(2,new AccesBDDPersonne().ajouter(aAjouter.getPersonne()).getId().intValue());
+		ajout.setInt(2,new AccesBDDPersonne(this.accesbdd).ajouter(aAjouter.getPersonne()).getId().intValue());
 		ajout.setString(3,aAjouter.getLogin());
 		ajout.setString(4,aAjouter.getMotDePasse());
 		ajout.setInt(5,aAjouter.getType().intValue());
@@ -61,7 +61,7 @@ public class AccesBDDUtilisateur{
 		modifie.executeUpdate();	// Exécution de la requête SQL
 		
 		//----- Modification de la personne associée à l'utilisateur -----//
-		new AccesBDDPersonne().modifier(aModifier.getPersonne());
+		new AccesBDDPersonne(this.accesbdd).modifier(aModifier.getPersonne());
 		
 		modifie.close();	// Fermeture requête SQL
 		//deconnecter();
@@ -79,7 +79,7 @@ public class AccesBDDUtilisateur{
 	
 	//----- Lister tous les users -----//
 	public Vector lister() throws SQLException{
-		AccesBDDPersonne pers=new AccesBDDPersonne();
+		AccesBDDPersonne pers=new AccesBDDPersonne(this.accesbdd);
 		Vector liste=new Vector();
 		Utilisateur courantUtilisateur=null;
 		Personne courantPers=null;
@@ -146,7 +146,7 @@ public class AccesBDDUtilisateur{
 					resultat.getString("Login"),
 					resultat.getString("Password_2"),
 					new Integer(resultat.getInt("Type_2")),
-					new AccesBDDPersonne().rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+					new AccesBDDPersonne(this.accesbdd).rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -171,7 +171,7 @@ public class AccesBDDUtilisateur{
 					resultat.getString("Login"),
 					resultat.getString("Password_2"),
 					new Integer(resultat.getInt("Type_2")),
-					new AccesBDDPersonne().rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+					new AccesBDDPersonne(this.accesbdd).rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
 		}
 		
 		resultat.close();	// Fermeture requête SQL
@@ -196,7 +196,7 @@ public class AccesBDDUtilisateur{
 					resultat.getString("Login"),
 					resultat.getString("Password_2"),
 					new Integer(resultat.getInt("Type_2")),
-					new AccesBDDPersonne().rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
+					new AccesBDDPersonne(this.accesbdd).rechercher(new Integer(resultat.getInt("Personnes_idPersonnes"))));
 			
 			// Ajout de l'utilisateur à la liste
 			listeutilisateurs.add(u);

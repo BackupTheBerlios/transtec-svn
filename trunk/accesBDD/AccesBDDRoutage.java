@@ -9,9 +9,10 @@ import donnees.Route;
  * Classe permettant l'accès à la table de routage
  */
 
-public class AccesBDDRoutage extends AccesBDD{
-	public AccesBDDRoutage(){
-		super();
+public class AccesBDDRoutage{
+	private AccesBDD accesbdd;
+	public AccesBDDRoutage(AccesBDD accesbdd){
+		this.accesbdd=accesbdd;
 	}
 
 	//----- Méthode permettant de modier une route dans la BDD -----//

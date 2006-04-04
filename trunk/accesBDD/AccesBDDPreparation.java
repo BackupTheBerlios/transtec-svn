@@ -9,10 +9,10 @@ import donnees.Utilisateur;
 /*
  * Classe permettant l'accès à la table préparation, lien entre le superviseur et le préparateur
  */
-public class AccesBDDPreparation extends AccesBDD{
-	
-	public AccesBDDPreparation(){
-		super();
+public class AccesBDDPreparation{
+	private AccesBDD accesbdd;
+	public AccesBDDPreparation(AccesBDD accesbdd){
+		this.accesbdd=accesbdd;
 	}
 	
 	public Vector listerDestAPreparer(Utilisateur preparateur) throws SQLException{
